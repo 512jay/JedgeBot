@@ -1,4 +1,4 @@
-from jedgebot.brokers.tastytrade_api import TastyTradeAPI
+from jedgebot.broker.tastytrade_api import TastyTradeAPI
 
 
 def main():
