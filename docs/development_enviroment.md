@@ -1,7 +1,7 @@
 # Development Environment Setup
 
 ## Recommended Stack
-- **Python Version**: `>=3.13`
+- **Python Version**: `>=3.9,<4.0`
 - **Package Management**: `Poetry`
 - **Editor**: VS Code or PyCharm
 - **Version Control**: Git (with GitHub)
@@ -29,14 +29,25 @@ Verify installation:
 poetry --version
 ```
 
-### ✅ 2. Clone the Repository & Install Dependencies
+### ✅ 2. Clone the Repository & Set Python Version
 ```sh
 git clone https://github.com/512jay/JedgeBot.git
 cd JedgeBot
+poetry env use C:\Python\Python311\python.exe
+```
+
+### ✅ 3. Remove Existing Virtual Environment (If Necessary)
+If you need to start fresh:
+```sh
+poetry env remove python
+```
+
+### ✅ 4. Install Dependencies
+```sh
 poetry install
 ```
 
-### ✅ 3. Activate the Virtual Environment
+### ✅ 5. Activate the Virtual Environment
 ```sh
 poetry shell
 ```
@@ -45,14 +56,14 @@ To run commands inside the environment without activating:
 poetry run python jedgebot/main.py
 ```
 
-### ✅ 4. Set Up Pre-Commit Hooks
+### ✅ 6. Set Up Pre-Commit Hooks
 To enforce formatting and linting:
 ```sh
 poetry add --dev pre-commit
 pre-commit install
 ```
 
-### ✅ 5. Setup `.env` for API Keys (Security Best Practice)
+### ✅ 7. Setup `.env` for API Keys (Security Best Practice)
 Create a `.env` file:
 ```
 TASTYTRADE_USERNAME=your_username
