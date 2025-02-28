@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "jedgebot"
+version = "0.1.0"
+description = "Automated trading bot designed to execute multiple trading strategies across different brokers and asset classes"
+authors = ["John Davis <512jay@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "jedgebot"}]  # Ensures Poetry knows where the code is
+
+[tool.poetry.dependencies]
+python = ">=3.13"  # Match your actual Python version
+requests = "^2.32.3"
+pandas = "^2.2.3"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+black = "^25.1.0"
+flake8 = "^7.1.2"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
