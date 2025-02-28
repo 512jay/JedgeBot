@@ -47,3 +47,5 @@ This project is licensed under the MIT License.
 ---
 
 For more details, check the documentation in the `docs/` folder. 🚀
+
+Future versions of JedgeBot may integrate OpenBB for market research and analysis. Currently, this is an exploratory feature and not required for core functionality
