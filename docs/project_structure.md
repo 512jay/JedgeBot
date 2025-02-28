@@ -1,19 +1,27 @@
 # Project Directory Structure
 
 ```
-JedgeBot/
-├── brokers/
-├── config/
-├── data/
-├── docs/
-├── execution/
-├── strategies/
-├── tests/
-├── .gitignore
-├── LICENSE
-├── README.md
-├── main.py
-└── requirements.txt
+JedgeBot/                # Root project folder
+│── jedgebot/            # Main Python package
+│   ├── __init__.py      # Marks this as a package
+│   ├── main.py          # Main bot logic
+│   ├── brokers/         # Broker API interactions
+│   ├── config/          # Configuration files
+│   ├── execution/       # Order execution logic
+│   ├── strategies/      # Trading strategies
+│   ├── data/            # Market data processing
+│   ├── logs/            # Logging system
+│── docs/                # Documentation
+│── tests/               # Unit tests
+│── scripts/             # Utility scripts (optional)
+│── .venv/               # Virtual environment (ignored in Git)
+│── .gitignore           # Ignore unnecessary files
+│── .env                 # API keys & secrets (DO NOT COMMIT)
+│── LICENSE              # Open-source license
+│── README.md            # Project description
+│── poetry.lock          # Locked dependencies
+│── pyproject.toml       # Poetry config & dependencies
+
 ```
 
 ## Folder Descriptions
