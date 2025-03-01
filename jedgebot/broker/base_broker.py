@@ -1,6 +1,7 @@
 # jedgebot/broker/base_broker.py
 
 from abc import ABC, abstractmethod
+from typing import Optional
 
 class BaseBroker(ABC):
     """Abstract base class for broker integrations."""
@@ -16,7 +17,7 @@ class BaseBroker(ABC):
         pass
 
     @abstractmethod
-    def place_order(self, symbol: str, quantity: int, order_type: str, price: float = None):
+    def place_order(self, symbol: str, quantity: int, order_type: str, price: Optional[float] = None):
         """
         Place an order.
 
