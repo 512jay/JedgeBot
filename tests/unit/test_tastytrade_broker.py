@@ -1,87 +1,321 @@
 import os
-from unittest.mock import patch
-
+import re
+import json
 import pytest
 import requests
-
 from jedgebot.broker.tastytrade_broker import TastyTradeBroker
-
 
 @pytest.fixture
 def broker():
-    """Fixture to initialize the broker with dry run mode."""
-    os.environ["TASTYTRADE_DRY_RUN"] = "true"  # Ensure dry run is enabled
-    return TastyTradeBroker()
+    """Fixture to initialize the broker with dry run mode enabled."""
+    os.environ["TASTYTRADE_DRY_RUN"] = "true"
+    broker_instance = TastyTradeBroker()
+    broker_instance.token = "mock_token"  # Set a mock token
+    return broker_instance
 
 
-def test_dry_run_place_order(broker):
+@pytest.fixture
+def live_broker():
+    """Fixture to initialize the broker with dry run mode disabled."""
+    os.environ["TASTYTRADE_DRY_RUN"] = "false"
+    broker_instance = TastyTradeBroker()
+    broker_instance.token = "mock_token"  # Set a mock token
+    return broker_instance
+
+@pytest.fixture
+def temp_remember_me_file(tmp_path):
+    """Fixture to provide a temporary remember-me file."""
+    return tmp_path / "remember_me.json"
+
+def test_get_market_data_success(mocker, live_broker):
+    """Test successful retrieval of market data."""
+    symbol = "AAPL"
+
+    mock_response = mocker.Mock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = {"price": 150.25}
+    mock_response.raise_for_status = mocker.Mock()  # No exception raised
+
+    # Patch requests.get to return mock response
+    mock_get = mocker.patch("requests.get", return_value=mock_response)
+
+    result = live_broker.get_market_data(symbol)
+
+    # Ensure requests.get was called with correct parameters
+    mock_get.assert_called_once_with(
+        f"{live_broker.BASE_URL}/market-data/{symbol}",
+        headers={"Authorization": f"Bearer {live_broker.token}"},
+    )
+
+    # Verify the returned market data
+    assert result["price"] == 150.25
+
+
+def test_get_market_data_failure(mocker, live_broker):
+    """Test API failure when retrieving market data."""
+    symbol = "AAPL"
+
+    mock_response = mocker.Mock()
+    mock_response.status_code = 500  # Internal Server Error
+    mock_response.raise_for_status.side_effect = requests.exceptions.HTTPError("500 Server Error")
+
+    # Patch requests.get to return mock response
+    mock_get = mocker.patch("requests.get", return_value=mock_response)
+
+    with pytest.raises(requests.exceptions.HTTPError):
+        live_broker.get_market_data(symbol)
+
+    # Ensure requests.get was called
+    mock_get.assert_called_once()
+
+
+def test_get_trade_history_success(mocker, live_broker):
+    """Test successful retrieval of trade history."""
+    start_date = "2024-01-01"
+    end_date = "2024-02-01"
+
+    mock_response = mocker.Mock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = {"trades": [{"symbol": "AAPL", "quantity": 10, "price": 145.00}]}
+    mock_response.raise_for_status = mocker.Mock()
+
+    # Patch requests.get to return mock response
+    mock_get = mocker.patch("requests.get", return_value=mock_response)
+
+    result = live_broker.get_trade_history(start_date, end_date)
+
+    # Ensure requests.get was called with correct parameters
+    mock_get.assert_called_once_with(
+        f"{live_broker.BASE_URL}/trade-history?start={start_date}&end={end_date}",
+        headers={"Authorization": f"Bearer {live_broker.token}"},
+    )
+
+    # Verify trade history data
+    assert result["trades"][0]["symbol"] == "AAPL"
+    assert result["trades"][0]["quantity"] == 10
+    assert result["trades"][0]["price"] == 145.00
+
+
+def test_get_trade_history_failure(mocker, live_broker):
+    """Test API failure when retrieving trade history."""
+    start_date = "2024-01-01"
+    end_date = "2024-02-01"
+
+    mock_response = mocker.Mock()
+    mock_response.status_code = 403  # Unauthorized
+    mock_response.raise_for_status.side_effect = requests.exceptions.HTTPError("403 Forbidden")
+
+    # Patch requests.get to return mock response
+    mock_get = mocker.patch("requests.get", return_value=mock_response)
+
+    with pytest.raises(requests.exceptions.HTTPError):
+        live_broker.get_trade_history(start_date, end_date)
+
+    # Ensure requests.get was called
+    mock_get.assert_called_once()
+
+
+def test_get_buying_power_success(mocker, live_broker):
+    """Test successful retrieval of buying power."""
+    mock_response = mocker.Mock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = {"buying_power": 10000.00}
+    mock_response.raise_for_status = mocker.Mock()
+
+    # Patch requests.get to return mock response
+    mock_get = mocker.patch("requests.get", return_value=mock_response)
+
+    result = live_broker.get_buying_power()
+
+    # Ensure requests.get was called with correct parameters
+    mock_get.assert_called_once_with(
+        f"{live_broker.BASE_URL}/accounts/buying-power",
+        headers={"Authorization": f"Bearer {live_broker.token}"},
+    )
+
+    # Verify buying power
+    assert result["buying_power"] == 10000.00
+
+
+def test_get_buying_power_failure(mocker, live_broker):
+    """Test API failure when retrieving buying power."""
+    mock_response = mocker.Mock()
+    mock_response.status_code = 400  # Bad Request
+    mock_response.raise_for_status.side_effect = requests.exceptions.HTTPError("400 Bad Request")
+
+    # Patch requests.get to return mock response
+    mock_get = mocker.patch("requests.get", return_value=mock_response)
+
+    with pytest.raises(requests.exceptions.HTTPError):
+        live_broker.get_buying_power()
+
+    # Ensure requests.get was called
+    mock_get.assert_called_once()
+
+def test_cancel_order_success(mocker, live_broker):
+    """Test successful cancellation of an order."""
+    order_id = "12345"
+
+    mock_response = mocker.Mock()
+    mock_response.status_code = 200
+    mock_response.raise_for_status = mocker.Mock()  # No exception raised
+
+    # Patch requests.delete to return mock response
+    mock_delete = mocker.patch("requests.delete", return_value=mock_response)
+
+    result = live_broker.cancel_order(order_id)
+
+    # Ensure requests.delete was called with the correct parameters
+    mock_delete.assert_called_once_with(
+        f"{live_broker.BASE_URL}/orders/{order_id}",
+        headers={"Authorization": f"Bearer {live_broker.token}"},
+    )
+
+    # Verify the returned response
+    assert result == {"status": "Order canceled"}
+
+
+def test_cancel_order_failure(mocker, live_broker):
+    """Test API failure when canceling an order."""
+    order_id = "12345"
+
+    mock_response = mocker.Mock()
+    mock_response.status_code = 404  # Order not found
+    mock_response.raise_for_status.side_effect = requests.exceptions.HTTPError("404 Client Error: Not Found")
+
+    # Patch requests.delete to return mock response
+    mock_delete = mocker.patch("requests.delete", return_value=mock_response)
+
+    with pytest.raises(requests.exceptions.HTTPError):
+        live_broker.cancel_order(order_id)
+
+    # Ensure requests.delete was called
+    mock_delete.assert_called_once_with(
+        f"{live_broker.BASE_URL}/orders/{order_id}",
+        headers={"Authorization": f"Bearer {live_broker.token}"},
+    )
+
+def test_get_account_balance_success(mocker, live_broker):
+    """Test successful retrieval of account balance."""
+    mock_response = mocker.Mock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = {"balance": 5000.00}
+    mock_response.raise_for_status = mocker.Mock()  # No exception raised
+
+    # Patch requests.get to return mock response
+    mock_get = mocker.patch("requests.get", return_value=mock_response)
+
+    result = live_broker.get_account_balance()
+
+    # Ensure requests.get was called with the correct parameters
+    mock_get.assert_called_once_with(
+        f"{live_broker.BASE_URL}/accounts",
+        headers={"Authorization": f"Bearer {live_broker.token}"},
+    )
+
+    # Verify the returned balance is correct
+    assert result["balance"] == 5000.00
+
+
+def test_get_account_balance_failure(mocker, live_broker):
+    """Test API failure when retrieving account balance."""
+    mock_response = mocker.Mock()
+    mock_response.status_code = 500  # Internal Server Error
+    mock_response.json.return_value = {"error": "Server error"}
+    mock_response.raise_for_status.side_effect = requests.exceptions.HTTPError("500 Server Error")
+
+    # Patch requests.get to return mock response
+    mock_get = mocker.patch("requests.get", return_value=mock_response)
+
+    with pytest.raises(requests.exceptions.HTTPError):
+        live_broker.get_account_balance()
+
+    # Ensure requests.get was called
+    mock_get.assert_called_once_with(
+        f"{live_broker.BASE_URL}/accounts",
+        headers={"Authorization": f"Bearer {live_broker.token}"},
+    )
+
+def test_authenticate_success(mocker, live_broker):
+    """Test successful authentication where a session token is returned."""
+    mock_response = mocker.Mock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = {"data": {"session-token": "test_token"}}
+    mock_response.raise_for_status = mocker.Mock()  # No exception raised
+
+    # Patch requests.post to return mock response
+    mock_post = mocker.patch("requests.post", return_value=mock_response)
+
+    token = live_broker.authenticate()
+
+    # Ensure requests.post was called with correct parameters
+    mock_post.assert_called_once_with(
+        f"{live_broker.BASE_URL}/sessions",
+        json={"login": live_broker.username, "password": live_broker.password},
+        headers={"Content-Type": "application/json", "User-Agent": "Mozilla/5.0"},
+    )
+
+    # Ensure the token was properly extracted and stored
+    assert token == "test_token"
+    assert live_broker.token == "test_token"
+
+
+def test_authenticate_failure_invalid_credentials(mocker, live_broker):
+    """Test authentication failure when invalid credentials are provided."""
+    mock_response = mocker.Mock()
+    mock_response.status_code = 401
+    mock_response.json.return_value = {"error": "Unauthorized"}
+    mock_response.raise_for_status.side_effect = requests.exceptions.HTTPError("401 Client Error: Unauthorized")
+
+    # Patch requests.post to return mock response
+    mock_post = mocker.patch("requests.post", return_value=mock_response)
+
+    with pytest.raises(requests.exceptions.HTTPError):
+        live_broker.authenticate()
+
+    # Ensure requests.post was called with correct parameters
+    mock_post.assert_called_once()
+
+
+def test_authenticate_failure_no_token(mocker, live_broker):
+    """Test authentication failure when no session token is returned."""
+    mock_response = mocker.Mock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = {"data": {}}  # No session-token
+    mock_response.raise_for_status = mocker.Mock()
+
+    # Patch requests.post to return mock response
+    mock_post = mocker.patch("requests.post", return_value=mock_response)
+
+    with pytest.raises(ValueError, match="❌ No token received in authentication response."):
+        live_broker.authenticate()
+
+    # Ensure requests.post was called with correct parameters
+    mock_post.assert_called_once()
+
+
+
+def test_place_order_dry_run(broker):
     """Test that place_order does not execute real trades in dry run mode."""
     order_details = {
         "symbol": "AAPL",
         "quantity": 1,
-        "order_type": "limit",  # Use limit order
-        "price": 1.00,  # Unrealistic price to avoid accidental trades
+        "order_type": "limit",
+        "price": 150.00,
     }
 
     result = broker.place_order(**order_details)
-    print(f"Dry run place order result: {result}")
 
+    # Ensure the function returns a simulated order
     assert result["status"] == "simulated"
     assert result["order"]["symbol"] == "AAPL"
     assert result["order"]["quantity"] == 1
     assert result["order"]["order_type"] == "limit"
-    assert result["order"]["price"] == 1.00
+    assert result["order"]["price"] == 150.00
 
 
-def test_live_mode_place_order():
-    """Test that place_order calls the real API when dry run is disabled, using a limit order."""
-    os.environ["TASTYTRADE_DRY_RUN"] = "false"  # Ensure live mode is set
-    broker = TastyTradeBroker()  # Reinitialize the broker to apply new env variables
-
-    order_details = {
-        "symbol": "AAPL",
-        "quantity": 1,
-        "order_type": "limit",  # Use a limit order instead of market
-        "price": 1.00,  # Unrealistic price ensures no accidental fill
-    }
-
-    with patch("requests.post") as mock_post:
-        mock_post.return_value.status_code = 201
-        mock_post.return_value.json.return_value = {"status": "success"}
-
-        result = broker.place_order(**order_details)
-        print(f"Live mode place order result: {result}")
-
-        mock_post.assert_called_once()  # Ensure API was called
-        assert result["status"] == "success"
-
-    # Reset environment variable
-    os.environ["TASTYTRADE_DRY_RUN"] = "true"
-
-
-def test_authentication_failure():
-    """Test that authentication fails gracefully with invalid credentials."""
-    os.environ["TASTYTRADE_USERNAME"] = "invalid_user"
-    os.environ["TASTYTRADE_PASSWORD"] = "wrong_password"
-
-    with patch("requests.post") as mock_post:
-        mock_post.return_value.status_code = 401
-        mock_post.return_value.json.return_value = {
-            "error": {"message": "Unauthorized"}
-        }
-        mock_post.return_value.raise_for_status.side_effect = requests.exceptions.HTTPError(
-            "401 Client Error: Unauthorized"
-        )
-
-        with pytest.raises(requests.exceptions.HTTPError):
-            TastyTradeBroker()  # This should now raise the expected error
-
-
-def test_place_order_success():
-    """Test that place_order correctly sends a request and processes the response."""
-    os.environ["TASTYTRADE_DRY_RUN"] = "false"  # Ensure dry run is disabled
-    broker = TastyTradeBroker()
-
+def test_place_order_success(mocker, live_broker):
+    """Test successful order placement in live mode."""
     order_details = {
         "symbol": "AAPL",
         "quantity": 1,
@@ -89,24 +323,33 @@ def test_place_order_success():
         "price": 150.00,
     }
 
-    with patch("requests.post") as mock_post:
-        mock_post.return_value.status_code = 201
-        mock_post.return_value.json.return_value = {"status": "success"}
+    # Create a mock response object
+    mock_response = mocker.Mock()
+    mock_response.status_code = 201
+    mock_response.json.return_value = {"status": "success", "order_id": "12345"}
 
-        result = broker.place_order(**order_details)
-        print(f"Place order success result: {result}")
+    # Ensure raise_for_status() does nothing (successful request)
+    mock_response.raise_for_status = mocker.Mock()
 
-        mock_post.assert_called_once()  # ✅ Ensure API was called
-        assert result["status"] == "success"
+    # Patch 'requests.post' to return the mock response
+    mock_post = mocker.patch("requests.post", return_value=mock_response)
 
-    # Reset dry run mode
-    os.environ["TASTYTRADE_DRY_RUN"] = "true"
+    result = live_broker.place_order(**order_details)
+
+    # Ensure requests.post() was called correctly
+    mock_post.assert_called_once_with(
+        f"{live_broker.BASE_URL}/orders",
+        json=order_details,
+        headers={"Authorization": "Bearer mock_token"},
+    )
+
+    # Ensure the function returns the expected API response
+    assert result["status"] == "success"
+    assert result["order_id"] == "12345"
 
 
-def test_place_order_failure():
+def test_place_order_failure(mocker, live_broker):
     """Test that place_order raises an error when the API returns a failure."""
-    broker = TastyTradeBroker()
-
     order_details = {
         "symbol": "AAPL",
         "quantity": 1,
@@ -114,74 +357,93 @@ def test_place_order_failure():
         "price": 150.00,
     }
 
-    with patch("requests.post") as mock_post:
-        mock_post.return_value.status_code = 400
-        mock_post.return_value.json.return_value = {"error": "Invalid order"}
-        mock_post.return_value.raise_for_status.side_effect = requests.exceptions.HTTPError(
-            "400 Client Error: Bad Request"
-        )
+    # Create a mock response object
+    mock_response = mocker.Mock()
+    mock_response.status_code = 400
+    mock_response.json.return_value = {"error": "Invalid order"}
 
-        with pytest.raises(requests.exceptions.HTTPError):
-            broker.place_order(**order_details)
+    # Simulate raise_for_status() raising an HTTP error
+    mock_response.raise_for_status.side_effect = requests.exceptions.HTTPError("400 Client Error: Bad Request")
+
+    # Patch 'requests.post' to return the mock response
+    mock_post = mocker.patch("requests.post", return_value=mock_response)
+
+    with pytest.raises(requests.exceptions.HTTPError):
+        live_broker.place_order(**order_details)
+
+    # Ensure requests.post() was called
+    mock_post.assert_called_once_with(
+        f"{live_broker.BASE_URL}/orders",
+        json=order_details,
+        headers={"Authorization": "Bearer mock_token"},
+    )
+
+    # Ensure raise_for_status() was actually triggered
+    mock_response.raise_for_status.assert_called_once()
+
+### Tests for Not Implemented Methods ###
+
+def test_get_open_orders_not_implemented(live_broker):
+    """Test that get_open_orders() raises NotImplementedError."""
+    with pytest.raises(NotImplementedError, match=re.escape("get_open_orders() is not implemented yet.")):
+        live_broker.get_open_orders()
 
 
-def test_get_account_balance():
-    """Test fetching account balance."""
-    broker = TastyTradeBroker()
-
-    with patch("requests.get") as mock_get:
-        mock_get.return_value.status_code = 200
-        mock_get.return_value.json.return_value = {"balance": 5000.00}
-
-        result = broker.get_account_balance()
-        print(f"Get account balance result: {result}")
-
-        mock_get.assert_called_once()
-        assert result["balance"] == 5000.00
-
-
-def test_cancel_order():
-    """Test canceling an order successfully."""
-    broker = TastyTradeBroker()
+def test_get_order_status_not_implemented(live_broker):
+    """Test that get_order_status() raises NotImplementedError."""
     order_id = "12345"
-
-    with patch("requests.delete") as mock_delete:
-        mock_delete.return_value.status_code = 200
-        mock_delete.return_value.json.return_value = {"status": "Order canceled"}
-
-        result = broker.cancel_order(order_id)
-        print(f"Cancel order result: {result}")
-
-        mock_delete.assert_called_once()
-        assert result["status"] == "Order canceled"  # ✅ Match actual return value
+    with pytest.raises(NotImplementedError, match=re.escape("get_order_status() is not implemented yet.")):
+        live_broker.get_order_status(order_id)
 
 
-def test_get_market_data():
-    """Test fetching market data for a stock."""
-    broker = TastyTradeBroker()
-    symbol = "AAPL"
+def test_stream_market_data_not_implemented(live_broker):
+    """Test that stream_market_data() raises NotImplementedError."""
+    symbols = ["AAPL", "GOOG"]
+    callback = lambda x: x  # Dummy callback function
 
-    with patch("requests.get") as mock_get:
-        mock_get.return_value.status_code = 200
-        mock_get.return_value.json.return_value = {"price": 150.25}
-
-        result = broker.get_market_data(symbol)
-        print(f"Get market data result: {result}")
-
-        mock_get.assert_called_once()
-        assert result["price"] == 150.25
+    with pytest.raises(NotImplementedError, match=re.escape("stream_market_data() is not implemented yet.")):
+        live_broker.stream_market_data(symbols, callback)
 
 
-def test_get_buying_power():
-    """Test fetching buying power."""
-    broker = TastyTradeBroker()
+### Tests for File-Based Token Handling ###
 
-    with patch("requests.get") as mock_get:
-        mock_get.return_value.status_code = 200
-        mock_get.return_value.json.return_value = {"buying_power": 10000.00}
+def test_save_remember_me_token(live_broker, temp_remember_me_file):
+    """Test that save_remember_me_token() correctly writes a token to a file."""
+    live_broker.remember_me_file = str(temp_remember_me_file)  # Override file path
+    test_token = "test123"
 
-        result = broker.get_buying_power()
-        print(f"Get buying power result: {result}")
+    live_broker.save_remember_me_token(test_token)
 
-        mock_get.assert_called_once()
-        assert result["buying_power"] == 10000.00
+    # Verify the file was created
+    assert os.path.exists(temp_remember_me_file)
+
+    # Verify the saved token content
+    with open(temp_remember_me_file, "r") as file:
+        data = json.load(file)
+        assert data["token"] == test_token
+
+
+def test_load_remember_me_token_exists(live_broker, temp_remember_me_file):
+    """Test that load_remember_me_token() correctly loads a token from a file."""
+    live_broker.remember_me_file = str(temp_remember_me_file)  # Override file path
+    test_token = "test123"
+
+    # Create the file with token data
+    with open(temp_remember_me_file, "w") as file:
+        json.dump({"token": test_token}, file)
+
+    # Verify the token is loaded correctly
+    loaded_token = live_broker.load_remember_me_token()
+    assert loaded_token == test_token
+
+
+def test_load_remember_me_token_missing(live_broker, temp_remember_me_file):
+    """Test that load_remember_me_token() returns None if the file does not exist."""
+    live_broker.remember_me_file = str(temp_remember_me_file)  # Override file path
+
+    # Ensure the file does not exist
+    if os.path.exists(temp_remember_me_file):
+        os.remove(temp_remember_me_file)
+
+    # Verify the function returns None when file is missing
+    assert live_broker.load_remember_me_token() is None

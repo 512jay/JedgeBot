@@ -44,7 +44,6 @@ class TastyTradeBroker(BaseBroker):
         else:
             self.logger.warning("⚠️ LIVE MODE: Real trades will be executed!")
 
-
     def authenticate(self):
         """Authenticate with TastyTrade and retrieve a session token."""
         try:
@@ -70,7 +69,6 @@ class TastyTradeBroker(BaseBroker):
         except requests.RequestException as e:
             self.logger.error(f"❌ Authentication failed: {e}")
             raise
-
 
     def get_account_balance(self):
         """Fetch account balance from TastyTrade."""
