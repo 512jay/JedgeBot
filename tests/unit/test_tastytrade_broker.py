@@ -27,6 +27,72 @@ def temp_remember_me_file(tmp_path):
     """Fixture to provide a temporary remember-me file."""
     return tmp_path / "remember_me.json"
 
+def test_get_open_orders_success(mocker, live_broker):
+    """Test successful retrieval of open orders."""
+    mock_response = mocker.Mock()
+    mock_response.json.return_value = {"orders": [{"id": "123", "status": "open"}]}
+    mock_response.raise_for_status = lambda: None  # No exception raised
+
+    mocker.patch("requests.get", return_value=mock_response)
+
+    result = live_broker.get_open_orders()
+
+    assert "orders" in result
+    assert result["orders"][0]["status"] == "open"
+
+def test_get_order_status_success(mocker, live_broker):
+    """Test successful retrieval of order status."""
+    order_id = "12345"
+    mock_response = mocker.Mock()
+    mock_response.json.return_value = {"id": order_id, "status": "filled"}
+    mock_response.raise_for_status = lambda: None  # No exception raised
+
+    mocker.patch("requests.get", return_value=mock_response)
+
+    result = live_broker.get_order_status(order_id)
+
+    assert result["status"] == "filled"
+
+def test_stream_market_data_success(mocker, live_broker):
+    """Test real-time market data streaming."""
+    mock_response = mocker.MagicMock()
+    mock_response.iter_lines.return_value = [
+        json.dumps({"symbol": "AAPL", "price": 150.0}).encode("utf-8")
+    ]
+    mock_response.raise_for_status = lambda: None  # No exception raised
+
+    # Ensuring `requests.get` works as a context manager
+    mock_get = mocker.patch("requests.get", return_value=mock_response)
+    mock_get.return_value.__enter__.return_value = mock_response
+
+    callback_called = []
+
+    def callback(data):
+        callback_called.append(data)
+
+    live_broker.stream_market_data(["AAPL"], callback)
+
+    assert callback_called == [{"symbol": "AAPL", "price": 150.0}]
+
+def test_stream_market_data_failure(mocker, live_broker):
+    """Test failure when streaming market data."""
+    mock_response = mocker.MagicMock()
+    mock_response.raise_for_status.side_effect = requests.exceptions.HTTPError("503 Service Unavailable")
+
+    # Ensuring `requests.get` works as a context manager
+    mock_get = mocker.patch("requests.get", return_value=mock_response)
+    mock_get.return_value.__enter__.return_value = mock_response
+
+    callback_called = []
+
+    def callback(data):
+        callback_called.append(data)
+
+    with pytest.raises(requests.exceptions.HTTPError):
+        live_broker.stream_market_data(["AAPL"], callback)
+
+    assert callback_called == []
+
 def test_get_market_data_success(mocker, live_broker):
     """Test successful retrieval of market data."""
     symbol = "AAPL"
@@ -50,7 +116,6 @@ def test_get_market_data_success(mocker, live_broker):
     # Verify the returned market data
     assert result["price"] == 150.25
 
-
 def test_get_market_data_failure(mocker, live_broker):
     """Test API failure when retrieving market data."""
     symbol = "AAPL"
@@ -67,7 +132,6 @@ def test_get_market_data_failure(mocker, live_broker):
 
     # Ensure requests.get was called
     mock_get.assert_called_once()
-
 
 def test_get_trade_history_success(mocker, live_broker):
     """Test successful retrieval of trade history."""
@@ -95,7 +159,6 @@ def test_get_trade_history_success(mocker, live_broker):
     assert result["trades"][0]["quantity"] == 10
     assert result["trades"][0]["price"] == 145.00
 
-
 def test_get_trade_history_failure(mocker, live_broker):
     """Test API failure when retrieving trade history."""
     start_date = "2024-01-01"
@@ -113,7 +176,6 @@ def test_get_trade_history_failure(mocker, live_broker):
 
     # Ensure requests.get was called
     mock_get.assert_called_once()
-
 
 def test_get_buying_power_success(mocker, live_broker):
     """Test successful retrieval of buying power."""
@@ -135,7 +197,6 @@ def test_get_buying_power_success(mocker, live_broker):
 
     # Verify buying power
     assert result["buying_power"] == 10000.00
-
 
 def test_get_buying_power_failure(mocker, live_broker):
     """Test API failure when retrieving buying power."""
@@ -173,7 +234,6 @@ def test_cancel_order_success(mocker, live_broker):
 
     # Verify the returned response
     assert result == {"status": "Order canceled"}
-
 
 def test_cancel_order_failure(mocker, live_broker):
     """Test API failure when canceling an order."""
@@ -215,7 +275,6 @@ def test_get_account_balance_success(mocker, live_broker):
 
     # Verify the returned balance is correct
     assert result["balance"] == 5000.00
-
 
 def test_get_account_balance_failure(mocker, live_broker):
     """Test API failure when retrieving account balance."""
@@ -259,7 +318,6 @@ def test_authenticate_success(mocker, live_broker):
     assert token == "test_token"
     assert live_broker.token == "test_token"
 
-
 def test_authenticate_failure_invalid_credentials(mocker, live_broker):
     """Test authentication failure when invalid credentials are provided."""
     mock_response = mocker.Mock()
@@ -276,7 +334,6 @@ def test_authenticate_failure_invalid_credentials(mocker, live_broker):
     # Ensure requests.post was called with correct parameters
     mock_post.assert_called_once()
 
-
 def test_authenticate_failure_no_token(mocker, live_broker):
     """Test authentication failure when no session token is returned."""
     mock_response = mocker.Mock()
@@ -292,8 +349,6 @@ def test_authenticate_failure_no_token(mocker, live_broker):
 
     # Ensure requests.post was called with correct parameters
     mock_post.assert_called_once()
-
-
 
 def test_place_order_dry_run(broker):
     """Test that place_order does not execute real trades in dry run mode."""
@@ -312,7 +367,6 @@ def test_place_order_dry_run(broker):
     assert result["order"]["quantity"] == 1
     assert result["order"]["order_type"] == "limit"
     assert result["order"]["price"] == 150.00
-
 
 def test_place_order_success(mocker, live_broker):
     """Test successful order placement in live mode."""
@@ -347,7 +401,6 @@ def test_place_order_success(mocker, live_broker):
     assert result["status"] == "success"
     assert result["order_id"] == "12345"
 
-
 def test_place_order_failure(mocker, live_broker):
     """Test that place_order raises an error when the API returns a failure."""
     order_details = {
@@ -381,32 +434,6 @@ def test_place_order_failure(mocker, live_broker):
     # Ensure raise_for_status() was actually triggered
     mock_response.raise_for_status.assert_called_once()
 
-### Tests for Not Implemented Methods ###
-
-def test_get_open_orders_not_implemented(live_broker):
-    """Test that get_open_orders() raises NotImplementedError."""
-    with pytest.raises(NotImplementedError, match=re.escape("get_open_orders() is not implemented yet.")):
-        live_broker.get_open_orders()
-
-
-def test_get_order_status_not_implemented(live_broker):
-    """Test that get_order_status() raises NotImplementedError."""
-    order_id = "12345"
-    with pytest.raises(NotImplementedError, match=re.escape("get_order_status() is not implemented yet.")):
-        live_broker.get_order_status(order_id)
-
-
-def test_stream_market_data_not_implemented(live_broker):
-    """Test that stream_market_data() raises NotImplementedError."""
-    symbols = ["AAPL", "GOOG"]
-    callback = lambda x: x  # Dummy callback function
-
-    with pytest.raises(NotImplementedError, match=re.escape("stream_market_data() is not implemented yet.")):
-        live_broker.stream_market_data(symbols, callback)
-
-
-### Tests for File-Based Token Handling ###
-
 def test_save_remember_me_token(live_broker, temp_remember_me_file):
     """Test that save_remember_me_token() correctly writes a token to a file."""
     live_broker.remember_me_file = str(temp_remember_me_file)  # Override file path
@@ -422,7 +449,6 @@ def test_save_remember_me_token(live_broker, temp_remember_me_file):
         data = json.load(file)
         assert data["token"] == test_token
 
-
 def test_load_remember_me_token_exists(live_broker, temp_remember_me_file):
     """Test that load_remember_me_token() correctly loads a token from a file."""
     live_broker.remember_me_file = str(temp_remember_me_file)  # Override file path
@@ -435,7 +461,6 @@ def test_load_remember_me_token_exists(live_broker, temp_remember_me_file):
     # Verify the token is loaded correctly
     loaded_token = live_broker.load_remember_me_token()
     assert loaded_token == test_token
-
 
 def test_load_remember_me_token_missing(live_broker, temp_remember_me_file):
     """Test that load_remember_me_token() returns None if the file does not exist."""

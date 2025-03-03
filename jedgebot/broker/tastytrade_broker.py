@@ -158,20 +158,48 @@ class TastyTradeBroker(BaseBroker):
             raise
 
     def get_open_orders(self):
-        """Retrieve all open orders (not yet implemented for TastyTrade)."""
-        logger.warning("get_open_orders() is not implemented yet.")
-        raise NotImplementedError("get_open_orders() is not implemented yet.")
+        """Retrieve all open orders from TastyTrade."""
+        headers = {"Authorization": f"Bearer {self.token}"}
+        try:
+            response = requests.get(f"{self.BASE_URL}/orders", headers=headers)
+            response.raise_for_status()
+            logger.info("✅ Open orders retrieved successfully")
+            return response.json()
+        except requests.RequestException as e:
+            logger.error(f"❌ Failed to retrieve open orders: {e}")
+            raise
 
     def get_order_status(self, order_id: str):
-        """Retrieve the status of an order (not yet implemented for TastyTrade)."""
-        logger.warning(f"get_order_status({order_id}) is not implemented yet.")
-        raise NotImplementedError("get_order_status() is not implemented yet.")
+        """Retrieve the status of an order."""
+        headers = {"Authorization": f"Bearer {self.token}"}
+        try:
+            response = requests.get(f"{self.BASE_URL}/orders/{order_id}", headers=headers)
+            response.raise_for_status()
+            logger.info(f"✅ Order status retrieved for {order_id}")
+            return response.json()
+        except requests.RequestException as e:
+            logger.error(f"❌ Failed to retrieve order status for {order_id}: {e}")
+            raise
 
     def stream_market_data(self, symbols: list, callback):
-        """Subscribe to real-time market data (not yet implemented for TastyTrade)."""
-        logger.warning(f"stream_market_data({symbols}) is not implemented yet.")
-        raise NotImplementedError("stream_market_data() is not implemented yet.")
-    
+        """Subscribe to real-time market data using TastyTrade API streaming."""
+        logger.info(f"📡 Subscribing to real-time market data for: {symbols}")
+        
+        url = f"{self.BASE_URL}/market-data/stream"
+        headers = {"Authorization": f"Bearer {self.token}"}
+        params = {"symbols": ",".join(symbols)}
+
+        try:
+            with requests.get(url, headers=headers, params=params, stream=True) as response:
+                response.raise_for_status()
+                for line in response.iter_lines():
+                    if line:
+                        data = json.loads(line)
+                        callback(data)  # Call user-defined callback function
+        except requests.RequestException as e:
+            logger.error(f"❌ Streaming market data failed: {e}")
+            raise
+
     def load_remember_me_token(self):
         """Loads the remember-me token from a file if it exists."""
         if os.path.exists(self.remember_me_file):
