@@ -16,12 +16,19 @@ def main():
             "TASTYTRADE_USERNAME and TASTYTRADE_PASSWORD must be set in .env file"
         )
 
-    # Initialize broker
-    broker = TastyTradeClient(username, password)
-    accounts = broker.extract_account_numbers()
-    print(accounts)
-    print("Closing without logging out...")
+    # Fetch accounts using AccountService
+    
+    client = TastyTradeClient(username, password)
 
+    # Fetch accounts
+    account_service = client.account_service
+    accounts = account_service.get_accounts()
+
+    # Print first account number
+    if accounts:
+        print(f"First Account Number: {accounts[0]}")
+    else:
+        print("No accounts found.")
 
 if __name__ == "__main__":
     main()

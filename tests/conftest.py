@@ -1,25 +1,43 @@
 import pytest
-import requests
-from unittest.mock import patch
+from unittest.mock import MagicMock
+from jedgebot.broker.tastytrade.api_client import APIClient
+from jedgebot.broker.tastytrade.authentication import Authentication
 
-@pytest.fixture(autouse=True)
-def prevent_real_api_calls():
-    """Prevents any real API requests by mocking requests globally."""
-    with patch("requests.post") as mock_post, \
-         patch("requests.get") as mock_get, \
-         patch("requests.delete") as mock_delete:
+@pytest.fixture
+def mock_auth():
+    """Fixture to mock authentication system returning a session token."""
+    mock_auth = MagicMock(spec=Authentication)
+    mock_auth.get_session_token.return_value = "mocked_token"
+    return mock_auth
 
-        # Default mocks return a generic successful response
-        mock_post.return_value = requests.Response()
-        mock_post.return_value.status_code = 200
-        mock_post.return_value._content = b'{"status": "mocked_success"}'
+@pytest.fixture
+def mock_api_client(mock_auth):
+    """Fixture to mock API client, using mock authentication."""
+    client = MagicMock(spec=APIClient)
+    client.auth = mock_auth
+    client.get.return_value = {}  # Default empty response
+    return client
 
-        mock_get.return_value = requests.Response()
-        mock_get.return_value.status_code = 200
-        mock_get.return_value._content = b'{"status": "mocked_success"}'
+@pytest.fixture
+def tastytrade_mock_accounts():
+    """Mock response for the /customers/me/accounts API."""
+    return {
+        "data": {
+            "items": [
+                {"account": {"account-number": "5WT00001"}},
+                {"account": {"account-number": "5WT00002"}}
+            ]
+        }
+    }
 
-        mock_delete.return_value = requests.Response()
-        mock_delete.return_value.status_code = 200
-        mock_delete.return_value._content = b'{"status": "mocked_success"}'
-
-        yield
+@pytest.fixture
+def tastytrade_mock_orders():
+    """Mock response for fetching orders."""
+    return {
+        "data": {
+            "items": [
+                {"order-id": "O123", "symbol": "AAPL"},
+                {"order-id": "O456", "symbol": "TSLA"}
+            ]
+        }
+    }
