@@ -1,0 +1,321 @@
+{
+    "data": {
+        "id": "me",
+        "first-name": "john",
+        "first-surname": "davis",
+        "last-name": "davis",
+        "address": {
+            "city": "Houston",
+            "country": "USA",
+            "is-domestic": true,
+            "is-foreign": false,
+            "postal-code": "77002",
+            "state-region": "TX",
+            "street-one": "705 Main St. #310"
+        },
+        "customer-suitability": {
+            "id": 360829,
+            "annual-net-income": 0,
+            "covered-options-trading-experience": "EXTENSIVE",
+            "employer-name": "It My Party",
+            "employment-status": "EMPLOYED",
+            "futures-trading-experience": "GOOD",
+            "job-title": "Usher",
+            "liquid-net-worth": 50001,
+            "marital-status": "SINGLE",
+            "net-worth": 50001,
+            "number-of-dependents": 0,
+            "occupation": "Art & Entertainment",
+            "stock-trading-experience": "EXTENSIVE",
+            "uncovered-options-trading-experience": "EXTENSIVE"
+        },
+        "mailing-address": {
+            "city": "Houston",
+            "country": "USA",
+            "is-domestic": true,
+            "is-foreign": false,
+            "postal-code": "77002",
+            "state-region": "TX",
+            "street-one": "705 Main St. #310"
+        },
+        "is-foreign": false,
+        "regulatory-domain": "USA",
+        "usa-citizenship-type": "Citizen",
+        "home-phone-number": "",
+        "mobile-phone-number": "+15127509041",
+        "work-phone-number": "",
+        "birth-date": "1975-06-16",
+        "email": "512jay@gmail.com",
+        "external-id": "C6a657639-cdec-40c7-b4b1-c4dff21ec435",
+        "tax-number": "************",
+        "tax-number-type": "SSN",
+        "citizenship-country": "USA",
+        "agreed-to-margining": true,
+        "subject-to-tax-withholding": false,
+        "agreed-to-terms": true,
+        "ext-crm-id": "0018d00000jUvDPAA0",
+        "has-industry-affiliation": false,
+        "has-institutional-assets": false,
+        "has-listed-affiliation": false,
+        "has-political-affiliation": false,
+        "is-investment-adviser": false,
+        "has-delayed-quotes": false,
+        "has-pending-or-approved-application": true,
+        "is-professional": false,
+        "permitted-account-types": [
+            {
+                "name": "Individual",
+                "description": "",
+                "is_tax_advantaged": false,
+                "has_multiple_owners": false,
+                "is_publicly_available": true,
+                "margin_types": [
+                    {
+                        "name": "Cash",
+                        "is_margin": false
+                    },
+                    {
+                        "name": "Cash Secured Margin",
+                        "is_margin": true
+                    },
+                    {
+                        "name": "IRA Margin",
+                        "is_margin": true
+                    },
+                    {
+                        "name": "Reg T",
+                        "is_margin": true
+                    },
+                    {
+                        "name": "Portfolio Margin",
+                        "is_margin": true
+                    }
+                ]
+            },
+            {
+                "name": "Futures",
+                "description": "",
+                "is_tax_advantaged": false,
+                "has_multiple_owners": false,
+                "is_publicly_available": true,
+                "margin_types": [
+                    {
+                        "name": "Cash",
+                        "is_margin": false
+                    },
+                    {
+                        "name": "Cash Secured Margin",
+                        "is_margin": true
+                    },
+                    {
+                        "name": "IRA Margin",
+                        "is_margin": true
+                    },
+                    {
+                        "name": "Reg T",
+                        "is_margin": true
+                    },
+                    {
+                        "name": "Portfolio Margin",
+                        "is_margin": true
+                    }
+                ]
+            },
+            {
+                "name": "Joint Tenants with Rights of Survivorship",
+                "description": "",
+                "is_tax_advantaged": false,
+                "has_multiple_owners": true,
+                "is_publicly_available": true,
+                "margin_types": [
+                    {
+                        "name": "Cash",
+                        "is_margin": false
+                    },
+                    {
+                        "name": "Cash Secured Margin",
+                        "is_margin": true
+                    },
+                    {
+                        "name": "IRA Margin",
+                        "is_margin": true
+                    },
+                    {
+                        "name": "Reg T",
+                        "is_margin": true
+                    },
+                    {
+                        "name": "Portfolio Margin",
+                        "is_margin": true
+                    }
+                ]
+            },
+            {
+                "name": "Joint Tenants in Common",
+                "description": "",
+                "is_tax_advantaged": false,
+                "has_multiple_owners": true,
+                "is_publicly_available": true,
+                "margin_types": [
+                    {
+                        "name": "Cash",
+                        "is_margin": false
+                    },
+                    {
+                        "name": "Cash Secured Margin",
+                        "is_margin": true
+                    },
+                    {
+                        "name": "IRA Margin",
+                        "is_margin": true
+                    },
+                    {
+                        "name": "Reg T",
+                        "is_margin": true
+                    },
+                    {
+                        "name": "Portfolio Margin",
+                        "is_margin": true
+                    }
+                ]
+            },
+            {
+                "name": "Investment Club",
+                "description": "",
+                "is_tax_advantaged": false,
+                "has_multiple_owners": false,
+                "is_publicly_available": true,
+                "margin_types": [
+                    {
+                        "name": "Cash",
+                        "is_margin": false
+                    },
+                    {
+                        "name": "Cash Secured Margin",
+                        "is_margin": true
+                    },
+                    {
+                        "name": "IRA Margin",
+                        "is_margin": true
+                    },
+                    {
+                        "name": "Reg T",
+                        "is_margin": true
+                    },
+                    {
+                        "name": "Portfolio Margin",
+                        "is_margin": true
+                    }
+                ]
+            },
+            {
+                "name": "Traditional IRA",
+                "description": "",
+                "is_tax_advantaged": true,
+                "has_multiple_owners": false,
+                "is_publicly_available": true,
+                "margin_types": [
+                    {
+                        "name": "IRA Margin",
+                        "is_margin": true
+                    }
+                ]
+            },
+            {
+                "name": "Roth IRA",
+                "description": "",
+                "is_tax_advantaged": true,
+                "has_multiple_owners": false,
+                "is_publicly_available": true,
+                "margin_types": [
+                    {
+                        "name": "IRA Margin",
+                        "is_margin": true
+                    }
+                ]
+            },
+            {
+                "name": "Coverdell",
+                "description": "",
+                "is_tax_advantaged": false,
+                "has_multiple_owners": false,
+                "is_publicly_available": true,
+                "margin_types": [
+                    {
+                        "name": "Cash",
+                        "is_margin": false
+                    }
+                ]
+            },
+            {
+                "name": "UGMA/UTMA",
+                "description": "",
+                "is_tax_advantaged": false,
+                "has_multiple_owners": false,
+                "is_publicly_available": true,
+                "margin_types": [
+                    {
+                        "name": "Cash",
+                        "is_margin": false
+                    }
+                ]
+            },
+            {
+                "name": "SEP",
+                "description": "",
+                "is_tax_advantaged": true,
+                "has_multiple_owners": false,
+                "is_publicly_available": true,
+                "margin_types": [
+                    {
+                        "name": "IRA Margin",
+                        "is_margin": true
+                    }
+                ]
+            },
+            {
+                "name": "Beneficiary Roth IRA",
+                "description": "",
+                "is_tax_advantaged": true,
+                "has_multiple_owners": false,
+                "is_publicly_available": true,
+                "margin_types": [
+                    {
+                        "name": "IRA Margin",
+                        "is_margin": true
+                    }
+                ]
+            },
+            {
+                "name": "Beneficiary Traditional IRA",
+                "description": "",
+                "is_tax_advantaged": true,
+                "has_multiple_owners": false,
+                "is_publicly_available": true,
+                "margin_types": [
+                    {
+                        "name": "IRA Margin",
+                        "is_margin": true
+                    }
+                ]
+            }
+        ],
+        "created-at": "2021-12-08T20:15:44.152+00:00",
+        "identifiable-type": "Person",
+        "person": {
+            "external-id": "Pe004c564-71e1-4a75-b5ab-ce5f1647d936",
+            "first-name": "john",
+            "last-name": "davis",
+            "birth-date": "************",
+            "citizenship-country": "USA",
+            "usa-citizenship-type": "Citizen",
+            "employer-name": "It My Party",
+            "employment-status": "EMPLOYED",
+            "job-title": "Usher",
+            "marital-status": "SINGLE",
+            "number-of-dependents": 0,
+            "occupation": "Art & Entertainment"
+        }
+    },
+    "context": "/customers/me"
+}

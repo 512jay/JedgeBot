@@ -1,14 +1,27 @@
-from jedgebot.broker.tastytrade_api import TastyTradeAPI
-
-
 def main():
-    tasty = TastyTradeAPI()
-    balance = tasty.get_balance()
-    print("Account Balance:", balance)
+    import os
 
-    # Example order: Buy 1 SPY Call Option at $1.50
-    order_response = tasty.place_order("SPY 20240228 500 C", 1, "BUY", "LIMIT", 1.50)
-    print("Order Response:", order_response)
+    from dotenv import load_dotenv
+
+    from jedgebot.broker.tastytrade.tastytrade_client import TastyTradeClient
+
+    # Load environment variables
+    load_dotenv()
+
+    username = os.getenv("TASTYTRADE_USERNAME")
+    password = os.getenv("TASTYTRADE_PASSWORD")
+
+    if not username or not password:
+        raise ValueError(
+            "TASTYTRADE_USERNAME and TASTYTRADE_PASSWORD must be set in .env file"
+        )
+
+    # Initialize broker
+    broker = TastyTradeClient(username, password)
+    accounts = broker.extract_account_numbers()
+    print(accounts)
+    print("Closing without logging out...")
+
 
 if __name__ == "__main__":
     main()
