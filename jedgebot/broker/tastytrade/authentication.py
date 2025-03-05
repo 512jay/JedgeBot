@@ -74,3 +74,8 @@ class Authentication:
         if os.path.exists(self.TOKEN_FILE):
             os.remove(self.TOKEN_FILE)
             logger.info("🗑️ Cleared session token.")
+
+    def ensure_authenticated(self):
+        """Ensures authentication is valid or re-authenticates if necessary."""
+        if not self.session_token:
+            self.login()
