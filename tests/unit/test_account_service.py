@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import MagicMock
-from jedgebot.broker.tastytrade.services.account_service import AccountService
+from jedgebot.broker.tastytrade.services.account import AccountService
 from jedgebot.broker.tastytrade.api_client import APIClient
 
 @pytest.fixture
