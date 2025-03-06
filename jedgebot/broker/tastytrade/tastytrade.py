@@ -1,4 +1,5 @@
 import os
+import asyncio
 from dotenv import load_dotenv
 from jedgebot.broker.tastytrade.services.api_client import TastyTradeAPIClient
 from jedgebot.broker.tastytrade.services.authentication import TastyTradeAuthenticator
@@ -6,7 +7,7 @@ from jedgebot.broker.tastytrade.services.customer import TastytradeCustomerServi
 from jedgebot.broker.tastytrade.services.order import OrderService
 from jedgebot.broker.tastytrade.services.market_data import MarketDataService
 from jedgebot.broker.tastytrade.services.account import TastyTradeAccount
-from jedgebot.broker.tastytrade.services.account_stream import TastyTradeAccountStream
+from jedgebot.broker.tastytrade.services.account_streaming import TastyTradeAccountStream
 from jedgebot.broker.tastytrade.data_handler import TastyTradeDataHandler
 
 # Load environment variables from .env
@@ -71,16 +72,18 @@ class TastyTradeClient:
         """Update the data in DataHandler."""
         self.data_handler.update_data(data_type, data)
 
-    def start_account_stream(self, account_number: str):
+    def start_account_stream(self):
         """Start streaming account updates."""
         if self.account_stream is None:
-            self.account_stream = TastyTradeAccountStream(self.auth, self.data_handler)
-        self.account_stream.start_stream(account_number)
+            self.account_stream = TastyTradeAccountStream(self)  # ✅ Pass self (TastyTradeClient)
+        
+        asyncio.create_task(self.account_stream.connect())  # ✅ Start the async WebSocket
 
     def stop_account_stream(self):
         """Stop streaming account updates."""
         if self.account_stream:
-            self.account_stream.stop_stream()
+            asyncio.create_task(self.account_stream.close())  # ✅ Use close()
+
 
     def logout(self):
         """Logout and clear session tokens."""

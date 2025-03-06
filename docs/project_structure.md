@@ -29,7 +29,7 @@ JedgeBot/
 │   │   │   │   ├── data_handler.py
 │   │   │   │   ├── services
 │   │   │   │   │   ├── account.py
-│   │   │   │   │   ├── account_stream.py
+│   │   │   │   │   ├── account_streaming.py
 │   │   │   │   │   ├── api_client.py
 │   │   │   │   │   ├── authentication.py
 │   │   │   │   │   ├── customer.py
@@ -72,6 +72,7 @@ JedgeBot/
 │   │   ├── balances.py
 │   │   ├── get_first_account_number.py
 │   │   ├── logs
+│   │   ├── start_streaming.py
 │   ├── tests
 │   │   ├── unit
 │   │   │   ├── __init__.py
