@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 from jedgebot.broker.tastytrade.api_client import TastyTradeAPIClient
 from jedgebot.broker.tastytrade.authentication import TastyTradeAuthenticator
 from jedgebot.broker.tastytrade.services.customer import TastytradeCustomerService
@@ -5,10 +7,25 @@ from jedgebot.broker.tastytrade.services.order import OrderService
 from jedgebot.broker.tastytrade.services.market_data import MarketDataService
 from jedgebot.broker.tastytrade.services.account import TastyTradeAccount
 
-class TastytradeClient:
-    def __init__(self, username: str, password: str):
-        """Initialize the Tastytrade client with a shared authentication object."""
-        self.auth = TastyTradeAuthenticator(username, password)  # ✅ Initialize once
+# ✅ Load environment variables from .env
+load_dotenv()
+
+class TastyTradeClient:
+    def __init__(self, username: str = None, password: str = None):
+        """
+        Initialize the Tastytrade client with a shared authentication object.
+
+        :param username: Tastytrade username (optional, defaults to .env)
+        :param password: Tastytrade password (optional, defaults to .env)
+        """
+        # ✅ Use .env credentials if no username/password is provided
+        self.username = username or os.getenv("TASTYTRADE_USERNAME")
+        self.password = password or os.getenv("TASTYTRADE_PASSWORD")
+
+        if not self.username or not self.password:
+            raise ValueError("❌ Tastytrade username or password is missing. Set it in .env or provide manually.")
+
+        self.auth = TastyTradeAuthenticator(self.username, self.password)  # ✅ Initialize once
         self.api_client = TastyTradeAPIClient(self.auth)  # ✅ Pass auth to API client
         self.customer = TastytradeCustomerService(self.api_client)  # ✅ Use shared auth
         self.order = OrderService(self.api_client)
@@ -25,7 +42,7 @@ class TastytradeClient:
     
     def get_account_number(self, index=0):
         """Retrieve the account number at the given index."""
-        return self.account.get_account(index)  # ✅ Delegate work to account.py
+        return self.account.get_account(index)
 
     def place_order(self, account_number: str, order_data: dict):
         """Place an order for a given Tastytrade account."""
