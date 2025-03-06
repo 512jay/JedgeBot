@@ -29,6 +29,7 @@ JedgeBot/
 │   │   │   │   ├── data_handler.py
 │   │   │   │   ├── services
 │   │   │   │   │   ├── account.py
+│   │   │   │   │   ├── account_stream.py
 │   │   │   │   │   ├── api_client.py
 │   │   │   │   │   ├── authentication.py
 │   │   │   │   │   ├── customer.py
