@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
-from jedgebot.broker.tastytrade.api_client import TastyTradeAPIClient
-from jedgebot.broker.tastytrade.authentication import TastyTradeAuthenticator
+from jedgebot.broker.tastytrade.services.api_client import TastyTradeAPIClient
+from jedgebot.broker.tastytrade.services.authentication import TastyTradeAuthenticator
 from jedgebot.broker.tastytrade.services.customer import TastytradeCustomerService
 from jedgebot.broker.tastytrade.services.order import OrderService
 from jedgebot.broker.tastytrade.services.market_data import MarketDataService

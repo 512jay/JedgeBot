@@ -26,10 +26,11 @@ JedgeBot/
 │   │   │   ├── base_broker.py
 │   │   │   ├── tastytrade
 │   │   │   │   ├── __init__.py
-│   │   │   │   ├── api_client.py
-│   │   │   │   ├── authentication.py
+│   │   │   │   ├── data_handler.py
 │   │   │   │   ├── services
 │   │   │   │   │   ├── account.py
+│   │   │   │   │   ├── api_client.py
+│   │   │   │   │   ├── authentication.py
 │   │   │   │   │   ├── customer.py
 │   │   │   │   │   ├── market_data.py
 │   │   │   │   │   ├── order.py
