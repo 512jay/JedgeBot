@@ -33,9 +33,10 @@ JedgeBot/
 │   │   │   │   │   ├── api_client.py
 │   │   │   │   │   ├── authentication.py
 │   │   │   │   │   ├── customer.py
-│   │   │   │   │   ├── market_data.py
+│   │   │   │   │   ├── market_data_streaming.py
 │   │   │   │   │   ├── order.py
 │   │   │   │   ├── tastytrade.py
+│   │   │   │   ├── utilities.py
 │   │   ├── config
 │   │   │   ├── settings.py
 │   │   ├── config.toml
@@ -72,6 +73,8 @@ JedgeBot/
 │   │   ├── balances.py
 │   │   ├── get_first_account_number.py
 │   │   ├── logs
+│   │   ├── market_data_stream_script_1.py
+│   │   ├── market_data_streaming_script.py
 │   │   ├── start_streaming.py
 │   ├── tests
 │   │   ├── unit

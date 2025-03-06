@@ -1,17 +1,15 @@
 import os
 import asyncio
-from dotenv import load_dotenv
+from jedgebot.broker.tastytrade.services.market_data_streaming import MarketDataStreamer
 from jedgebot.broker.tastytrade.services.api_client import TastyTradeAPIClient
 from jedgebot.broker.tastytrade.services.authentication import TastyTradeAuthenticator
 from jedgebot.broker.tastytrade.services.customer import TastytradeCustomerService
 from jedgebot.broker.tastytrade.services.order import OrderService
-from jedgebot.broker.tastytrade.services.market_data import MarketDataService
 from jedgebot.broker.tastytrade.services.account import TastyTradeAccount
 from jedgebot.broker.tastytrade.services.account_streaming import TastyTradeAccountStream
 from jedgebot.broker.tastytrade.data_handler import TastyTradeDataHandler
-
-# Load environment variables from .env
-load_dotenv()
+from jedgebot.broker.tastytrade.utilities import logout
+from log_setup import logger
 
 class TastyTradeClient:
     def __init__(self, username: str = None, password: str = None):
@@ -31,46 +29,15 @@ class TastyTradeClient:
         self.api_client = TastyTradeAPIClient(self.auth)
         self.customer = TastytradeCustomerService(self.api_client)
         self.order = OrderService(self.api_client)
-        self.market_data = MarketDataService(self.api_client)
         self.account = TastyTradeAccount(self.api_client)
         self.data_handler = TastyTradeDataHandler()
         self.account_stream = None  # Stream handler initialized lazily
+        self.market_data_streamer = MarketDataStreamer(self.auth)
 
-    def refresh_authentication(self):
-        """Refresh authentication tokens if needed."""
-        self.auth.ensure_authenticated()
-
-    def get_accounts(self):
-        """Retrieve all accounts associated with the authenticated Tastytrade user."""
-        return self.account.get_accounts()
-    
-    def get_account_number(self, index=0):
-        """Retrieve the account number at the given index."""
-        return self.account.get_account(index)
-
-    def place_order(self, account_number: str, order_data: dict):
-        """Place an order for a given Tastytrade account."""
-        return self.order.place_order(account_number, order_data)
-
-    def get_orders(self, account_number: str):
-        """Retrieve all orders for a given Tastytrade account."""
-        return self.order.get_orders(account_number)
-
-    def get_market_data(self, symbol: str):
-        """Fetch market data for a given symbol from Tastytrade."""
-        return self.market_data.get_market_data(symbol)
-
-    def get_customer_info(self):
-        """Retrieve customer details for the authenticated user."""
-        return self.customer.get_customer_info()
-
-    def get_latest_data(self, data_type: str):
-        """Retrieve the latest data from DataHandler."""
-        return self.data_handler.get_data(data_type)
-
-    def update_data(self, data_type: str, data: dict):
-        """Update the data in DataHandler."""
-        self.data_handler.update_data(data_type, data)
+    async def start_market_data_streaming(self):
+        """Start automatic market data streaming."""
+        logger.info("📡 Starting market data streaming...")
+        asyncio.create_task(self.market_data_streamer.monitor_token_expiry())
 
     def start_account_stream(self):
         """Start streaming account updates."""
@@ -84,8 +51,41 @@ class TastyTradeClient:
         if self.account_stream:
             asyncio.create_task(self.account_stream.close())  # ✅ Use close()
 
+    def logout(self, clear_session=False):
+        """Logs out using the utility function while keeping the facade clean."""
+        logout(self, clear_session)
 
-    def logout(self):
-        """Logout and clear session tokens."""
-        self.auth.logout()
-        self.stop_account_stream()
+    def refresh_authentication(self):
+        """Refresh authentication tokens if needed."""
+        logger.info("🔄 Refreshing authentication if needed...")
+        self.auth.ensure_authenticated()
+
+    def get_account_number(self, index=0):
+        """Retrieve the account number at the given index."""
+        logger.info(f"🔍 Fetching account number at index {index}...")
+        return self.account.get_account(index)
+
+    def update_data(self, data_type, data):
+        """Update the data in DataHandler."""
+        logger.info(f"🔄 Updating data for type: {data_type}...")
+        self.data_handler.update_data(data_type, data)
+
+    def get_accounts(self):
+        """Retrieve all accounts associated with the authenticated Tastytrade user."""
+        return self.account.get_accounts()
+    
+    def place_order(self, account_number: str, order_data: dict):
+        """Place an order for a given Tastytrade account."""
+        return self.order.place_order(account_number, order_data)
+
+    def get_orders(self, account_number: str):
+        """Retrieve all orders for a given Tastytrade account."""
+        return self.order.get_orders(account_number)
+
+    def get_customer_info(self):
+        """Retrieve customer details for the authenticated user."""
+        return self.customer.get_customer_info()
+
+    def get_latest_data(self, data_type: str):
+        """Retrieve the latest data from DataHandler."""
+        return self.data_handler.get_data(data_type)
