@@ -85,3 +85,30 @@
 ---
 
 🚀 **Stay focused and iterate based on testing and user feedback!**
+
+# Future Enhancements: Market Research & Analysis
+
+## Overview
+As JedgeBot evolves, we may explore additional features to enhance market research and analysis. While the core focus remains on trade execution and broker integration, integrating **OpenBB** or other research tools could provide valuable insights for users who are still exploring trading strategies before executing trades.
+
+## Potential Integration: OpenBB
+**OpenBB** is an open-source investment research platform that provides market data, fundamental analysis, technical indicators, and options analytics.
+
+### Possible Use Cases
+- **Market Screening:** Identify potential stocks and options contracts before execution.
+- **Options Analytics:** Retrieve options chains, implied volatility, Greeks, and open interest data.
+- **Technical Analysis:** Utilize indicators like RSI, MACD, and Bollinger Bands to refine strategies.
+- **Backtesting & Research:** Leverage OpenBB’s data sources to evaluate past performance of trading strategies.
+- **Crypto & Forex Data:** Supplement trading decisions with data from alternative markets.
+
+## Implementation Considerations
+- OpenBB would be an **optional feature**, ensuring JedgeBot remains lightweight and focused on execution.
+- Data retrieval should be modular, potentially under `integrations/openbb/` or `data_sources/openbb.py`.
+- Any integration must align with the broader roadmap, ensuring it does not distract from core development goals.
+
+## Next Steps
+- **Short Term:** Research feasibility and potential benefits of OpenBB within JedgeBot.
+- **Long Term:** Implement an optional research module for users who wish to analyze markets before executing trades.
+
+This enhancement remains a **future consideration** and will not impact the current milestones for trade execution and broker integration.
+

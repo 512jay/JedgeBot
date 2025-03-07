@@ -8,15 +8,26 @@ readme = "README.md"
 packages = [{include = "jedgebot"}]  # Ensures Poetry knows where the code is
 
 [tool.poetry.dependencies]
-python = ">=3.13"  # Match your actual Python version
+python = ">=3.9,<4.0"
 requests = "^2.32.3"
 pandas = "^2.2.3"
+python-dotenv = "^1.0.1"
+loguru = "^0.7.3"
+toml = "^0.10.2"
+websocket-client = "^1.8.0"
+websockets = "^15.0.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.4"
 black = "^25.1.0"
 flake8 = "^7.1.2"
+types-requests = "^2.32.0.20241016"
+types-toml = "^0.10.8.20240310"
+pytest-mock = "^3.14.0"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+bot = "run:main"
