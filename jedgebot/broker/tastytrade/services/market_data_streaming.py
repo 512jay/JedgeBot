@@ -1,143 +1,169 @@
 import asyncio
 import json
-import websockets
+from typing import Optional
 from log_setup import logger
+from .quote_token_manager import QuoteTokenManager
 
 
 class MarketDataStreamer:
-    """Handles real-time market data streaming via DXLink WebSocket."""
+    def __init__(self, client):
+        self.client = client  # TastyTradeClient instance
+        self.ws = None
+        self.authorized = False
+        self.channel_id = 0
+        self.symbols = []
 
-    def __init__(self, api_client):
-        self.api_client = api_client
+        # Use QuoteTokenManager for handling token logic
+        self.token_manager = QuoteTokenManager(client.api_client)
         self.quote_token = None
         self.dxlink_url = None
-        self.ws = None
 
-    async def fetch_quote_token(self):
-        """Fetches a new quote token from TastyTrade API."""
-        logger.info("🔍 Requesting new quote token from TastyTrade API...")
-
-        try:
-            response = await self.api_client.post("/api-quote-tokens", json={})
-            logger.info(f"📡 API Response: {response}")  # ✅ Log raw API response
-
-            self.quote_token = response["data"]["token"]
-            self.dxlink_url = response["data"]["dxlink-url"]
-            logger.info(f"✅ Retrieved new Quote Token: {self.quote_token[:10]}... (truncated)")
-            logger.info(f"✅ DXLink WebSocket URL: {self.dxlink_url}")
-
-        except Exception as e:
-            logger.error(f"❌ Failed to fetch quote token: {e}", exc_info=True)
-
-    async def validate_quote_token(self):
-        """Validates the quote token by attempting a WebSocket connection."""
-        if not self.dxlink_url or not self.quote_token:
-            logger.error("❌ Missing DXLink URL or Quote Token!")
+    async def get_api_quote_token(self):
+        """Fetches or retrieves the quote token asynchronously."""
+        self.quote_token, self.dxlink_url = await self.token_manager.get_quote_token()
+        if not self.quote_token:
+            logger.error("❌ Cannot proceed with streaming without a valid quote token.")
             return False
+        return True
 
-        try:
-            async with websockets.connect(self.dxlink_url) as ws:
-                self.ws = ws
-                logger.info("✅ WebSocket Connected for Token Validation.")
-                return True
-        except Exception as e:
-            logger.error(f"❌ Token validation failed: {e}", exc_info=True)
-            return False
+    async def start_streaming(self, symbols: Optional[list[str]] = None):
+        """Main entry point for market data streaming."""
+        if symbols:
+            self.symbols.extend(symbols)
+            logger.info(f"📡 Symbols to stream: {self.symbols}")
 
-    async def connect(self):
-        """Establishes a WebSocket connection to DXLink."""
-        logger.info(f"🔌 Connecting to DXLink WebSocket at {self.dxlink_url}...")
+        if not self.symbols:
+            logger.error("❌ No symbols provided for market data streaming.")
+            raise ValueError("No symbols provided for market data streaming.")
 
-        try:
-            async with websockets.connect(self.dxlink_url) as ws:
-                self.ws = ws  # ✅ Store WebSocket instance
-                logger.info("✅ Connected to DXLink WebSocket.")
-                await self.on_open()  # ✅ Send SETUP after connecting
-                await self.listen()   # ✅ Start listening for messages
+        logger.info("🔍 Starting market data streaming flow...")
 
-        except websockets.exceptions.InvalidURI as e:
-            logger.error(f"❌ Invalid WebSocket URL: {e}")
-        except websockets.exceptions.WebSocketException as e:
-            logger.error(f"❌ WebSocket Error: {e}")
-        except Exception as e:
-            logger.error(f"❌ Unexpected WebSocket Connection Failure: {e}", exc_info=True)
+        # Fetch and validate the quote token using the token manager
+        if not await self.get_api_quote_token():
 
-    async def on_open(self):
-        """Handles WebSocket connection open event."""
-        logger.info("✅ WebSocket Connection Established. Sending SETUP request...")
-        if not self.ws:
-            logger.error("❌ WebSocket connection missing! Cannot send SETUP.")
             return
-        await self.send_setup_request()
 
-    async def send_setup_request(self):
-        """Sends the initial SETUP message to DXLink."""
-        setup_message = {
-            "type": "SETUP",
-            "channel": 0,
-            "version": "0.1-DXF-JS/0.3.0",
-            "keepaliveTimeout": 60,
-            "acceptKeepaliveTimeout": 60
-        }
-        logger.info(f"📡 Sending SETUP Request: {setup_message}")  # ✅ Log message before sending
-        await self.send_message(setup_message)
+        await self.setup()
+        await self.authorize()
+        await self.channel_request()
+        await self.feed_setup()
+        await self.feed_subscription()
+        await self.keep_alive()
+        await self.listen()
 
-    async def send_message(self, message):
-        """Sends a message via WebSocket."""
-        if self.ws:
-            await self.ws.send(json.dumps(message))
-            logger.info(f"📡 Sent WebSocket Message: {message}")
-        else:
-            logger.error("❌ WebSocket is not connected!")
+    async def setup(self):
+        """Handles initial setup, including fetching a valid quote token and connecting to the WebSocket."""
+        logger.info("🔍 Setting up WebSocket connection...")
+        self.client.dxlink_url = (
+            self.dxlink_url
+        )  # Ensure WebSocket URL is set in client
+        await self.client.connect()
 
-    async def listen(self):
-        """Listens for incoming WebSocket messages."""
-        try:
-            async for message in self.ws:
-                await self.on_message(message)
-        except Exception as e:
-            logger.error(f"❌ WebSocket listening error: {e}", exc_info=True)
 
-    async def on_message(self, message):
-        """Handles incoming messages from DXLink."""
-        try:
-            parsed_message = json.loads(message)
-            logger.info(f"📡 RAW WebSocket Message Received: {parsed_message}")
+    async def authorize(self):
+        """Sends an AUTH request to DXLink using the quote token."""
+        if not self.quote_token:
+            logger.error(
+                "[MarketDataStreamer] ❌ Cannot authorize: No quote token available."
+            )
+            return
 
-            if parsed_message.get("type") == "SETUP":
-                logger.info("✅ Received SETUP Response from DXLink.")
-
-            elif parsed_message.get("type") == "AUTH_STATE":
-                await self.handle_auth_state(parsed_message)
-
-        except Exception as e:
-            logger.error(f"❌ Error processing WebSocket message: {e}", exc_info=True)
-
-    async def handle_auth_state(self, message):
-        """Handles AUTH_STATE responses."""
-        state = message.get("state")
-        if state == "UNAUTHORIZED":
-            logger.info("🔑 Received AUTH_STATE: UNAUTHORIZED. Sending AUTH request...")
-            await self.send_auth_request()
-        elif state == "AUTHORIZED":
-            logger.info("✅ Received AUTH_STATE: AUTHORIZED.")
-
-    async def send_auth_request(self):
-        """Sends the AUTH request to DXLink."""
         auth_message = {
             "type": "AUTH",
             "channel": 0,
-            "token": self.quote_token
+            "token": self.quote_token,
         }
-        logger.info(f"📡 Sending AUTH Request: {auth_message}")
-        await self.send_message(auth_message)
 
-    async def start_streaming(self):
-        """Starts the market data WebSocket connection."""
-        logger.info("📡 Starting DXLink market data streaming...")
+        logger.info("[MarketDataStreamer] 🔑 Sending AUTH request...")
+        await self.ws.send(json.dumps(auth_message))
 
-        if not self.dxlink_url:
-            logger.error("❌ DXLink URL is missing! Cannot connect.")
+    async def channel_request(self):
+        """Requests a new channel for data streaming."""
+        self.channel_id += 1
+        request = {
+            "type": "CHANNEL_REQUEST",
+            "channel": self.channel_id,
+            "service": "FEED",
+            "parameters": {"contract": "AUTO"},
+        }
+        await self.client.send_ws_message(request)
+        logger.info(f"📡 Requested channel {self.channel_id}")
+
+    async def feed_setup(self):
+        """Configures the feed with the necessary event fields."""
+        setup_message = {
+            "type": "FEED_SETUP",
+            "channel": self.channel_id,
+            "acceptAggregationPeriod": 0.1,
+            "acceptDataFormat": "COMPACT",
+            "acceptEventFields": {
+                "Trade": ["eventType", "eventSymbol", "price", "dayVolume", "size"],
+                "Quote": [
+                    "eventType",
+                    "eventSymbol",
+                    "bidPrice",
+                    "askPrice",
+                    "bidSize",
+                    "askSize",
+                ],
+            },
+        }
+        await self.client.send_ws_message(setup_message)
+        logger.info(f"📡 Feed setup configured on channel {self.channel_id}")
+
+    async def feed_subscription(self):
+        """Subscribes to market data events for selected symbols."""
+        if not self.symbols:
+            logger.warning("⚠️ No symbols to subscribe to.")
             return
-        
-        await self.connect()
+
+        subscription_message = {
+            "type": "FEED_SUBSCRIPTION",
+            "channel": self.channel_id,
+            "reset": True,
+            "add": [{"type": "Trade", "symbol": symbol} for symbol in self.symbols],
+        }
+        await self.client.send_ws_message(subscription_message)
+        logger.info(
+            f"📡 Subscribed to market data for: {self.symbols} on channel {self.channel_id}"
+        )
+
+    async def keep_alive(self):
+        """Sends periodic keep-alive messages."""
+        while True:
+            await asyncio.sleep(30)
+            keepalive_message = {"type": "KEEPALIVE", "channel": self.channel_id}
+            await self.client.send_ws_message(keepalive_message)
+            logger.info("📡 Sent KEEPALIVE message.")
+
+    async def listen(self):
+        """Listens for incoming WebSocket messages."""
+        while True:
+            try:
+                message = await self.ws.recv()
+                await self.on_message(message)
+            except asyncio.CancelledError:
+                logger.info("🛑 Market data streaming interrupted. Cleaning up...")
+                await self.client.close_connection()
+                break
+
+    async def on_message(self, message):
+        """Handles incoming WebSocket messages."""
+        data = json.loads(message)
+        msg_type = data.get("type")
+
+        if msg_type == "AUTH_STATE":
+            state = data.get("state")
+            if state == "UNAUTHORIZED":
+                logger.info(
+                    "[MarketDataStreamer] 🔑 Received UNAUTHORIZED state. Sending AUTH request..."
+                )
+                await self.authorize()
+            elif state == "AUTHORIZED":
+                self.authorized = True
+                logger.info("[MarketDataStreamer] ✅ WebSocket successfully AUTHORIZED.")
+        elif msg_type == "KEEPALIVE":
+            logger.info("[MarketDataStreamer] 📡 KEEPALIVE received. Sending response...")
+            await self.keep_alive()
+        elif msg_type == "ERROR":
+            logger.error(f"[MarketDataStreamer] ❌ WebSocket Error: {data}")

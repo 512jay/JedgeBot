@@ -1,5 +1,6 @@
 import os
 import asyncio
+from typing import Optional
 from jedgebot.broker.tastytrade.services.market_data_streaming import MarketDataStreamer
 from jedgebot.broker.tastytrade.services.api_client import TastyTradeAPIClient
 from jedgebot.broker.tastytrade.services.authentication import TastyTradeAuthenticator
@@ -27,23 +28,22 @@ class TastyTradeClient:
 
         self.auth = TastyTradeAuthenticator(self.username, self.password)
         self.api_client = TastyTradeAPIClient(self.auth)
+        self.market_data_streamer = MarketDataStreamer(self)  # ✅ Pass the full client object
         self.customer = TastytradeCustomerService(self.api_client)
         self.order = OrderService(self.api_client)
         self.account = TastyTradeAccount(self.api_client)
         self.data_handler = TastyTradeDataHandler()
         self.account_stream = None  # Stream handler initialized lazily
-        self.market_data_streamer = MarketDataStreamer(self.auth)
 
-    async def start_market_data_streaming(self):
+    async def start_market_data_streaming(self, symbols: Optional[list[str]] = None):
         """Start automatic market data streaming."""
-        logger.info("📡 Starting market data streaming...")
-        asyncio.create_task(self.market_data_streamer.monitor_token_expiry())
+        await self.market_data_streamer.start_streaming(symbols)
 
     def start_account_stream(self):
         """Start streaming account updates."""
         if self.account_stream is None:
             self.account_stream = TastyTradeAccountStream(self)  # ✅ Pass self (TastyTradeClient)
-        
+
         asyncio.create_task(self.account_stream.connect())  # ✅ Start the async WebSocket
 
     def stop_account_stream(self):
@@ -73,7 +73,7 @@ class TastyTradeClient:
     def get_accounts(self):
         """Retrieve all accounts associated with the authenticated Tastytrade user."""
         return self.account.get_accounts()
-    
+
     def place_order(self, account_number: str, order_data: dict):
         """Place an order for a given Tastytrade account."""
         return self.order.place_order(account_number, order_data)

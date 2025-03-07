@@ -35,6 +35,8 @@ JedgeBot/
 │   │   │   │   │   ├── customer.py
 │   │   │   │   │   ├── market_data_streaming.py
 │   │   │   │   │   ├── order.py
+│   │   │   │   │   ├── quote_token_manager.py
+│   │   │   │   │   ├── sjd.py
 │   │   │   │   ├── tastytrade.py
 │   │   │   │   ├── utilities.py
 │   │   ├── config
@@ -68,14 +70,17 @@ JedgeBot/
 │   ├── run.py
 │   ├── scripts
 │   │   ├── __init__.py
-│   │   ├── account_info.py
-│   │   ├── account_stream.py
-│   │   ├── balances.py
-│   │   ├── get_first_account_number.py
-│   │   ├── logs
-│   │   ├── market_data_stream_script_1.py
-│   │   ├── market_data_streaming_script.py
-│   │   ├── start_streaming.py
+│   │   ├── archive
+│   │   │   ├── __init__.py
+│   │   │   ├── account_info.py
+│   │   │   ├── account_stream.py
+│   │   │   ├── balances.py
+│   │   │   ├── get_first_account_number.py
+│   │   │   ├── market_data_stream_script_1.py
+│   │   │   ├── market_data_streaming_script.py
+│   │   │   ├── start_streaming.py
+│   │   ├── btc_stream.py
+│   │   ├── start_market_data_stream.py
 │   ├── tests
 │   │   ├── unit
 │   │   │   ├── __init__.py

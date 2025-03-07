@@ -4,7 +4,7 @@ class TastyTradeDataHandler:
     def __init__(self):
         self.data = {}
         logger.info("TastyTradeDataHandler initialized.")
-
+        
     def update_data(self, key, value):
         """Update stored data with new values."""
         logger.debug(f"Updating data: {key} -> {value}")
@@ -26,4 +26,4 @@ class TastyTradeDataHandler:
         for key, value in data.items():
             self.update_data(key, value)
 
-logger.info("TastyTradeDataHandler setup complete.")
+

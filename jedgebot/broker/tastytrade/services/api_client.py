@@ -34,37 +34,6 @@ class TastyTradeAPIClient:
             "Content-Type": "application/json",
         }
 
-    def _send_request(self, method, endpoint, **kwargs):
-        """
-        Sends an HTTP request to the Tastytrade API with one retry on 401 Unauthorized
-        and exponential backoff on 429 Too Many Requests.
-
-        :param method: HTTP method (GET, POST, PUT, DELETE).
-        :param endpoint: API endpoint path.
-        :param kwargs: Additional parameters for the request (params, json, etc.).
-        :return: JSON response if successful, None if all retries fail.
-        """
-        url = f"{self.BASE_URL}{endpoint}"
-        headers = self._get_headers()
-        retries = 0
-
-        while retries < self.MAX_RETRIES:
-            logger.info(f"🔍 {method} {url} - Attempt {retries + 1}")
-
-            response = requests.request(method, url, headers=headers, **kwargs)
-            result = self._handle_response(response, method, endpoint, kwargs, retries)
-
-            if result is not None:
-                return result
-
-            retries += 1
-            wait_time = 2 ** retries  # Exponential backoff: 2s → 4s → 8s
-            logger.warning(f"⏳ Retrying in {wait_time} seconds...")
-            time.sleep(wait_time)
-
-        logger.error("🚨 All retry attempts failed. Request aborted.")
-        return None
-
     def _handle_response(self, response, method, endpoint, kwargs, retry_count):
         """
         Handles API responses, logging errors and retrying once on 401 Unauthorized.
@@ -109,16 +78,6 @@ class TastyTradeAPIClient:
         """
         return self._send_request("GET", endpoint, params=params)
 
-    def post(self, endpoint, data=None):
-        """
-        Sends a POST request to a Tastytrade API endpoint.
-
-        :param endpoint: API endpoint (e.g., "/accounts/{account_number}/orders").
-        :param data: Optional dictionary of request payload.
-        :return: JSON response or raises an error.
-        """
-        return self._send_request("POST", endpoint, json=data)
-
     def put(self, endpoint, data=None):
         """
         Sends a PUT request to a Tastytrade API endpoint.
@@ -137,3 +96,25 @@ class TastyTradeAPIClient:
         :return: JSON response or raises an error.
         """
         return self._send_request("DELETE", endpoint)
+
+    def post(self, endpoint, data=None):
+        """
+        Sends a POST request to a TastyTrade API endpoint.
+
+        :param endpoint: API endpoint (e.g., "/accounts/{account_number}/orders").
+        :param data: Optional dictionary of request payload.
+        :return: JSON response or raises an error.
+        """
+        return self._send_request("POST", endpoint, json=data)
+
+    def _send_request(self, method, endpoint, json=None, data=None, **kwargs):
+        """
+        Ensures both 'json' and 'data' parameters are explicitly handled.
+        """
+        url = f"{self.BASE_URL}{endpoint}"
+        headers = self._get_headers()
+
+        logger.info(f"🔍 {method} {url} - Sending request with json={json} data={data}")
+        
+        response = requests.request(method, url, headers=headers, json=json, data=data, **kwargs)
+        return self._handle_response(response, method, endpoint, kwargs, 0)
