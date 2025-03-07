@@ -1,5 +1,6 @@
 import asyncio
 import json
+import random
 from typing import Optional
 from log_setup import logger
 from .quote_token_manager import QuoteTokenManager
@@ -23,6 +24,7 @@ class MarketDataStreamer:
         self.quote_token_manager = QuoteTokenManager(self.client)
         self.data_handler = TastyTradeDataHandler()
         self.connected = False
+        self.feed_established = False
 
     async def get_api_quote_token(self):
         """Fetches or retrieves the quote token asynchronously."""
@@ -105,11 +107,6 @@ class MarketDataStreamer:
                 return
 
             await self.listen()
-            while(self.authorize):
-                await self.channel_request()
-                await self.feed_setup()
-                await self.feed_subscription()
-                await self.keep_alive()
 
         except Exception as e:
             logger.error(f"❌ Unhandled Exception: {e}")
@@ -202,6 +199,12 @@ class MarketDataStreamer:
                 await self.authorize()
             elif msg_type == "AUTH_STATE" and data.get("state") == "AUTHORIZED":
                 self.authorized = True
+                await self.channel_request()
+            elif msg_type == "CHANNEL_OPENED":
+                self.feed_established = True
+                await self.feed_setup()
+            elif msg_type == "FEED_CONFIG":
+                await self.feed_subscription()
             elif msg_type == "SETUP":
                 logger.info(f"[MarketDataStreamer] ✅ SETUP complete")
             elif msg_type == "KEEPALIVE":
@@ -232,11 +235,18 @@ class MarketDataStreamer:
             await self.reconnect()
 
     async def reconnect(self):
-        """Attempts to reconnect the WebSocket after a timeout."""
-        logger.info("[MarketDataStreamer] 🔄 Reconnecting WebSocket...")
-        await asyncio.sleep(5)
-        if await self.connect_websocket():
-            await self.authorize()
-            await self.channel_request()
-            await self.feed_subscription([])  # Resubscribe to existing symbols
-            await self.listen()
+        delay = 2  # Initial delay
+        while True:
+            try:
+                logger.info("🔄 Reconnecting WebSocket...")
+                if await self.connect_websocket():
+                    await self.authorize()
+                    await self.feed_subscription()
+                    return
+            except Exception as e:
+                logger.warning(f"Reconnect failed: {e}")
+
+            delay = min(delay * 2, 60)  # Exponential backoff (max 60s)
+            await asyncio.sleep(
+                delay + random.uniform(0, 1)
+            )  # Jitter to prevent sync issues
