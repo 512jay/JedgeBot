@@ -1,0 +1,15 @@
+[logging]
+global_log_level = "INFO"
+log_dir = "logs"
+
+[logging.files]
+tastytrade = "tastytrade.log"
+ibkr = "ibkr.log"
+kraken = "kraken.log"
+system = "system.log"
+
+[logging.retention]
+days = 7
+
+[logging.rotation]
+size = "1 MB"
