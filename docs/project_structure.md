@@ -48,9 +48,7 @@ JedgeBot/
 │   │   │   ├── data_processor.py
 │   │   ├── execution
 │   │   │   ├── __init__.py
-│   │   │   ├── order_manager.py
-│   │   │   ├── risk_manager.py
-│   │   │   ├── trade_monitor.py
+│   │   │   ├── orders.py
 │   │   ├── strategies
 │   │   │   ├── __init__.py
 │   │   │   ├── arbitrage.py
@@ -84,5 +82,7 @@ JedgeBot/
 │   ├── tests
 │   │   ├── unit
 │   │   │   ├── __init__.py
+│   │   │   ├── execution
+│   │   │   │   ├── test_orders.py
 │   │   │   ├── test_base_broker.py
 ```
