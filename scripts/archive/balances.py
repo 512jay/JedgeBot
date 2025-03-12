@@ -34,10 +34,16 @@ def main():
         balances = tasty.account.get_account_balances(account_number)
 
         print("\n--- Account Balances ---")
-        print(f"Net Liquidating Value: ${tasty.account.get_net_liquidating_value(account_number):,.2f}")
+        print(
+            f"Net Liquidating Value: ${tasty.account.get_net_liquidating_value(account_number):,.2f}"
+        )
         print(f"Cash Balance: ${tasty.account.get_cash_balance(account_number):,.2f}")
-        print(f"Equity Buying Power: ${tasty.account.get_equity_buying_power(account_number):,.2f}")
-        print(f"Derivative Buying Power: ${tasty.account.get_derivative_buying_power(account_number):,.2f}")
+        print(
+            f"Equity Buying Power: ${tasty.account.get_equity_buying_power(account_number):,.2f}"
+        )
+        print(
+            f"Derivative Buying Power: ${tasty.account.get_derivative_buying_power(account_number):,.2f}"
+        )
         print(f"Margin Equity: ${tasty.account.get_margin_equity(account_number):,.2f}")
 
         logger.info("✅ Balances displayed successfully.")

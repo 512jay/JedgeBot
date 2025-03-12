@@ -2,11 +2,12 @@ import asyncio
 import json
 import random
 from typing import Optional
-from log_setup import logger
+from jedgebot.utils.logging import logger
 from .quote_token_manager import QuoteTokenManager
 import traceback
 import websockets
 from jedgebot.broker.tastytrade.data_handler import TastyTradeDataHandler
+
 
 class MarketDataStreamer:
     def __init__(self, client):
@@ -30,7 +31,9 @@ class MarketDataStreamer:
         """Fetches or retrieves the quote token asynchronously."""
         self.quote_token, self.dxlink_url = await self.token_manager.get_quote_token()
         if not self.quote_token:
-            logger.error("❌ Cannot proceed with streaming without a valid quote token.")
+            logger.error(
+                "❌ Cannot proceed with streaming without a valid quote token."
+            )
             return False
         return True
 
@@ -42,7 +45,13 @@ class MarketDataStreamer:
             "acceptAggregationPeriod": 0.1,
             "acceptDataFormat": "COMPACT",
             "acceptEventFields": {
-                "Trade": ["eventType", "eventSymbol", "price", "dayVolume", "size"],
+                "Trade": [
+                    "eventType",
+                    "eventSymbol",
+                    "price",
+                    "dayVolume",
+                    "size",
+                ],
                 "Quote": [
                     "eventType",
                     "eventSymbol",
@@ -77,7 +86,10 @@ class MarketDataStreamer:
         """Sends periodic keep-alive messages."""
         while True:
             await asyncio.sleep(30)
-            keepalive_message = {"type": "KEEPALIVE", "channel": self.channel_id}
+            keepalive_message = {
+                "type": "KEEPALIVE",
+                "channel": self.channel_id,
+            }
             await self.send_ws_message(keepalive_message)
             logger.info("📡 Sent KEEPALIVE message.")
 
@@ -211,9 +223,7 @@ class MarketDataStreamer:
                 logger.info(
                     f"[MarketDataStreamer] 🔄 Received KEEPALIVE for channel {channel}, responding..."
                 )
-                await self.send_ws_message(
-                    {"type": "KEEPALIVE", "channel": channel}
-                )
+                await self.send_ws_message({"type": "KEEPALIVE", "channel": channel})
             elif msg_type in ["Trade", "Quote"]:
                 self.data_handler.update_data(msg_type, data)
                 logger.info(f"✅ Processed market data update: {data}")

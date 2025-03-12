@@ -2,6 +2,7 @@
 
 ```
 JedgeBot/
+│   ├── .flake8
 │   ├── LICENSE
 │   ├── README.md
 │   ├── __init__.py
@@ -36,11 +37,8 @@ JedgeBot/
 │   │   │   │   │   ├── market_data_streaming.py
 │   │   │   │   │   ├── order.py
 │   │   │   │   │   ├── quote_token_manager.py
-│   │   │   │   │   ├── sjd.py
 │   │   │   │   ├── tastytrade.py
 │   │   │   │   ├── utilities.py
-│   │   ├── config
-│   │   │   ├── settings.py
 │   │   ├── config.toml
 │   │   ├── data
 │   │   │   ├── __init__.py
@@ -57,8 +55,7 @@ JedgeBot/
 │   │   │   ├── wheel_strategy.py
 │   │   ├── utils
 │   │   │   ├── __init__.py
-│   │   │   ├── logging_utils.py
-│   ├── log_setup.py
+│   │   │   ├── logging.py
 │   ├── logs
 │   ├── notes
 │   │   ├── OpenBB.md

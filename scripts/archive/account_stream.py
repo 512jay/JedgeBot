@@ -104,7 +104,7 @@ class TastyTradeAccountStreamer:
             on_open=self.on_open,
             on_message=self.on_message,
             on_error=self.on_error,
-            on_close=self.on_close
+            on_close=self.on_close,
         )
 
         thread = threading.Thread(target=self.ws.run_forever, daemon=True)

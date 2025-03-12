@@ -1,15 +1,20 @@
 [logging]
-global_log_level = "INFO"
+global_log_level = "DEBUG"  # Options: "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"
 log_dir = "logs"
+log_to_console = true  # Enable or disable console logging
+debug_mode = false  # Enable debug.log file if set to true
 
 [logging.files]
 tastytrade = "tastytrade.log"
 ibkr = "ibkr.log"
 kraken = "kraken.log"
 system = "system.log"
+errors = "errors.log"
+debug = "debug.log"
+trades = "trades.log"  # Set to "" if you don't want this file
 
 [logging.retention]
-days = 7
+days = 7  # Delete logs older than this
 
 [logging.rotation]
-size = "1 MB"
+size = "50 MB"  # Rotate log files at this size

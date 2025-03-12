@@ -1,10 +1,22 @@
-# execution/orders.py
 from abc import ABC, abstractmethod
 from typing import Optional
+from enum import Enum
+import json
+from jedgebot.utils.logging import logger
+
+
+class OrderType(Enum):
+    MARKET = "market"
+    LIMIT = "limit"
+    STOP = "stop"
+
+    def __str__(self):
+        return self.name  # Returns "MARKET", "LIMIT", etc.
+
 
 class Order(ABC):
     """
-    Abstract base class for different types of orders (stock, options).
+    Abstract base class for different types of orders (stock, options, crypto).
     """
 
     def __init__(
@@ -12,35 +24,41 @@ class Order(ABC):
         symbol: str,
         quantity: float,
         price: float,
-        order_type: str,
+        order_type: OrderType,
         expiration_date: Optional[str] = None,
     ):
-        """
-        Initialize the base Order class.
+        if not isinstance(order_type, OrderType):
+            raise ValueError("Invalid order type. Use OrderType Enum.")
 
-        :param symbol: The trading symbol (e.g., "AAPL", "SPY").
-        :param quantity: The number of shares or contracts.
-        :param price: The price at which to place the order.
-        :param order_type: The type of order (e.g., "market", "limit", "stop").
-        :param expiration_date: Expiration date for options (optional).
-        """
-        self.symbol = symbol
+        self.symbol = symbol.upper()
         self.quantity = quantity
         self.price = price
-        self.order_type = order_type
-        self.expiration_date = expiration_date  # Only used for options
+        self.order_type = order_type  # ✅ Now using Enum
+        self.expiration_date = expiration_date
 
     @abstractmethod
     def execute(self):
-        """
-        Abstract method that must be implemented by subclasses to execute an order.
-        """
+        """Abstract method to execute an order."""
         pass
 
     def __repr__(self):
         return (
             f"{self.__class__.__name__}(symbol={self.symbol}, quantity={self.quantity}, "
-            f"price={self.price}, order_type={self.order_type}, expiration_date={self.expiration_date})"
+            f"price={self.price}, order_type={self.order_type.name}, expiration_date={self.expiration_date})"
+        )
+
+    def to_json(self):
+        """
+        Serialize the order to JSON format.
+        """
+        return json.dumps(
+            {
+                "symbol": self.symbol,
+                "quantity": self.quantity,
+                "price": self.price,
+                "order_type": self.order_type.value,  # ✅ Using `.value` for JSON format
+                "expiration_date": self.expiration_date,
+            }
         )
 
 
@@ -49,7 +67,7 @@ class StockOrder(Order):
     Concrete class for stock orders.
     """
 
-    def __init__(self, symbol: str, quantity: int, price: float, order_type: str):
+    def __init__(self, symbol: str, quantity: int, price: float, order_type: OrderType):
         super().__init__(symbol, quantity, price, order_type)
 
     def execute(self):
@@ -57,7 +75,7 @@ class StockOrder(Order):
         Execute a stock order.
         """
         print(
-            f"Executing Stock Order: {self.quantity} shares of {self.symbol} at ${self.price} ({self.order_type})"
+            f"Executing {self.order_type.name} Stock Order: {self.quantity} shares of {self.symbol} at ${self.price}"
         )
 
 
@@ -71,16 +89,13 @@ class OptionOrder(Order):
         symbol: str,
         quantity: int,
         price: float,
-        order_type: str,
+        order_type: OrderType,
         expiration_date: str,
         strike_price: float,
         option_type: str,
     ):
         """
         Initialize an Option Order.
-
-        :param strike_price: The strike price of the option.
-        :param option_type: "call" or "put".
         """
         super().__init__(symbol, quantity, price, order_type, expiration_date)
         self.strike_price = strike_price
@@ -91,34 +106,37 @@ class OptionOrder(Order):
         Execute an option order.
         """
         print(
-            f"Executing Option Order: {self.quantity} {self.option_type.upper()} contracts of {self.symbol} "
-            f"at ${self.price} ({self.order_type}), Strike Price: ${self.strike_price}, Expiry: {self.expiration_date}"
+            f"Executing {self.order_type.name} Option Order: {self.quantity} {self.option_type.upper()} contracts of {self.symbol} "
+            f"at ${self.price}, Strike Price: ${self.strike_price}, Expiry: {self.expiration_date}"
         )
 
 
 class CryptoOrder(Order):
     """
-    Abstract base class for cryptocurrency orders.
+    Concrete class for cryptocurrency orders.
     """
 
     def __init__(
-        self, symbol: str, quantity: float, price: float, order_type: str, exchange: str
+        self,
+        symbol: str,
+        quantity: float,
+        price: float,
+        order_type: OrderType,
+        exchange: str,
     ):
-        """
-        Initialize a Crypto Order.
-
-        :param exchange: The exchange where the order will be executed (e.g., "Binance", "Kraken").
-        """
         super().__init__(symbol, quantity, price, order_type)
-        self.exchange = exchange  # Crypto-specific attribute
+        self.exchange = exchange
 
-    @abstractmethod
     def execute(self):
-        """Abstract method to execute a crypto order."""
-        pass
+        """
+        Execute a crypto order.
+        """
+        print(
+            f"Executing {self.order_type.name} Crypto Order: {self.quantity} {self.symbol} at ${self.price} on {self.exchange}"
+        )
 
     def __repr__(self):
         return (
             f"{self.__class__.__name__}(symbol={self.symbol}, quantity={self.quantity}, "
-            f"price={self.price}, order_type={self.order_type}, exchange={self.exchange})"
+            f"price={self.price}, order_type={self.order_type.name}, exchange={self.exchange})"
         )

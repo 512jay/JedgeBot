@@ -1,17 +1,20 @@
 import os
-from log_setup import logger
+from jedgebot.utils.logging import logger
+
 
 TOKEN_FILE = os.path.expanduser("~") + "/AppData/Roaming/tastytrade_tokens.json"
+
 
 def stop_streaming_services(client):
     """Stops account and market data streaming services."""
     if client.account_stream:
         logger.info("📡 Stopping account streaming...")
         client.stop_account_stream()
-    
+
     if hasattr(client, "market_data_streamer"):
         logger.info("📡 Stopping market data streaming...")
         client.market_data_streamer.stop_streaming()
+
 
 def logout(client, clear_session=False):
     """
@@ -30,4 +33,6 @@ def logout(client, clear_session=False):
         logger.info("🗑️ Clearing saved authentication tokens...")
         os.remove(TOKEN_FILE)
 
-    logger.info(f"✅ Logout complete. {'Session token cleared.' if clear_session else 'Session token preserved.'}")
+    logger.info(
+        f"✅ Logout complete. {'Session token cleared.' if clear_session else 'Session token preserved.'}"
+    )
