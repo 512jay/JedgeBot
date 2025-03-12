@@ -1,5 +1,7 @@
 import os
 import fnmatch
+import sys
+
 
 
 def load_gitignore():
@@ -101,5 +103,5 @@ if __name__ == "__main__":
 
     save_structure_to_markdown(structure)
     print(
-        "\n✅ Done! Check `docs/project_structure.md` for the updated project structure."
+        "✅ Done! Check `docs/project_structure.md` for the updated project structure."
     )
