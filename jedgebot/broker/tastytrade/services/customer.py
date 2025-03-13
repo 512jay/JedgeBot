@@ -1,3 +1,6 @@
+from jedgebot.utils.logging import logger
+
+
 class TastytradeCustomerService:
     """Handles customer-related operations via the Tastytrade API."""
 

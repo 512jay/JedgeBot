@@ -2,14 +2,15 @@ import os
 import json
 import datetime
 import requests
-from loguru import logger
+from jedgebot.utils.logging import logger
 from dotenv import load_dotenv
 
 load_dotenv()
 
+
 class TastyTradeAuthenticator:
     BASE_URL = "https://api.tastytrade.com"
-    
+
     def __init__(self, username: str, password: str):
         self.username = username
         self.password = password
@@ -45,15 +46,21 @@ class TastyTradeAuthenticator:
 
         if self.session_token and session_expiration:
             # Convert expiration string to datetime (Tastytrade gives us an ISO timestamp)
-            expiration_time = datetime.datetime.fromisoformat(session_expiration.rstrip("Z"))
+            expiration_time = datetime.datetime.fromisoformat(
+                session_expiration.rstrip("Z")
+            )
 
             # Get current UTC time as a comparable aware datetime object
             current_time = datetime.datetime.utcnow()
 
             if expiration_time > current_time:
-                logger.info(f"🔑 Loaded valid session token (expires: {session_expiration}).")
+                logger.info(
+                    f"🔑 Loaded valid session token (expires: {session_expiration})."
+                )
             else:
-                logger.warning(f"⏳ Session expired for {self.username}. Re-authenticating...")
+                logger.warning(
+                    f"⏳ Session expired for {self.username}. Re-authenticating..."
+                )
                 self.login()
         else:
             logger.warning("⚠️ Invalid token data. Re-authenticating...")
@@ -86,12 +93,18 @@ class TastyTradeAuthenticator:
         with open(self.token_file, "w") as file:
             json.dump(tokens, file, indent=4)
 
-        logger.info(f"✅ Stored session token for {self.username} (expires: {session_expiration}).")
+        logger.info(
+            f"✅ Stored session token for {self.username} (expires: {session_expiration})."
+        )
 
     def login(self):
         """Logs in and stores session token details."""
         url = f"{self.BASE_URL}/sessions"
-        payload = {"login": self.username, "password": self.password, "remember-me": True}
+        payload = {
+            "login": self.username,
+            "password": self.password,
+            "remember-me": True,
+        }
         headers = {"Content-Type": "application/json"}
 
         response = requests.post(url, json=payload, headers=headers)
@@ -101,7 +114,9 @@ class TastyTradeAuthenticator:
         if "session-token" in session_data:
             self.session_token = session_data["session-token"]
             self._save_session_token(session_data)
-            logger.info(f"✅ Login successful for {self.username}. Token expires at {session_data['session-expiration']}.")
+            logger.info(
+                f"✅ Login successful for {self.username}. Token expires at {session_data['session-expiration']}."
+            )
         else:
             logger.error(f"❌ Login failed: {response_data}")
             raise Exception("Authentication failed. Check credentials.")

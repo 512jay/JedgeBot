@@ -2,6 +2,7 @@
 
 ```
 JedgeBot/
+│   ├── .flake8
 │   ├── LICENSE
 │   ├── README.md
 │   ├── __init__.py
@@ -15,6 +16,22 @@ JedgeBot/
 │   │   ├── project_structure.md
 │   │   ├── roadmap.md
 │   │   ├── testing_strategy.md
+│   ├── frontend
+│   │   ├── README.md
+│   │   ├── eslint.config.js
+│   │   ├── index.html
+│   │   ├── package-lock.json
+│   │   ├── package.json
+│   │   ├── public
+│   │   │   ├── vite.svg
+│   │   ├── src
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── assets
+│   │   │   │   ├── react.svg
+│   │   │   ├── index.css
+│   │   │   ├── main.jsx
+│   │   ├── vite.config.js
 │   ├── generate_structure.py
 │   ├── jedgebot
 │   │   ├── __init__.py
@@ -23,7 +40,7 @@ JedgeBot/
 │   │   │   ├── request_utils.py
 │   │   ├── broker
 │   │   │   ├── __init__.py
-│   │   │   ├── base_broker.py
+│   │   │   ├── broker_api.py
 │   │   │   ├── tastytrade
 │   │   │   │   ├── __init__.py
 │   │   │   │   ├── data_handler.py
@@ -36,11 +53,11 @@ JedgeBot/
 │   │   │   │   │   ├── market_data_streaming.py
 │   │   │   │   │   ├── order.py
 │   │   │   │   │   ├── quote_token_manager.py
-│   │   │   │   │   ├── sjd.py
 │   │   │   │   ├── tastytrade.py
 │   │   │   │   ├── utilities.py
-│   │   ├── config
-│   │   │   ├── settings.py
+│   │   ├── common
+│   │   │   ├── __init__.py
+│   │   │   ├── enums.py
 │   │   ├── config.toml
 │   │   ├── data
 │   │   │   ├── __init__.py
@@ -48,9 +65,7 @@ JedgeBot/
 │   │   │   ├── data_processor.py
 │   │   ├── execution
 │   │   │   ├── __init__.py
-│   │   │   ├── order_manager.py
-│   │   │   ├── risk_manager.py
-│   │   │   ├── trade_monitor.py
+│   │   │   ├── orders.py
 │   │   ├── strategies
 │   │   │   ├── __init__.py
 │   │   │   ├── arbitrage.py
@@ -59,12 +74,12 @@ JedgeBot/
 │   │   │   ├── wheel_strategy.py
 │   │   ├── utils
 │   │   │   ├── __init__.py
-│   │   │   ├── logging_utils.py
-│   ├── log_setup.py
+│   │   │   ├── logging.py
 │   ├── logs
 │   ├── notes
 │   │   ├── OpenBB.md
 │   │   ├── PortfolioManagmentRoadMap.md
+│   ├── package-lock.json
 │   ├── poetry.lock
 │   ├── pyproject.toml
 │   ├── run.py
@@ -84,5 +99,7 @@ JedgeBot/
 │   ├── tests
 │   │   ├── unit
 │   │   │   ├── __init__.py
+│   │   │   ├── execution
+│   │   │   │   ├── test_orders.py
 │   │   │   ├── test_base_broker.py
 ```

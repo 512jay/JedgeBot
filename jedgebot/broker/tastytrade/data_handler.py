@@ -1,10 +1,11 @@
-from log_setup import logger
+from jedgebot.utils.logging import logger
+
 
 class TastyTradeDataHandler:
     def __init__(self):
         self.data = {}
         logger.info("TastyTradeDataHandler initialized.")
-        
+
     def update_data(self, key, value):
         """Update stored data with new values."""
         logger.debug(f"Updating data: {key} -> {value}")
@@ -25,5 +26,3 @@ class TastyTradeDataHandler:
         logger.info(f"Handling stream update: {data}")
         for key, value in data.items():
             self.update_data(key, value)
-
-

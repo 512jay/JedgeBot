@@ -1,5 +1,5 @@
 import time
-from log_setup import logger
+from jedgebot.utils.logging import logger
 
 
 class TastyTradeAccount:
@@ -29,7 +29,9 @@ class TastyTradeAccount:
         cache_age = current_time - self._last_fetched
 
         if self._balances is None or refresh or cache_age > self.CACHE_EXPIRY:
-            logger.info(f"🔄 Fetching balances for account {account_number} (Refresh={refresh} | Cache Age={cache_age:.1f}s)")
+            logger.info(
+                f"🔄 Fetching balances for account {account_number} (Refresh={refresh} | Cache Age={cache_age:.1f}s)"
+            )
             endpoint = f"/accounts/{account_number}/balances"
 
             try:
@@ -51,7 +53,11 @@ class TastyTradeAccount:
         :param refresh: If True, forces an API refresh.
         :return: Float representing the net liquidating value.
         """
-        value = float(self.get_account_balances(account_number, refresh).get("net-liquidating-value", 0.0))
+        value = float(
+            self.get_account_balances(account_number, refresh).get(
+                "net-liquidating-value", 0.0
+            )
+        )
         logger.info(f"💰 Net Liquidating Value: ${value:,.2f}")
         return value
 
@@ -63,7 +69,9 @@ class TastyTradeAccount:
         :param refresh: If True, forces an API refresh.
         :return: Float representing the cash balance.
         """
-        value = float(self.get_account_balances(account_number, refresh).get("cash-balance", 0.0))
+        value = float(
+            self.get_account_balances(account_number, refresh).get("cash-balance", 0.0)
+        )
         logger.info(f"💵 Cash Balance: ${value:,.2f}")
         return value
 
@@ -75,7 +83,11 @@ class TastyTradeAccount:
         :param refresh: If True, forces an API refresh.
         :return: Float representing the equity buying power.
         """
-        value = float(self.get_account_balances(account_number, refresh).get("equity-buying-power", 0.0))
+        value = float(
+            self.get_account_balances(account_number, refresh).get(
+                "equity-buying-power", 0.0
+            )
+        )
         logger.info(f"📈 Equity Buying Power: ${value:,.2f}")
         return value
 
@@ -87,7 +99,11 @@ class TastyTradeAccount:
         :param refresh: If True, forces an API refresh.
         :return: Float representing derivative (options) buying power.
         """
-        value = float(self.get_account_balances(account_number, refresh).get("derivative-buying-power", 0.0))
+        value = float(
+            self.get_account_balances(account_number, refresh).get(
+                "derivative-buying-power", 0.0
+            )
+        )
         logger.info(f"📊 Derivative Buying Power: ${value:,.2f}")
         return value
 
@@ -99,7 +115,9 @@ class TastyTradeAccount:
         :param refresh: If True, forces an API refresh.
         :return: Float representing margin equity.
         """
-        value = float(self.get_account_balances(account_number, refresh).get("margin-equity", 0.0))
+        value = float(
+            self.get_account_balances(account_number, refresh).get("margin-equity", 0.0)
+        )
         logger.info(f"⚖️ Margin Equity: ${value:,.2f}")
         return value
 
@@ -112,7 +130,11 @@ class TastyTradeAccount:
         response = self.api_client.get("/customers/me/accounts")
 
         # Ensure the response format is correct before returning data
-        if isinstance(response, dict) and "data" in response and "items" in response["data"]:
+        if (
+            isinstance(response, dict)
+            and "data" in response
+            and "items" in response["data"]
+        ):
             return response["data"]["items"]  # ✅ Return list of account objects
 
         return []  # ✅ Return an empty list if response format is unexpected
@@ -127,7 +149,6 @@ class TastyTradeAccount:
         endpoint = f"/accounts/{account_number}"
         response = self.api_client.get(endpoint)
         return response.get("data", {})
-
 
     def get_account_positions(self, account_number: str):
         """

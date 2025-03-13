@@ -1,5 +1,8 @@
 import os
 import fnmatch
+import sys
+
+
 
 def load_gitignore():
     """Loads patterns from .gitignore and returns them as a list of ignored patterns."""
@@ -12,16 +15,24 @@ def load_gitignore():
                 line = line.strip()
                 if line and not line.startswith("#"):  # Ignore comments and empty lines
                     ignore_patterns.append(line)
-    
+
     return ignore_patterns
+
 
 def is_ignored(path, ignore_patterns, ignored_dirs):
     """Checks if a given file or directory should be ignored based on .gitignore and predefined rules."""
-    if any(fnmatch.fnmatch(path, pattern) or fnmatch.fnmatch(os.path.basename(path), pattern) for pattern in ignore_patterns):
+    if any(
+        fnmatch.fnmatch(path, pattern)
+        or fnmatch.fnmatch(os.path.basename(path), pattern)
+        for pattern in ignore_patterns
+    ):
         return True
-    if any(ignored_dir in path for ignored_dir in ignored_dirs):  # Check ignored directories
+    if any(
+        ignored_dir in path for ignored_dir in ignored_dirs
+    ):  # Check ignored directories
         return True
     return False
+
 
 def generate_structure(root_dir, ignore_patterns, ignored_dirs, prefix=""):
     """Recursively lists the directory structure while respecting .gitignore and ignoring unnecessary files."""
@@ -41,9 +52,14 @@ def generate_structure(root_dir, ignore_patterns, ignored_dirs, prefix=""):
         structure.append(f"{prefix}├── {entry}")
 
         if os.path.isdir(full_path):  # If it's a directory, recurse
-            structure.extend(generate_structure(full_path, ignore_patterns, ignored_dirs, prefix + "│   "))
+            structure.extend(
+                generate_structure(
+                    full_path, ignore_patterns, ignored_dirs, prefix + "│   "
+                )
+            )
 
     return structure
+
 
 def save_structure_to_markdown(structure):
     """Saves the project structure to a markdown file inside the 'docs/' folder."""
@@ -61,15 +77,31 @@ def save_structure_to_markdown(structure):
 
     print(f"✅ Project structure saved to {md_file_path}")
 
+
 if __name__ == "__main__":
     ignored_dirs = [
-        ".venv", "venv", "__pycache__", ".pytest_cache", ".mypy_cache", ".tox", 
-        ".idea", ".vscode", ".git", "node_modules", "dist", "build", ".egg-info"
+        ".venv",
+        "venv",
+        "__pycache__",
+        ".pytest_cache",
+        ".mypy_cache",
+        ".tox",
+        ".idea",
+        ".vscode",
+        ".git",
+        "node_modules",
+        "dist",
+        "build",
+        ".egg-info",
     ]  # Explicitly ignored directories
 
     print("Generating Project Structure...")
     ignore_patterns = load_gitignore()
-    structure = ["JedgeBot/"] + generate_structure(".", ignore_patterns, ignored_dirs, prefix="│   ")
+    structure = ["JedgeBot/"] + generate_structure(
+        ".", ignore_patterns, ignored_dirs, prefix="│   "
+    )
 
     save_structure_to_markdown(structure)
-    print("\n✅ Done! Check `docs/project_structure.md` for the updated project structure.")
+    print(
+        "✅ Done! Check `docs/project_structure.md` for the updated project structure."
+    )

@@ -1,16 +1,25 @@
 import os
 import asyncio
 from typing import Optional
-from jedgebot.broker.tastytrade.services.market_data_streaming import MarketDataStreamer
+from jedgebot.broker.tastytrade.services.market_data_streaming import (
+    MarketDataStreamer,
+)
 from jedgebot.broker.tastytrade.services.api_client import TastyTradeAPIClient
-from jedgebot.broker.tastytrade.services.authentication import TastyTradeAuthenticator
-from jedgebot.broker.tastytrade.services.customer import TastytradeCustomerService
+from jedgebot.broker.tastytrade.services.authentication import (
+    TastyTradeAuthenticator,
+)
+from jedgebot.broker.tastytrade.services.customer import (
+    TastytradeCustomerService,
+)
 from jedgebot.broker.tastytrade.services.order import OrderService
 from jedgebot.broker.tastytrade.services.account import TastyTradeAccount
-from jedgebot.broker.tastytrade.services.account_streaming import TastyTradeAccountStream
+from jedgebot.broker.tastytrade.services.account_streaming import (
+    TastyTradeAccountStream,
+)
 from jedgebot.broker.tastytrade.data_handler import TastyTradeDataHandler
 from jedgebot.broker.tastytrade.utilities import logout
-from log_setup import logger
+from jedgebot.utils.logging import logger
+
 
 class TastyTradeClient:
     def __init__(self, username: str = None, password: str = None):
@@ -24,11 +33,15 @@ class TastyTradeClient:
         self.password = password or os.getenv("TASTYTRADE_PASSWORD")
 
         if not self.username or not self.password:
-            raise ValueError("❌ Tastytrade username or password is missing. Set it in .env or provide manually.")
+            raise ValueError(
+                "❌ Tastytrade username or password is missing. Set it in .env or provide manually."
+            )
 
         self.auth = TastyTradeAuthenticator(self.username, self.password)
         self.api_client = TastyTradeAPIClient(self.auth)
-        self.market_data_streamer = MarketDataStreamer(self)  # ✅ Pass the full client object
+        self.market_data_streamer = MarketDataStreamer(
+            self
+        )  # ✅ Pass the full client object
         self.customer = TastytradeCustomerService(self.api_client)
         self.order = OrderService(self.api_client)
         self.account = TastyTradeAccount(self.api_client)
@@ -42,9 +55,13 @@ class TastyTradeClient:
     def start_account_stream(self):
         """Start streaming account updates."""
         if self.account_stream is None:
-            self.account_stream = TastyTradeAccountStream(self)  # ✅ Pass self (TastyTradeClient)
+            self.account_stream = TastyTradeAccountStream(
+                self
+            )  # ✅ Pass self (TastyTradeClient)
 
-        asyncio.create_task(self.account_stream.connect())  # ✅ Start the async WebSocket
+        asyncio.create_task(
+            self.account_stream.connect()
+        )  # ✅ Start the async WebSocket
 
     def stop_account_stream(self):
         """Stop streaming account updates."""

@@ -2,7 +2,7 @@ import json
 import os
 import time
 import websockets
-from log_setup import logger
+from jedgebot.utils.logging import logger
 
 # Path to store both session and quote tokens
 TOKEN_STORAGE_PATH = os.path.expanduser("~") + "/AppData/Roaming/tastytrade_tokens.json"

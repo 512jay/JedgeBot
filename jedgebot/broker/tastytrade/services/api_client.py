@@ -1,6 +1,6 @@
 import time
 import requests
-from log_setup import logger  # ✅ Now using centralized logging
+from jedgebot.utils.logging import logger
 
 
 class TastyTradeAPIClient:
@@ -115,6 +115,8 @@ class TastyTradeAPIClient:
         headers = self._get_headers()
 
         logger.info(f"🔍 {method} {url} - Sending request with json={json} data={data}")
-        
-        response = requests.request(method, url, headers=headers, json=json, data=data, **kwargs)
+
+        response = requests.request(
+            method, url, headers=headers, json=json, data=data, **kwargs
+        )
         return self._handle_response(response, method, endpoint, kwargs, 0)

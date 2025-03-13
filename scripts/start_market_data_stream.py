@@ -16,6 +16,7 @@ async def main():
     except asyncio.CancelledError:
         logger.info("✅ Market data streaming stopped cleanly.")
 
+
 if __name__ == "__main__":
     try:
         asyncio.run(main())

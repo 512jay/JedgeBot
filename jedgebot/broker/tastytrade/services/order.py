@@ -1,7 +1,11 @@
+from jedgebot.utils.logging import logger
+
+
 class OrderService:
     """
     Service class for handling order-related operations via the Tastytrade API.
     """
+
     def __init__(self, api_client):
         """Initialize with shared API client."""
         self.api_client = api_client

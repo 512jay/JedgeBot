@@ -6,6 +6,7 @@ from log_setup import logger
 # Setup logging
 logger.info("Initializing TastyTradeClient...")
 
+
 async def main():
     try:
         # Initialize TastyTradeClient
@@ -36,6 +37,7 @@ async def main():
             logger.error("Error while stopping streaming.")
             logger.error(f"Exception: {stop_error}")
             logger.error(traceback.format_exc())
+
 
 if __name__ == "__main__":
     asyncio.run(main())

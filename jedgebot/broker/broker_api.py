@@ -1,7 +1,8 @@
-# jedgebot/broker/base_broker.py
-
 from abc import ABC, abstractmethod
 from typing import Optional
+from jedgebot.utils.logging import logger
+from jedgebot.common.enums import OrderType
+
 
 class BaseBroker(ABC):
     """Abstract base class for broker integrations."""
@@ -17,13 +18,19 @@ class BaseBroker(ABC):
         pass
 
     @abstractmethod
-    def place_order(self, symbol: str, quantity: int, order_type: str, price: Optional[float] = None):
+    def place_order(
+        self,
+        symbol: str,
+        quantity: int,
+        order_type: OrderType,  # ✅ Now using Enum from common location
+        price: Optional[float] = None,
+    ):
         """
         Place an order.
 
         :param symbol: The asset to trade (e.g., "AAPL")
         :param quantity: Number of shares/contracts
-        :param order_type: "market" or "limit"
+        :param order_type: OrderType Enum ("MARKET", "LIMIT", etc.)
         :param price: Required for limit orders
         """
         pass

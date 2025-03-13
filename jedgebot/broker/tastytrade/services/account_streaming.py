@@ -2,7 +2,7 @@ import asyncio
 import websockets
 import json
 from jedgebot.broker.tastytrade.data_handler import TastyTradeDataHandler
-from log_setup import logger
+from jedgebot.utils.logging import logger
 
 
 class TastyTradeAccountStream:
@@ -14,12 +14,16 @@ class TastyTradeAccountStream:
     def __init__(self, tasty_client):
         """
         Initialize the WebSocket client for Tastytrade account streaming.
-        
+
         :param tasty_client: An instance of TastyTradeClient to provide authentication and account details.
         """
         self.tasty_client = tasty_client  # ✅ Use the passed-in client
-        self.auth_token = self.tasty_client.auth.get_session_token()  # ✅ Fetch session token from the shared client
-        self.account_number = self.tasty_client.get_account_number()  # ✅ Fetch account number from the shared client
+        self.auth_token = (
+            self.tasty_client.auth.get_session_token()
+        )  # ✅ Fetch session token from the shared client
+        self.account_number = (
+            self.tasty_client.get_account_number()
+        )  # ✅ Fetch account number from the shared client
 
         self.websocket_url = self.STREAM_URL
         self.data_handler = TastyTradeDataHandler()
@@ -30,9 +34,13 @@ class TastyTradeAccountStream:
         """Establish a connection to the Tastytrade WebSocket server."""
         try:
             logger.info(f"🔍 Connecting to WebSocket URL: {self.websocket_url}")
-            logger.info(f"🔑 Using Auth Token: {self.auth_token[:10]}... (truncated for security)")
+            logger.info(
+                f"🔑 Using Auth Token: {self.auth_token[:10]}... (truncated for security)"
+            )
 
-            self.websocket = await websockets.connect(self.websocket_url)  # ✅ No headers
+            self.websocket = await websockets.connect(
+                self.websocket_url
+            )  # ✅ No headers
 
             self.connected = True
             logger.info("✅ WebSocket Connection Established")
@@ -47,8 +55,6 @@ class TastyTradeAccountStream:
             self.connected = False
             await asyncio.sleep(5)
             await self.connect()  # ✅ Auto-reconnect logic
-
-
 
     async def on_open(self):
         """Subscribes to account updates in the correct order."""

@@ -1,5 +1,7 @@
 import asyncio
 from jedgebot.broker.tastytrade.tastytrade import TastyTradeClient
+from jedgebot.utils.logging import logger
+
 
 async def main():
     """Starts the market data streaming for BTC."""
@@ -7,6 +9,7 @@ async def main():
     client = TastyTradeClient()
     print("🚀 Starting market data streaming for BTC...")
     await client.start_market_data_streaming(symbols=["BTC/USD:CXTALP"])
+
 
 if __name__ == "__main__":
     asyncio.run(main())
