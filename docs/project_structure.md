@@ -17,6 +17,10 @@ JedgeBot/
 │   │   ├── roadmap.md
 │   │   ├── testing_strategy.md
 │   ├── frontend
+│   │   ├── .vite
+│   │   │   ├── deps
+│   │   │   │   ├── _metadata.json
+│   │   │   │   ├── package.json
 │   │   ├── README.md
 │   │   ├── eslint.config.js
 │   │   ├── index.html
@@ -55,9 +59,9 @@ JedgeBot/
 │   │   │   │   │   ├── quote_token_manager.py
 │   │   │   │   ├── tastytrade.py
 │   │   │   │   ├── utilities.py
-│   │   ├── config
-│   │   │   ├── settings.py
-│   │   ├── config.toml
+│   │   ├── common
+│   │   │   ├── __init__.py
+│   │   │   ├── enums.py
 │   │   ├── data
 │   │   │   ├── __init__.py
 │   │   │   ├── data_fetcher.py
@@ -98,5 +102,7 @@ JedgeBot/
 │   ├── tests
 │   │   ├── unit
 │   │   │   ├── __init__.py
+│   │   │   ├── execution
+│   │   │   │   ├── test_orders.py
 │   │   │   ├── test_base_broker.py
 ```
