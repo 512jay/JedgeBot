@@ -173,3 +173,19 @@ cython_debug/
 
 # Developer notes
 notes/
+
+# Ignore Node.js dependencies
+frontend/node_modules/
+node_modules/
+
+# Ignore build files
+frontend/dist/
+dist/
+
+# Ignore environment and config files
+.env
+secrets.env
+config.toml
+
+# Ignore log files
+*.log

@@ -55,9 +55,8 @@ JedgeBot/
 │   │   │   │   │   ├── quote_token_manager.py
 │   │   │   │   ├── tastytrade.py
 │   │   │   │   ├── utilities.py
-│   │   ├── common
-│   │   │   ├── __init__.py
-│   │   │   ├── enums.py
+│   │   ├── config
+│   │   │   ├── settings.py
 │   │   ├── config.toml
 │   │   ├── data
 │   │   │   ├── __init__.py
@@ -99,7 +98,5 @@ JedgeBot/
 │   ├── tests
 │   │   ├── unit
 │   │   │   ├── __init__.py
-│   │   │   ├── execution
-│   │   │   │   ├── test_orders.py
 │   │   │   ├── test_base_broker.py
 ```
