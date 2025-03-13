@@ -16,6 +16,22 @@ JedgeBot/
 │   │   ├── project_structure.md
 │   │   ├── roadmap.md
 │   │   ├── testing_strategy.md
+│   ├── frontend
+│   │   ├── README.md
+│   │   ├── eslint.config.js
+│   │   ├── index.html
+│   │   ├── package-lock.json
+│   │   ├── package.json
+│   │   ├── public
+│   │   │   ├── vite.svg
+│   │   ├── src
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── assets
+│   │   │   │   ├── react.svg
+│   │   │   ├── index.css
+│   │   │   ├── main.jsx
+│   │   ├── vite.config.js
 │   ├── generate_structure.py
 │   ├── jedgebot
 │   │   ├── __init__.py
@@ -24,7 +40,7 @@ JedgeBot/
 │   │   │   ├── request_utils.py
 │   │   ├── broker
 │   │   │   ├── __init__.py
-│   │   │   ├── base_broker.py
+│   │   │   ├── broker_api.py
 │   │   │   ├── tastytrade
 │   │   │   │   ├── __init__.py
 │   │   │   │   ├── data_handler.py
@@ -39,6 +55,9 @@ JedgeBot/
 │   │   │   │   │   ├── quote_token_manager.py
 │   │   │   │   ├── tastytrade.py
 │   │   │   │   ├── utilities.py
+│   │   ├── common
+│   │   │   ├── __init__.py
+│   │   │   ├── enums.py
 │   │   ├── config.toml
 │   │   ├── data
 │   │   │   ├── __init__.py
@@ -60,6 +79,7 @@ JedgeBot/
 │   ├── notes
 │   │   ├── OpenBB.md
 │   │   ├── PortfolioManagmentRoadMap.md
+│   ├── package-lock.json
 │   ├── poetry.lock
 │   ├── pyproject.toml
 │   ├── run.py

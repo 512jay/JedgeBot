@@ -1,8 +1,7 @@
-from jedgebot.utils.logging import logger
-
-
 from abc import ABC, abstractmethod
 from typing import Optional
+from jedgebot.utils.logging import logger
+from jedgebot.common.enums import OrderType
 
 
 class BaseBroker(ABC):
@@ -23,7 +22,7 @@ class BaseBroker(ABC):
         self,
         symbol: str,
         quantity: int,
-        order_type: str,
+        order_type: OrderType,  # ✅ Now using Enum from common location
         price: Optional[float] = None,
     ):
         """
@@ -31,7 +30,7 @@ class BaseBroker(ABC):
 
         :param symbol: The asset to trade (e.g., "AAPL")
         :param quantity: Number of shares/contracts
-        :param order_type: "market" or "limit"
+        :param order_type: OrderType Enum ("MARKET", "LIMIT", etc.)
         :param price: Required for limit orders
         """
         pass

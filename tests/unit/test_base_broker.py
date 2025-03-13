@@ -1,6 +1,6 @@
 import pytest
 from typing import Optional
-from jedgebot.broker.base_broker import BaseBroker
+from jedgebot.broker.broker_api import BaseBroker
 
 
 class MockBroker(BaseBroker):

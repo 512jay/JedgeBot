@@ -1,23 +1,12 @@
 from abc import ABC, abstractmethod
 from typing import Optional
-from enum import Enum
 import json
 from jedgebot.utils.logging import logger
-
-
-class OrderType(Enum):
-    MARKET = "market"
-    LIMIT = "limit"
-    STOP = "stop"
-
-    def __str__(self):
-        return self.name  # Returns "MARKET", "LIMIT", etc.
+from jedgebot.common.enums import OrderType  # ✅ Import from the new module
 
 
 class Order(ABC):
-    """
-    Abstract base class for different types of orders (stock, options, crypto).
-    """
+    """Abstract base class for different types of orders."""
 
     def __init__(
         self,
@@ -33,8 +22,9 @@ class Order(ABC):
         self.symbol = symbol.upper()
         self.quantity = quantity
         self.price = price
-        self.order_type = order_type  # ✅ Now using Enum
+        self.order_type = order_type  # ✅ Now using Enum from common location
         self.expiration_date = expiration_date
+
 
     @abstractmethod
     def execute(self):
