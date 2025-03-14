@@ -16,6 +16,8 @@ loguru = "^0.7.3"
 toml = "^0.10.2"
 websocket-client = "^1.8.0"
 websockets = "^15.0.1"
+fastapi = "^0.115.11"
+uvicorn = "^0.34.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.4"

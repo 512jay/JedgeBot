@@ -41,6 +41,7 @@ JedgeBot/
 │   │   ├── __init__.py
 │   │   ├── api
 │   │   │   ├── __init__.py
+│   │   │   ├── main.py
 │   │   │   ├── request_utils.py
 │   │   ├── broker
 │   │   │   ├── __init__.py
