@@ -35,6 +35,7 @@ JedgeBot/
 │   │   │   ├── enums.py
 │   │   ├── data
 │   │   │   ├── __init__.py
+│   │   │   ├── auth.db
 │   │   │   ├── data_fetcher.py
 │   │   │   ├── data_processor.py
 │   │   ├── execution
@@ -102,6 +103,7 @@ JedgeBot/
 │   ├── package.json
 │   ├── poetry.lock
 │   ├── pyproject.toml
+│   ├── python
 │   ├── run.py
 │   ├── scripts
 │   │   ├── __init__.py
@@ -116,6 +118,7 @@ JedgeBot/
 │   │   │   ├── start_streaming.py
 │   │   ├── btc_stream.py
 │   │   ├── start_market_data_stream.py
+│   ├── start_jedgebot.py
 │   ├── tests
 │   │   ├── unit
 │   │   │   ├── __init__.py
