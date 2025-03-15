@@ -1,6 +1,6 @@
 import asyncio
 from log_setup import logger
-from jedgebot.broker.tastytrade.tastytrade import TastyTradeClient
+from backend.broker.tastytrade.tastytrade import TastyTradeClient
 
 
 async def test_market_data_streaming():

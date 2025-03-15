@@ -1,5 +1,5 @@
 import json
-from jedgebot.broker.tastytrade.tastytrade import TastyTradeClient
+from backend.broker.tastytrade.tastytrade import TastyTradeClient
 
 tasty = TastyTradeClient()
 accounts = tasty.get_accounts()
