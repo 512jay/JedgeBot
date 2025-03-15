@@ -2,7 +2,7 @@ import json
 import websocket
 import threading
 import time
-from jedgebot.broker.tastytrade.tastytrade import TastyTradeClient
+from backend.broker.tastytrade.tastytrade import TastyTradeClient
 from log_setup import logger
 
 

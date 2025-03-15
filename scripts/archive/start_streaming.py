@@ -1,6 +1,6 @@
 import asyncio
 import traceback
-from jedgebot.broker.tastytrade.tastytrade import TastyTradeClient
+from backend.broker.tastytrade.tastytrade import TastyTradeClient
 from log_setup import logger
 
 # Setup logging

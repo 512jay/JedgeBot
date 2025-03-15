@@ -1,19 +1,18 @@
+// frontend/src/App.js
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";  // ✅ Import Home component
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import ResetPassword from "./pages/ResetPassword";
-import LoginRegister from "./pages/LoginRegister";
-import "./App.css";
+import "./styles/Home.css";  // ✅ Import Home styles
+
 
 function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/auth" element={<LoginRegister />} />
-        <Route path="/" element={<Login />} /> {/* Default route */}
       </Routes>
     </Router>
   );

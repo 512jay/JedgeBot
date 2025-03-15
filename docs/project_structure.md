@@ -6,41 +6,11 @@ JedgeBot/
 │   ├── LICENSE
 │   ├── README.md
 │   ├── __init__.py
-│   ├── docs
-│   │   ├── business_plan.md
-│   │   ├── development_enviroment.md
-│   │   ├── github_workflow.md
-│   │   ├── legal_strategy.md
-│   │   ├── marketing_plan.md
-│   │   ├── poetry_workflow.md
-│   │   ├── project_structure.md
-│   │   ├── roadmap.md
-│   │   ├── testing_strategy.md
-│   ├── frontend
-│   │   ├── .vite
-│   │   │   ├── deps
-│   │   │   │   ├── _metadata.json
-│   │   │   │   ├── package.json
-│   │   ├── README.md
-│   │   ├── eslint.config.js
-│   │   ├── index.html
-│   │   ├── package-lock.json
-│   │   ├── package.json
-│   │   ├── public
-│   │   │   ├── vite.svg
-│   │   ├── src
-│   │   │   ├── App.css
-│   │   │   ├── App.jsx
-│   │   │   ├── assets
-│   │   │   │   ├── react.svg
-│   │   │   ├── index.css
-│   │   │   ├── main.jsx
-│   │   ├── vite.config.js
-│   ├── generate_structure.py
-│   ├── jedgebot
+│   ├── backend
 │   │   ├── __init__.py
 │   │   ├── api
 │   │   │   ├── __init__.py
+│   │   │   ├── auth.py
 │   │   │   ├── main.py
 │   │   │   ├── request_utils.py
 │   │   ├── broker
@@ -79,11 +49,57 @@ JedgeBot/
 │   │   ├── utils
 │   │   │   ├── __init__.py
 │   │   │   ├── logging.py
+│   ├── data
+│   │   ├── auth.db
+│   ├── docs
+│   │   ├── business_plan.md
+│   │   ├── development_enviroment.md
+│   │   ├── github_workflow.md
+│   │   ├── legal_strategy.md
+│   │   ├── marketing_plan.md
+│   │   ├── poetry_workflow.md
+│   │   ├── project_structure.md
+│   │   ├── roadmap.md
+│   │   ├── testing_strategy.md
+│   ├── frontend
+│   │   ├── .vite
+│   │   │   ├── deps
+│   │   │   │   ├── _metadata.json
+│   │   │   │   ├── package.json
+│   │   ├── README.md
+│   │   ├── eslint.config.js
+│   │   ├── index.html
+│   │   ├── package-lock.json
+│   │   ├── package.json
+│   │   ├── public
+│   │   │   ├── vite.svg
+│   │   ├── src
+│   │   │   ├── App.css
+│   │   │   ├── App.js
+│   │   │   ├── App.jsx
+│   │   │   ├── api
+│   │   │   │   ├── auth.js
+│   │   │   ├── api.js
+│   │   │   ├── assets
+│   │   │   │   ├── react.svg
+│   │   │   ├── index.css
+│   │   │   ├── main.jsx
+│   │   │   ├── pages
+│   │   │   │   ├── Home.jsx
+│   │   │   │   ├── Login.jsx
+│   │   │   │   ├── LoginRegister.jsx
+│   │   │   │   ├── Register.jsx
+│   │   │   │   ├── ResetPassword.jsx
+│   │   │   ├── styles
+│   │   │   │   ├── Home.css
+│   │   ├── vite.config.js
+│   ├── generate_structure.py
 │   ├── logs
 │   ├── notes
 │   │   ├── OpenBB.md
 │   │   ├── PortfolioManagmentRoadMap.md
 │   ├── package-lock.json
+│   ├── package.json
 │   ├── poetry.lock
 │   ├── pyproject.toml
 │   ├── run.py
