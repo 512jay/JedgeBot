@@ -1,4 +1,7 @@
-const API_URL = "http://127.0.0.1:8000/auth"; // Add /auth prefix
+// frontend/src/api/auth.js
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 export const register = async (username, password) => {
   const response = await fetch(`${API_URL}/signup`, {

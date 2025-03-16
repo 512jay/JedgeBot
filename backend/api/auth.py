@@ -13,7 +13,10 @@ from typing import Optional
 
 
 # Secret key for JWT (Replace this with a secure key in production)
-SECRET_KEY = "your_secret_key_here"
+SECRET_KEY = os.getenv(
+    "SECRET_KEY", secrets.token_hex(32)
+)  # ✅ Generate or load secure key
+
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
@@ -42,6 +45,9 @@ class PasswordResetData(BaseModel):
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
     """Retrieve the currently authenticated user."""
+    conn = get_auth_db()
+    cursor = conn.cursor()
+
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username = payload.get("sub")
@@ -51,9 +57,81 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
                 status_code=401, detail="Invalid authentication credentials"
             )
 
+        # ✅ Check if token exists in the database
+        cursor.execute(
+            "SELECT * FROM tokens WHERE username = ? AND token = ?",
+            (username, token),
+        )
+        valid_token = cursor.fetchone()
+        if not valid_token:
+            raise HTTPException(status_code=401, detail="Invalid or expired token")
+
         return {"username": username}
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
+    finally:
+        conn.close()
+
+def ensure_tokens_table():
+    """Ensure the tokens table exists in the database."""
+    conn = get_auth_db()
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS tokens (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL,
+            token TEXT NOT NULL,
+            expires_at DATETIME NOT NULL,
+            FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE
+        );
+        """
+    )
+    conn.commit()
+    conn.close()
+
+def get_auth_db():
+    """Ensure auth.db exists and return a database connection."""
+    db_path = "data/auth.db"
+    os.makedirs("data", exist_ok=True)
+
+    create_tables_if_not_exists(db_path)  # ✅ Call helper function to create tables
+
+    return sqlite3.connect(db_path)
+
+def create_tables_if_not_exists(db_path):
+    """Create tables if they do not exist in the database."""
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    # Create users table
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL,
+            email TEXT UNIQUE,
+            is_active INTEGER DEFAULT 1
+        );
+        """
+    )
+
+    # Create tokens table
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS tokens (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL,
+            token TEXT NOT NULL,
+            expires_at DATETIME NOT NULL,
+            FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE
+        );
+        """
+    )
+
+    conn.commit()
+    conn.close()
 
 @router.delete("/delete-account")
 def soft_delete_account(current_user: dict = Depends(get_current_user)):
@@ -196,33 +274,6 @@ def ensure_password_reset_table():
     conn.commit()
     conn.close()
 
-def get_auth_db():
-    """Ensure auth.db exists and return a database connection."""
-    db_path = "data/auth.db"
-    os.makedirs("data", exist_ok=True)  # Ensure 'data' folder exists
-
-    # If auth.db doesn't exist, create it
-    if not os.path.exists(db_path):
-        print("⚠️ auth.db not found, creating database...")
-        conn = sqlite3.connect(db_path)
-        cursor = conn.cursor()
-        cursor.execute(
-            """
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL,
-            is_active INTEGER DEFAULT 1
-        );
-        """
-        )
-        conn.commit()
-        conn.close()
-        ensure_password_reset_table()
-        print("✅ auth.db created successfully!")
-
-    return sqlite3.connect(db_path)
-
 def hash_password(password: str) -> str:
     """Hash password securely using bcrypt."""
     return pwd_context.hash(password)
@@ -300,16 +351,25 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
     user = cursor.fetchone()
 
     if user:
-        user = dict(zip([column[0] for column in cursor.description], user))  # Convert tuple to dict
+        user = dict(zip([column[0] for column in cursor.description], user))
 
-    if not user or not verify_password(form_data.password, user["password"]):  # ✅ Now user["password"] works
-
+    if not user or not verify_password(form_data.password, user["password"]):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
         )
 
     access_token = create_access_token({"sub": form_data.username})
+
+    # Store the token in the database
+    expires_at = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    cursor.execute(
+        "INSERT INTO tokens (username, token, expires_at) VALUES (?, ?, ?)",
+        (form_data.username, access_token, expires_at),
+    )
+    conn.commit()
+    conn.close()
+
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.get("/users/me")
@@ -328,7 +388,6 @@ def read_users_me(token: str = Depends(oauth2_scheme)):
         return {"username": username}
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
-
 
 @router.put("/auth/restore-account")
 def restore_account(current_user: dict = Depends(get_current_user)):

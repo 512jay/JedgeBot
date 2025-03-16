@@ -1,29 +1,35 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ Import useNavigate
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate(); // ✅ Create navigation hook
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     try {
-      const response = await fetch("http://127.0.0.1:8000/auth/login", {
-        method: "POST",
+      const response = await fetch(`${API_URL}/auth/login`, {        method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: new URLSearchParams({ username, password }).toString(),
       });
-      
+
       if (!response.ok) {
         throw new Error("Login failed. Please check your credentials.");
       }
-      
+
       const data = await response.json();
-      localStorage.setItem("access_token", data.access_token);
-      alert("Login successful!");
+      localStorage.setItem("access_token", data.access_token); // ✅ Store token
+      navigate("/dashboard"); // ✅ Redirect to dashboard
+      window.location.reload(); // ✅ Force UI update
+
+
+      navigate("/dashboard"); // ✅ Redirect user to dashboard
     } catch (err) {
       setError(err.message);
     }
