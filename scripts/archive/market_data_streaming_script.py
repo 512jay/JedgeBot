@@ -1,8 +1,8 @@
 import asyncio
-from jedgebot.broker.tastytrade.services.market_data_streaming import (
+from backend.broker.tastytrade.services.market_data_streaming import (
     MarketDataStreamer,
 )
-from jedgebot.broker.tastytrade.tastytrade import TastyTradeClient
+from backend.broker.tastytrade.tastytrade import TastyTradeClient
 from log_setup import logger
 
 

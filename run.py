@@ -1,7 +1,7 @@
 import os
-from jedgebot.utils.logging import logger
+from backend.utils.logging import logger
 from dotenv import load_dotenv
-from jedgebot.broker.tastytrade.tastytrade import TastyTradeClient
+from backend.broker.tastytrade.tastytrade import TastyTradeClient
 
 # Load environment variables
 load_dotenv()

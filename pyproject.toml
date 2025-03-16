@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "jedgebot"
+name = "jedebot"
 version = "0.1.0"
 description = "Automated trading bot designed to execute multiple trading strategies across different brokers and asset classes"
 authors = ["John Davis <512jay@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "jedgebot"}]  # Ensures Poetry knows where the code is
+packages = [{include = "backend"}]  # Ensures Poetry knows where the code is
 
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
@@ -16,6 +16,16 @@ loguru = "^0.7.3"
 toml = "^0.10.2"
 websocket-client = "^1.8.0"
 websockets = "^15.0.1"
+fastapi = "^0.115.11"
+uvicorn = "^0.34.0"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-jose = "^3.4.0"
+python-multipart = "^0.0.20"
+bcrypt = "4.0.1"
+pydantic = "^2.10.6"
+annotated-types = "^0.7.0"
+colorama = "^0.4.6"
+types-colorama = "^0.4.15.20240311"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.4"
@@ -24,6 +34,8 @@ flake8 = "^7.1.2"
 types-requests = "^2.32.0.20241016"
 types-toml = "^0.10.8.20240310"
 pytest-mock = "^3.14.0"
+types-passlib = "^1.7.7.20241221"
+types-python-jose = "^3.4.0.20250224"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
