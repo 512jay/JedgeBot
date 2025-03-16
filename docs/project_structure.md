@@ -6,6 +6,13 @@ JedgeBot/
 │   ├── LICENSE
 │   ├── README.md
 │   ├── __init__.py
+│   ├── backend
+│   │   ├── api
+│   │   │   ├── main.py
+│   │   ├── broker
+│   │   ├── common
+│   │   ├── execution
+│   │   ├── utils
 │   ├── docs
 │   │   ├── business_plan.md
 │   │   ├── development_enviroment.md
@@ -80,7 +87,6 @@ JedgeBot/
 │   │   │   ├── logging.py
 │   ├── logs
 │   ├── notes
-│   │   ├── OpenBB.md
 │   │   ├── PortfolioManagmentRoadMap.md
 │   ├── package-lock.json
 │   ├── poetry.lock
