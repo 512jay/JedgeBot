@@ -1,0 +1,31 @@
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #f8f9fa;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 20px;
+    z-index: 100;
+    /* Adjust if necessary */
+    transition: width 0.3s ease-in-out;
+}
+
+/* Ensure the main content is not obstructed */
+.main-content {
+    margin-left: 250px;
+    /* Same as sidebar width */
+    padding: 20px;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+/* Collapsed sidebar adjustments */
+.sidebar.collapsed {
+    width: 80px;
+    /* Smaller width for collapsed state */
+}
+
+.sidebar.collapsed+.main-content {
+    margin-left: 80px;
+    /* Adjust margin for collapsed sidebar */
+}

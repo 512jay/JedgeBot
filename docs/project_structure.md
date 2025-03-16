@@ -76,23 +76,38 @@ JedgeBot/
 │   │   │   ├── vite.svg
 │   │   ├── src
 │   │   │   ├── App.css
-│   │   │   ├── App.js
 │   │   │   ├── App.jsx
 │   │   │   ├── api
 │   │   │   │   ├── auth.js
-│   │   │   ├── api.js
+│   │   │   ├── api.jsx
 │   │   │   ├── assets
 │   │   │   │   ├── react.svg
+│   │   │   ├── components
+│   │   │   │   ├── Navbar.jsx
+│   │   │   │   ├── Sidebar.jsx
+│   │   │   │   ├── TitleManager.jsx
+│   │   │   │   ├── ui
+│   │   │   │   │   ├── Button.jsx
+│   │   │   │   │   ├── Card.jsx
+│   │   │   │   │   ├── PieChart.jsx
+│   │   │   │   │   ├── Table.jsx
 │   │   │   ├── index.css
 │   │   │   ├── main.jsx
 │   │   │   ├── pages
+│   │   │   │   ├── AccountLevelView.jsx
+│   │   │   │   ├── ClientPortfolioView.jsx
 │   │   │   │   ├── Home.jsx
 │   │   │   │   ├── Login.jsx
 │   │   │   │   ├── LoginRegister.jsx
+│   │   │   │   ├── PortfolioManagerOverview.jsx
 │   │   │   │   ├── Register.jsx
 │   │   │   │   ├── ResetPassword.jsx
 │   │   │   ├── styles
+│   │   │   │   ├── AccountLevelView.css
+│   │   │   │   ├── ClientPortfolioView.css
 │   │   │   │   ├── Home.css
+│   │   │   │   ├── PortfolioManagerOverview.css
+│   │   │   │   ├── Sidebar.css
 │   │   ├── vite.config.js
 │   ├── generate_structure.py
 │   ├── logs
