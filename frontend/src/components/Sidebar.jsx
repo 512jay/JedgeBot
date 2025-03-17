@@ -1,6 +1,6 @@
 // File: frontend/src/components/Sidebar.jsx
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   MDBListGroup,
   MDBListGroupItem,
@@ -10,8 +10,14 @@ import {
 import "../styles/Sidebar.css";
 
 const Sidebar = () => {
-    console.log("Rendering Sidebar Component"); // Debugging
   const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();  // For navigation after logout
+
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");  // Clear token
+    navigate("/login");                       // Redirect to login
+    window.location.reload();                 // Refresh UI
+  };
 
   return (
     <div className={`sidebar d-flex flex-column ${collapsed ? "collapsed" : ""}`}>
@@ -47,6 +53,11 @@ const Sidebar = () => {
             <MDBIcon fas icon="cog" className="me-3" /> {!collapsed && "Settings"}
           </MDBListGroupItem>
         </Link>
+
+        {/* Logout Button */}
+        <MDBListGroupItem action className="mt-auto" onClick={handleLogout}>
+          <MDBIcon fas icon="sign-out-alt" className="me-3" /> {!collapsed && "Logout"}
+        </MDBListGroupItem>
       </MDBListGroup>
     </div>
   );
