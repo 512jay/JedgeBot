@@ -2,6 +2,7 @@
 
 ```
 JedgeBot/
+│   ├── .env.production
 │   ├── .flake8
 │   ├── LICENSE
 │   ├── README.md
