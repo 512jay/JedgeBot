@@ -52,8 +52,8 @@ JedgeBot/
 │   │   ├── utils
 │   │   │   ├── __init__.py
 │   │   │   ├── logging.py
+│   │   │   ├── security.py
 │   ├── data
-│   │   ├── auth.db
 │   ├── docs
 │   │   ├── business_plan.md
 │   │   ├── development_enviroment.md
@@ -75,7 +75,12 @@ JedgeBot/
 │   │   ├── package-lock.json
 │   │   ├── package.json
 │   │   ├── public
-│   │   │   ├── leftlogin.jpg
+│   │   │   ├── images
+│   │   │   │   ├── leftlogin.jpg
+│   │   │   │   ├── registrationleft.jpg
+│   │   │   │   ├── registrationleft.webp
+│   │   │   │   ├── welcomejedgebot.jpg
+│   │   │   │   ├── welcomejedgebot.webp
 │   │   │   ├── logo.webp
 │   │   │   ├── vite.svg
 │   │   ├── src
@@ -103,11 +108,8 @@ JedgeBot/
 │   │   │   │   ├── Clients.jsx
 │   │   │   │   ├── Home.jsx
 │   │   │   │   ├── Login.jsx
-│   │   │   │   ├── LoginOld.jsx
-│   │   │   │   ├── LoginRegister.jsx
 │   │   │   │   ├── PortfolioManagerOverview.jsx
 │   │   │   │   ├── Register.jsx
-│   │   │   │   ├── Registration.jsx
 │   │   │   │   ├── ResetPassword.jsx
 │   │   │   ├── styles
 │   │   │   │   ├── AccountLevelView.css
@@ -115,6 +117,7 @@ JedgeBot/
 │   │   │   │   ├── Home.css
 │   │   │   │   ├── PortfolioManagerOverview.css
 │   │   │   │   ├── Sidebar.css
+│   │   │   │   ├── global.css
 │   │   ├── vite.config.js
 │   ├── generate_structure.py
 │   ├── jedgebot

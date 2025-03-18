@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-d
 import TitleManager from "./components/TitleManager"; // ✅ Updates title dynamically
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import Register from "./pages/Registration"
+import Register from "./pages/Register"
 import PortfolioManagerOverview from "./pages/PortfolioManagerOverview";
 import ClientPortfolioView from "./pages/ClientPortfolioView";
 import AccountLevelView from "./pages/AccountLevelView";
