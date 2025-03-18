@@ -2,7 +2,8 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import TitleManager from "./components/TitleManager"; // ✅ Updates title dynamically
 import Home from "./pages/Home";
-import Auth from "./pages/Auth";
+import Login from "./pages/Login";
+import Register from "./pages/Registration"
 import PortfolioManagerOverview from "./pages/PortfolioManagerOverview";
 import ClientPortfolioView from "./pages/ClientPortfolioView";
 import AccountLevelView from "./pages/AccountLevelView";
@@ -30,8 +31,8 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
-        <Route path="/auth" element={<Auth />} /> 
-
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         {/* Protected Dashboard Routes */}
         <Route path="/dashboard" element={
           <ProtectedRoute>

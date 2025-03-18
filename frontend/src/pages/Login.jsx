@@ -1,73 +1,98 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ Import useNavigate
-const API_URL = import.meta.env.VITE_API_URL;
+import React from 'react';
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
+  MDBInput,
+  MDBBtn
+} from 'mdb-react-ui-kit';
 
-const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate(); // ✅ Create navigation hook
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    try {
-      const response = await fetch(`${API_URL}/auth/login`, {        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({ username, password }).toString(),
-      });
-
-      if (!response.ok) {
-        throw new Error("Login failed. Please check your credentials.");
-      }
-
-      const data = await response.json();
-      localStorage.setItem("access_token", data.access_token); // ✅ Store token
-      navigate("/dashboard"); // ✅ Redirect to dashboard
-      window.location.reload(); // ✅ Force UI update
-
-
-      navigate("/dashboard"); // ✅ Redirect user to dashboard
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
+function Login() {
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
-        {error && <p className="text-red-500 text-center">{error}</p>}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none"
-          />
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200"
-          >
-            Login
-          </button>
-        </form>
-        <p className="text-center mt-4">
-          Don't have an account? <a href="/register" className="text-blue-400 hover:underline">Register</a>
-        </p>
-      </div>
-    </div>
+    <section className="vh-100" style={{ backgroundColor: '#9A616D' }}>
+      <MDBContainer className="py-5 h-100">
+        <MDBRow className="d-flex justify-content-center align-items-center h-100">
+          <MDBCol md="10">
+            <MDBCard className="border-0" style={{ borderRadius: '1rem' }}>
+              <MDBRow className="g-0">
+                
+                {/* Left Side Image */}
+                <MDBCol md="6" lg="5" className="d-none d-md-block">
+                  <img
+                    src="/leftlogin.jpg"
+                    alt="A Black woman in a business suit working on a laptop, symbolizing disability inclusion and accessibility in professional spaces."
+                    className="img-fluid"
+                    style={{ borderRadius: '1rem 0 0 1rem' }}
+                  />
+                </MDBCol>
+
+                {/* Right Side Login Form */}
+                <MDBCol md="6" lg="7" className="d-flex align-items-center">
+                  <MDBCardBody className="p-4 p-lg-5 text-black">
+                    <form onSubmit={(e) => e.preventDefault()}>
+                      
+                      {/* Logo Section */}
+                      <div className="d-flex align-items-center mb-3 pb-1">
+                        <i className="fas fa-cubes fa-2x me-3" style={{ color: '#ff6219' }}></i>
+                        <span className="h1 fw-bold mb-0">Logo</span>
+                      </div>
+
+                      {/* Heading */}
+                      <h5 className="fw-normal mb-3 pb-3" style={{ letterSpacing: '1px' }}>
+                        Sign into your account
+                      </h5>
+
+                      {/* Email Input */}
+                      <MDBInput
+                        wrapperClass="mb-4"
+                        label="Email address"
+                        id="login-email"
+                        type="email"
+                        size="lg"
+                        required
+                        autoComplete="username"
+                      />
+
+                      {/* Password Input */}
+                      <MDBInput
+                        wrapperClass="mb-4"
+                        label="Password"
+                        id="login-password"
+                        type="password"
+                        size="lg"
+                        required
+                        autoComplete="current-password"
+                      />
+
+                      {/* Login Button */}
+                      <div className="pt-1 mb-4">
+                        <MDBBtn color="dark" size="lg" className="w-100" type="submit">
+                          Login
+                        </MDBBtn>
+                      </div>
+
+                      {/* Links */}
+                      <a className="small text-muted" href="#!">
+                        Forgot password?
+                      </a>
+                      <p className="mb-5 pb-lg-2" style={{ color: '#393f81' }}>
+                        Don't have an account? <a href="register" style={{ color: '#393f81' }}>Register here</a>
+                      </p>
+                      <a href="#!" className="small text-muted">Terms of use.</a>
+                      <a href="#!" className="small text-muted">Privacy policy</a>
+                    </form>
+                  </MDBCardBody>
+                </MDBCol>
+
+              </MDBRow>
+            </MDBCard>
+          </MDBCol>
+        </MDBRow>
+      </MDBContainer>
+    </section>
   );
-};
+}
 
 export default Login;

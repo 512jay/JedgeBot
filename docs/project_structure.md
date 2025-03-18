@@ -36,9 +36,9 @@ JedgeBot/
 │   │   │   ├── enums.py
 │   │   ├── data
 │   │   │   ├── __init__.py
-│   │   │   ├── auth.db
 │   │   │   ├── data_fetcher.py
 │   │   │   ├── data_processor.py
+│   │   │   ├── setup_auth_db.py
 │   │   ├── execution
 │   │   │   ├── __init__.py
 │   │   │   ├── orders.py
@@ -75,6 +75,8 @@ JedgeBot/
 │   │   ├── package-lock.json
 │   │   ├── package.json
 │   │   ├── public
+│   │   │   ├── leftlogin.jpg
+│   │   │   ├── logo.webp
 │   │   │   ├── vite.svg
 │   │   ├── src
 │   │   │   ├── App.css
@@ -97,14 +99,15 @@ JedgeBot/
 │   │   │   ├── main.jsx
 │   │   │   ├── pages
 │   │   │   │   ├── AccountLevelView.jsx
-│   │   │   │   ├── Auth.jsx
 │   │   │   │   ├── ClientPortfolioView.jsx
 │   │   │   │   ├── Clients.jsx
 │   │   │   │   ├── Home.jsx
 │   │   │   │   ├── Login.jsx
+│   │   │   │   ├── LoginOld.jsx
 │   │   │   │   ├── LoginRegister.jsx
 │   │   │   │   ├── PortfolioManagerOverview.jsx
 │   │   │   │   ├── Register.jsx
+│   │   │   │   ├── Registration.jsx
 │   │   │   │   ├── ResetPassword.jsx
 │   │   │   ├── styles
 │   │   │   │   ├── AccountLevelView.css
