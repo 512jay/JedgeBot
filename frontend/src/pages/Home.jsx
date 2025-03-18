@@ -6,8 +6,7 @@ function Home() {
       <h1>Welcome to JedgeBot</h1>
       <p>Manage your trading strategies with ease.</p>
       <div className="buttons">
-        <Link to="/login" className="btn">Login</Link>
-        <Link to="/register" className="btn">Register</Link>
+        <Link to="/auth" className="btn">Enter</Link>
       </div>
     </div>
   );

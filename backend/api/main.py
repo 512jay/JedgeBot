@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 import os
 from backend.api.auth import router as auth_router  
+from backend.api.clients import router as clients_router  # ✅ Import clients API
 
 # Load .env variables
 load_dotenv()
@@ -20,6 +21,9 @@ app.add_middleware(
 )
 
 app.include_router(auth_router, prefix="/auth", tags=["auth"])  
+app.include_router(
+    clients_router, prefix="/clients", tags=["clients"]
+)  # ✅ Add clients router
 
 @app.get("/")
 def read_root():

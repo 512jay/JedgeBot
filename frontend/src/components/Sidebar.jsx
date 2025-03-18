@@ -8,7 +8,7 @@ import {
 } from "mdb-react-ui-kit";
 import "../styles/Sidebar.css";
 
-const Sidebar = () => {
+const Sidebar = ({ onAddClient }) => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
 
@@ -20,11 +20,7 @@ const Sidebar = () => {
 
   return (
     <div className={`sidebar d-flex flex-column vh-100 ${collapsed ? "collapsed" : ""}`}>
-      <MDBBtn
-        className="toggle-btn m-2"
-        color="primary"
-        onClick={() => setCollapsed(!collapsed)}
-      >
+      <MDBBtn className="toggle-btn m-2" color="primary" onClick={() => setCollapsed(!collapsed)}>
         <MDBIcon fas icon={collapsed ? "angle-right" : "angle-left"} />
       </MDBBtn>
 
@@ -54,6 +50,15 @@ const Sidebar = () => {
         </Link>
       </MDBListGroup>
 
+      {/* New Client Button */}
+      <div className="p-2">
+        <MDBBtn color="success" className="w-100" onClick={onAddClient}>
+          <MDBIcon fas icon="user-plus" className="me-2" />
+          {!collapsed && "New Client"}
+        </MDBBtn>
+      </div>
+
+      {/* Logout Button */}
       <div className="logout-btn-container p-2">
         <MDBBtn color="danger" className="w-100" onClick={handleLogout}>
           <MDBIcon fas icon="sign-out-alt" className="me-2" />

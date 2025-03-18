@@ -1,13 +1,12 @@
 // frontend/src/App.js
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-//import { useState, useEffect } from "react";
-import TitleManager from "./components/TitleManager"; // ✅ Import TitleManager
+import TitleManager from "./components/TitleManager"; // ✅ Updates title dynamically
 import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import Auth from "./pages/Auth";
 import PortfolioManagerOverview from "./pages/PortfolioManagerOverview";
 import ClientPortfolioView from "./pages/ClientPortfolioView";
 import AccountLevelView from "./pages/AccountLevelView";
+import Clients from "./pages/Clients";  // ✅ Import Clients Page
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 import "./styles/Home.css";
@@ -31,14 +30,22 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/auth" element={<Auth />} /> 
 
         {/* Protected Dashboard Routes */}
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <DashboardLayout>
               <PortfolioManagerOverview />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } />
+
+        {/* ✅ NEW: Clients Page Route */}
+        <Route path="/clients" element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <Clients />
             </DashboardLayout>
           </ProtectedRoute>
         } />

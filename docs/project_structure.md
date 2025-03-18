@@ -11,6 +11,7 @@ JedgeBot/
 │   │   ├── api
 │   │   │   ├── __init__.py
 │   │   │   ├── auth.py
+│   │   │   ├── clients.py
 │   │   │   ├── main.py
 │   │   │   ├── request_utils.py
 │   │   ├── broker
@@ -41,6 +42,7 @@ JedgeBot/
 │   │   ├── execution
 │   │   │   ├── __init__.py
 │   │   │   ├── orders.py
+│   │   ├── models.py
 │   │   ├── strategies
 │   │   │   ├── __init__.py
 │   │   │   ├── arbitrage.py
@@ -95,7 +97,9 @@ JedgeBot/
 │   │   │   ├── main.jsx
 │   │   │   ├── pages
 │   │   │   │   ├── AccountLevelView.jsx
+│   │   │   │   ├── Auth.jsx
 │   │   │   │   ├── ClientPortfolioView.jsx
+│   │   │   │   ├── Clients.jsx
 │   │   │   │   ├── Home.jsx
 │   │   │   │   ├── Login.jsx
 │   │   │   │   ├── LoginRegister.jsx
