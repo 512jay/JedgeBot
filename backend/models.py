@@ -1,25 +1,28 @@
 # File: backend/models.py
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, String, ForeignKey, TIMESTAMP
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
-from database import Base
+from backend.database import Base
+
+import uuid
 
 
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True)
-    email = Column(String, unique=True, index=True)
-    hashed_password = Column(String, nullable=False)
+    user_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    email = Column(String(255), unique=True, nullable=False)
+    password_hash = Column(String, nullable=False)
+    role = Column(String(10), nullable=False, default="client")
+    subscription_plan = Column(String(20), default="free")
+    created_at = Column(TIMESTAMP, server_default="NOW()")
+    updated_at = Column(TIMESTAMP, server_default="NOW()")
 
-    clients = relationship("Client", back_populates="owner")
 
+class ClientAccount(Base):
+    __tablename__ = "client_accounts"
 
-class Client(Base):
-    __tablename__ = "clients"
-
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
-    user_id = Column(Integer, ForeignKey("users.id"))
-
-    owner = relationship("User", back_populates="clients")
+    account_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    client_id = Column(UUID(as_uuid=True), ForeignKey("users.user_id"), nullable=False)
+    broker_name = Column(String(50), nullable=False)
+    account_number = Column(String(100), nullable=False)

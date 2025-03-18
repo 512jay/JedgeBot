@@ -39,6 +39,7 @@ JedgeBot/
 │   │   │   ├── data_fetcher.py
 │   │   │   ├── data_processor.py
 │   │   │   ├── setup_auth_db.py
+│   │   ├── database.py
 │   │   ├── execution
 │   │   │   ├── __init__.py
 │   │   │   ├── orders.py
