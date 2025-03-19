@@ -4,7 +4,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
-from backend.data.models import User
+from backend.data.auth_models import User  # ✅ Corrected import
 from backend.utils.security import hash_password, verify_password, validate_password
 from backend.data.auth_database import get_db  # Function to get SQLAlchemy session
 from pydantic import BaseModel
@@ -73,6 +73,7 @@ def login(
 
     access_token = create_access_token({"sub": user.email})
     return {"access_token": access_token, "token_type": "bearer"}
+
 
 def get_current_user(
     token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)

@@ -41,7 +41,6 @@ JedgeBot/
 │   │   │   ├── auth_models.py
 │   │   │   ├── data_fetcher.py
 │   │   │   ├── data_processor.py
-│   │   │   ├── models.py
 │   │   │   ├── setup_auth_db.py
 │   │   │   ├── trading_base.py
 │   │   │   ├── trading_database.py
