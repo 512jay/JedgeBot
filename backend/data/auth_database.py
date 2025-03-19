@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from backend.data.auth_base import AuthBase  # Import from auth_base.py
 
-# Load env file for auth database
+# Load environment variables from `.env.auth`
 env_path = os.path.join(os.path.dirname(__file__), ".env.auth")
 load_dotenv(env_path)
 
@@ -14,7 +14,7 @@ DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_HOST = os.getenv("DB_HOST")
 DB_PORT = os.getenv("DB_PORT")
 
-# Ensure DB_PORT is an integer
+# Ensure DB_PORT is properly converted to an integer
 DB_PORT = int(DB_PORT) if DB_PORT else 5433
 
 # Create database connection
@@ -25,6 +25,4 @@ auth_engine = create_engine(AUTH_DATABASE_URL, echo=True)
 AuthSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=auth_engine)
 
 # Ensure tables are created (since Alembic is not being used)
-from backend.data.auth_models import AuthBase
-
 AuthBase.metadata.create_all(bind=auth_engine)
