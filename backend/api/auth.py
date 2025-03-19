@@ -4,7 +4,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
-from backend.models import User
+from backend.data.models import User
 from backend.utils.security import hash_password, verify_password, validate_password
 from backend.data.auth_database import get_db  # Function to get SQLAlchemy session
 from pydantic import BaseModel

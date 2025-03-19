@@ -39,11 +39,11 @@ JedgeBot/
 │   │   │   ├── auth_database.py
 │   │   │   ├── data_fetcher.py
 │   │   │   ├── data_processor.py
+│   │   │   ├── models.py
 │   │   │   ├── setup_auth_db.py
 │   │   ├── execution
 │   │   │   ├── __init__.py
 │   │   │   ├── orders.py
-│   │   ├── models.py
 │   │   ├── strategies
 │   │   │   ├── __init__.py
 │   │   │   ├── arbitrage.py

@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from backend.models import Base  # Import models if defined elsewhere
+from backend.data.models import Base  # Import models if defined elsewhere
 
 # Load the correct .env file
 env_path = os.path.join(os.path.dirname(__file__), ".env.auth")
