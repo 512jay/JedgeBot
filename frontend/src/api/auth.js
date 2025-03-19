@@ -6,6 +6,7 @@ export const register = async (email, password) => {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
+    credentials: "include", // Ensures cookies are sent with the request
   });
 
   return response.json();
@@ -16,33 +17,29 @@ export async function login(email, password) {
   formData.append("username", email);
   formData.append("password", password);
 
-  const response = await fetch("${API_URL}auth/login", {
+  const response = await fetch(`${API_URL}/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     body: formData,
+    credentials: "include", // Ensures cookies are used
   });
 
   if (!response.ok) {
     throw new Error("Invalid login credentials");
   }
 
-  const data = await response.json();
-  localStorage.setItem("token", data.access_token); // Save token in localStorage
-
-  return data;
+  return response.json();
 }
 
 export async function fetchProtectedData() {
-  const token = localStorage.getItem("token");
-
-  const response = await fetch("${API_URL}/clients/some-protected-route", {
+  const response = await fetch(`${API_URL}/clients/some-protected-route`, {
     method: "GET",
     headers: {
-      "Authorization": `Bearer ${token}`, // Send token in header
       "Content-Type": "application/json",
     },
+    credentials: "include", // Ensures authentication via cookies
   });
 
   if (!response.ok) {
@@ -52,4 +49,13 @@ export async function fetchProtectedData() {
   return await response.json();
 }
 
+export async function logout() {
+  const response = await fetch(`${API_URL}/auth/logout`, {
+    method: "POST",
+    credentials: "include", // Ensures the cookie is cleared properly
+  });
 
+  if (!response.ok) {
+    throw new Error("Logout failed");
+  }
+}

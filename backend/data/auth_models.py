@@ -13,3 +13,9 @@ class User(AuthBase):
     is_active = Column(Boolean, default=True)
     created_at = Column(TIMESTAMP, server_default=text("NOW()"))
     last_login = Column(TIMESTAMP, nullable=True)
+
+    @classmethod
+    def get_user_by_email(cls, db_session: Session, email: str):
+        return db_session.execute(
+            select(cls).where(cls.email == email)
+        ).scalar_one_or_none()

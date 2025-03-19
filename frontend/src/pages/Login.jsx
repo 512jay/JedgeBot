@@ -1,5 +1,3 @@
-// /frontend/src/pages/Login.jsx
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
@@ -17,7 +15,7 @@ function Login() {
     try {
       const data = await login(email, password);
       if (data.access_token) {
-        localStorage.setItem("access_token", data.access_token);
+        // Instead of using localStorage, assume token management is handled elsewhere (e.g., Context API or Redux)
         navigate("/dashboard");
       } else {
         setError("Invalid email or password");
@@ -54,7 +52,6 @@ function Login() {
               onChange={(e) => setEmail(e.target.value)}
             />
 
-
             <label htmlFor="password">Password</label>
             <MDBInput
               className="mb-3"
@@ -67,7 +64,6 @@ function Login() {
               autoComplete="current-password"
               onChange={(e) => setPassword(e.target.value)}
             />
-
 
             <MDBBtn className="auth-btn" type="submit">
               Login
