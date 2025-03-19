@@ -18,7 +18,6 @@ function Login() {
       const data = await login(email, password);
       if (data.access_token) {
         localStorage.setItem("access_token", data.access_token);
-        console.log("Token stored:", localStorage.getItem("access_token")); // Debugging line
         navigate("/dashboard");
       } else {
         setError("Invalid email or password");

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo } from "react";
 import Card from "../components/ui/Card";
-import Button from "../components/ui/Button";
 import Table from "../components/ui/Table";
 import PieChart from "../components/ui/PieChart";
 import "../styles/PortfolioManagerOverview.css";
@@ -8,45 +7,32 @@ import "../styles/PortfolioManagerOverview.css";
 const PortfolioManagerOverview = () => {
   console.log("✅ PortfolioManagerOverview is rendering...");
 
-  const [portfolioSummary, setPortfolioSummary] = useState({
-    totalValue: 0,
-    dailyChange: 0,
-    clients: [],
-    bestPerformer: {},
-    worstPerformer: {},
-    sectorAllocation: [],
-    marketSummary: {},
-    alerts: [],
-  });
-
-  useEffect(() => {
-    setPortfolioSummary({
-      totalValue: 1250000,
-      dailyChange: 1.2,
-      clients: [
-        { name: "Client A", accounts: 3, value: 500000, change: "+2.5%", risk: "Low", alerts: 1 },
-        { name: "Client B", accounts: 2, value: 300000, change: "-1.2%", risk: "Medium", alerts: 0 },
-      ],
-      bestPerformer: { name: "Client A", return: "+8.5%" },
-      worstPerformer: { name: "Client C", return: "-3.2%" },
-      sectorAllocation: [
-        { sector: "Tech", percentage: 40 },
-        { sector: "Healthcare", percentage: 25 },
-        { sector: "Financials", percentage: 20 },
-        { sector: "Energy", percentage: 15 },
-      ],
-      marketSummary: {
-        sp500: "+0.8%",
-        nasdaq: "-0.2%",
-        dow: "+0.5%",
-        vix: "18.3",
-      },
-      alerts: [
-        { type: "Margin Call", client: "Client A" },
-        { type: "Expiring Option", client: "Client B" },
-      ],
-    });
-  }, []);
+  const portfolioSummary = useMemo(() => ({
+    totalValue: 1250000,
+    dailyChange: 1.2,
+    clients: [
+      { name: "Client A", accounts: 3, value: 500000, change: "+2.5%", risk: "Low", alerts: 1 },
+      { name: "Client B", accounts: 2, value: 300000, change: "-1.2%", risk: "Medium", alerts: 0 },
+    ],
+    bestPerformer: { name: "Client A", return: "+8.5%" },
+    worstPerformer: { name: "Client C", return: "-3.2%" },
+    sectorAllocation: [
+      { sector: "Tech", percentage: 40 },
+      { sector: "Healthcare", percentage: 25 },
+      { sector: "Financials", percentage: 20 },
+      { sector: "Energy", percentage: 15 },
+    ],
+    marketSummary: {
+      sp500: "+0.8%",
+      nasdaq: "-0.2%",
+      dow: "+0.5%",
+      vix: "18.3",
+    },
+    alerts: [
+      { type: "Margin Call", client: "Client A" },
+      { type: "Expiring Option", client: "Client B" },
+    ],
+  }), []);
 
   return (
     <div className="dashboard-container">
