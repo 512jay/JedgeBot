@@ -8,12 +8,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DB_NAME = os.getenv("DB_NAME", "jedgebot_auth")
-DB_USER = os.getenv("DB_USER", "postgres")
+DB_USER = os.getenv("DB_USER", "jedgebot_admin")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "password")
 DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_PORT = os.getenv("DB_PORT", "5433")
 
 DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+print(f"Connecting to {DATABASE_URL}")
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

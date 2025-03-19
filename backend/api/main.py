@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 from backend.api.auth import router as auth_router
 from backend.api.clients import router as clients_router
+from backend.data.auth_database import SessionLocal as AuthSession
 
 load_dotenv()
 
