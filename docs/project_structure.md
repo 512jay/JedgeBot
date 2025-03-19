@@ -42,6 +42,7 @@ JedgeBot/
 │   │   │   ├── data_fetcher.py
 │   │   │   ├── data_processor.py
 │   │   │   ├── setup_auth_db.py
+│   │   │   ├── setup_business_db.py
 │   │   │   ├── trading_base.py
 │   │   │   ├── trading_database.py
 │   │   │   ├── trading_models.py

@@ -1,14 +1,25 @@
 import os
-
 import psycopg2
 from dotenv import load_dotenv
 
+# Load environment variables from the correct .env.auth file
+env_path = os.path.join(os.path.dirname(__file__), ".env.auth")
+load_dotenv(env_path)
+
+# Database connection settings from .env.auth
+DB_NAME = os.getenv("DB_NAME", "jedgebot_auth")
+DB_USER = os.getenv("DB_USER", "jedgebot_admin")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "password")
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_PORT = os.getenv("DB_PORT", "5433")
+
 
 def drop_and_create_database():
-    """Drops the existing database and recreates it."""
+    """Drops the existing authentication database and recreates it."""
     try:
+        print("Connecting to the default PostgreSQL database...")
         conn = psycopg2.connect(
-            dbname="postgres",  # Connect to the default PostgreSQL database
+            dbname="postgres",  # Connect to default database first
             user=DB_USER,
             password=DB_PASSWORD,
             host=DB_HOST,
@@ -17,23 +28,24 @@ def drop_and_create_database():
         conn.autocommit = True
         cursor = conn.cursor()
 
-        # Drop the existing database if it exists
+        print(f"Dropping existing database '{DB_NAME}' if it exists...")
         cursor.execute(f"DROP DATABASE IF EXISTS {DB_NAME}")
-        print(f"Database '{DB_NAME}' dropped successfully.")
 
-        # Create a new database
+        print(f"Creating new database '{DB_NAME}'...")
         cursor.execute(f"CREATE DATABASE {DB_NAME}")
-        print(f"Database '{DB_NAME}' created successfully.")
 
         cursor.close()
         conn.close()
+        print("Database reset successful.\n")
+
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error during database recreation: {e}")
 
 
-def create_tables():
-    """Creates the necessary authentication tables."""
+def create_auth_tables():
+    """Creates only authentication-related tables in the database."""
     try:
+        print(f"Connecting to newly created database '{DB_NAME}'...")
         conn = psycopg2.connect(
             dbname=DB_NAME,
             user=DB_USER,
@@ -43,51 +55,34 @@ def create_tables():
         )
         cursor = conn.cursor()
 
-        CREATE_TABLES_SQL = """
+        print("Creating authentication tables...")
+        CREATE_AUTH_TABLES_SQL = """
+        CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
         CREATE TABLE IF NOT EXISTS users (
-            user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+            id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
             email VARCHAR(255) UNIQUE NOT NULL,
             password_hash TEXT NOT NULL,
-            role VARCHAR(10) CHECK (role IN ('client', 'manager')) DEFAULT 'client',
-            subscription_plan VARCHAR(20) CHECK (subscription_plan IN ('free', 'paid', 'manager')),
+            is_active BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT NOW(),
-            updated_at TIMESTAMP DEFAULT NOW()
-        );
-        
-        CREATE TABLE IF NOT EXISTS managers_clients (
-            manager_id UUID REFERENCES users(user_id) ON DELETE CASCADE,
-            client_id UUID REFERENCES users(user_id) ON DELETE CASCADE,
-            PRIMARY KEY (manager_id, client_id)
-        );
-        
-        CREATE TABLE IF NOT EXISTS client_accounts (
-            account_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-            client_id UUID REFERENCES users(user_id) ON DELETE CASCADE,
-            broker_name VARCHAR(50) NOT NULL,
-            account_number VARCHAR(100) NOT NULL,
-            created_at TIMESTAMP DEFAULT NOW()
+            last_login TIMESTAMP DEFAULT NULL
         );
         """
 
-        cursor.execute(CREATE_TABLES_SQL)
+        cursor.execute(CREATE_AUTH_TABLES_SQL)
         conn.commit()
-        print("Tables created successfully.")
+
+        print("Authentication tables created successfully.")
 
         cursor.close()
         conn.close()
+
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error during table creation: {e}")
 
 
 if __name__ == "__main__":
-    load_dotenv()
-
-    # Database connection settings
-    DB_NAME = os.getenv("DB_NAME", "jedgebot_auth")
-    DB_USER = os.getenv("DB_USER", "postgres")
-    DB_PASSWORD = os.getenv("DB_PASSWORD", "password")
-    DB_HOST = os.getenv("DB_HOST", "localhost")
-    DB_PORT = os.getenv("DB_PORT", "5433")
-
-    drop_and_create_database()  # Step 1: Delete and recreate database
-    create_tables()  # Step 2: Create necessary tables
+    print("Starting authentication database setup...\n")
+    drop_and_create_database()  # Step 1: Reset database
+    create_auth_tables()  # Step 2: Create auth tables
+    print("\nAuthentication database setup complete.")

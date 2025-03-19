@@ -1,6 +1,7 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from backend.data.auth_base import AuthBase
+from sqlalchemy import create_engine, Column, Integer, String, Boolean, DateTime
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, Session
+from datetime import datetime
 import os
 from dotenv import load_dotenv
 
@@ -8,23 +9,37 @@ from dotenv import load_dotenv
 env_path = os.path.join(os.path.dirname(__file__), ".env.auth")
 load_dotenv(env_path)
 
-# Database connection settings
-DB_NAME = os.getenv("DB_NAME")
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL is not set in .env.auth")
 
-DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+# Database Engine
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Create SQLAlchemy engine
-auth_engine = create_engine(DATABASE_URL, echo=True)
-
-# Create session factory
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=auth_engine)
+# Base model
+Base = declarative_base()
 
 
-# Function to get a database session
+# Authentication User Model
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String, unique=True, index=True, nullable=False)
+    password_hash = Column(String, nullable=False)
+    is_active = Column(Boolean, default=True)
+    is_admin = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    last_login = Column(DateTime, nullable=True)
+
+
+# Function to create tables
+def init_db():
+    Base.metadata.create_all(bind=engine)
+
+
+# Dependency to get the DB session
 def get_db():
     db = SessionLocal()
     try:
@@ -33,5 +48,6 @@ def get_db():
         db.close()
 
 
-# Bind models to metadata
-AuthBase.metadata.create_all(bind=auth_engine)
+if __name__ == "__main__":
+    init_db()
+    print("Authentication database setup complete.")
