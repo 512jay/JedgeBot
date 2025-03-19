@@ -22,8 +22,10 @@ AUTH_DATABASE_URL = (
     f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 )
 auth_engine = create_engine(AUTH_DATABASE_URL, echo=True)
-AuthSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=auth_engine)
-SessionScoped = scoped_session(AuthSessionLocal)
+
+# Create a session factory
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=auth_engine)
+SessionScoped = scoped_session(SessionLocal)
 
 
 def get_db():
