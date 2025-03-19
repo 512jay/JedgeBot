@@ -11,12 +11,45 @@ export const register = async (email, password) => {
   return response.json();
 };
 
-export const login = async (email, password) => {
-  const response = await fetch(`${API_URL}/auth/login`, {
+export async function login(email, password) {
+  const formData = new URLSearchParams();
+  formData.append("username", email);
+  formData.append("password", password);
+
+  const response = await fetch("${API_URL}auth/login", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: new URLSearchParams({ username: email, password }), // OAuth2 uses FormData
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: formData,
   });
 
-  return response.json();
-};
+  if (!response.ok) {
+    throw new Error("Invalid login credentials");
+  }
+
+  const data = await response.json();
+  localStorage.setItem("token", data.access_token); // Save token in localStorage
+
+  return data;
+}
+
+export async function fetchProtectedData() {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch("${API_URL}/clients/some-protected-route", {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${token}`, // Send token in header
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch protected data");
+  }
+
+  return await response.json();
+}
+
+

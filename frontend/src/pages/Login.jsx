@@ -1,7 +1,9 @@
+// /frontend/src/pages/Login.jsx
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
-import { login } from "../api/auth";
+import { login } from "../api/api";
 import "../styles/global.css"; // Import global styles
 
 function Login() {
@@ -15,12 +17,14 @@ function Login() {
     try {
       const data = await login(email, password);
       if (data.access_token) {
-        localStorage.setItem("token", data.access_token);
+        localStorage.setItem("access_token", data.access_token);
+        console.log("Token stored:", localStorage.getItem("access_token")); // Debugging line
         navigate("/dashboard");
       } else {
         setError("Invalid email or password");
       }
-    } catch {
+    } catch (err) {
+      console.error("Login error:", err); // Added error logging
       setError("Login failed. Please try again.");
     }
   };

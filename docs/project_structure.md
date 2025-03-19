@@ -93,8 +93,8 @@ JedgeBot/
 │   │   │   ├── App.css
 │   │   │   ├── App.jsx
 │   │   │   ├── api
+│   │   │   │   ├── api.jsx
 │   │   │   │   ├── auth.js
-│   │   │   ├── api.jsx
 │   │   │   ├── assets
 │   │   │   │   ├── react.svg
 │   │   │   ├── components
