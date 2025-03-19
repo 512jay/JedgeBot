@@ -36,11 +36,16 @@ JedgeBot/
 │   │   │   ├── enums.py
 │   │   ├── data
 │   │   │   ├── __init__.py
+│   │   │   ├── auth_base.py
 │   │   │   ├── auth_database.py
+│   │   │   ├── auth_models.py
 │   │   │   ├── data_fetcher.py
 │   │   │   ├── data_processor.py
 │   │   │   ├── models.py
 │   │   │   ├── setup_auth_db.py
+│   │   │   ├── trading_base.py
+│   │   │   ├── trading_database.py
+│   │   │   ├── trading_models.py
 │   │   ├── execution
 │   │   │   ├── __init__.py
 │   │   │   ├── orders.py
