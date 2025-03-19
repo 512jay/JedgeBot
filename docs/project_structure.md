@@ -2,7 +2,6 @@
 
 ```
 JedgeBot/
-│   ├── .env.production
 │   ├── .flake8
 │   ├── LICENSE
 │   ├── README.md
@@ -12,6 +11,7 @@ JedgeBot/
 │   │   ├── api
 │   │   │   ├── __init__.py
 │   │   │   ├── auth.py
+│   │   │   ├── clients.py
 │   │   │   ├── main.py
 │   │   │   ├── request_utils.py
 │   │   ├── broker
@@ -36,9 +36,16 @@ JedgeBot/
 │   │   │   ├── enums.py
 │   │   ├── data
 │   │   │   ├── __init__.py
-│   │   │   ├── auth.db
+│   │   │   ├── auth_base.py
+│   │   │   ├── auth_database.py
+│   │   │   ├── auth_models.py
 │   │   │   ├── data_fetcher.py
 │   │   │   ├── data_processor.py
+│   │   │   ├── setup_auth_db.py
+│   │   │   ├── setup_business_db.py
+│   │   │   ├── trading_base.py
+│   │   │   ├── trading_database.py
+│   │   │   ├── trading_models.py
 │   │   ├── execution
 │   │   │   ├── __init__.py
 │   │   │   ├── orders.py
@@ -51,8 +58,8 @@ JedgeBot/
 │   │   ├── utils
 │   │   │   ├── __init__.py
 │   │   │   ├── logging.py
+│   │   │   ├── security.py
 │   ├── data
-│   │   ├── auth.db
 │   ├── docs
 │   │   ├── business_plan.md
 │   │   ├── development_enviroment.md
@@ -74,13 +81,20 @@ JedgeBot/
 │   │   ├── package-lock.json
 │   │   ├── package.json
 │   │   ├── public
+│   │   │   ├── images
+│   │   │   │   ├── leftlogin.jpg
+│   │   │   │   ├── registrationleft.jpg
+│   │   │   │   ├── registrationleft.webp
+│   │   │   │   ├── welcomejedgebot.jpg
+│   │   │   │   ├── welcomejedgebot.webp
+│   │   │   ├── logo.webp
 │   │   │   ├── vite.svg
 │   │   ├── src
 │   │   │   ├── App.css
 │   │   │   ├── App.jsx
 │   │   │   ├── api
+│   │   │   │   ├── api.jsx
 │   │   │   │   ├── auth.js
-│   │   │   ├── api.jsx
 │   │   │   ├── assets
 │   │   │   │   ├── react.svg
 │   │   │   ├── components
@@ -97,9 +111,9 @@ JedgeBot/
 │   │   │   ├── pages
 │   │   │   │   ├── AccountLevelView.jsx
 │   │   │   │   ├── ClientPortfolioView.jsx
+│   │   │   │   ├── Clients.jsx
 │   │   │   │   ├── Home.jsx
 │   │   │   │   ├── Login.jsx
-│   │   │   │   ├── LoginRegister.jsx
 │   │   │   │   ├── PortfolioManagerOverview.jsx
 │   │   │   │   ├── Register.jsx
 │   │   │   │   ├── ResetPassword.jsx
@@ -109,6 +123,7 @@ JedgeBot/
 │   │   │   │   ├── Home.css
 │   │   │   │   ├── PortfolioManagerOverview.css
 │   │   │   │   ├── Sidebar.css
+│   │   │   │   ├── global.css
 │   │   ├── vite.config.js
 │   ├── generate_structure.py
 │   ├── jedgebot

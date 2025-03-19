@@ -1,73 +1,85 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ Import useNavigate
-const API_URL = import.meta.env.VITE_API_URL;
+// /frontend/src/pages/Login.jsx
 
-const Login = () => {
-  const [username, setUsername] = useState("");
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
+import { login } from "../api/api";
+import "../styles/global.css"; // Import global styles
+
+function Login() {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate(); // ✅ Create navigation hook
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
     try {
-      const response = await fetch(`${API_URL}/auth/login`, {        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({ username, password }).toString(),
-      });
-
-      if (!response.ok) {
-        throw new Error("Login failed. Please check your credentials.");
+      const data = await login(email, password);
+      if (data.access_token) {
+        localStorage.setItem("access_token", data.access_token);
+        navigate("/dashboard");
+      } else {
+        setError("Invalid email or password");
       }
-
-      const data = await response.json();
-      localStorage.setItem("access_token", data.access_token); // ✅ Store token
-      navigate("/dashboard"); // ✅ Redirect to dashboard
-      window.location.reload(); // ✅ Force UI update
-
-
-      navigate("/dashboard"); // ✅ Redirect user to dashboard
     } catch (err) {
-      setError(err.message);
+      console.error("Login error:", err); // Added error logging
+      setError("Login failed. Please try again.");
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
-        {error && <p className="text-red-500 text-center">{error}</p>}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none"
-          />
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200"
-          >
-            Login
-          </button>
-        </form>
-        <p className="text-center mt-4">
-          Don't have an account? <a href="/register" className="text-blue-400 hover:underline">Register</a>
-        </p>
+    <div className="auth-page">
+      <div className="auth-container">
+        {/* Left Image */}
+        <div className="auth-image">
+          <img src="/images/leftlogin.jpg" alt="Professional Black woman with curly hair working on a laptop in a modern office." />
+        </div>
+
+        {/* Right Login Form */}
+        <div className="auth-box">
+          <h2 className="text-center mb-4">Sign into your account</h2>
+          {error && <p className="text-danger text-center">{error}</p>}
+          <form onSubmit={handleSubmit} className="w-100 px-4">
+            <label htmlFor="email">Email Address</label>
+            <MDBInput
+              className="mb-3"
+              label="Email address"
+              type="email"
+              id="email"
+              name="email"
+              required
+              value={email}
+              autoComplete="email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+
+
+            <label htmlFor="password">Password</label>
+            <MDBInput
+              className="mb-3"
+              label="Password"
+              type="password"
+              id="password"
+              name="password"
+              required
+              value={password}
+              autoComplete="current-password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+
+            <MDBBtn className="auth-btn" type="submit">
+              Login
+            </MDBBtn>
+          </form>
+          <p className="mt-3 text-center">
+            Don't have an account? <a href="/register" className="text-primary">Register here</a>
+          </p>
+        </div>
       </div>
     </div>
   );
-};
+}
 
 export default Login;

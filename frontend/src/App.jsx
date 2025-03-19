@@ -1,13 +1,14 @@
-// frontend/src/App.js
+// /frontend/src/App.jsx
+
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-//import { useState, useEffect } from "react";
-import TitleManager from "./components/TitleManager"; // ✅ Import TitleManager
+import TitleManager from "./components/TitleManager";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PortfolioManagerOverview from "./pages/PortfolioManagerOverview";
 import ClientPortfolioView from "./pages/ClientPortfolioView";
 import AccountLevelView from "./pages/AccountLevelView";
+import Clients from "./pages/Clients";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 import "./styles/Home.css";
@@ -27,14 +28,11 @@ function ProtectedRoute({ children }) {
 function App() {
   return (
     <Router>
-      <TitleManager /> {/* ✅ Automatically updates the title */}
+      <TitleManager />
       <Routes>
-        {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
-        {/* Protected Dashboard Routes */}
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <DashboardLayout>
@@ -42,7 +40,13 @@ function App() {
             </DashboardLayout>
           </ProtectedRoute>
         } />
-
+        <Route path="/clients" element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <Clients />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } />
         <Route path="/client/:id" element={
           <ProtectedRoute>
             <DashboardLayout>
@@ -50,7 +54,6 @@ function App() {
             </DashboardLayout>
           </ProtectedRoute>
         } />
-
         <Route path="/client/:id/account/:account_id" element={
           <ProtectedRoute>
             <DashboardLayout>
@@ -63,7 +66,6 @@ function App() {
   );
 }
 
-// ✅ Wrapper component to include Sidebar + Navbar in the Dashboard Views
 function DashboardLayout({ children }) {
   console.log("DashboardLayout: Rendering...");
 
