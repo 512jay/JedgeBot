@@ -2,6 +2,7 @@ from sqlalchemy import Column, String, Boolean, TIMESTAMP, text
 from sqlalchemy.dialects.postgresql import UUID
 from backend.data.auth_base import AuthBase
 import uuid
+from sqlalchemy.orm import Session
 
 
 class User(AuthBase):

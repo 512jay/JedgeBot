@@ -6,7 +6,8 @@ from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 from pydantic import BaseModel
 from jose import JWTError, jwt
-from backend.data.auth_models import User, get_user_by_email  # Adjust import as needed
+from backend.data.auth_models import User
+from backend.data.auth_queries import get_user_by_email
 
 # Environment variables (Use a .env file for production)
 SECRET_KEY = os.getenv("SECRET_KEY", "supersecretkey")

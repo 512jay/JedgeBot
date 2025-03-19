@@ -39,6 +39,7 @@ JedgeBot/
 │   │   │   ├── auth_base.py
 │   │   │   ├── auth_database.py
 │   │   │   ├── auth_models.py
+│   │   │   ├── auth_queries.py
 │   │   │   ├── data_fetcher.py
 │   │   │   ├── data_processor.py
 │   │   │   ├── setup_auth_db.py
