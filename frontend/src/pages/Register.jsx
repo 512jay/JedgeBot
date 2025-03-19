@@ -45,29 +45,43 @@ const Register = () => {
           {error && <p className="text-danger text-center">{error}</p>}
           {success && <p className="text-success text-center">{success}</p>}
           <form onSubmit={handleSubmit} className="space-y-4">
+            <label htmlFor="email">Email Address</label>
             <input
+              id="email"
+              name="email"
               type="email"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="form-control mb-3"
               required
+              autoComplete="email"
             />
+
+            <label htmlFor="password">Password</label>
             <input
+              id="password"
+              name="password"
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="form-control mb-3"
               required
+              autoComplete="new-password"
             />
+
+            <label htmlFor="confirm-password">Confirm Password</label>
             <input
+              id="confirm-password"
+              name="confirm_password"
               type="password"
               placeholder="Confirm Password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="form-control mb-3"
               required
+              autoComplete="new-password"
             />
             <button type="submit" className="btn btn-primary w-100">Register</button>
           </form>

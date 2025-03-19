@@ -42,22 +42,34 @@ function Login() {
           <h2 className="text-center mb-4">Sign into your account</h2>
           {error && <p className="text-danger text-center">{error}</p>}
           <form onSubmit={handleSubmit} className="w-100 px-4">
+            <label htmlFor="email">Email Address</label>
             <MDBInput
               className="mb-3"
               label="Email address"
               type="email"
+              id="email"
+              name="email"
               required
               value={email}
+              autoComplete="email"
               onChange={(e) => setEmail(e.target.value)}
             />
+
+
+            <label htmlFor="password">Password</label>
             <MDBInput
               className="mb-3"
               label="Password"
               type="password"
+              id="password"
+              name="password"
               required
               value={password}
+              autoComplete="current-password"
               onChange={(e) => setPassword(e.target.value)}
             />
+
+
             <MDBBtn className="auth-btn" type="submit">
               Login
             </MDBBtn>

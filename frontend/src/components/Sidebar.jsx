@@ -26,7 +26,7 @@ const Sidebar = ({ onAddClient }) => {
 
       <h4 className={`text-center py-2 ${collapsed ? "d-none" : ""}`}>JedgeBot</h4>
 
-      <MDBListGroup flush className="flex-grow-1">
+      <MDBListGroup className="flex-grow-1">
         <Link to="/dashboard">
           <MDBListGroupItem action>
             <MDBIcon fas icon="chart-line" className="me-3" />
