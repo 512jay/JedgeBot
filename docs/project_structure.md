@@ -60,6 +60,9 @@ JedgeBot/
 │   │   │   ├── logging.py
 │   │   │   ├── security.py
 │   ├── data
+│   ├── docker-compose.yml
+│   ├── docker-entrypoint-initdb.d
+│   │   ├── create_auth_db.sql
 │   ├── docs
 │   │   ├── business_plan.md
 │   │   ├── development_enviroment.md
@@ -154,6 +157,7 @@ JedgeBot/
 │   │   ├── btc_stream.py
 │   │   ├── start_market_data_stream.py
 │   ├── start_jedgebot.py
+│   ├── testdb.py
 │   ├── tests
 │   │   ├── unit
 │   │   │   ├── __init__.py

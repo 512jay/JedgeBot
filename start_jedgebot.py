@@ -4,6 +4,8 @@ import sys
 import threading
 import signal
 import socket
+import time
+import psycopg2
 from colorama import init, Fore
 from dotenv import load_dotenv
 
@@ -33,6 +35,34 @@ VITE_API_URL = os.getenv("VITE_API_URL", f"http://{local_ip}:8000")
 
 # Determine whether to use 127.0.0.1 or local IP
 host_ip = "127.0.0.1" if "localhost" in VITE_API_URL else local_ip
+
+
+def wait_for_db():
+    """Wait for PostgreSQL in Docker to be ready before starting FastAPI."""
+    max_retries = 10
+    for i in range(max_retries):
+        try:
+            conn = psycopg2.connect(
+                dbname=os.getenv("DB_NAME"),
+                user=os.getenv("DB_USER"),
+                password=os.getenv("DB_PASSWORD"),
+                host=os.getenv("DB_HOST"),
+                port=os.getenv("DB_PORT"),
+                connect_timeout=3,
+            )
+            conn.close()
+            print(f"{Fore.GREEN}Database is ready!")
+            return
+        except psycopg2.OperationalError:
+            print(f"{Fore.YELLOW}Database not ready, retrying ({i+1}/{max_retries})...")
+            time.sleep(5)
+
+    print(f"{Fore.RED}Database connection failed after {max_retries} retries. Exiting.")
+    sys.exit(1)
+
+
+# Wait for PostgreSQL before starting FastAPI
+wait_for_db()
 
 
 def stream_logs(process, prefix, color):

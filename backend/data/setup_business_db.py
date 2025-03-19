@@ -1,97 +1,123 @@
-from sqlalchemy import (
-    create_engine,
-    Column,
-    Integer,
-    String,
-    Boolean,
-    ForeignKey,
-    DateTime,
-    Numeric,
-)
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker
 import os
-from datetime import datetime
+import psycopg2
+from dotenv import load_dotenv
 
-# Load environment variables
-BUSINESS_DATABASE_URL = os.getenv(
-    "BUSINESS_DATABASE_URL",
-    "postgresql://jedgebot_admin:password@localhost:5433/jedgebot_business",
-)
+# Load environment variables from the correct .env.business file
+env_path = os.path.join(os.path.dirname(__file__), ".env.business")
+load_dotenv(env_path)
 
-engine = create_engine(BUSINESS_DATABASE_URL)
-Base = declarative_base()
-
-
-# Users table (links to auth_db.users)
-class User(Base):
-    __tablename__ = "users"
-    id = Column(Integer, primary_key=True)
-    auth_user_id = Column(
-        Integer, nullable=False, unique=True
-    )  # Links to auth_db.users
-    created_at = Column(DateTime, default=datetime.utcnow)
+# Database connection settings from .env.business
+DB_NAME = os.getenv("DB_NAME", "jedgebot_business")
+DB_USER = os.getenv("DB_USER", "jedgebot_admin")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "password")
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_PORT = os.getenv("DB_PORT", "5433")
 
 
-# Roles table
-class Role(Base):
-    __tablename__ = "roles"
-    id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False, unique=True)  # e.g., manager, client, admin
+def drop_and_create_database():
+    """Drops the existing business database and recreates it."""
+    try:
+        print("Connecting to the default PostgreSQL database...")
+        conn = psycopg2.connect(
+            dbname="postgres",  # Connect to default database first
+            user=DB_USER,
+            password=DB_PASSWORD,
+            host=DB_HOST,
+            port=DB_PORT,
+        )
+        conn.autocommit = True
+        cursor = conn.cursor()
+
+        print(f"Dropping existing database '{DB_NAME}' if it exists...")
+        cursor.execute(f"DROP DATABASE IF EXISTS {DB_NAME}")
+
+        print(f"Creating new database '{DB_NAME}'...")
+        cursor.execute(f"CREATE DATABASE {DB_NAME}")
+
+        cursor.close()
+        conn.close()
+        print("Database reset successful.\n")
+
+    except Exception as e:
+        print(f"Error during database recreation: {e}")
 
 
-# User Roles Mapping
-class UserRole(Base):
-    __tablename__ = "user_roles"
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    role_id = Column(Integer, ForeignKey("roles.id"), nullable=False)
+def create_business_tables():
+    """Creates business-related tables in the database."""
+    try:
+        print(f"Connecting to newly created database '{DB_NAME}'...")
+        conn = psycopg2.connect(
+            dbname=DB_NAME,
+            user=DB_USER,
+            password=DB_PASSWORD,
+            host=DB_HOST,
+            port=DB_PORT,
+        )
+        cursor = conn.cursor()
 
+        print("Creating business tables...")
+        CREATE_BUSINESS_TABLES_SQL = """
+        CREATE TABLE IF NOT EXISTS users (
+            id SERIAL PRIMARY KEY,
+            auth_user_id INTEGER UNIQUE NOT NULL,
+            created_at TIMESTAMP DEFAULT NOW()
+        );
 
-# Subscription Plans
-class Subscription(Base):
-    __tablename__ = "subscriptions"
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    plan_type = Column(String, nullable=False)  # "free", "client", "manager"
-    active_until = Column(DateTime, nullable=True)
+        CREATE TABLE IF NOT EXISTS roles (
+            id SERIAL PRIMARY KEY,
+            name VARCHAR(50) UNIQUE NOT NULL
+        );
 
+        CREATE TABLE IF NOT EXISTS user_roles (
+            id SERIAL PRIMARY KEY,
+            user_id INTEGER REFERENCES users(id),
+            role_id INTEGER REFERENCES roles(id)
+        );
 
-# Broker Accounts
-class BrokerAccount(Base):
-    __tablename__ = "broker_accounts"
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    broker_name = Column(String, nullable=False)
-    account_number = Column(String, nullable=False, unique=True)
-    active = Column(Boolean, default=True)
+        CREATE TABLE IF NOT EXISTS subscriptions (
+            id SERIAL PRIMARY KEY,
+            user_id INTEGER REFERENCES users(id),
+            plan_type VARCHAR(50) NOT NULL,
+            active_until TIMESTAMP
+        );
 
+        CREATE TABLE IF NOT EXISTS broker_accounts (
+            id SERIAL PRIMARY KEY,
+            user_id INTEGER REFERENCES users(id),
+            broker_name VARCHAR(100) NOT NULL,
+            account_number VARCHAR(100) UNIQUE NOT NULL,
+            active BOOLEAN DEFAULT TRUE
+        );
 
-# Transactions (for payments and trading logs)
-class Transaction(Base):
-    __tablename__ = "transactions"
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    amount = Column(Numeric, nullable=False)
-    currency = Column(String, nullable=False, default="USD")
-    status = Column(String, nullable=False)  # pending, completed, failed
-    created_at = Column(DateTime, default=datetime.utcnow)
+        CREATE TABLE IF NOT EXISTS transactions (
+            id SERIAL PRIMARY KEY,
+            user_id INTEGER REFERENCES users(id),
+            amount NUMERIC NOT NULL,
+            currency VARCHAR(10) DEFAULT 'USD',
+            status VARCHAR(50) NOT NULL,
+            created_at TIMESTAMP DEFAULT NOW()
+        );
 
+        CREATE TABLE IF NOT EXISTS clients (
+            id SERIAL PRIMARY KEY,
+            manager_id INTEGER REFERENCES users(id),
+            client_id INTEGER REFERENCES users(id),
+            active BOOLEAN DEFAULT TRUE
+        );
+        """
+        cursor.execute(CREATE_BUSINESS_TABLES_SQL)
+        conn.commit()
 
-# Clients Table (if managers oversee multiple clients)
-class Client(Base):
-    __tablename__ = "clients"
-    id = Column(Integer, primary_key=True)
-    manager_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    client_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    active = Column(Boolean, default=True)
+        print("Business tables created successfully.")
+        cursor.close()
+        conn.close()
 
-
-# Create tables
-def init_business_db():
-    Base.metadata.create_all(engine)
+    except Exception as e:
+        print(f"Error during table creation: {e}")
 
 
 if __name__ == "__main__":
-    init_business_db()
-    print("Business database setup complete.")
+    print("Starting business database setup...\n")
+    drop_and_create_database()  # Step 1: Reset database
+    create_business_tables()  # Step 2: Create business tables
+    print("\nBusiness database setup complete.")
