@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 import os
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 from backend.data.auth_base import AuthBase  # Import from auth_base.py
 
 # Load environment variables from `.env.auth`
@@ -23,6 +23,17 @@ AUTH_DATABASE_URL = (
 )
 auth_engine = create_engine(AUTH_DATABASE_URL, echo=True)
 AuthSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=auth_engine)
+SessionScoped = scoped_session(AuthSessionLocal)
+
+
+def get_db():
+    """Provides a database session for dependency injection in FastAPI routes."""
+    db = SessionScoped()
+    try:
+        yield db
+    finally:
+        db.close()
+
 
 # Ensure tables are created (since Alembic is not being used)
 AuthBase.metadata.create_all(bind=auth_engine)
