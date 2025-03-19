@@ -1,22 +1,19 @@
 from dotenv import load_dotenv
 import os
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from backend.data.auth_base import AuthBase  # Import the correct base
 
-# Load env file for auth database
+# Explicitly load the correct .env file
 env_path = os.path.join(os.path.dirname(__file__), ".env.auth")
-load_dotenv(env_path)
+load_dotenv(env_path, override=True)  # Ensure it loads
 
-DB_NAME = os.getenv("AUTH_DB_NAME")
-DB_USER = os.getenv("AUTH_DB_USER")
-DB_PASSWORD = os.getenv("AUTH_DB_PASSWORD")
-DB_HOST = os.getenv("AUTH_DB_HOST")
-DB_PORT = os.getenv("AUTH_DB_PORT")
+# Retrieve credentials
+DB_NAME = os.getenv("DB_NAME")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")  # Now included
+DB_HOST = os.getenv("DB_HOST")
+DB_PORT = os.getenv("DB_PORT")
 
-# Create separate engine and session
-AUTH_DATABASE_URL = (
-    f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-)
-auth_engine = create_engine(AUTH_DATABASE_URL, echo=True)
-AuthSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=auth_engine)
+# Debugging: Ensure values are loaded
+print(f"Loaded DB Config: {DB_NAME}, {DB_USER}, {DB_HOST}, {DB_PORT}, {DB_PASSWORD}")
+
+# Convert DB_PORT to integer (fixes ValueError)
+DB_PORT = int(DB_PORT) if DB_PORT else 5433  # Default to 5433 if missing
