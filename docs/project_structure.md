@@ -14,7 +14,6 @@ JedgeBot/
 │   │   │   ├── clients.py
 │   │   │   ├── main.py
 │   │   │   ├── request_utils.py
-│   │   ├── auth_database.py
 │   │   ├── broker
 │   │   │   ├── __init__.py
 │   │   │   ├── broker_api.py
@@ -37,6 +36,7 @@ JedgeBot/
 │   │   │   ├── enums.py
 │   │   ├── data
 │   │   │   ├── __init__.py
+│   │   │   ├── auth_database.py
 │   │   │   ├── data_fetcher.py
 │   │   │   ├── data_processor.py
 │   │   │   ├── setup_auth_db.py
