@@ -1,19 +1,30 @@
 from dotenv import load_dotenv
 import os
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from backend.data.auth_base import AuthBase  # Import from auth_base.py
 
-# Explicitly load the correct .env file
+# Load env file for auth database
 env_path = os.path.join(os.path.dirname(__file__), ".env.auth")
-load_dotenv(env_path, override=True)  # Ensure it loads
+load_dotenv(env_path)
 
-# Retrieve credentials
 DB_NAME = os.getenv("DB_NAME")
 DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")  # Now included
+DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_HOST = os.getenv("DB_HOST")
 DB_PORT = os.getenv("DB_PORT")
 
-# Debugging: Ensure values are loaded
-print(f"Loaded DB Config: {DB_NAME}, {DB_USER}, {DB_HOST}, {DB_PORT}, {DB_PASSWORD}")
+# Ensure DB_PORT is an integer
+DB_PORT = int(DB_PORT) if DB_PORT else 5433
 
-# Convert DB_PORT to integer (fixes ValueError)
-DB_PORT = int(DB_PORT) if DB_PORT else 5433  # Default to 5433 if missing
+# Create database connection
+AUTH_DATABASE_URL = (
+    f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+)
+auth_engine = create_engine(AUTH_DATABASE_URL, echo=True)
+AuthSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=auth_engine)
+
+# Ensure tables are created (since Alembic is not being used)
+from backend.data.auth_models import AuthBase
+
+AuthBase.metadata.create_all(bind=auth_engine)

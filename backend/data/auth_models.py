@@ -1,6 +1,7 @@
 from sqlalchemy import Column, String, ForeignKey, TIMESTAMP
 from sqlalchemy.dialects.postgresql import UUID
-from backend.data.auth_base import AuthBase  # Importing the correct base
+from backend.data.auth_base import AuthBase  # Import from auth_base.py
+
 import uuid
 
 
