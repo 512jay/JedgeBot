@@ -1,64 +1,44 @@
-// frontend/src/api/auth_api.js
-// API functions to handle authentication, such as login, logout, and fetching protected data.
-// This file contains functions to handle authentication, such as login, logout, and fetching protected data.
+// /frontend/src/api/auth_api.js
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000"; // Ensure this is correctly set
 
-export const register = async (email, password) => {
-  const response = await fetch(`${API_URL}/auth/signup`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
-    credentials: "include", // Ensures cookies are sent with the request
-  });
+// Helper function to handle fetch requests
+async function fetchWithCredentials(url, options = {}) {
+    const response = await fetch(url, {
+        ...options,
+        credentials: "include", // Ensures cookies (access & refresh tokens) are included
+        headers: {
+            "Content-Type": "application/json",
+            ...options.headers, // Allow passing additional headers
+        },
+    });
 
-  return response.json();
-};
+    if (!response.ok) {
+        throw new Error(`HTTP Error: ${response.status}`);
+    }
 
+    return response.json();
+}
+
+// Login request
 export async function login(email, password) {
-  const formData = new URLSearchParams();
-  formData.append("username", email);
-  formData.append("password", password);
-
-  const response = await fetch(`${API_URL}/auth/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: formData,
-    credentials: "include", // Ensures cookies are used
-  });
-
-  if (!response.ok) {
-    throw new Error("Invalid login credentials");
-  }
-
-  return response.json();
+    return fetchWithCredentials(`${API_URL}/auth/login`, {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+    });
 }
 
-export async function fetchProtectedData() {
-  const response = await fetch(`${API_URL}/clients/some-protected-route`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include", // Ensures authentication via cookies
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch protected data");
-  }
-
-  return await response.json();
-}
-
+// Logout request
 export async function logout() {
-  const response = await fetch(`${API_URL}/auth/logout`, {
-    method: "POST",
-    credentials: "include", // Ensures the cookie is cleared properly
-  });
+    return fetchWithCredentials(`${API_URL}/auth/logout`, { method: "POST" });
+}
 
-  if (!response.ok) {
-    throw new Error("Logout failed");
-  }
+// Check authentication status (used in App.jsx)
+export async function checkAuthentication() {
+    return fetchWithCredentials(`${API_URL}/auth/check`);
+}
+
+// Refresh token (if applicable)
+export async function refreshToken() {
+    return fetchWithCredentials(`${API_URL}/auth/refresh`, { method: "POST" });
 }

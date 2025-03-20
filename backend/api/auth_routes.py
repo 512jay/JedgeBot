@@ -11,6 +11,8 @@ from pydantic import BaseModel
 from jose import JWTError, jwt
 from backend.data.database.auth.auth_schema import User
 from backend.data.database.auth.auth_queries import get_user_by_email
+from backend.data.database.auth.auth_db import SessionLocal
+
 
 # Environment variables (Use a .env file for production)
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -83,10 +85,24 @@ def get_current_user(request: Request):
 
     return {"email": user_email}  # Modify if user lookup is needed
 
+@router.get("/check")  # ✅ Fix: remove extra "/auth"
+def check_authentication(request: Request):
+    token = request.cookies.get("access_token")
+    if not token:
+        print("❌ No access_token found in cookies")
+        return Response(status_code=401)
+
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        return {"authenticated": True, "email": payload["sub"]}
+    except JWTError:
+        print("❌ Invalid or expired token")
+        return Response(status_code=401)
+
 
 @router.post("/login")
 def login(response: Response, request: Request, login_data: LoginRequest):
-    db_session = SessionLocal()  # Create a new session
+    db_session = SessionLocal()
     user = get_user_by_email(db_session, login_data.email)
     if not user or not verify_password(login_data.password, user.password_hash):
         raise HTTPException(status_code=400, detail="Invalid email or password")
@@ -96,24 +112,25 @@ def login(response: Response, request: Request, login_data: LoginRequest):
 
     response.set_cookie(
         key="access_token",
-        value=f"Bearer {access_token}",
+        value=access_token,
         httponly=True,
-        secure=True,  # Use HTTPS in production
-        samesite="Strict",
+        secure=False,  # 🔒 Change to True in production
+        samesite="Lax",
+        max_age=900,  # 15 min expiration
     )
-
     response.set_cookie(
         key="refresh_token",
         value=refresh_token,
         httponly=True,
-        secure=True,
-        samesite="Strict",
+        secure=False,
+        samesite="Lax",
+        max_age=604800,  # 7-day expiration
     )
 
     return {"message": "Login successful"}
 
 
-@router.post("/auth/refresh")
+@router.post("/refresh")
 def refresh_token(request: Request, response: Response):
     refresh_token = request.cookies.get("refresh_token")
     if not refresh_token:
@@ -125,10 +142,11 @@ def refresh_token(request: Request, response: Response):
 
         response.set_cookie(
             key="access_token",
-            value=f"Bearer {new_access_token}",
+            value=new_access_token,
             httponly=True,
-            secure=True,
-            samesite="Strict",
+            secure=False,
+            samesite="Lax",
+            max_age=900,  # 15 min expiration
         )
 
         return {"message": "Token refreshed"}
@@ -136,7 +154,7 @@ def refresh_token(request: Request, response: Response):
         raise HTTPException(status_code=401, detail="Invalid or expired refresh token")
 
 
-@router.post("/auth/logout")
+@router.post("/logout")
 def logout(response: Response):
     response.delete_cookie("access_token")
     response.delete_cookie("refresh_token")

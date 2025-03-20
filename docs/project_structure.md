@@ -124,15 +124,20 @@ JedgeBot/
 │   │   │   │   ├── AccountLevelView.jsx
 │   │   │   │   ├── ClientPortfolioView.jsx
 │   │   │   │   ├── Clients.jsx
+│   │   │   │   ├── Dashboard.jsx
 │   │   │   │   ├── Home.jsx
+│   │   │   │   ├── Landing.jsx
 │   │   │   │   ├── Login.jsx
 │   │   │   │   ├── PortfolioManagerOverview.jsx
+│   │   │   │   ├── Profile.jsx
 │   │   │   │   ├── Register.jsx
 │   │   │   │   ├── ResetPassword.jsx
+│   │   │   │   ├── Settings.jsx
 │   │   │   ├── styles
 │   │   │   │   ├── AccountLevelView.css
 │   │   │   │   ├── ClientPortfolioView.css
 │   │   │   │   ├── Home.css
+│   │   │   │   ├── Landing.css
 │   │   │   │   ├── PortfolioManagerOverview.css
 │   │   │   │   ├── Sidebar.css
 │   │   │   │   ├── global.css

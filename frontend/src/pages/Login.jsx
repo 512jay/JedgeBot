@@ -1,8 +1,12 @@
+// /frontend/src/pages/Login.jsx
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
-import { login } from "../api/api";
-import "../styles/global.css"; // Import global styles
+import { login } from "../api/auth_api";
+import "../styles/global.css";
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -13,15 +17,11 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await login(email, password);
-      if (data.access_token) {
-        // Instead of using localStorage, assume token management is handled elsewhere (e.g., Context API or Redux)
-        navigate("/dashboard");
-      } else {
-        setError("Invalid email or password");
-      }
+      const response = await login(email, password); // Use API function
+      console.log("✅ Login successful", response);
+      navigate("/dashboard");
     } catch (err) {
-      console.error("Login error:", err); // Added error logging
+      console.error("Login error:", err);
       setError("Login failed. Please try again.");
     }
   };
@@ -29,12 +29,9 @@ function Login() {
   return (
     <div className="auth-page">
       <div className="auth-container">
-        {/* Left Image */}
         <div className="auth-image">
           <img src="/images/leftlogin.jpg" alt="Professional Black woman with curly hair working on a laptop in a modern office." />
         </div>
-
-        {/* Right Login Form */}
         <div className="auth-box">
           <h2 className="text-center mb-4">Sign into your account</h2>
           {error && <p className="text-danger text-center">{error}</p>}

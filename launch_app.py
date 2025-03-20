@@ -111,7 +111,7 @@ backend_process = subprocess.Popen(
         "poetry",
         "run",
         "uvicorn",
-        "backend.api.main:app",
+        "backend.api.backend_server:app",
         "--host",
         host_ip,  # Uses localhost or network IP
         "--port",
