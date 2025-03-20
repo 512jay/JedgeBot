@@ -1,6 +1,6 @@
 import pytest
 from typing import Optional
-from backend.broker.broker_api import BaseBroker
+from backend.broker.api import BaseBroker
 
 
 class MockBroker(BaseBroker):

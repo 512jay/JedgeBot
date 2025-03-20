@@ -4,7 +4,7 @@
 
 from sqlalchemy import Column, String, Boolean, TIMESTAMP, text
 from sqlalchemy.dialects.postgresql import UUID
-from backend.data.database.authorization.auth_db_base import AuthBase
+from backend.data.database.auth.auth_db_base import AuthBase
 import uuid
 from sqlalchemy.orm import Session
 

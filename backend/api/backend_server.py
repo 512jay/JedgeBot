@@ -8,7 +8,7 @@ import os
 from dotenv import load_dotenv
 from backend.api.auth_routes import router as auth_router
 from backend.api.clients_routes import router as clients_router
-from backend.data.database.authorization.auth_db import SessionLocal as AuthSession
+from backend.data.database.auth.auth_db import SessionLocal as AuthSession
 
 load_dotenv()
 

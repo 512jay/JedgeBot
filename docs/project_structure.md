@@ -13,10 +13,10 @@ JedgeBot/
 │   │   │   ├── auth_routes.py
 │   │   │   ├── backend_server.py
 │   │   │   ├── clients_routes.py
-│   │   │   ├── request_helpers.py
+│   │   │   ├── http_utils.py
 │   │   ├── broker
 │   │   │   ├── __init__.py
-│   │   │   ├── broker_api.py
+│   │   │   ├── api.py
 │   │   │   ├── tastytrade
 │   │   │   │   ├── __init__.py
 │   │   │   │   ├── data_handler.py
@@ -40,7 +40,7 @@ JedgeBot/
 │   │   │   ├── data_processor.py
 │   │   │   ├── database
 │   │   │   │   ├── __init__.py
-│   │   │   │   ├── authorization
+│   │   │   │   ├── auth
 │   │   │   │   │   ├── __init__.py
 │   │   │   │   │   ├── auth_db.py
 │   │   │   │   │   ├── auth_db_base.py
@@ -50,14 +50,14 @@ JedgeBot/
 │   │   │   │   ├── business
 │   │   │   │   │   ├── __init__.py
 │   │   │   │   │   ├── initialize_business_db.py
-│   │   │   │   ├── trading
+│   │   │   │   ├── market
 │   │   │   │   │   ├── __init__.py
 │   │   │   │   │   ├── trading_base.py
 │   │   │   │   │   ├── trading_database.py
 │   │   │   │   │   ├── trading_models.py
 │   │   ├── execution
 │   │   │   ├── __init__.py
-│   │   │   ├── orders.py
+│   │   │   ├── order_manager.py
 │   │   ├── strategies
 │   │   │   ├── __init__.py
 │   │   │   ├── arbitrage.py

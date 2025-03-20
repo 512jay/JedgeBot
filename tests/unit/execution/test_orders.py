@@ -1,5 +1,5 @@
 import pytest
-from backend.execution.orders import Order, StockOrder, CryptoOrder, OrderType
+from backend.execution.order_manager import Order, StockOrder, CryptoOrder, OrderType
 
 
 class MockOrder(Order):
