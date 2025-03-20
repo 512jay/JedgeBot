@@ -1,4 +1,4 @@
-// frontend/src/api/api.jsx
+// frontend/src/api/api_client.js
 // API functions to interact with the backend
 // This file contains functions to interact with the backend API, such as fetching data or sending requests.
 

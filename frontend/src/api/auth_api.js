@@ -1,4 +1,4 @@
-// frontend/src/api/auth.js
+// frontend/src/api/auth_api.js
 // API functions to handle authentication, such as login, logout, and fetching protected data.
 // This file contains functions to handle authentication, such as login, logout, and fetching protected data.
 

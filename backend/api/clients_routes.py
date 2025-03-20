@@ -1,13 +1,13 @@
 # /backend/api/clients_routes.py
 # Handles client-related routes, ensuring authentication.
 
-from backend.data.auth_models import User  # ✅ Correct Import
+from backend.data.database.authorization.auth_schema import User  # ✅ Correct Import
 from backend.api.auth_routes import (
     get_current_user,
 )  # ✅ Import get_current_user for authentication
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from backend.data.auth_database import get_db  # ✅ Import get_db to access the database
+from backend.data.database.authorization.auth_db import get_db  # ✅ Import get_db to access the database
 
 router = APIRouter()
 

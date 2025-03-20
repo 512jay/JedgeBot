@@ -11,9 +11,9 @@ JedgeBot/
 │   │   ├── api
 │   │   │   ├── __init__.py
 │   │   │   ├── auth_routes.py
+│   │   │   ├── backend_server.py
 │   │   │   ├── clients_routes.py
 │   │   │   ├── request_helpers.py
-│   │   │   ├── server.py
 │   │   ├── broker
 │   │   │   ├── __init__.py
 │   │   │   ├── broker_api.py
@@ -47,10 +47,14 @@ JedgeBot/
 │   │   │   │   │   ├── auth_queries.py
 │   │   │   │   │   ├── auth_schema.py
 │   │   │   │   │   ├── initialize_auth_db.py
-│   │   │   ├── setup_business_db.py
-│   │   │   ├── trading_base.py
-│   │   │   ├── trading_database.py
-│   │   │   ├── trading_models.py
+│   │   │   │   ├── business
+│   │   │   │   │   ├── __init__.py
+│   │   │   │   │   ├── initialize_business_db.py
+│   │   │   │   ├── trading
+│   │   │   │   │   ├── __init__.py
+│   │   │   │   │   ├── trading_base.py
+│   │   │   │   │   ├── trading_database.py
+│   │   │   │   │   ├── trading_models.py
 │   │   ├── execution
 │   │   │   ├── __init__.py
 │   │   │   ├── orders.py
@@ -63,7 +67,7 @@ JedgeBot/
 │   │   ├── utils
 │   │   │   ├── __init__.py
 │   │   │   ├── logging.py
-│   │   │   ├── security.py
+│   │   │   ├── security_utils.py
 │   ├── data
 │   ├── docker-compose.yml
 │   ├── docker-entrypoint-initdb.d
@@ -101,8 +105,8 @@ JedgeBot/
 │   │   │   ├── App.css
 │   │   │   ├── App.jsx
 │   │   │   ├── api
+│   │   │   │   ├── api_client.js
 │   │   │   │   ├── auth_api.js
-│   │   │   │   ├── backend_api.jsx
 │   │   │   ├── assets
 │   │   │   │   ├── react.svg
 │   │   │   ├── components
@@ -139,6 +143,7 @@ JedgeBot/
 │   │   ├── common
 │   │   ├── execution
 │   │   ├── utils
+│   ├── launch_app.py
 │   ├── logs
 │   ├── notes
 │   │   ├── PortfolioManagmentRoadMap.md
@@ -161,7 +166,6 @@ JedgeBot/
 │   │   │   ├── start_streaming.py
 │   │   ├── btc_stream.py
 │   │   ├── start_market_data_stream.py
-│   ├── start_jedgebot.py
 │   ├── testdb.py
 │   ├── tests
 │   │   ├── unit

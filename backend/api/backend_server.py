@@ -1,4 +1,4 @@
-# /backend/api/server.py
+# /backend/api/backend_server.py
 # Main entry point for the FastAPI application.
 # It includes all routes
 
@@ -8,7 +8,7 @@ import os
 from dotenv import load_dotenv
 from backend.api.auth_routes import router as auth_router
 from backend.api.clients_routes import router as clients_router
-from backend.data.auth_database import SessionLocal as AuthSession
+from backend.data.database.authorization.auth_db import SessionLocal as AuthSession
 
 load_dotenv()
 

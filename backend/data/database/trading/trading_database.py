@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from backend.data.trading_base import TradingBase  # Import the correct base
+from backend.data.database.trading.trading_base import TradingBase  # Import the correct base
 
 # Load env file for trading database
 env_path = os.path.join(os.path.dirname(__file__), ".env.trading")

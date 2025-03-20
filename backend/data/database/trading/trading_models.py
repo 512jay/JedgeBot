@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, ForeignKey, TIMESTAMP, Float
 from sqlalchemy.dialects.postgresql import UUID
-from backend.data.trading_base import TradingBase  # Importing the correct base
+from backend.data.database.trading.trading_base import TradingBase  # Importing the correct base
 import uuid
 
 
