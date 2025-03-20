@@ -1,5 +1,8 @@
+# /backend/api/clients_routes.py
+# Handles client-related routes, ensuring authentication.
+
 from backend.data.auth_models import User  # ✅ Correct Import
-from backend.api.auth import (
+from backend.api.auth_routes import (
     get_current_user,
 )  # ✅ Import get_current_user for authentication
 from fastapi import APIRouter, Depends

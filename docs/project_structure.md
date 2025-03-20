@@ -10,10 +10,10 @@ JedgeBot/
 │   │   ├── __init__.py
 │   │   ├── api
 │   │   │   ├── __init__.py
-│   │   │   ├── auth.py
-│   │   │   ├── clients.py
-│   │   │   ├── main.py
-│   │   │   ├── request_utils.py
+│   │   │   ├── auth_routes.py
+│   │   │   ├── clients_routes.py
+│   │   │   ├── request_helpers.py
+│   │   │   ├── server.py
 │   │   ├── broker
 │   │   │   ├── __init__.py
 │   │   │   ├── broker_api.py
@@ -36,13 +36,17 @@ JedgeBot/
 │   │   │   ├── enums.py
 │   │   ├── data
 │   │   │   ├── __init__.py
-│   │   │   ├── auth_base.py
-│   │   │   ├── auth_database.py
-│   │   │   ├── auth_models.py
-│   │   │   ├── auth_queries.py
 │   │   │   ├── data_fetcher.py
 │   │   │   ├── data_processor.py
-│   │   │   ├── setup_auth_db.py
+│   │   │   ├── database
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── authorization
+│   │   │   │   │   ├── __init__.py
+│   │   │   │   │   ├── auth_db.py
+│   │   │   │   │   ├── auth_db_base.py
+│   │   │   │   │   ├── auth_queries.py
+│   │   │   │   │   ├── auth_schema.py
+│   │   │   │   │   ├── initialize_auth_db.py
 │   │   │   ├── setup_business_db.py
 │   │   │   ├── trading_base.py
 │   │   │   ├── trading_database.py
@@ -97,8 +101,8 @@ JedgeBot/
 │   │   │   ├── App.css
 │   │   │   ├── App.jsx
 │   │   │   ├── api
-│   │   │   │   ├── api.jsx
-│   │   │   │   ├── auth.js
+│   │   │   │   ├── auth_api.js
+│   │   │   │   ├── backend_api.jsx
 │   │   │   ├── assets
 │   │   │   │   ├── react.svg
 │   │   │   ├── components

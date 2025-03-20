@@ -1,9 +1,13 @@
+# /backend/api/server.py
+# Main entry point for the FastAPI application.
+# It includes all routes
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from dotenv import load_dotenv
-from backend.api.auth import router as auth_router
-from backend.api.clients import router as clients_router
+from backend.api.auth_routes import router as auth_router
+from backend.api.clients_routes import router as clients_router
 from backend.data.auth_database import SessionLocal as AuthSession
 
 load_dotenv()
@@ -27,7 +31,7 @@ app.add_middleware(
     allow_headers=["Authorization", "Content-Type"],  # ✅ Restrict headers
 )
 
-app.include_router(auth_router, prefix="/auth", tags=["auth"])
+app.include_router(auth_router, prefix="/auth")
 app.include_router(clients_router, prefix="/clients", tags=["clients"])
 
 

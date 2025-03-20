@@ -1,4 +1,7 @@
 // frontend/src/api/api.jsx
+// API functions to interact with the backend
+// This file contains functions to interact with the backend API, such as fetching data or sending requests.
+
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 export const login = async (email, password) => {

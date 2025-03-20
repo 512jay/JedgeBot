@@ -1,6 +1,10 @@
+# /backend/data/database/authorization/auth_schema.py
+# Handles the User schema for the authentication database using SQLAlchemy.
+# Defines authentication user model and provides methods for user retrieval.
+
 from sqlalchemy import Column, String, Boolean, TIMESTAMP, text
 from sqlalchemy.dialects.postgresql import UUID
-from backend.data.auth_base import AuthBase
+from backend.data.database.authorization.auth_db_base import AuthBase
 import uuid
 from sqlalchemy.orm import Session
 

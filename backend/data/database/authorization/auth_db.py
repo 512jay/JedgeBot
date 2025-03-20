@@ -1,3 +1,6 @@
+# /backend/data/database/authorization/auth_db.py
+# Handles the setup and interaction with the authentication database using SQLAlchemy.
+
 from sqlalchemy import create_engine, Column, Integer, String, Boolean, DateTime
 from sqlalchemy.orm import sessionmaker, Session, DeclarativeBase
 from datetime import datetime

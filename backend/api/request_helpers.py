@@ -1,3 +1,6 @@
+# /backend/api/request_helpers.py
+# Helpers for making API requests with retry logic.
+
 import requests
 import time
 from backend.utils.logging import logger

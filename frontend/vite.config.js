@@ -1,3 +1,6 @@
+// vite.config.js
+// Configuration file for Vite, a build tool that aims to provide a faster and leaner development experience for modern web projects.
+
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 

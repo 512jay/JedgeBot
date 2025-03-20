@@ -1,4 +1,7 @@
 // frontend/src/api/auth.js
+// API functions to handle authentication, such as login, logout, and fetching protected data.
+// This file contains functions to handle authentication, such as login, logout, and fetching protected data.
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const register = async (email, password) => {

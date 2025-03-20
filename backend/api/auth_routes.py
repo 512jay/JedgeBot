@@ -1,3 +1,6 @@
+# /backend/api/auth_routes.py
+# Handles authentication routes (login, logout, refresh token).
+
 import os
 from datetime import datetime, timedelta
 from typing import Optional
@@ -10,7 +13,7 @@ from backend.data.auth_models import User
 from backend.data.auth_queries import get_user_by_email
 
 # Environment variables (Use a .env file for production)
-SECRET_KEY = os.getenv("SECRET_KEY", "supersecretkey")
+SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 15
 REFRESH_TOKEN_EXPIRE_DAYS = 7
@@ -23,6 +26,10 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 router = APIRouter()
 
+
+class LoginRequest(BaseModel):
+    email: str
+    password: str
 
 # Hash passwords
 def hash_password(password: str):
@@ -55,22 +62,38 @@ def create_refresh_token(user_id: str):
         algorithm=ALGORITHM,
     )
 
+# get current user
+def get_current_user(request: Request):
+    token = request.cookies.get("access_token")
+    if not token:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated",
+        )
 
-class LoginRequest(BaseModel):
-    email: str
-    password: str
+    try:
+        payload = jwt.decode(
+            token.replace("Bearer ", ""), SECRET_KEY, algorithms=[ALGORITHM]
+        )
+        user_email = payload.get("sub")
+        if user_email is None:
+            raise HTTPException(status_code=401, detail="Invalid token")
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Could not validate credentials")
+
+    return {"email": user_email}  # Modify if user lookup is needed
 
 
-@router.post("/auth/login")
+@router.post("/login")
 def login(response: Response, request: Request, login_data: LoginRequest):
-    user = get_user_by_email(login_data.email)
+    db_session = SessionLocal()  # Create a new session
+    user = get_user_by_email(db_session, login_data.email)
     if not user or not verify_password(login_data.password, user.password_hash):
         raise HTTPException(status_code=400, detail="Invalid email or password")
 
     access_token = create_access_token(data={"sub": user.email})
     refresh_token = create_refresh_token(user.email)
 
-    # Store access token in an HTTP-only secure cookie
     response.set_cookie(
         key="access_token",
         value=f"Bearer {access_token}",

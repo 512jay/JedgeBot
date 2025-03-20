@@ -1,3 +1,6 @@
+# /backend/data/database/authorization/initialize_auth_db.py
+# Initialize and reset the authentication database by dropping and recreating it, and creating necessary tables.
+
 import os
 import psycopg2
 from dotenv import load_dotenv
