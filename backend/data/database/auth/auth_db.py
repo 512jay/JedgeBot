@@ -11,8 +11,7 @@ from backend.data.database.auth.models import AuthBase
 # -----------------------------------------------------------------------------
 # Load environment variables from .env.auth
 # -----------------------------------------------------------------------------
-env_path = os.path.join(os.path.dirname(__file__), ".env.auth")
-load_dotenv(env_path)
+load_dotenv()
 
 # -----------------------------------------------------------------------------
 # Build the PostgreSQL connection string
