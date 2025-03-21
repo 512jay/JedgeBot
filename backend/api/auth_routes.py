@@ -10,8 +10,10 @@ from passlib.context import CryptContext
 from pydantic import BaseModel, EmailStr
 from pydantic import BaseModel
 from jose import JWTError, jwt
-from backend.data.database.auth.auth_schema import User
-from backend.data.database.auth.auth_queries import get_user_by_email, create_user
+from sqlalchemy.orm import Session
+from backend.data.database.auth.auth_db import get_db
+from backend.data.database.auth.auth_queries import get_user_by_email
+from backend.data.database.auth.auth_services import create_user
 from backend.data.database.auth.auth_db import SessionLocal
 
 
@@ -107,9 +109,8 @@ def check_authentication(request: Request):
 
 
 @router.post("/login")
-def login(response: Response, request: Request, login_data: LoginRequest):
-    db_session = SessionLocal()
-    user = get_user_by_email(db_session, login_data.email)
+def login(response: Response, login_data: LoginRequest, db: Session = Depends(get_db)):
+    user = get_user_by_email(db, login_data.email)
     if not user or not verify_password(login_data.password, user.password_hash):
         raise HTTPException(status_code=400, detail="Invalid email or password")
 
@@ -120,9 +121,9 @@ def login(response: Response, request: Request, login_data: LoginRequest):
         key="access_token",
         value=access_token,
         httponly=True,
-        secure=False,  # 🔒 Change to True in production
+        secure=False,
         samesite="Lax",
-        max_age=900,  # 15 min expiration
+        max_age=900,
     )
     response.set_cookie(
         key="refresh_token",
@@ -130,24 +131,23 @@ def login(response: Response, request: Request, login_data: LoginRequest):
         httponly=True,
         secure=False,
         samesite="Lax",
-        max_age=604800,  # 7-day expiration
+        max_age=604800,
     )
 
     return {"message": "Login successful"}
 
 
 @router.post("/register")
-def register(request: RegisterRequest):
-    db_session = SessionLocal()
-    existing_user = get_user_by_email(db_session, request.email)
+def register(request: RegisterRequest, db: Session = Depends(get_db)):
+    existing_user = get_user_by_email(db, request.email)
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
 
     hashed_password = hash_password(request.password)
-    new_user = create_user(db_session, request.email, hashed_password)
-
-    if not new_user:
-        raise HTTPException(status_code=500, detail="User registration failed")
+    try:
+        new_user = create_user(db, request.email, hashed_password)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
     return {"message": "User registered successfully"}
 

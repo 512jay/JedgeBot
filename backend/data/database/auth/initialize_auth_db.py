@@ -1,5 +1,30 @@
-# /backend/data/database/authorization/initialize_auth_db.py
+# /backend/data/database/auth/initialize_auth_db.py
 # Initialize and reset the authentication database by dropping and recreating it, and creating necessary tables.
+# /backend/data/database/auth/models.py
+# NOTE: Temporary dev-only script, to be removed once Alembic is adopted
+
+from sqlalchemy import Column, String, Boolean, TIMESTAMP, text, Enum
+from sqlalchemy.dialects.postgresql import UUID
+from backend.data.database.auth.models import AuthBase
+import uuid
+import enum
+
+class UserRole(enum.Enum):
+    FREE = "free"
+    CLIENT = "client"
+    MANAGER = "manager"
+    ENTERPRISE = "enterprise"
+
+class User(AuthBase):
+    __tablename__ = "users"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    email = Column(String(255), unique=True, nullable=False)
+    password_hash = Column(String, nullable=False)
+    role = Column(Enum(UserRole), nullable=False, default=UserRole.FREE)
+    is_active = Column(Boolean, default=True)
+    created_at = Column(TIMESTAMP, server_default=text("NOW()"))
+    last_login = Column(TIMESTAMP, nullable=True)
 
 import os
 import psycopg2

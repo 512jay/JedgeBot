@@ -1,9 +1,8 @@
-# /backend/data/database/authorization/auth_db.py
+# /backend/data/database/auth/auth_db.py
 # Handles the setup and interaction with the authentication database using SQLAlchemy.
 
-from sqlalchemy import create_engine, Column, Integer, String, Boolean, DateTime
-from sqlalchemy.orm import sessionmaker, Session, DeclarativeBase
-from datetime import datetime
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 import os
 from dotenv import load_dotenv
 
@@ -16,24 +15,6 @@ DATABASE_URL = f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@
 # Database Engine
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-
-# Base model using DeclarativeBase (SQLAlchemy 2.0+)
-class Base(DeclarativeBase):
-    pass
-
-
-# Authentication User Model
-class User(Base):
-    __tablename__ = "users"
-
-    id = Column(Integer, primary_key=True, index=True)
-    email = Column(String, unique=True, index=True, nullable=False)
-    password_hash = Column(String, nullable=False)
-    is_active = Column(Boolean, default=True)
-    is_admin = Column(Boolean, default=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    last_login = Column(DateTime, nullable=True)
 
 
 # Function to create tables

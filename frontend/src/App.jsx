@@ -7,6 +7,7 @@ import DashboardLayout from "./pages/Dashboard";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
