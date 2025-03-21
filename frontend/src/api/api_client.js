@@ -1,17 +1,41 @@
-// frontend/src/api/api_client.js
-// API functions to interact with the backend
-// This file contains functions to interact with the backend API, such as fetching data or sending requests.
+// /frontend/src/api/api_client.js
+// Centralized API client to interact with the backend
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000"; // Ensure this is set correctly
 
+// General function to handle API requests with authentication cookies
+export async function fetchWithCredentials(url, options = {}) {
+    const response = await fetch(url, {
+        ...options,
+        credentials: "include", // Ensures cookies (access & refresh tokens) are included
+        headers: {
+            "Content-Type": "application/json",
+            ...options.headers, // Allow passing additional headers
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP Error: ${response.status}`);
+    }
+
+    return response.json();
+}
+
+// Example: Fetch a message from the backend (general API call)
 export const fetchMessage = async () => {
     try {
-        const response = await fetch(`${API_URL}/`);
-        if (!response.ok) {
-            throw new Error("Network response was not ok");
-        }
-        return await response.json();
+        return await fetchWithCredentials(`${API_URL}/`);
     } catch (error) {
         console.error("Error fetching data:", error);
     }
 };
+// Example: Fetch user profile (general API call)
+export const fetchUserProfile = async () => {
+    try {
+        return await fetchWithCredentials(`${API_URL}/profile`);
+    } catch (error) {
+        console.error("Error fetching user profile:", error);
+    }
+};
+// Example: Fetch user settings (general API call)  
+    

@@ -88,10 +88,13 @@ def get_current_user(request: Request) -> dict:
 # Routes
 # -----------------------------------------------------------------------------
 @router.get("/check")
-def check_authentication(request: Request):
+def check_authentication(request: Request, db: Session = Depends(get_db)):
     """
-    Verify if a user is currently authenticated.
-    Returns email if valid, 401 if not.
+    Verify if a user is currently authenticated by decoding the access token.
+
+    Returns:
+        200 with user email and role if authenticated.
+        401 Unauthorized if token is missing or invalid.
     """
     token = request.cookies.get("access_token")
     if not token:
@@ -99,7 +102,13 @@ def check_authentication(request: Request):
 
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        return {"authenticated": True, "email": payload["sub"]}
+        email = payload["sub"]
+        user = get_user_by_email(db, email)
+        return {
+            "authenticated": True,
+            "email": email,
+            "role": user.role.value,
+        }
     except JWTError:
         return Response(status_code=401)
 
