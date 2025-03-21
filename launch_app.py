@@ -34,7 +34,7 @@ local_ip = socket.gethostbyname(socket.gethostname())
 VITE_API_URL = os.getenv("VITE_API_URL", f"http://{local_ip}:8000")
 
 # Determine whether to use 127.0.0.1 or local IP
-host_ip = "127.0.0.1" if "localhost" in VITE_API_URL else local_ip
+host_ip = "localhost" if "localhost" in VITE_API_URL else local_ip
 
 
 def wait_for_db():

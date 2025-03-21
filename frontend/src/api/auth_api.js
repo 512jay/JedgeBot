@@ -34,13 +34,29 @@ export async function register(userData) {
 
 
 
-// Login request
+// /frontend/src/api/auth_api.js
+
 export async function login(email, password) {
-    return fetchWithCredentials(`${API_URL}/auth/login`, {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-    });
+    try {
+        const response = await fetchWithCredentials(`${API_URL}/auth/login`, {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.detail || `Login failed with status ${response.status}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Login error:", error.message);
+        throw error;  // Re-throw to allow your UI to display a message
+    }
 }
+
 
 // Logout request
 export async function logout() {
