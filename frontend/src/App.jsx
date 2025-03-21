@@ -1,8 +1,8 @@
 // /frontend/src/App.jsx
-//import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import Landing from "./pages/Landing"; // Import Landing page
+import Landing from "./pages/Landing";
 import Login from "./pages/Login";
+import Register from "./pages/Register";  // ✅ Import Register page
 import DashboardLayout from "./pages/Dashboard";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
@@ -15,6 +15,7 @@ function App() {
         {/* Landing Page as Default */}
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />  {/* ✅ Added Register route */}
 
         {/* Protected Dashboard Routes */}
         <Route path="/dashboard" element={<DashboardLayout />}>

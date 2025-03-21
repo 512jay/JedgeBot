@@ -19,6 +19,20 @@ async function fetchWithCredentials(url, options = {}) {
 
     return response.json();
 }
+// Register request
+// Ensure Content-Type is set and body is correctly formatted
+export async function register(userData) {
+    return fetchWithCredentials(`${API_URL}/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },  // ✅ Ensure JSON format
+        body: JSON.stringify(userData),  // ✅ Convert userData to JSON
+    }).catch(error => {
+        console.error("Registration failed:", error);
+        throw error;  // Pass the error to the frontend UI
+    });
+}
+
+
 
 // Login request
 export async function login(email, password) {

@@ -1,29 +1,125 @@
 /* /frontend/src/styles/Landing.css */
 
-.landing-container {
+.landing-page {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    min-height: 100vh;
+    width: 100vw;
+    background-color: #9A616D;
+    /* Matches Login & Register pages */
     color: white;
+    text-align: center;
 }
 
-.landing-header {
-    text-align: center;
-    max-width: 600px;
-    padding: 2rem;
-    border-radius: 10px;
+/* Navigation Bar */
+.navbar {
+    width: 100%;
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
 }
 
-.landing-buttons {
+.brand {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    display: inline;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    transition: 0.3s ease-in-out;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+    color: #ffcc00;
+}
+
+/* Hero Section as a Card */
+.hero-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+    width: 100%;
+    text-align: center;
+    margin-top: 4rem;
+    padding: 2rem;
+}
+
+.hero-card {
+    background: white;
+    color: black;
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 600px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.hero-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.hero-buttons {
     margin-top: 1.5rem;
 }
 
-.landing-buttons .btn {
+.hero-buttons .btn {
     padding: 0.75rem 1.5rem;
     font-size: 1.1rem;
+    border-radius: 5px;
+    margin: 0 0.5rem;
+    text-decoration: none;
+    transition: 0.3s ease-in-out;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #ffcc00;
+    color: black;
+}
+
+.btn-secondary:hover {
+    background-color: #e6b800;
 }

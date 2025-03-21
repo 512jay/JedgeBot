@@ -7,10 +7,11 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, status, Response, Request
 from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
+from pydantic import BaseModel, EmailStr
 from pydantic import BaseModel
 from jose import JWTError, jwt
 from backend.data.database.auth.auth_schema import User
-from backend.data.database.auth.auth_queries import get_user_by_email
+from backend.data.database.auth.auth_queries import get_user_by_email, create_user
 from backend.data.database.auth.auth_db import SessionLocal
 
 
@@ -27,6 +28,11 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 router = APIRouter()
+
+
+class RegisterRequest(BaseModel):
+    email: EmailStr
+    password: str
 
 
 class LoginRequest(BaseModel):
@@ -128,6 +134,22 @@ def login(response: Response, request: Request, login_data: LoginRequest):
     )
 
     return {"message": "Login successful"}
+
+
+@router.post("/register")
+def register(request: RegisterRequest):
+    db_session = SessionLocal()
+    existing_user = get_user_by_email(db_session, request.email)
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Email already registered")
+
+    hashed_password = hash_password(request.password)
+    new_user = create_user(db_session, request.email, hashed_password)
+
+    if not new_user:
+        raise HTTPException(status_code=500, detail="User registration failed")
+
+    return {"message": "User registered successfully"}
 
 
 @router.post("/refresh")
