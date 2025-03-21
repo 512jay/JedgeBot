@@ -52,9 +52,9 @@ const Register = () => {
               onChange={(e) => setRole(e.target.value)}
               className="form-control mb-3"
             >
-              <option value="free">Free – 1 Brokerage Account</option>
-              <option value="client">Client – $30/mo for 10 Accounts</option>
-              <option value="manager">Manager – $200/mo for 100 Accounts</option>
+              <option value="free">Free – Manage 1 Brokerage Account</option>
+              <option value="client">Client – $30/mo for 10 Brokerage Accounts</option>
+              <option value="manager">Manager – $200/mo for 100 Brokerage Accounts</option>
             </select>
             <label htmlFor="email">Email Address</label>
             <input
