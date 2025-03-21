@@ -43,8 +43,6 @@ JedgeBot/
 │   │   │   ├── enums.py
 │   │   ├── data
 │   │   │   ├── __init__.py
-│   │   │   ├── data_fetcher.py
-│   │   │   ├── data_processor.py
 │   │   │   ├── database
 │   │   │   │   ├── __init__.py
 │   │   │   │   ├── auth
@@ -63,20 +61,12 @@ JedgeBot/
 │   │   │   │   │   ├── trading_base.py
 │   │   │   │   │   ├── trading_database.py
 │   │   │   │   │   ├── trading_models.py
-│   │   ├── execution
-│   │   │   ├── __init__.py
-│   │   │   ├── order_manager.py
 │   │   ├── main.py
-│   │   ├── strategies
-│   │   │   ├── __init__.py
-│   │   │   ├── arbitrage.py
-│   │   │   ├── mean_reversion.py
-│   │   │   ├── trend_follow.py
-│   │   │   ├── wheel_strategy.py
 │   │   ├── utils
 │   │   │   ├── __init__.py
 │   │   │   ├── logging.py
 │   │   │   ├── security_utils.py
+│   ├── check_db_env.py
 │   ├── docker-compose.yml
 │   ├── docker-entrypoint-initdb.d
 │   │   ├── create_auth_db.sql
@@ -181,12 +171,11 @@ JedgeBot/
 │   │   │   ├── start_streaming.py
 │   │   ├── btc_stream.py
 │   │   ├── start_market_data_stream.py
-│   ├── testdb.py
 │   ├── tests
+│   │   ├── conftest.py
 │   │   ├── unit
 │   │   │   ├── __init__.py
 │   │   │   ├── auth
-│   │   │   ├── execution
-│   │   │   │   ├── test_orders.py
+│   │   │   │   ├── test_auth_routes.py
 │   │   │   ├── test_base_broker.py
 ```

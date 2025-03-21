@@ -122,7 +122,7 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
 
     hashed_password = hash_password(request.password)
     try:
-        new_user = create_user(db, request.email, hashed_password, role=request.role)
+        create_user(db, request.email, hashed_password, role=request.role)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     return {"message": f"User registered successfully as {request.role.value}"}
