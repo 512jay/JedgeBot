@@ -126,3 +126,13 @@ input:-webkit-autofill {
     transition: background-color 5000s ease-in-out 0s !important;
     /* Prevent quick color reset */
 }
+
+/* /frontend/src/styles/global.css */
+.shadow-lg {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}
+
+.text-gray-600 {
+    color: #6b7280;
+}

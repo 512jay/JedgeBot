@@ -68,12 +68,12 @@ JedgeBot/
 │   │   │   ├── __init__.py
 │   │   │   ├── logging.py
 │   │   │   ├── security_utils.py
-│   ├── data
 │   ├── docker-compose.yml
 │   ├── docker-entrypoint-initdb.d
 │   │   ├── create_auth_db.sql
 │   ├── docs
 │   │   ├── business_plan.md
+│   │   ├── database_schema.md
 │   │   ├── development_enviroment.md
 │   │   ├── github_workflow.md
 │   │   ├── legal_strategy.md
@@ -110,6 +110,7 @@ JedgeBot/
 │   │   │   ├── assets
 │   │   │   │   ├── react.svg
 │   │   │   ├── components
+│   │   │   │   ├── DashboardCards.jsx
 │   │   │   │   ├── Navbar.jsx
 │   │   │   │   ├── Sidebar.jsx
 │   │   │   │   ├── TitleManager.jsx

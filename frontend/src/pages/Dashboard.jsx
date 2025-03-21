@@ -1,23 +1,23 @@
 // /frontend/src/pages/Dashboard.jsx
-import React from "react";
-import { Outlet } from "react-router-dom"; // Allows nested routes to render inside the Dashboard
-import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
+import React, { useState } from "react";
+import Sidebar from "@/components/Sidebar";
+import DashboardCards from "@/components/DashboardCards";
 
-function DashboardLayout() {
-  console.log("🖥️ DashboardLayout: Rendering...");
+const Dashboard = () => {
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <div className="dashboard-container d-flex">
-      <Sidebar />
-      <div className="main-content flex-grow-1">
-        <Navbar />
-        <div className="content p-4">
-          <Outlet /> {/* 👈 This is where sub-pages like Home, Profile, etc. will be rendered */}
-        </div>
+    <div className="flex min-h-screen">
+      {/* Sidebar */}
+      <Sidebar onToggleCollapse={() => setCollapsed(!collapsed)} />
+
+      {/* Main content adjusts to sidebar width */}
+      <div className={`p-6 transition-all duration-300 ${collapsed ? "ml-16" : "ml-64"}`}>
+        <h1 className="text-3xl font-bold mb-6">Welcome to your Dashboard</h1>
+        <DashboardCards />
       </div>
     </div>
   );
-}
+};
 
-export default DashboardLayout;
+export default Dashboard;
