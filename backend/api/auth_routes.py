@@ -8,7 +8,6 @@ from fastapi import APIRouter, Depends, HTTPException, status, Response, Request
 from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 from pydantic import BaseModel, EmailStr
-from pydantic import BaseModel
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 from backend.data.database.auth.auth_db import get_db

@@ -2,7 +2,7 @@
 # Queries for user management in the authentication database.
 
 from sqlalchemy.orm import Session
-from backend.data.database.auth.models import User
+from backend.data.database.auth.models import User, UserRole
 
 
 def get_user_by_email(db_session: Session, email: str):

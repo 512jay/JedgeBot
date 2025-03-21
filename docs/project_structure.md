@@ -45,7 +45,6 @@ JedgeBot/
 │   │   │   │   │   ├── auth_db.py
 │   │   │   │   │   ├── auth_queries.py
 │   │   │   │   │   ├── auth_services.py
-│   │   │   │   │   ├── initialize_auth_db.py
 │   │   │   │   │   ├── models.py
 │   │   │   │   ├── business
 │   │   │   │   │   ├── __init__.py

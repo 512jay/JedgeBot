@@ -20,11 +20,13 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Function to create tables
 def init_db():
+    """Yield a new SQLAlchemy session."""
     AuthBase.metadata.create_all(bind=engine)
 
 
 # Dependency to get the DB session
 def get_db():
+    """Yield a new SQLAlchemy session."""
     db = SessionLocal()
     try:
         yield db
