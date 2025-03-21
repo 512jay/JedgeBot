@@ -15,23 +15,24 @@ function Login() {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    setError(null); // Clear any previous errors
-    try {
-        const response = await login(email, password);
-        
-        if (response.message === "Login successful") {
-            console.log("✅ Login successful", response);
-            navigate("/dashboard");
-        } else {
-            console.error("Login response error:", response);
-            setError("Invalid credentials. Please try again.");
-        }
-    } catch (err) {
-        console.error("Login error:", err);
-        setError("Login failed. Please try again.");
-    }
+      e.preventDefault();
+      setError(null); // Clear previous errors
+      try {
+          const response = await login(email, password);
+
+          if (response.message === "Login successful") {
+              console.log("✅ Login successful", response);
+              navigate("/dashboard");
+          } else {
+              console.error("Login response error:", response);
+              setError("Invalid credentials. Please try again.");
+          }
+      } catch (err) {
+          console.error("Login error:", err);
+          setError("Login failed. Please try again.");
+      }
   };
+
 
 
   return (
