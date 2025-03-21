@@ -11,7 +11,6 @@ JedgeBot/
 │   │   ├── api
 │   │   │   ├── __init__.py
 │   │   │   ├── auth_routes.py
-│   │   │   ├── backend_server.py
 │   │   │   ├── clients_routes.py
 │   │   │   ├── http_utils.py
 │   │   │   ├── password_reset_routes.py
@@ -60,6 +59,7 @@ JedgeBot/
 │   │   ├── execution
 │   │   │   ├── __init__.py
 │   │   │   ├── order_manager.py
+│   │   ├── main.py
 │   │   ├── strategies
 │   │   │   ├── __init__.py
 │   │   │   ├── arbitrage.py
