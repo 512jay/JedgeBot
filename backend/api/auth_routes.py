@@ -16,6 +16,8 @@ from sqlalchemy.orm import Session
 from backend.data.database.auth.auth_db import get_db
 from backend.data.database.auth.auth_queries import get_user_by_email
 from backend.data.database.auth.auth_services import create_user
+from backend.data.database.auth.auth_services import hash_password, verify_password
+
 
 # -----------------------------------------------------------------------------
 # Configuration
@@ -44,19 +46,6 @@ class RegisterRequest(BaseModel):
 class LoginRequest(BaseModel):
     email: str
     password: str
-
-
-# -----------------------------------------------------------------------------
-# Utility Functions
-# -----------------------------------------------------------------------------
-def hash_password(password: str) -> str:
-    """Hash a plaintext password using bcrypt."""
-    return pwd_context.hash(password)
-
-
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """Verify a plaintext password against a hashed one."""
-    return pwd_context.verify(plain_password, hashed_password)
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:

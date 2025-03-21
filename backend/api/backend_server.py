@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 from dotenv import load_dotenv
 from backend.api.auth_routes import router as auth_router
-from backend.api.clients_routes import router as clients_router
+#from backend.api.clients_routes import router as clients_router
 from backend.data.database.auth.auth_db import SessionLocal as AuthSession
 
 load_dotenv()
@@ -29,7 +29,7 @@ app.add_middleware(
 
 # ✅ Register API Routes
 app.include_router(auth_router, prefix="/auth")
-app.include_router(clients_router, prefix="/clients", tags=["clients"])
+#app.include_router(clients_router, prefix="/clients", tags=["clients"])
 
 
 # ✅ Root route to confirm API is running

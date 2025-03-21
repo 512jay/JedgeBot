@@ -178,6 +178,7 @@ JedgeBot/
 │   ├── tests
 │   │   ├── unit
 │   │   │   ├── __init__.py
+│   │   │   ├── auth
 │   │   │   ├── execution
 │   │   │   │   ├── test_orders.py
 │   │   │   ├── test_base_broker.py

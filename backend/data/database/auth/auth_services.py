@@ -5,6 +5,19 @@ from datetime import datetime
 from sqlalchemy.orm import Session
 from backend.data.database.auth.models import User, UserRole
 from backend.data.database.auth.auth_queries import get_user_by_email
+from passlib.context import CryptContext
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+
+def hash_password(password: str) -> str:
+    """Hash a plaintext password using bcrypt."""
+    return pwd_context.hash(password)
+
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """Verify a plaintext password against a hashed one."""
+    return pwd_context.verify(plain_password, hashed_password)
 
 
 def create_user(
