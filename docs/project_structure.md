@@ -6,6 +6,12 @@ JedgeBot/
 │   ├── LICENSE
 │   ├── README.md
 │   ├── __init__.py
+│   ├── alembic
+│   │   ├── README
+│   │   ├── env.py
+│   │   ├── script.py.mako
+│   │   ├── versions
+│   ├── alembic.ini
 │   ├── backend
 │   │   ├── __init__.py
 │   │   ├── api

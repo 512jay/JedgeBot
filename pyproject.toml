@@ -41,6 +41,7 @@ types-toml = "^0.10.8.20240310"
 pytest-mock = "^3.14.0"
 types-passlib = "^1.7.7.20241221"
 types-python-jose = "^3.4.0.20250224"
+alembic = "^1.15.1"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
