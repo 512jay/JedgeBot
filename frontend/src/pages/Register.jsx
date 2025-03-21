@@ -7,6 +7,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState("free"); // Default role is 'free'
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -18,7 +19,7 @@ const Register = () => {
     }
 
     try {
-      await register({ email, password });
+      await register({ email, password, role });
       alert("Registration successful! Please log in.");
       navigate("/login");
     } catch (err) {
@@ -44,6 +45,17 @@ const Register = () => {
           {error && <p className="text-danger text-center">{error}</p>}
 
           <form onSubmit={handleRegister}>
+            <label htmlFor="role">Select Role</label>
+            <select
+              id="role"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="form-control mb-3"
+            >
+              <option value="free">Free – 1 Brokerage Account</option>
+              <option value="client">Client – $30/mo for 10 Accounts</option>
+              <option value="manager">Manager – $200/mo for 100 Accounts</option>
+            </select>
             <label htmlFor="email">Email Address</label>
             <input
               id="email"

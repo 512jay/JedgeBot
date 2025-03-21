@@ -17,6 +17,7 @@ from backend.data.database.auth.auth_db import get_db
 from backend.data.database.auth.auth_queries import get_user_by_email
 from backend.data.database.auth.auth_services import create_user
 from backend.data.database.auth.auth_services import hash_password, verify_password
+from backend.data.database.auth.models import UserRole
 
 
 # -----------------------------------------------------------------------------
@@ -41,6 +42,7 @@ router = APIRouter()
 class RegisterRequest(BaseModel):
     email: EmailStr
     password: str
+    role: UserRole
 
 
 class LoginRequest(BaseModel):
@@ -115,19 +117,15 @@ def check_authentication(request: Request, db: Session = Depends(get_db)):
 
 @router.post("/register")
 def register(request: RegisterRequest, db: Session = Depends(get_db)):
-    """
-    Register a new user with email and password.
-    """
     if get_user_by_email(db, request.email):
         raise HTTPException(status_code=400, detail="Email already registered")
 
     hashed_password = hash_password(request.password)
     try:
-        new_user = create_user(db, request.email, hashed_password)
+        new_user = create_user(db, request.email, hashed_password, role=request.role)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
-
-    return {"message": "User registered successfully"}
+    return {"message": f"User registered successfully as {request.role.value}"}
 
 
 @router.post("/login")
