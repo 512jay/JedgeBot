@@ -14,17 +14,25 @@ function Login() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setError(null); // Clear any previous errors
     try {
-      const response = await login(email, password); // Use API function
-      console.log("✅ Login successful", response);
-      navigate("/dashboard");
+        const response = await login(email, password);
+        
+        if (response.message === "Login successful") {
+            console.log("✅ Login successful", response);
+            navigate("/dashboard");
+        } else {
+            console.error("Login response error:", response);
+            setError("Invalid credentials. Please try again.");
+        }
     } catch (err) {
-      console.error("Login error:", err);
-      setError("Login failed. Please try again.");
+        console.error("Login error:", err);
+        setError("Login failed. Please try again.");
     }
   };
+
 
   return (
     <div className="auth-page">
@@ -35,7 +43,7 @@ function Login() {
         <div className="auth-box">
           <h2 className="text-center mb-4">Sign into your account</h2>
           {error && <p className="text-danger text-center">{error}</p>}
-          <form onSubmit={handleSubmit} className="w-100 px-4">
+          <form onSubmit={handleLogin} className="w-100 px-4">
             <label htmlFor="email">Email Address</label>
             <MDBInput
               className="mb-3"
