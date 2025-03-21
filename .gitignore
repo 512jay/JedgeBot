@@ -190,3 +190,5 @@ config.toml
 
 # Ignore log files
 *.log
+
+chatgpt_output/
