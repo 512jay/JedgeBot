@@ -14,7 +14,6 @@ from sqlalchemy.orm import Session
 from backend.data.database.auth.auth_db import get_db
 from backend.data.database.auth.auth_queries import get_user_by_email
 from backend.data.database.auth.auth_services import create_user
-from backend.data.database.auth.auth_db import SessionLocal
 
 
 # Environment variables (Use a .env file for production)

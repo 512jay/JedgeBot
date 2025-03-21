@@ -114,3 +114,5 @@ if __name__ == "__main__":
     drop_and_create_database()  # Step 1: Reset database
     create_auth_tables()  # Step 2: Create auth tables
     print("\nAuthentication database setup complete.")
+
+# TODO: remove this script when Alembic is live

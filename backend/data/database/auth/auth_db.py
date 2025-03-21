@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import os
 from dotenv import load_dotenv
+from backend.data.database.auth.models import AuthBase
 
 # Load environment variables from .env.auth
 env_path = os.path.join(os.path.dirname(__file__), ".env.auth")
@@ -19,7 +20,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Function to create tables
 def init_db():
-    Base.metadata.create_all(bind=engine)
+    AuthBase.metadata.create_all(bind=engine)
 
 
 # Dependency to get the DB session
