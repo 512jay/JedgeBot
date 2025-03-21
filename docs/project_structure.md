@@ -11,6 +11,7 @@ JedgeBot/
 │   │   ├── env.py
 │   │   ├── script.py.mako
 │   │   ├── versions
+│   │   │   ├── ef329bc9120d_initial_auth_schema_with_role_column.py
 │   ├── alembic.ini
 │   ├── backend
 │   │   ├── __init__.py
