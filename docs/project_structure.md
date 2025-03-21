@@ -14,6 +14,7 @@ JedgeBot/
 │   │   │   ├── backend_server.py
 │   │   │   ├── clients_routes.py
 │   │   │   ├── http_utils.py
+│   │   │   ├── password_reset_routes.py
 │   │   ├── broker
 │   │   │   ├── __init__.py
 │   │   │   ├── base_broker.py
@@ -46,6 +47,8 @@ JedgeBot/
 │   │   │   │   │   ├── auth_queries.py
 │   │   │   │   │   ├── auth_services.py
 │   │   │   │   │   ├── models.py
+│   │   │   │   │   ├── password_reset_models.py
+│   │   │   │   │   ├── password_reset_service.py
 │   │   │   │   ├── business
 │   │   │   │   │   ├── __init__.py
 │   │   │   │   │   ├── initialize_business_db.py
