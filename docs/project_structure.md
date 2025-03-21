@@ -11,7 +11,10 @@ JedgeBot/
 │   │   ├── env.py
 │   │   ├── script.py.mako
 │   │   ├── versions
+│   │   │   ├── 73c2de2ee829_fix_password_reset_table_base.py
+│   │   │   ├── ac6a215aa1f4_include_password_reset_token_table.py
 │   │   │   ├── ef329bc9120d_initial_auth_schema_with_role_column.py
+│   │   │   ├── f6df294f76d5_add_cascade_delete_to_password_reset_.py
 │   ├── alembic.ini
 │   ├── backend
 │   │   ├── __init__.py
@@ -178,6 +181,7 @@ JedgeBot/
 │   │   │   ├── auth
 │   │   │   │   ├── __init__.py
 │   │   │   │   ├── test_auth_services.py
+│   │   │   │   ├── test_password_reset.py
 │   │   ├── unit
 │   │   │   ├── __init__.py
 │   │   │   ├── auth
