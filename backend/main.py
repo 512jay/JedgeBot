@@ -18,6 +18,7 @@ load_dotenv()
 # Configuration
 # -----------------------------------------------------------------------------
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+print(FRONTEND_URL)  # Debug: Check the loaded FRONTEND_URL
 
 # -----------------------------------------------------------------------------
 # Initialize FastAPI app
