@@ -173,6 +173,11 @@ JedgeBot/
 │   │   ├── start_market_data_stream.py
 │   ├── tests
 │   │   ├── conftest.py
+│   │   ├── integration
+│   │   │   ├── __init__.py
+│   │   │   ├── auth
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── test_auth_services.py
 │   │   ├── unit
 │   │   │   ├── __init__.py
 │   │   │   ├── auth

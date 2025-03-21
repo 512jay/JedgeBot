@@ -37,3 +37,6 @@ def test_register_user_with_manager_role() -> None:
         next(db_gen)
     except StopIteration:
         pass
+
+
+
