@@ -1,35 +1,41 @@
 # /backend/api/auth_routes.py
-# Handles authentication routes (login, logout, refresh token).
+# Handles authentication routes (register, login, logout, refresh, check session).
+# Uses JWT tokens stored in cookies for session-based authentication.
 
 import os
 from datetime import datetime, timedelta
 from typing import Optional
+
 from fastapi import APIRouter, Depends, HTTPException, status, Response, Request
 from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 from pydantic import BaseModel, EmailStr
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session
+
 from backend.data.database.auth.auth_db import get_db
 from backend.data.database.auth.auth_queries import get_user_by_email
 from backend.data.database.auth.auth_services import create_user
 
-
-# Environment variables (Use a .env file for production)
+# -----------------------------------------------------------------------------
+# Configuration
+# -----------------------------------------------------------------------------
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 15
 REFRESH_TOKEN_EXPIRE_DAYS = 7
 
-# Password hashing
+# -----------------------------------------------------------------------------
+# Dependencies
+# -----------------------------------------------------------------------------
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-# OAuth2 scheme for dependency injection
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
-
 router = APIRouter()
 
 
+# -----------------------------------------------------------------------------
+# Schemas
+# -----------------------------------------------------------------------------
 class RegisterRequest(BaseModel):
     email: EmailStr
     password: str
@@ -39,18 +45,22 @@ class LoginRequest(BaseModel):
     email: str
     password: str
 
-# Hash passwords
-def hash_password(password: str):
+
+# -----------------------------------------------------------------------------
+# Utility Functions
+# -----------------------------------------------------------------------------
+def hash_password(password: str) -> str:
+    """Hash a plaintext password using bcrypt."""
     return pwd_context.hash(password)
 
 
-# Verify passwords
-def verify_password(plain_password, hashed_password):
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """Verify a plaintext password against a hashed one."""
     return pwd_context.verify(plain_password, hashed_password)
 
 
-# Create JWT token
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
+    """Create a signed JWT access token."""
     to_encode = data.copy()
     expire = datetime.utcnow() + (
         expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -59,24 +69,18 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 
-# Create refresh token
-def create_refresh_token(user_id: str):
-    return jwt.encode(
-        {
-            "sub": user_id,
-            "exp": datetime.utcnow() + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS),
-        },
-        SECRET_KEY,
-        algorithm=ALGORITHM,
-    )
+def create_refresh_token(user_id: str) -> str:
+    """Create a signed JWT refresh token."""
+    expire = datetime.utcnow() + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
+    return jwt.encode({"sub": user_id, "exp": expire}, SECRET_KEY, algorithm=ALGORITHM)
 
-# get current user
-def get_current_user(request: Request):
+
+def get_current_user(request: Request) -> dict:
+    """Extract the current user from the access_token cookie."""
     token = request.cookies.get("access_token")
     if not token:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Not authenticated",
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated"
         )
 
     try:
@@ -86,59 +90,37 @@ def get_current_user(request: Request):
         user_email = payload.get("sub")
         if user_email is None:
             raise HTTPException(status_code=401, detail="Invalid token")
+        return {"email": user_email}
     except JWTError:
         raise HTTPException(status_code=401, detail="Could not validate credentials")
 
-    return {"email": user_email}  # Modify if user lookup is needed
 
-@router.get("/check")  # ✅ Fix: remove extra "/auth"
+# -----------------------------------------------------------------------------
+# Routes
+# -----------------------------------------------------------------------------
+@router.get("/check")
 def check_authentication(request: Request):
+    """
+    Verify if a user is currently authenticated.
+    Returns email if valid, 401 if not.
+    """
     token = request.cookies.get("access_token")
     if not token:
-        print("❌ No access_token found in cookies")
         return Response(status_code=401)
 
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         return {"authenticated": True, "email": payload["sub"]}
     except JWTError:
-        print("❌ Invalid or expired token")
         return Response(status_code=401)
-
-
-@router.post("/login")
-def login(response: Response, login_data: LoginRequest, db: Session = Depends(get_db)):
-    user = get_user_by_email(db, login_data.email)
-    if not user or not verify_password(login_data.password, user.password_hash):
-        raise HTTPException(status_code=400, detail="Invalid email or password")
-
-    access_token = create_access_token(data={"sub": user.email})
-    refresh_token = create_refresh_token(user.email)
-
-    response.set_cookie(
-        key="access_token",
-        value=access_token,
-        httponly=True,
-        secure=False,
-        samesite="Lax",
-        max_age=900,
-    )
-    response.set_cookie(
-        key="refresh_token",
-        value=refresh_token,
-        httponly=True,
-        secure=False,
-        samesite="Lax",
-        max_age=604800,
-    )
-
-    return {"message": "Login successful"}
 
 
 @router.post("/register")
 def register(request: RegisterRequest, db: Session = Depends(get_db)):
-    existing_user = get_user_by_email(db, request.email)
-    if existing_user:
+    """
+    Register a new user with email and password.
+    """
+    if get_user_by_email(db, request.email):
         raise HTTPException(status_code=400, detail="Email already registered")
 
     hashed_password = hash_password(request.password)
@@ -150,8 +132,44 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
     return {"message": "User registered successfully"}
 
 
+@router.post("/login")
+def login(response: Response, login_data: LoginRequest, db: Session = Depends(get_db)):
+    """
+    Authenticate user and issue access and refresh tokens via HTTP cookies.
+    """
+    user = get_user_by_email(db, login_data.email)
+    if not user or not verify_password(login_data.password, user.password_hash):
+        raise HTTPException(status_code=400, detail="Invalid email or password")
+
+    access_token = create_access_token(data={"sub": user.email})
+    refresh_token = create_refresh_token(user.email)
+
+    # Set tokens as secure cookies
+    response.set_cookie(
+        "access_token",
+        access_token,
+        httponly=True,
+        secure=False,
+        samesite="Lax",
+        max_age=900,
+    )
+    response.set_cookie(
+        "refresh_token",
+        refresh_token,
+        httponly=True,
+        secure=False,
+        samesite="Lax",
+        max_age=604800,
+    )
+
+    return {"message": "Login successful"}
+
+
 @router.post("/refresh")
 def refresh_token(request: Request, response: Response):
+    """
+    Refresh the user's access token using a valid refresh token.
+    """
     refresh_token = request.cookies.get("refresh_token")
     if not refresh_token:
         raise HTTPException(status_code=401, detail="No refresh token found")
@@ -166,9 +184,8 @@ def refresh_token(request: Request, response: Response):
             httponly=True,
             secure=False,
             samesite="Lax",
-            max_age=900,  # 15 min expiration
+            max_age=900,
         )
-
         return {"message": "Token refreshed"}
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid or expired refresh token")
@@ -176,6 +193,9 @@ def refresh_token(request: Request, response: Response):
 
 @router.post("/logout")
 def logout(response: Response):
+    """
+    Clear both access and refresh tokens from cookies to log the user out.
+    """
     response.delete_cookie("access_token")
     response.delete_cookie("refresh_token")
     return {"message": "Logged out successfully"}
