@@ -7,10 +7,6 @@ from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 import os
 
-print("TESTING =", os.getenv("TESTING"))
-print("TASTYTRADE_USERNAME =", os.getenv("TASTYTRADE_USERNAME"))
-
-
 class Settings(BaseSettings):
     ENVIRONMENT: str = Field(default="development")
     TESTING: bool = Field(default=False)
