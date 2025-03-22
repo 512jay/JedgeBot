@@ -187,7 +187,8 @@ JedgeBot/
 │   │   │   ├── auth
 │   │   │   │   ├── __init__.py
 │   │   │   │   ├── test_auth_services.py
-│   │   │   │   ├── test_password_reset.py
+│   │   │   │   ├── test_password_reset_flow.py
+│   │   │   │   ├── test_password_reset_token_validation.py
 │   │   ├── unit
 │   │   │   ├── __init__.py
 │   │   │   ├── auth

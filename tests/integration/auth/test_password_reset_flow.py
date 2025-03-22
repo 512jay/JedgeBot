@@ -1,6 +1,7 @@
 # /tests/integration/auth/test_password_reset.py
 
 import uuid
+import secrets
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 from backend.main import app
@@ -140,7 +141,7 @@ def test_reset_password_with_invalid_token_returns_400() -> None:
     db_gen = get_db()
     db: Session = next(db_gen)
 
-    invalid_token = "this-token-does-not-exist"
+    invalid_token = secrets.token_urlsafe(16)  # Generate a random token    
     new_password = "DoesNotMatter123"
 
     # Attempt to reset with invalid token
@@ -204,20 +205,22 @@ def test_reset_password_with_expired_token_returns_400() -> None:
 
     user = create_user(db, email=email, password_hash=hash_password("initial123"))
 
-    # Manually create an expired token
+    import secrets
+    token = secrets.token_urlsafe(16)
+
     expired_token = PasswordResetToken(
         user_id=user.id,
-        token="expired-token",
+        token=token,
         expires_at=datetime.utcnow() - timedelta(minutes=1),
         used=False,
     )
     db.add(expired_token)
     db.commit()
 
-    # Attempt to reset password with expired token
+    # Use that same token in the request
     response = client.post(
         "/auth/reset-password",
-        json={"token": "expired-token", "new_password": "fail123"},
+        json={"token": token, "new_password": "fail123"},
     )
     assert response.status_code == 400
     assert "expired" in response.json()["detail"]
