@@ -108,3 +108,21 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+
+/* 🔹 Ensure input text is visible */
+.form-control {
+    color: black !important;
+    background-color: white !important;
+}
+
+/* 🔹 Ensure autofilled input text is always visible */
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+    -webkit-text-fill-color: black !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+input {
+    color: black !important;
+    background-color: white !important;
+}

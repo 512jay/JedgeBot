@@ -1,3 +1,4 @@
+// /frontend/src/components/Sidebar.jsx
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -19,7 +20,7 @@ const Sidebar = ({ onAddClient }) => {
   };
 
   return (
-    <div className={`sidebar d-flex flex-column vh-100 ${collapsed ? "collapsed" : ""}`}>
+    <div className={`sidebar ${collapsed ? "collapsed" : ""}`}>
       <MDBBtn className="toggle-btn m-2" color="primary" onClick={() => setCollapsed(!collapsed)}>
         <MDBIcon fas icon={collapsed ? "angle-right" : "angle-left"} />
       </MDBBtn>
@@ -31,6 +32,11 @@ const Sidebar = ({ onAddClient }) => {
           <MDBListGroupItem action>
             <MDBIcon fas icon="chart-line" className="me-3" />
             {!collapsed && "Dashboard"}
+          </MDBListGroupItem>
+        </Link>
+        <Link to="/accounts">
+          <MDBListGroupItem action>
+            <MDBIcon fas icon="money-check-alt" className="me-3" /> {!collapsed && "Accounts"}
           </MDBListGroupItem>
         </Link>
         <Link to="/clients">

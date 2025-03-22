@@ -1,6 +1,6 @@
 import pytest
 from typing import Optional
-from backend.broker.broker_api import BaseBroker
+from backend.broker.base_broker import BaseBroker, OrderType
 
 
 class MockBroker(BaseBroker):
@@ -16,7 +16,7 @@ class MockBroker(BaseBroker):
         self,
         symbol: str,
         quantity: int,
-        order_type: str,
+        order_type: OrderType,
         price: Optional[float] = None,
     ):
         return {

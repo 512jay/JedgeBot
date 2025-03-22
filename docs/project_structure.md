@@ -6,17 +6,27 @@ JedgeBot/
 │   ├── LICENSE
 │   ├── README.md
 │   ├── __init__.py
+│   ├── alembic
+│   │   ├── README
+│   │   ├── env.py
+│   │   ├── script.py.mako
+│   │   ├── versions
+│   │   │   ├── 73c2de2ee829_fix_password_reset_table_base.py
+│   │   │   ├── ac6a215aa1f4_include_password_reset_token_table.py
+│   │   │   ├── ef329bc9120d_initial_auth_schema_with_role_column.py
+│   │   │   ├── f6df294f76d5_add_cascade_delete_to_password_reset_.py
+│   ├── alembic.ini
 │   ├── backend
 │   │   ├── __init__.py
 │   │   ├── api
 │   │   │   ├── __init__.py
-│   │   │   ├── auth.py
-│   │   │   ├── clients.py
-│   │   │   ├── main.py
-│   │   │   ├── request_utils.py
+│   │   │   ├── auth_routes.py
+│   │   │   ├── clients_routes.py
+│   │   │   ├── http_utils.py
+│   │   │   ├── password_reset_routes.py
 │   │   ├── broker
 │   │   │   ├── __init__.py
-│   │   │   ├── broker_api.py
+│   │   │   ├── base_broker.py
 │   │   │   ├── tastytrade
 │   │   │   │   ├── __init__.py
 │   │   │   │   ├── data_handler.py
@@ -34,41 +44,52 @@ JedgeBot/
 │   │   ├── common
 │   │   │   ├── __init__.py
 │   │   │   ├── enums.py
+│   │   ├── core
+│   │   │   ├── rate_limit.py
+│   │   │   ├── settings.py
 │   │   ├── data
 │   │   │   ├── __init__.py
-│   │   │   ├── auth_base.py
-│   │   │   ├── auth_database.py
-│   │   │   ├── auth_models.py
-│   │   │   ├── data_fetcher.py
-│   │   │   ├── data_processor.py
-│   │   │   ├── setup_auth_db.py
-│   │   │   ├── setup_business_db.py
-│   │   │   ├── trading_base.py
-│   │   │   ├── trading_database.py
-│   │   │   ├── trading_models.py
-│   │   ├── execution
-│   │   │   ├── __init__.py
-│   │   │   ├── orders.py
-│   │   ├── strategies
-│   │   │   ├── __init__.py
-│   │   │   ├── arbitrage.py
-│   │   │   ├── mean_reversion.py
-│   │   │   ├── trend_follow.py
-│   │   │   ├── wheel_strategy.py
+│   │   │   ├── database
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── auth
+│   │   │   │   │   ├── __init__.py
+│   │   │   │   │   ├── auth_db.py
+│   │   │   │   │   ├── auth_queries.py
+│   │   │   │   │   ├── auth_services.py
+│   │   │   │   │   ├── models.py
+│   │   │   │   │   ├── password_reset_models.py
+│   │   │   │   │   ├── password_reset_service.py
+│   │   │   │   ├── business
+│   │   │   │   │   ├── __init__.py
+│   │   │   │   │   ├── initialize_business_db.py
+│   │   │   │   ├── market
+│   │   │   │   │   ├── __init__.py
+│   │   │   │   │   ├── trading_base.py
+│   │   │   │   │   ├── trading_database.py
+│   │   │   │   │   ├── trading_models.py
+│   │   ├── main.py
 │   │   ├── utils
 │   │   │   ├── __init__.py
 │   │   │   ├── logging.py
-│   │   │   ├── security.py
-│   ├── data
+│   │   │   ├── security_utils.py
+│   ├── check_db_env.py
+│   ├── docker-compose.yml
+│   ├── docker-entrypoint-initdb.d
+│   │   ├── create_auth_db.sql
 │   ├── docs
+│   │   ├── api_password_reset_endpoints.md
 │   │   ├── business_plan.md
+│   │   ├── database_schema.md
 │   │   ├── development_enviroment.md
 │   │   ├── github_workflow.md
 │   │   ├── legal_strategy.md
 │   │   ├── marketing_plan.md
+│   │   ├── password_reset.md
+│   │   ├── password_reset_index.md
 │   │   ├── poetry_workflow.md
 │   │   ├── project_structure.md
 │   │   ├── roadmap.md
+│   │   ├── test_password_reset_coverage.md
 │   │   ├── testing_strategy.md
 │   ├── frontend
 │   │   ├── .vite
@@ -78,7 +99,6 @@ JedgeBot/
 │   │   ├── README.md
 │   │   ├── eslint.config.js
 │   │   ├── index.html
-│   │   ├── package-lock.json
 │   │   ├── package.json
 │   │   ├── public
 │   │   │   ├── images
@@ -92,12 +112,17 @@ JedgeBot/
 │   │   ├── src
 │   │   │   ├── App.css
 │   │   │   ├── App.jsx
+│   │   │   ├── __tests__
+│   │   │   │   ├── ForgotPassword.test.jsx
+│   │   │   │   ├── Login.test.jsx
+│   │   │   │   ├── Register.test.jsx
 │   │   │   ├── api
-│   │   │   │   ├── api.jsx
-│   │   │   │   ├── auth.js
+│   │   │   │   ├── api_client.js
+│   │   │   │   ├── auth_api.js
 │   │   │   ├── assets
 │   │   │   │   ├── react.svg
 │   │   │   ├── components
+│   │   │   │   ├── DashboardCards.jsx
 │   │   │   │   ├── Navbar.jsx
 │   │   │   │   ├── Sidebar.jsx
 │   │   │   │   ├── TitleManager.jsx
@@ -112,18 +137,26 @@ JedgeBot/
 │   │   │   │   ├── AccountLevelView.jsx
 │   │   │   │   ├── ClientPortfolioView.jsx
 │   │   │   │   ├── Clients.jsx
+│   │   │   │   ├── Dashboard.jsx
+│   │   │   │   ├── ForgotPassword.jsx
 │   │   │   │   ├── Home.jsx
+│   │   │   │   ├── Landing.jsx
 │   │   │   │   ├── Login.jsx
 │   │   │   │   ├── PortfolioManagerOverview.jsx
+│   │   │   │   ├── Profile.jsx
 │   │   │   │   ├── Register.jsx
 │   │   │   │   ├── ResetPassword.jsx
+│   │   │   │   ├── Settings.jsx
 │   │   │   ├── styles
 │   │   │   │   ├── AccountLevelView.css
 │   │   │   │   ├── ClientPortfolioView.css
 │   │   │   │   ├── Home.css
+│   │   │   │   ├── Landing.css
 │   │   │   │   ├── PortfolioManagerOverview.css
 │   │   │   │   ├── Sidebar.css
 │   │   │   │   ├── global.css
+│   │   ├── test-utils
+│   │   │   ├── setup.js
 │   │   ├── vite.config.js
 │   ├── generate_structure.py
 │   ├── jedgebot
@@ -131,6 +164,7 @@ JedgeBot/
 │   │   ├── common
 │   │   ├── execution
 │   │   ├── utils
+│   ├── launch_app.py
 │   ├── logs
 │   ├── notes
 │   │   ├── PortfolioManagmentRoadMap.md
@@ -152,12 +186,22 @@ JedgeBot/
 │   │   │   ├── market_data_streaming_script.py
 │   │   │   ├── start_streaming.py
 │   │   ├── btc_stream.py
+│   │   ├── run_rate_limit_manual.py
 │   │   ├── start_market_data_stream.py
-│   ├── start_jedgebot.py
+│   │   ├── validate_output.py
 │   ├── tests
+│   │   ├── conftest.py
+│   │   ├── integration
+│   │   │   ├── __init__.py
+│   │   │   ├── auth
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── test_auth_services.py
+│   │   │   │   ├── test_password_reset_flow.py
+│   │   │   │   ├── test_password_reset_token_validation.py
 │   │   ├── unit
 │   │   │   ├── __init__.py
-│   │   │   ├── execution
-│   │   │   │   ├── test_orders.py
+│   │   │   ├── auth
+│   │   │   │   ├── test_auth_routes.py
 │   │   │   ├── test_base_broker.py
+│   ├── vitest.config.js
 ```

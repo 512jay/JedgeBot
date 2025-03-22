@@ -1,82 +1,50 @@
 // /frontend/src/App.jsx
-
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import TitleManager from "./components/TitleManager";
-import Home from "./pages/Home";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Landing from "./pages/Landing";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
-import PortfolioManagerOverview from "./pages/PortfolioManagerOverview";
-import ClientPortfolioView from "./pages/ClientPortfolioView";
-import AccountLevelView from "./pages/AccountLevelView";
-import Clients from "./pages/Clients";
-import Sidebar from "./components/Sidebar";
-import Navbar from "./components/Navbar";
-import "./styles/Home.css";
-
-function ProtectedRoute({ children }) {
-  const token = localStorage.getItem("access_token");
-
-  if (!token) {
-    console.log("❌ User NOT authenticated. Redirecting...");
-    return <Navigate to="/login" replace />;
-  }
-
-  console.log("✅ User authenticated. Rendering page.");
-  return children;
-}
+import Register from "./pages/Register";  // ✅ Import Register page
+import DashboardLayout from "./pages/Dashboard";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
     <Router>
-      <TitleManager />
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="colored"
+      />
       <Routes>
-        <Route path="/" element={<Home />} />
+        {/* Landing Page as Default */}
+        <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={
-          <ProtectedRoute>
-            <DashboardLayout>
-              <PortfolioManagerOverview />
-            </DashboardLayout>
-          </ProtectedRoute>
-        } />
-        <Route path="/clients" element={
-          <ProtectedRoute>
-            <DashboardLayout>
-              <Clients />
-            </DashboardLayout>
-          </ProtectedRoute>
-        } />
-        <Route path="/client/:id" element={
-          <ProtectedRoute>
-            <DashboardLayout>
-              <ClientPortfolioView />
-            </DashboardLayout>
-          </ProtectedRoute>
-        } />
-        <Route path="/client/:id/account/:account_id" element={
-          <ProtectedRoute>
-            <DashboardLayout>
-              <AccountLevelView />
-            </DashboardLayout>
-          </ProtectedRoute>
-        } />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+
+        {/* Protected Dashboard Routes */}
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route index element={<Home />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="settings" element={<Settings />} />
+        </Route>
+
+        {/* Redirect unknown routes */}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
-  );
-}
-
-function DashboardLayout({ children }) {
-  console.log("DashboardLayout: Rendering...");
-
-  return (
-    <div className="dashboard-container d-flex">
-      <Sidebar />
-      <div className="main-content flex-grow-1">
-        <Navbar />
-        <div className="content p-4">{children}</div>
-      </div>
-    </div>
   );
 }
 
