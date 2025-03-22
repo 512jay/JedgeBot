@@ -96,7 +96,6 @@ JedgeBot/
 │   │   ├── README.md
 │   │   ├── eslint.config.js
 │   │   ├── index.html
-│   │   ├── package-lock.json
 │   │   ├── package.json
 │   │   ├── public
 │   │   │   ├── images
@@ -110,6 +109,10 @@ JedgeBot/
 │   │   ├── src
 │   │   │   ├── App.css
 │   │   │   ├── App.jsx
+│   │   │   ├── __tests__
+│   │   │   │   ├── ForgotPassword.test.jsx
+│   │   │   │   ├── Login.test.jsx
+│   │   │   │   ├── Register.test.jsx
 │   │   │   ├── api
 │   │   │   │   ├── api_client.js
 │   │   │   │   ├── auth_api.js
@@ -149,6 +152,8 @@ JedgeBot/
 │   │   │   │   ├── PortfolioManagerOverview.css
 │   │   │   │   ├── Sidebar.css
 │   │   │   │   ├── global.css
+│   │   ├── test
+│   │   │   ├── setup.js
 │   │   ├── vite.config.js
 │   ├── generate_structure.py
 │   ├── jedgebot
@@ -194,4 +199,5 @@ JedgeBot/
 │   │   │   ├── auth
 │   │   │   │   ├── test_auth_routes.py
 │   │   │   ├── test_base_broker.py
+│   ├── vitest.config.js
 ```
