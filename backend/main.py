@@ -15,10 +15,15 @@ import os
 from backend.api.auth_routes import router as auth_router
 from backend.api.password_reset_routes import router as password_reset_router
 from backend.core.rate_limit import limiter
+from backend.core.rate_limit import limiter
+
+TESTING = os.getenv("TESTING", "false").lower() == "true"
 
 
 # Load environment variables
 load_dotenv()
+if os.getenv("ENVIRONMENT") == "production" and os.getenv("TESTING") == "true":
+    raise RuntimeError("❌ TESTING=true in production! Rate limiting will be disabled.")
 
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 
@@ -26,17 +31,16 @@ FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 app = FastAPI()
 app.state.limiter = limiter
 
-@app.exception_handler(RateLimitExceeded)
-async def custom_rate_limit_handler(request: Request, exc: RateLimitExceeded):
-    return JSONResponse(
-        status_code=429,
-        content={"detail": "Too many requests. Please wait and try again."},
-    )
+if not TESTING:
+    app.state.limiter = limiter
+    app.add_middleware(SlowAPIMiddleware)
 
-
-# Setup shared limiter
-app.state.limiter = limiter  # from backend.core.rate_limit
-app.add_middleware(SlowAPIMiddleware)
+    @app.exception_handler(RateLimitExceeded)
+    async def custom_rate_limit_handler(request: Request, exc: RateLimitExceeded):
+        return JSONResponse(
+            status_code=429,
+            content={"detail": "Too many requests. Please wait and try again."},
+        )
 
 
 # CORS
@@ -51,4 +55,4 @@ app.add_middleware(
 
 # Routes
 app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
-app.include_router(password_reset_router, prefix="", tags=["Password Reset"])
+app.include_router(password_reset_router, prefix="/auth", tags=["Password Reset"])

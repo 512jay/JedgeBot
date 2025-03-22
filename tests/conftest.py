@@ -1,8 +1,9 @@
+import os
 import pytest
 from fastapi.testclient import TestClient
 from backend.main import app
 from backend.data.database.auth.auth_db import get_db
-
+os.environ["TESTING"] = "true"
 
 @pytest.fixture
 def client():

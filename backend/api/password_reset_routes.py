@@ -1,7 +1,7 @@
 # /backend/api/password_reset_routes.py
 # FastAPI endpoints for initiating and completing password resets.
 
-from fastapi import APIRouter, HTTPException, status, Depends
+from fastapi import APIRouter, HTTPException, status, Depends, Request
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
 from backend.data.database.auth.auth_db import get_db
@@ -34,11 +34,15 @@ class ResetPasswordRequest(BaseModel):
 # -----------------------------------------------------------------------------
 @router.post("/forgot-password")
 @limiter.limit("3/minute")  # 👈 Optional: less frequent than login
-def forgot_password(request: ForgotPasswordRequest, db: Session = Depends(get_db)):
+def forgot_password(
+    request: Request,  # 👈 add this
+    request_data: ForgotPasswordRequest,
+    db: Session = Depends(get_db),
+):
     """
     Request a password reset link. Always returns 200 to prevent email enumeration.
     """
-    user = get_user_by_email(db, request.email)
+    user = get_user_by_email(db, request_data.email)
     if user:
         token = create_password_reset_token(db, user)
         # TODO: Send token via email (for now, print it)

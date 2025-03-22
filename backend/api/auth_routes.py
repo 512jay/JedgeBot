@@ -133,7 +133,7 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
 
 @router.post("/login")
 @limiter.limit("5/minute")  # 💥 Max 5 login attempts per minute per IP
-def login(response: Response, login_data: LoginRequest, db: Session = Depends(get_db)):
+def login(request: Request, response: Response, login_data: LoginRequest, db: Session = Depends(get_db)):
     """
     Authenticate user and issue access and refresh tokens via HTTP cookies.
     """
