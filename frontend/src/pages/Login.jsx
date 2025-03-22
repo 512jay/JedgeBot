@@ -60,7 +60,7 @@ function Login() {
 
             <label htmlFor="password">Password</label>
             <MDBInput
-              className="mb-3"
+              className="mb-2"
               label="Password"
               type="password"
               id="password"
@@ -71,10 +71,18 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
 
+            <div className="text-end mb-3">
+              <a href="/forgot-password" className="text-muted" style={{ fontSize: "0.9rem" }}>
+                Forgot your password?
+              </a>
+
+            </div>
+
             <MDBBtn className="auth-btn" type="submit">
               Login
             </MDBBtn>
           </form>
+
           <p className="mt-3 text-center">
             Don't have an account? <a href="/register" className="text-primary">Register here</a>
           </p>

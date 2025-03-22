@@ -60,3 +60,13 @@ def reset_password(request: ResetPasswordRequest, db: Session = Depends(get_db))
     db.commit()
 
     return {"message": "Password reset successfully."}
+
+
+@router.get("/validate-token")
+def validate_reset_token(token: str, db: Session = Depends(get_db)):
+    try:
+        # This reuses your existing logic
+        _ = validate_password_reset_token(db, token)
+        return {"message": "Token is valid."}
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))

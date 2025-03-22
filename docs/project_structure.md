@@ -132,6 +132,7 @@ JedgeBot/
 │   │   │   │   ├── ClientPortfolioView.jsx
 │   │   │   │   ├── Clients.jsx
 │   │   │   │   ├── Dashboard.jsx
+│   │   │   │   ├── ForgotPassword.jsx
 │   │   │   │   ├── Home.jsx
 │   │   │   │   ├── Landing.jsx
 │   │   │   │   ├── Login.jsx
@@ -178,6 +179,7 @@ JedgeBot/
 │   │   │   ├── start_streaming.py
 │   │   ├── btc_stream.py
 │   │   ├── start_market_data_stream.py
+│   │   ├── validate_output.py
 │   ├── tests
 │   │   ├── conftest.py
 │   │   ├── integration
