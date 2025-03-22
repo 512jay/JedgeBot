@@ -1,9 +1,11 @@
-import os
 import pytest
 from fastapi.testclient import TestClient
 from backend.main import app
+from backend.core.settings import settings
 from backend.data.database.auth.auth_db import get_db
-os.environ["TESTING"] = "true"
+
+# ✅ Assert the test mode is actually enabled
+assert settings.TESTING is True, "TESTING must be true when running tests"
 
 @pytest.fixture
 def client():
