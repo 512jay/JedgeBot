@@ -1,19 +1,17 @@
 # /backend/core/rate_limit.py
+# Centralized rate limiter with support for test-mode disabling.
 
-import os
 from typing import Callable, Protocol, cast
 from slowapi import Limiter
 from slowapi.util import get_remote_address
+from backend.core.settings import settings
 
 
-# Define interface for limiter behavior
 class LimiterProtocol(Protocol):
     def limit(self, *args, **kwargs) -> Callable: ...
 
 
-TESTING = os.getenv("TESTING", "false").lower() == "true"
-
-if TESTING:
+if settings.TESTING:
 
     class NoOpLimiter:
         def limit(self, *args, **kwargs):
@@ -22,8 +20,6 @@ if TESTING:
 
             return decorator
 
-    limiter = cast(LimiterProtocol, NoOpLimiter())  # ✅ trusted cast
+    limiter = cast(LimiterProtocol, NoOpLimiter())
 else:
-    limiter = cast(
-        LimiterProtocol, Limiter(key_func=get_remote_address)
-    )  # ✅ trusted cast
+    limiter = cast(LimiterProtocol, Limiter(key_func=get_remote_address))
