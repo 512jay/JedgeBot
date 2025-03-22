@@ -115,24 +115,14 @@ body {
     background-color: white !important;
 }
 
-/* 🔹 Force text color & background for autofilled fields */
+/* 🔹 Ensure autofilled input text is always visible */
 input:-webkit-autofill {
-    background-color: white !important;
-    color: black !important;
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
     -webkit-text-fill-color: black !important;
-    /* Ensure text is visible */
-    box-shadow: 0 0 0px 1000px white inset !important;
-    /* Override autofill background */
-    transition: background-color 5000s ease-in-out 0s !important;
-    /* Prevent quick color reset */
+    transition: background-color 5000s ease-in-out 0s;
 }
 
-/* /frontend/src/styles/global.css */
-.shadow-lg {
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-}
-
-.text-gray-600 {
-    color: #6b7280;
+input {
+    color: black !important;
+    background-color: white !important;
 }

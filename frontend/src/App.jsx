@@ -1,5 +1,7 @@
 // /frontend/src/App.jsx
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";  // ✅ Import Register page
@@ -14,6 +16,16 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 function App() {
   return (
     <Router>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="colored"
+      />
       <Routes>
         {/* Landing Page as Default */}
         <Route path="/" element={<Landing />} />
