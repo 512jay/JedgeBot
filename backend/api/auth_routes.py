@@ -8,6 +8,8 @@ from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status, Response, Request
 from fastapi.security import OAuth2PasswordBearer
+from slowapi import Limiter
+from slowapi.util import get_remote_address
 from passlib.context import CryptContext
 from pydantic import BaseModel, EmailStr
 from jose import JWTError, jwt
@@ -18,6 +20,7 @@ from backend.data.database.auth.auth_queries import get_user_by_email
 from backend.data.database.auth.auth_services import create_user
 from backend.data.database.auth.auth_services import hash_password, verify_password
 from backend.data.database.auth.models import UserRole
+from backend.core.rate_limit import limiter
 
 
 # -----------------------------------------------------------------------------
@@ -129,6 +132,7 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
 
 
 @router.post("/login")
+@limiter.limit("5/minute")  # 💥 Max 5 login attempts per minute per IP
 def login(response: Response, login_data: LoginRequest, db: Session = Depends(get_db)):
     """
     Authenticate user and issue access and refresh tokens via HTTP cookies.

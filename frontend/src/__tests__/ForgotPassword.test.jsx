@@ -67,4 +67,10 @@ describe("ForgotPassword Page", () => {
     fireEvent.change(screen.getByLabelText(/enter your email address/i), {
       target: { value: "any@example.com" },
     });
-    fireEvent.click(screen.getByRole("button", { name: /request reset link
+    fireEvent.click(screen.getByRole("button", { name: /request reset link/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText(/unable to process/i)).toBeInTheDocument();
+    });
+  });
+});

@@ -44,6 +44,8 @@ JedgeBot/
 │   │   ├── common
 │   │   │   ├── __init__.py
 │   │   │   ├── enums.py
+│   │   ├── core
+│   │   │   ├── rate_limit.py
 │   │   ├── data
 │   │   │   ├── __init__.py
 │   │   │   ├── database
@@ -152,7 +154,7 @@ JedgeBot/
 │   │   │   │   ├── PortfolioManagerOverview.css
 │   │   │   │   ├── Sidebar.css
 │   │   │   │   ├── global.css
-│   │   ├── test
+│   │   ├── test-utils
 │   │   │   ├── setup.js
 │   │   ├── vite.config.js
 │   ├── generate_structure.py
@@ -183,6 +185,7 @@ JedgeBot/
 │   │   │   ├── market_data_streaming_script.py
 │   │   │   ├── start_streaming.py
 │   │   ├── btc_stream.py
+│   │   ├── run_rate_limit_manual.py
 │   │   ├── start_market_data_stream.py
 │   │   ├── validate_output.py
 │   ├── tests

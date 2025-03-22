@@ -12,6 +12,7 @@ from backend.data.database.auth.password_reset_service import (
     validate_password_reset_token,
     mark_token_as_used,
 )
+from backend.core.rate_limit import limiter
 
 router = APIRouter()
 
@@ -32,6 +33,7 @@ class ResetPasswordRequest(BaseModel):
 # Routes
 # -----------------------------------------------------------------------------
 @router.post("/forgot-password")
+@limiter.limit("3/minute")  # 👈 Optional: less frequent than login
 def forgot_password(request: ForgotPasswordRequest, db: Session = Depends(get_db)):
     """
     Request a password reset link. Always returns 200 to prevent email enumeration.
