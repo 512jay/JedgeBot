@@ -11,7 +11,6 @@ import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
