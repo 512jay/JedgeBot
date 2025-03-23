@@ -151,8 +151,10 @@ JedgeBot/
 │   │   ├── src
 │   │   │   ├── App.css
 │   │   │   ├── App.jsx
+│   │   │   ├── AppRoutes.jsx
 │   │   │   ├── __tests__
 │   │   │   │   ├── App.test.jsx
+│   │   │   │   ├── AppRoutes.test.jsx
 │   │   │   │   ├── Button.test.jsx
 │   │   │   │   ├── Card.test.jsx
 │   │   │   │   ├── DashboardCards.test.jsx
