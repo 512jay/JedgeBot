@@ -5,7 +5,6 @@ import {
   fetchUserProfile,
 } from "../api/api_client";
 
-// Mock fetch globally
 global.fetch = vi.fn();
 
 describe("fetchWithCredentials", () => {
@@ -60,27 +59,37 @@ describe("fetchWithCredentials", () => {
 });
 
 describe("fetchMessage", () => {
-  test("calls fetchWithCredentials with /", async () => {
-    fetch.mockResolvedValueOnce({
+  const BASE = "http://localhost:8000";
+
+  beforeEach(() => {
+    vi.stubEnv("VITE_API_URL", BASE);
+    fetch.mockResolvedValue({
       ok: true,
       json: () => Promise.resolve("Welcome!"),
     });
+  });
 
+  test("calls fetchWithCredentials with full API_URL", async () => {
     const result = await fetchMessage();
-    expect(fetch).toHaveBeenCalledWith("/", expect.any(Object));
+    expect(fetch).toHaveBeenCalledWith(`${BASE}/`, expect.any(Object));
     expect(result).toBe("Welcome!");
   });
 });
 
 describe("fetchUserProfile", () => {
-  test("calls fetchWithCredentials with /profile", async () => {
-    fetch.mockResolvedValueOnce({
+  const BASE = "http://localhost:8000";
+
+  beforeEach(() => {
+    vi.stubEnv("VITE_API_URL", BASE);
+    fetch.mockResolvedValue({
       ok: true,
       json: () => Promise.resolve({ name: "Jane" }),
     });
+  });
 
+  test("calls fetchWithCredentials with full API_URL", async () => {
     const result = await fetchUserProfile();
-    expect(fetch).toHaveBeenCalledWith("/profile", expect.any(Object));
+    expect(fetch).toHaveBeenCalledWith(`${BASE}/profile`, expect.any(Object));
     expect(result).toEqual({ name: "Jane" });
   });
 });
