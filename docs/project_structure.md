@@ -73,6 +73,52 @@ JedgeBot/
 │   │   │   ├── logging.py
 │   │   │   ├── security_utils.py
 │   ├── check_db_env.py
+│   ├── coverage
+│   │   ├── base.css
+│   │   ├── block-navigation.js
+│   │   ├── clover.xml
+│   │   ├── coverage-final.json
+│   │   ├── favicon.png
+│   │   ├── index.html
+│   │   ├── prettify.css
+│   │   ├── prettify.js
+│   │   ├── sort-arrow-sprite.png
+│   │   ├── sorter.js
+│   │   ├── src
+│   │   │   ├── App.jsx.html
+│   │   │   ├── api
+│   │   │   │   ├── api_client.js.html
+│   │   │   │   ├── auth_api.js.html
+│   │   │   │   ├── index.html
+│   │   │   ├── components
+│   │   │   │   ├── DashboardCards.jsx.html
+│   │   │   │   ├── Navbar.jsx.html
+│   │   │   │   ├── Sidebar.jsx.html
+│   │   │   │   ├── TitleManager.jsx.html
+│   │   │   │   ├── index.html
+│   │   │   │   ├── ui
+│   │   │   │   │   ├── Button.jsx.html
+│   │   │   │   │   ├── Card.jsx.html
+│   │   │   │   │   ├── PieChart.jsx.html
+│   │   │   │   │   ├── Table.jsx.html
+│   │   │   │   │   ├── index.html
+│   │   │   ├── index.html
+│   │   │   ├── main.jsx.html
+│   │   │   ├── pages
+│   │   │   │   ├── AccountLevelView.jsx.html
+│   │   │   │   ├── ClientPortfolioView.jsx.html
+│   │   │   │   ├── Clients.jsx.html
+│   │   │   │   ├── Dashboard.jsx.html
+│   │   │   │   ├── ForgotPassword.jsx.html
+│   │   │   │   ├── Home.jsx.html
+│   │   │   │   ├── Landing.jsx.html
+│   │   │   │   ├── Login.jsx.html
+│   │   │   │   ├── PortfolioManagerOverview.jsx.html
+│   │   │   │   ├── Profile.jsx.html
+│   │   │   │   ├── Register.jsx.html
+│   │   │   │   ├── ResetPassword.jsx.html
+│   │   │   │   ├── Settings.jsx.html
+│   │   │   │   ├── index.html
 │   ├── docker-compose.yml
 │   ├── docker-entrypoint-initdb.d
 │   │   ├── create_auth_db.sql
