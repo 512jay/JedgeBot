@@ -187,7 +187,6 @@ JedgeBot/
 │   │   │   ├── main.jsx
 │   │   │   ├── pages
 │   │   │   │   ├── Dashboard.jsx
-│   │   │   │   ├── DashboardPage.jsx
 │   │   │   │   ├── ForgotPassword.jsx
 │   │   │   │   ├── Landing.jsx
 │   │   │   │   ├── Login.jsx
@@ -201,6 +200,8 @@ JedgeBot/
 │   │   │   │   ├── PortfolioManagerOverview.css
 │   │   │   │   ├── Sidebar.css
 │   │   │   │   ├── global.css
+│   │   │   ├── views
+│   │   │   │   ├── DashboardView.jsx
 │   │   ├── test-utils
 │   │   │   ├── setup.js
 │   │   ├── vite.config.js
