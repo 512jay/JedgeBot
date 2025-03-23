@@ -1,20 +1,24 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite'; // ✅ <== This is missing
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import path from 'path'; // ✅ ADD THIS
 
 export default defineConfig({
   server: {
-    port: 5173, // Default Vite port is 3000, you can change it if needed
-    strictPort: true, // Ensures that the server will exit if the port is already in use
-    open: true, // Opens the browser when the server starts
+    port: 5173,
+    strictPort: true,
+    open: true,
   },
   base: '/',
-  // root: 'frontend',
   plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'frontend/src'),
+    },
+  },
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: ['./frontend/test-utils/setup.js'], // ✅ Handles IntersectionObserver
+    setupFiles: ['./frontend/test-utils/setup.js'],
   },
 });
-

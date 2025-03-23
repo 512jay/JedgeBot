@@ -170,6 +170,7 @@ JedgeBot/
 │   │   │   │   ├── Sidebar.test.jsx
 │   │   │   │   ├── Table.test.jsx
 │   │   │   │   ├── TitleManager.test.jsx
+│   │   │   │   ├── auth_api_test.js
 │   │   │   ├── api
 │   │   │   │   ├── api_client.js
 │   │   │   │   ├── auth_api.js
