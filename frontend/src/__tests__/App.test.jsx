@@ -3,8 +3,9 @@ import { render, screen } from "@testing-library/react";
 import App from "../App";
 
 describe("App", () => {
-  test("renders without crashing", () => {
+  test("renders without crashing and includes ToastContainer", () => {
     render(<App />);
-    expect(screen.getByRole("alert")).toBeInTheDocument(); // ToastContainer renders as role="alert"
-  });
+    const toastContainer = screen.getByLabelText(/notifications/i);
+    expect(toastContainer).toBeInTheDocument();
+    });
 });
