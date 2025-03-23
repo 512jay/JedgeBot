@@ -22,6 +22,7 @@ JedgeBot/
 │   │   │   ├── __init__.py
 │   │   │   ├── auth_routes.py
 │   │   │   ├── clients_routes.py
+│   │   │   ├── dev_routes.py
 │   │   │   ├── http_utils.py
 │   │   │   ├── password_reset_routes.py
 │   │   ├── broker
@@ -183,6 +184,8 @@ JedgeBot/
 │   │   │   │   │   ├── Card.jsx
 │   │   │   │   │   ├── PieChart.jsx
 │   │   │   │   │   ├── Table.jsx
+│   │   │   ├── context
+│   │   │   │   ├── AuthContext.jsx
 │   │   │   ├── index.css
 │   │   │   ├── main.jsx
 │   │   │   ├── pages
