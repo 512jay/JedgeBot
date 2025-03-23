@@ -168,6 +168,7 @@ JedgeBot/
 │   │   │   │   ├── Register.test.jsx
 │   │   │   │   ├── ResetPassword.test.jsx
 │   │   │   │   ├── Sidebar.test.jsx
+│   │   │   │   ├── Table.test.jsx
 │   │   │   ├── api
 │   │   │   │   ├── api_client.js
 │   │   │   │   ├── auth_api.js
