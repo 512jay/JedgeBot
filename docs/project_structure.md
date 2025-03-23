@@ -159,6 +159,8 @@ JedgeBot/
 │   │   │   ├── App.css
 │   │   │   ├── App.jsx
 │   │   │   ├── __tests__
+│   │   │   │   ├── Button.test.jsx
+│   │   │   │   ├── DashboardCards.test.jsx
 │   │   │   │   ├── ForgotPassword.test.jsx
 │   │   │   │   ├── Landing.test.jsx
 │   │   │   │   ├── Login.test.jsx
