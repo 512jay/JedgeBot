@@ -195,7 +195,6 @@ JedgeBot/
 │   │   │   │   ├── Clients.jsx
 │   │   │   │   ├── Dashboard.jsx
 │   │   │   │   ├── ForgotPassword.jsx
-│   │   │   │   ├── Home.jsx
 │   │   │   │   ├── Landing.jsx
 │   │   │   │   ├── Login.jsx
 │   │   │   │   ├── PortfolioManagerOverview.jsx
