@@ -160,6 +160,7 @@ JedgeBot/
 │   │   │   ├── App.jsx
 │   │   │   ├── __tests__
 │   │   │   │   ├── ForgotPassword.test.jsx
+│   │   │   │   ├── Landing.test.jsx
 │   │   │   │   ├── Login.test.jsx
 │   │   │   │   ├── Register.test.jsx
 │   │   │   │   ├── ResetPassword.test.jsx
