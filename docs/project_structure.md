@@ -187,6 +187,7 @@ JedgeBot/
 │   │   │   ├── main.jsx
 │   │   │   ├── pages
 │   │   │   │   ├── Dashboard.jsx
+│   │   │   │   ├── DashboardPage.jsx
 │   │   │   │   ├── ForgotPassword.jsx
 │   │   │   │   ├── Landing.jsx
 │   │   │   │   ├── Login.jsx
