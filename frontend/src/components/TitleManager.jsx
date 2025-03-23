@@ -1,4 +1,4 @@
-// frontend/src/components/TitleManager.jsx
+// /frontend/src/components/TitleManager.jsx
 
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -7,32 +7,40 @@ const TitleManager = () => {
   const location = useLocation();
   const username = localStorage.getItem("username") || "User";
 
-  useEffect(() => {
-    let title = "FordisLudus"; // Default tab title
+  const titlesByRoute = {
+    "/dashboard": () => `FL ${username} Dashboard`,
+    "/login": () => "Login - FordisLudus",
+    "/register": () => "Register - FordisLudus App",
+    "/settings": () => `FordisLudus ${username} Settings`,
+  };
 
-    if (location.pathname === "/dashboard") {
-      title = `FL ${username} Dashboard`;
-    } else if (location.pathname.startsWith("/client/")) {
-      const pathParts = location.pathname.split("/");
-      const clientName = decodeURIComponent(pathParts[2] || "Unknown Client");
-      if (pathParts[3] === "account" && pathParts[4]) {
-        const accountName = decodeURIComponent(pathParts[4]);
-        title = `FL:${clientName} ${accountName}`;
-      } else {
-        title = `FL:Client ${clientName}`;
-      }
-    } else if (location.pathname === "/login") {
-      title = "Login - FordisLudus";
-    } else if (location.pathname === "/register") {
-      title = "Register - FordisLudus App";
-    } else if (location.pathname === "/settings") {
-      title = `FordisLudus ${username} Settings`;
+  const computeTitle = () => {
+    const path = location.pathname;
+
+    if (titlesByRoute[path]) {
+      return titlesByRoute[path]();
     }
 
-    document.title = title;
+    if (path.startsWith("/client/")) {
+      const [, , clientSlug, section, accountSlug] = path.split("/");
+      const clientName = decodeURIComponent(clientSlug || "Unknown Client");
+
+      if (section === "account" && accountSlug) {
+        const accountName = decodeURIComponent(accountSlug);
+        return `FL:${clientName} ${accountName}`;
+      }
+
+      return `FL:Client ${clientName}`;
+    }
+
+    return "FordisLudus";
+  };
+
+  useEffect(() => {
+    document.title = computeTitle();
   }, [location, username]);
 
-  return null; // No UI needed
+  return null;
 };
 
 export default TitleManager;
