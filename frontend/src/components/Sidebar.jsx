@@ -20,8 +20,12 @@ const Sidebar = ({ onAddClient }) => {
   };
 
   return (
-    <div className={`sidebar ${collapsed ? "collapsed" : ""}`}>
-      <MDBBtn className="toggle-btn m-2" color="primary" onClick={() => setCollapsed(!collapsed)}>
+    <nav className={`sidebar ${collapsed ? "collapsed" : ""}`} aria-label="Main sidebar">
+      <MDBBtn
+        className="toggle-btn m-2"
+        color="primary"
+        onClick={() => setCollapsed(!collapsed)}
+      >
         <MDBIcon fas icon={collapsed ? "angle-right" : "angle-left"} />
       </MDBBtn>
 
@@ -36,22 +40,26 @@ const Sidebar = ({ onAddClient }) => {
         </Link>
         <Link to="/accounts">
           <MDBListGroupItem action>
-            <MDBIcon fas icon="money-check-alt" className="me-3" /> {!collapsed && "Accounts"}
+            <MDBIcon fas icon="money-check-alt" className="me-3" />
+            {!collapsed && "Accounts"}
           </MDBListGroupItem>
         </Link>
         <Link to="/clients">
           <MDBListGroupItem action>
-            <MDBIcon fas icon="users" className="me-3" /> {!collapsed && "Clients"}
+            <MDBIcon fas icon="users" className="me-3" />
+            {!collapsed && "Clients"}
           </MDBListGroupItem>
         </Link>
         <Link to="/markets">
           <MDBListGroupItem action>
-            <MDBIcon fas icon="globe" className="me-3" /> {!collapsed && "Markets"}
+            <MDBIcon fas icon="globe" className="me-3" />
+            {!collapsed && "Markets"}
           </MDBListGroupItem>
         </Link>
         <Link to="/settings">
           <MDBListGroupItem action>
-            <MDBIcon fas icon="cog" className="me-3" /> {!collapsed && "Settings"}
+            <MDBIcon fas icon="cog" className="me-3" />
+            {!collapsed && "Settings"}
           </MDBListGroupItem>
         </Link>
       </MDBListGroup>
@@ -71,7 +79,7 @@ const Sidebar = ({ onAddClient }) => {
           {!collapsed && "Logout"}
         </MDBBtn>
       </div>
-    </div>
+    </nav>
   );
 };
 
