@@ -10,6 +10,8 @@ from backend.core.settings import settings
 from backend.core.rate_limit import limiter
 from backend.api.auth_routes import router as auth_router
 from backend.api.password_reset_routes import router as password_reset_router
+from backend.core.settings import settings
+
 
 # Optional safety net
 if settings.ENVIRONMENT == "production" and settings.TESTING:
@@ -18,6 +20,10 @@ if settings.ENVIRONMENT == "production" and settings.TESTING:
 # Initialize FastAPI app
 app = FastAPI()
 
+if settings.TESTING:
+    from backend.api import dev_routes
+
+    app.include_router(dev_routes.router)    
 # Only enable rate limiting if not in test mode
 if not settings.TESTING:
     app.state.limiter = limiter

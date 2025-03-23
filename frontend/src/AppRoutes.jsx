@@ -11,7 +11,7 @@ import Register from "./pages/Register";
 import Landing from "./pages/Landing";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
-import DashboardView from "./views/DashboardView"; // ✅ updated path/name
+import DashboardView from "./views/DashboardView";
 
 export function AppRoutes({ useBrowserRouter = true }) {
   const routes = (

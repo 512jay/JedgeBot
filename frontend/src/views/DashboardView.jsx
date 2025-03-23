@@ -1,16 +1,19 @@
-// /frontend/src/pages/DashboardPage.jsx
+// /frontend/src/views/DashboardView.jsx
 import React, { useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import DashboardCards from "@/components/DashboardCards";
+import { useAuth } from "@/context/AuthContext";
+import { Navigate } from "react-router-dom";
 
-const DashboardPage = () => {
+const DashboardView = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const { user, loading } = useAuth();
 
-  // Pull role from localStorage or context
-  const role = localStorage.getItem("role"); // TEMP: adjust when auth logic is formalized
+  if (loading) return <p className="p-6">Loading dashboard...</p>;
+  if (!user) return <Navigate to="/login" replace />;
 
   const renderDashboardContent = () => {
-    switch (role) {
+    switch (user.role) {
       case "client":
         return <div className="text-xl">Client-specific dashboard coming soon.</div>;
       case "manager":
@@ -24,10 +27,7 @@ const DashboardPage = () => {
 
   return (
     <div className="flex min-h-screen">
-      {/* Sidebar */}
       <Sidebar onToggleCollapse={() => setCollapsed(!collapsed)} />
-
-      {/* Main content adjusts to sidebar width */}
       <div className={`p-6 transition-all duration-300 ${collapsed ? "ml-16" : "ml-64"}`}>
         <h1 className="text-3xl font-bold mb-6">Welcome to your Dashboard</h1>
         {renderDashboardContent()}
@@ -36,4 +36,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default DashboardView;

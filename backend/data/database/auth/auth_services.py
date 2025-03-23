@@ -83,6 +83,18 @@ def deactivate_user(db: Session, user: User) -> User:
     return user
 
 
+def delete_user(db: Session, user: User) -> None:
+    """
+    Permanently deletes a user account from the database.
+
+    Args:
+        db (Session): SQLAlchemy session
+        user (User): User to delete
+    """
+    db.delete(user)
+    db.commit()
+
+
 def change_user_role(db: Session, user: User, new_role: UserRole) -> User:
     """
     Changes the role of a user.
