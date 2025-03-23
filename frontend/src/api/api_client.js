@@ -1,7 +1,7 @@
 // /frontend/src/api/api_client.js
 // Centralized API client to interact with the backend
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000"; // Ensure this is set correctly
+const API_URL = import.meta.env.VITE_API_URL;
 
 // General function to handle API requests with authentication cookies
 export async function fetchWithCredentials(url, options = {}) {

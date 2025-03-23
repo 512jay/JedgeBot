@@ -3,37 +3,67 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
+import {
+  MDBNavbar,
+  MDBContainer,
+  MDBNavbarBrand,
+  MDBNavbarNav,
+  MDBNavbarItem,
+  MDBNavbarLink,
+  MDBBtn,
+  MDBCard,
+  MDBCardBody,
+  MDBCardImage,
+} from "mdb-react-ui-kit";
 import "../styles/Landing.css";
 
 const Landing = () => {
   return (
     <div className="landing-page">
-      {/* Navigation Bar */}
-      <nav className="navbar">
-        <div className="nav-container">
-          <h1 className="brand">JedgeBot</h1>
-          <ul className="nav-links">
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/pricing">Pricing</Link></li>
-            <li><Link to="/how-it-works">How it Works</Link></li>
-            <li><Link to="/login">Login</Link></li>
-            <li><Link to="/register" className="register-btn">Sign Up</Link></li>
-          </ul>
-        </div>
-      </nav>
-      
-      {/* Hero Section as a Card */}
-      <div className="hero-section">
-        <div className="hero-card">
-          <img src="/images/welcomejedgebot.webp" alt="JedgeBot" className="hero-image" />
-          <h2>Welcome to JedgeBot</h2>
-          <p>Your ultimate trading automation and portfolio management tool.</p>
-          <div className="hero-buttons">
-            <Link to="/login" className="btn btn-primary">Login</Link>
-            <Link to="/register" className="btn btn-secondary">Sign Up</Link>
-          </div>
-        </div>
-      </div>
+      {/* MDB Navbar */}
+      <MDBNavbar light bgColor="light">
+        <MDBContainer>
+          <MDBNavbarBrand tag={Link} to="/">JedgeBot</MDBNavbarBrand>
+          <MDBNavbarNav className="d-flex flex-row gap-3">
+            <MDBNavbarItem>
+              <MDBNavbarLink tag={Link} to="/about">About</MDBNavbarLink>
+            </MDBNavbarItem>
+            <MDBNavbarItem>
+              <MDBNavbarLink tag={Link} to="/pricing">Pricing</MDBNavbarLink>
+            </MDBNavbarItem>
+            <MDBNavbarItem>
+              <MDBNavbarLink tag={Link} to="/how-it-works">How it Works</MDBNavbarLink>
+            </MDBNavbarItem>
+            <MDBNavbarItem>
+              <MDBNavbarLink tag={Link} to="/login">Login</MDBNavbarLink>
+            </MDBNavbarItem>
+            <MDBNavbarItem>
+              <MDBBtn tag={Link} to="/register" size="sm" color="primary">Sign Up</MDBBtn>
+            </MDBNavbarItem>
+          </MDBNavbarNav>
+        </MDBContainer>
+      </MDBNavbar>
+
+      {/* Hero Section */}
+      <MDBContainer className="d-flex justify-content-center align-items-center py-5">
+        <MDBCard className="text-center shadow-3" style={{ maxWidth: "600px" }}>
+          <MDBCardImage
+            src="/images/welcomejedgebot.webp"
+            alt="JedgeBot"
+            position="top"
+          />
+          <MDBCardBody>
+            <h2 className="mb-3">Welcome to JedgeBot</h2>
+            <p className="mb-4">
+              Your ultimate trading automation and portfolio management tool.
+            </p>
+            <div className="d-flex justify-content-center gap-3">
+              <MDBBtn tag={Link} to="/login" color="primary">Login</MDBBtn>
+              <MDBBtn tag={Link} to="/register" color="secondary">Sign Up</MDBBtn>
+            </div>
+          </MDBCardBody>
+        </MDBCard>
+      </MDBContainer>
     </div>
   );
 };
