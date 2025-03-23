@@ -105,19 +105,12 @@ JedgeBot/
 │   │   │   ├── index.html
 │   │   │   ├── main.jsx.html
 │   │   │   ├── pages
-│   │   │   │   ├── AccountLevelView.jsx.html
-│   │   │   │   ├── ClientPortfolioView.jsx.html
-│   │   │   │   ├── Clients.jsx.html
 │   │   │   │   ├── Dashboard.jsx.html
 │   │   │   │   ├── ForgotPassword.jsx.html
-│   │   │   │   ├── Home.jsx.html
 │   │   │   │   ├── Landing.jsx.html
 │   │   │   │   ├── Login.jsx.html
-│   │   │   │   ├── PortfolioManagerOverview.jsx.html
-│   │   │   │   ├── Profile.jsx.html
 │   │   │   │   ├── Register.jsx.html
 │   │   │   │   ├── ResetPassword.jsx.html
-│   │   │   │   ├── Settings.jsx.html
 │   │   │   │   ├── index.html
 │   ├── docker-compose.yml
 │   ├── docker-entrypoint-initdb.d
@@ -159,6 +152,7 @@ JedgeBot/
 │   │   │   ├── App.css
 │   │   │   ├── App.jsx
 │   │   │   ├── __tests__
+│   │   │   │   ├── App.test.jsx
 │   │   │   │   ├── Button.test.jsx
 │   │   │   │   ├── Card.test.jsx
 │   │   │   │   ├── DashboardCards.test.jsx
@@ -190,18 +184,12 @@ JedgeBot/
 │   │   │   ├── index.css
 │   │   │   ├── main.jsx
 │   │   │   ├── pages
-│   │   │   │   ├── AccountLevelView.jsx
-│   │   │   │   ├── ClientPortfolioView.jsx
-│   │   │   │   ├── Clients.jsx
 │   │   │   │   ├── Dashboard.jsx
 │   │   │   │   ├── ForgotPassword.jsx
 │   │   │   │   ├── Landing.jsx
 │   │   │   │   ├── Login.jsx
-│   │   │   │   ├── PortfolioManagerOverview.jsx
-│   │   │   │   ├── Profile.jsx
 │   │   │   │   ├── Register.jsx
 │   │   │   │   ├── ResetPassword.jsx
-│   │   │   │   ├── Settings.jsx
 │   │   │   ├── styles
 │   │   │   │   ├── AccountLevelView.css
 │   │   │   │   ├── ClientPortfolioView.css
