@@ -3,6 +3,12 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
+const titleCase = (str) =>
+  str
+    .split(/[\s-_]/)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
 const TitleManager = () => {
   const location = useLocation();
   const username = localStorage.getItem("username") || "User";
@@ -23,10 +29,10 @@ const TitleManager = () => {
 
     if (path.startsWith("/client/")) {
       const [, , clientSlug, section, accountSlug] = path.split("/");
-      const clientName = decodeURIComponent(clientSlug || "Unknown Client");
+      const clientName = titleCase(decodeURIComponent(clientSlug || "Unknown Client"));
 
       if (section === "account" && accountSlug) {
-        const accountName = decodeURIComponent(accountSlug);
+        const accountName = titleCase(decodeURIComponent(accountSlug));
         return `FL:${clientName} ${accountName}`;
       }
 
