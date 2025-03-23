@@ -169,6 +169,7 @@ JedgeBot/
 │   │   │   │   ├── TitleManager.test.jsx
 │   │   │   │   ├── api_client.test.js
 │   │   │   │   ├── auth_api.test.js
+│   │   │   │   ├── setupTestUser.test.js
 │   │   │   ├── api
 │   │   │   │   ├── api_client.js
 │   │   │   │   ├── auth_api.js
@@ -207,6 +208,7 @@ JedgeBot/
 │   │   │   │   ├── DashboardView.jsx
 │   │   ├── test-utils
 │   │   │   ├── setup.js
+│   │   │   ├── setupTestUser.js
 │   │   ├── vite.config.js
 │   ├── generate_structure.py
 │   ├── jedgebot
