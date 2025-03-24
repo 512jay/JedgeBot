@@ -8,11 +8,15 @@ import { setupTestUser } from '@/../test-utils/setupTestUser';
 describe('setupTestUser utility', () => {
   let testUser;
 
-  beforeAll(async () => {
-    testUser = await setupTestUser({
-      email: 'testuser-util@example.com',
-      password: 'Test1234!',
-    });
+  beforeAll(async () => 
+  {
+    email: `test-${Date.now()}@example.com`,
+    password: 'Test1234!',
+    confirmPassword: 'Test1234!',   // ✅ If your schema needs it
+    first_name: 'Test',
+    last_name: 'User'
+  }
+);
   });
 
   afterAll(async () => {
