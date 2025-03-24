@@ -15,13 +15,15 @@ const DashboardView = () => {
   const renderDashboardContent = () => {
     switch (user.role) {
       case "client":
-        return <div className="text-xl">Client-specific dashboard coming soon.</div>;
+        return <div>Client-specific dashboard</div>;
       case "manager":
-        return <div className="text-xl">Manager view under construction.</div>;
+        return <div>Manager view under construction</div>;
       case "enterprise":
-        return <div className="text-xl">Enterprise dashboard placeholder.</div>;
-      default:
+        return <div>Enterprise dashboard placeholder</div>;
+      case "free":
         return <DashboardCards />;
+      default:
+        return <Navigate to="/login" />;
     }
   };
 
