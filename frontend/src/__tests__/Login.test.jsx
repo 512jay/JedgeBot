@@ -17,6 +17,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import Login from "../pages/Login";
 import * as authApi from "../api/auth_api";
+import { AuthProvider } from "../context/AuthContext";
 
 // Mock navigate function
 const mockedNavigate = vi.fn();
@@ -34,12 +35,15 @@ describe("Login Page", () => {
   });
 
   function renderWithRouter() {
-    return render(
+  return render(
+    <AuthProvider>
       <BrowserRouter>
         <Login />
       </BrowserRouter>
-    );
-  }
+    </AuthProvider>
+  );
+}
+
 
   test("renders email and password fields", () => {
     renderWithRouter();

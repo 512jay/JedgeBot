@@ -2,6 +2,11 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { AppRoutes } from "../AppRoutes";
+import { renderWithProviders } from "@/../test-utils/renderWithProviders";
+import { AppRoutes } from "../AppRoutes";
+
+renderWithProviders(<AppRoutes useBrowserRouter={false} />);
+
 
 // Mock pages
 vi.mock("../pages/Login", () => ({ default: () => <div>Login Page</div> }));

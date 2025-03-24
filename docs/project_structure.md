@@ -207,6 +207,7 @@ JedgeBot/
 │   │   │   ├── views
 │   │   │   │   ├── DashboardView.jsx
 │   │   ├── test-utils
+│   │   │   ├── renderWithProviders.jsx
 │   │   │   ├── setup.js
 │   │   │   ├── setupTestUser.js
 │   │   ├── vite.config.js
