@@ -1,30 +1,28 @@
-// /frontend/test-utils/setupTestUser.test.js
-// Validates setupTestUser: register → login → delete test user
+// /frontend/src/__tests__/setupTestUser.test.js
 
 import { describe, expect, it, beforeAll, afterAll } from 'vitest';
 import { setupTestUser } from '@/../test-utils/setupTestUser';
 
-
 describe('setupTestUser utility', () => {
   let testUser;
 
-  beforeAll(async () => 
-  {
-    email: `test-${Date.now()}@example.com`,
-    password: 'Test1234!',
-    confirmPassword: 'Test1234!',   // ✅ If your schema needs it
-    first_name: 'Test',
-    last_name: 'User'
-  }
-);
+  beforeAll(async () => {
+    try {
+      testUser = await setupTestUser();
+    } catch (error) {
+      console.error('🚨 setupTestUser failed in beforeAll:', error);
+    }
   });
 
   afterAll(async () => {
-    await testUser.cleanup();
+    if (testUser?.cleanup) {
+      await testUser.cleanup();
+    }
   });
 
   it('should return a valid cookie after login', () => {
-    const cookie = testUser.getCookies();
+    expect(testUser).toBeDefined();
+    const cookie = testUser.getCookies?.();
     expect(cookie).toBeDefined();
     expect(typeof cookie).toBe('string');
   });
@@ -33,7 +31,9 @@ describe('setupTestUser utility', () => {
     const res = await fetch('http://localhost:8000/auth/login', {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         email: testUser.email,
         password: testUser.password,
@@ -49,12 +49,11 @@ describe('setupTestUser utility', () => {
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        Cookie: testUser.getCookies(),
+        Cookie: testUser.getCookies?.(),
       },
       body: JSON.stringify({ email: testUser.email }),
     });
 
-    // This may return 404 if already deleted by cleanup, so we expect 200 or 404
-    expect([200, 404]).toContain(res.status);
+    expect([200, 404]).toContain(res.status); // 404 is okay if already deleted
   });
 });
