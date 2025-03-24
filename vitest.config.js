@@ -27,5 +27,8 @@ export default defineConfig({
     'frontend/test-utils/**/*.{test,spec}.{js,jsx}'
     ], // ✅ supports .test.js
   },
+  coverage: {
+    exclude: ['tailwind.config.js'],
+},
 
 });

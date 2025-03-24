@@ -80,50 +80,52 @@ JedgeBot/
 │   │   ├── clover.xml
 │   │   ├── coverage-final.json
 │   │   ├── favicon.png
+│   │   ├── frontend
+│   │   │   ├── index.html
+│   │   │   ├── src
+│   │   │   │   ├── App.jsx.html
+│   │   │   │   ├── AppRoutes.jsx.html
+│   │   │   │   ├── api
+│   │   │   │   │   ├── api_client.js.html
+│   │   │   │   │   ├── auth_api.js.html
+│   │   │   │   │   ├── index.html
+│   │   │   │   ├── components
+│   │   │   │   │   ├── DashboardCards.jsx.html
+│   │   │   │   │   ├── Sidebar.jsx.html
+│   │   │   │   │   ├── TitleManager.jsx.html
+│   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── ui
+│   │   │   │   │   │   ├── Button.jsx.html
+│   │   │   │   │   │   ├── Card.jsx.html
+│   │   │   │   │   │   ├── PieChart.jsx.html
+│   │   │   │   │   │   ├── Table.jsx.html
+│   │   │   │   │   │   ├── index.html
+│   │   │   │   ├── context
+│   │   │   │   │   ├── AuthContext.jsx.html
+│   │   │   │   │   ├── index.html
+│   │   │   │   ├── index.html
+│   │   │   │   ├── main.jsx.html
+│   │   │   │   ├── pages
+│   │   │   │   │   ├── Dashboard.jsx.html
+│   │   │   │   │   ├── ForgotPassword.jsx.html
+│   │   │   │   │   ├── Landing.jsx.html
+│   │   │   │   │   ├── Login.jsx.html
+│   │   │   │   │   ├── Register.jsx.html
+│   │   │   │   │   ├── ResetPassword.jsx.html
+│   │   │   │   │   ├── index.html
+│   │   │   │   ├── views
+│   │   │   │   │   ├── DashboardView.jsx.html
+│   │   │   │   │   ├── index.html
+│   │   │   ├── tailwind.config.js.html
+│   │   │   ├── test-utils
+│   │   │   │   ├── index.html
+│   │   │   │   ├── renderWithProviders.jsx.html
+│   │   │   │   ├── setupTestUser.js.html
 │   │   ├── index.html
 │   │   ├── prettify.css
 │   │   ├── prettify.js
 │   │   ├── sort-arrow-sprite.png
 │   │   ├── sorter.js
-│   │   ├── src
-│   │   │   ├── App.jsx.html
-│   │   │   ├── AppRoutes.jsx.html
-│   │   │   ├── api
-│   │   │   │   ├── api_client.js.html
-│   │   │   │   ├── auth_api.js.html
-│   │   │   │   ├── index.html
-│   │   │   ├── components
-│   │   │   │   ├── DashboardCards.jsx.html
-│   │   │   │   ├── Navbar.jsx.html
-│   │   │   │   ├── Sidebar.jsx.html
-│   │   │   │   ├── TitleManager.jsx.html
-│   │   │   │   ├── index.html
-│   │   │   │   ├── ui
-│   │   │   │   │   ├── Button.jsx.html
-│   │   │   │   │   ├── Card.jsx.html
-│   │   │   │   │   ├── PieChart.jsx.html
-│   │   │   │   │   ├── Table.jsx.html
-│   │   │   │   │   ├── index.html
-│   │   │   ├── context
-│   │   │   │   ├── AuthContext.jsx.html
-│   │   │   │   ├── index.html
-│   │   │   ├── index.html
-│   │   │   ├── main.jsx.html
-│   │   │   ├── pages
-│   │   │   │   ├── Dashboard.jsx.html
-│   │   │   │   ├── ForgotPassword.jsx.html
-│   │   │   │   ├── Landing.jsx.html
-│   │   │   │   ├── Login.jsx.html
-│   │   │   │   ├── Register.jsx.html
-│   │   │   │   ├── ResetPassword.jsx.html
-│   │   │   │   ├── index.html
-│   │   │   ├── views
-│   │   │   │   ├── DashboardView.jsx.html
-│   │   │   │   ├── index.html
-│   │   ├── test-utils
-│   │   │   ├── index.html
-│   │   │   ├── renderWithProviders.jsx.html
-│   │   │   ├── setupTestUser.js.html
 │   ├── docker-compose.yml
 │   ├── docker-entrypoint-initdb.d
 │   │   ├── create_auth_db.sql
@@ -170,11 +172,13 @@ JedgeBot/
 │   │   │   │   ├── AppRoutes.test.jsx
 │   │   │   │   ├── Button.test.jsx
 │   │   │   │   ├── Card.test.jsx
+│   │   │   │   ├── Dashboard.test.jsx
 │   │   │   │   ├── DashboardCards.test.jsx
 │   │   │   │   ├── ForgotPassword.test.jsx
 │   │   │   │   ├── Landing.test.jsx
 │   │   │   │   ├── Layout.test.jsx
 │   │   │   │   ├── Login.test.jsx
+│   │   │   │   ├── PieChart.test.jsx
 │   │   │   │   ├── Register.test.jsx
 │   │   │   │   ├── ResetPassword.test.jsx
 │   │   │   │   ├── Sidebar.test.jsx
@@ -182,6 +186,7 @@ JedgeBot/
 │   │   │   │   ├── TitleManager.test.jsx
 │   │   │   │   ├── api_client.test.js
 │   │   │   │   ├── auth_api.test.js
+│   │   │   │   ├── main.text.jsx
 │   │   │   │   ├── setupTestUser.test.js
 │   │   │   ├── api
 │   │   │   │   ├── api_client.js
@@ -190,7 +195,6 @@ JedgeBot/
 │   │   │   │   ├── react.svg
 │   │   │   ├── components
 │   │   │   │   ├── DashboardCards.jsx
-│   │   │   │   ├── Navbar.jsx
 │   │   │   │   ├── Sidebar.jsx
 │   │   │   │   ├── TitleManager.jsx
 │   │   │   │   ├── ui
