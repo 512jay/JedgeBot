@@ -1,11 +1,11 @@
 /* Sidebar default styles */
 .sidebar {
     width: 16rem;
-    /* Default expanded width */
     position: fixed;
     left: 0;
     top: 0;
     height: 100vh;
+    z-index: 50;
     background-color: #1f2937;
     /* Dark gray */
     color: white;

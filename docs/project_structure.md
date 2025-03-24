@@ -150,6 +150,7 @@ JedgeBot/
 │   │   ├── README.md
 │   │   ├── eslint.config.js
 │   │   ├── index.html
+│   │   ├── package-lock.json
 │   │   ├── package.json
 │   │   ├── public
 │   │   │   ├── images
@@ -209,15 +210,12 @@ JedgeBot/
 │   │   │   │   ├── Register.jsx
 │   │   │   │   ├── ResetPassword.jsx
 │   │   │   ├── styles
-│   │   │   │   ├── AccountLevelView.css
-│   │   │   │   ├── ClientPortfolioView.css
-│   │   │   │   ├── Home.css
 │   │   │   │   ├── Landing.css
-│   │   │   │   ├── PortfolioManagerOverview.css
 │   │   │   │   ├── Sidebar.css
 │   │   │   │   ├── global.css
 │   │   │   ├── views
 │   │   │   │   ├── DashboardView.jsx
+│   │   ├── tailwind.config.js
 │   │   ├── test-utils
 │   │   │   ├── renderWithProviders.jsx
 │   │   │   ├── setup.js

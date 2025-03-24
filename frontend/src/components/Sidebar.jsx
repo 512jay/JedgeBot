@@ -1,5 +1,5 @@
 // /frontend/src/components/Sidebar.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   MDBListGroup,
@@ -10,8 +10,17 @@ import {
 import "../styles/Sidebar.css";
 
 const Sidebar = ({ onAddClient }) => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(window.innerWidth < 768);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setCollapsed(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");
@@ -64,7 +73,6 @@ const Sidebar = ({ onAddClient }) => {
         </Link>
       </MDBListGroup>
 
-      {/* New Client Button */}
       <div className="p-2">
         <MDBBtn color="success" className="w-100" onClick={onAddClient}>
           <MDBIcon fas icon="user-plus" className="me-2" />
@@ -72,7 +80,6 @@ const Sidebar = ({ onAddClient }) => {
         </MDBBtn>
       </div>
 
-      {/* Logout Button */}
       <div className="logout-btn-container p-2">
         <MDBBtn color="danger" className="w-100" onClick={handleLogout}>
           <MDBIcon fas icon="sign-out-alt" className="me-2" />

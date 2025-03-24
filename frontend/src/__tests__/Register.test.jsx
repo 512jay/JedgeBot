@@ -33,35 +33,37 @@ describe("Register Page", () => {
 
   test("renders registration form", () => {
     renderWithRouter();
+    expect(screen.getByLabelText(/username/i)).toBeInTheDocument(); // 🔧
     expect(screen.getByLabelText(/email address/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/^password$/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/confirm password/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/select role/i)).toBeInTheDocument();
   });
 
-test("shows error when passwords do not match", async () => {
-  renderWithRouter();
+  test("shows error when passwords do not match", async () => {
+    renderWithRouter();
 
-  fireEvent.change(screen.getByLabelText("Email Address"), {
-    target: { value: "test@example.com" },
+    fireEvent.change(screen.getByLabelText(/username/i), {
+      target: { value: "testuser" }, // 🔧
+    });
+    fireEvent.change(screen.getByLabelText(/email address/i), {
+      target: { value: "test@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText(/^password$/i), {
+      target: { value: "password123" },
+    });
+    fireEvent.change(screen.getByLabelText(/confirm password/i), {
+      target: { value: "notthesame" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: /register/i }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText((content) => content.includes("Passwords do not match")) // 🔧
+      ).toBeInTheDocument();
+    });
   });
-
-  fireEvent.change(screen.getByLabelText("Password"), {
-    target: { value: "password123" },
-  });
-
-  fireEvent.change(screen.getByLabelText("Confirm Password"), {
-    target: { value: "notthesame" },
-  });
-
-  fireEvent.click(screen.getByRole("button", { name: /register/i }));
-
-  await waitFor(() => {
-    expect(screen.getByText("Passwords do not match")).toBeInTheDocument();
-  });
-});
-
-
 
   test("registers successfully and navigates to login", async () => {
     vi.spyOn(authApi, "register").mockResolvedValue({});
@@ -70,6 +72,9 @@ test("shows error when passwords do not match", async () => {
 
     fireEvent.change(screen.getByLabelText(/select role/i), {
       target: { value: "client" },
+    });
+    fireEvent.change(screen.getByLabelText(/username/i), {
+      target: { value: "clientbot" }, // 🔧
     });
     fireEvent.change(screen.getByLabelText(/email address/i), {
       target: { value: "test@example.com" },
@@ -93,6 +98,9 @@ test("shows error when passwords do not match", async () => {
 
     renderWithRouter();
 
+    fireEvent.change(screen.getByLabelText(/username/i), {
+      target: { value: "failbot" }, // 🔧
+    });
     fireEvent.change(screen.getByLabelText(/email address/i), {
       target: { value: "fail@example.com" },
     });
@@ -106,7 +114,9 @@ test("shows error when passwords do not match", async () => {
     fireEvent.click(screen.getByRole("button", { name: /register/i }));
 
     await waitFor(() =>
-      expect(screen.getByText(/registration failed/i)).toBeInTheDocument()
+      expect(
+        screen.getByText((content) => content.toLowerCase().includes("registration failed")) // 🔧
+      ).toBeInTheDocument()
     );
   });
 });

@@ -6,6 +6,7 @@ import { register } from "../api/auth_api";
 import "../styles/global.css";
 
 const Register = () => {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -21,7 +22,7 @@ const Register = () => {
     }
 
     try {
-      await register({ email, password, role });
+      await register({ email, password, role, username });
       alert("Registration successful! Please log in.");
       navigate("/login");
     } catch (err) {
@@ -57,6 +58,16 @@ const Register = () => {
               <option value="manager">Manager – $200/mo for 100 Brokerage Accounts</option>
             </select>
 
+            <label htmlFor="username">Username</label>
+            <MDBInput
+              id="username"
+              type="text"
+              required
+              value={username}
+              autoComplete="username"
+              onChange={(e) => setUsername(e.target.value)}
+              className="mb-3"
+            />
             <label htmlFor="email">Email Address</label>
             <MDBInput
               id="email"
