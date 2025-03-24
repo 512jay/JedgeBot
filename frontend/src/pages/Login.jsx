@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
 import { login } from "../api/auth_api";
 import { useAuth } from "../context/AuthContext";
-import { fetchUserProfile } from "@/api/auth_api";
+//import { fetchUserProfile } from "@/api/auth_api";
 import "../styles/global.css";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
@@ -15,7 +15,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  //const { login: setUser } = useAuth();
+  const { login: setUser } = useAuth();
 
   const handleLogin = async (e) => {
       e.preventDefault();
@@ -24,7 +24,8 @@ function Login() {
           const response = await login(email, password);
 
           if (response.message === "Login successful") {
-              console.log("✅ Login successful", response);
+            console.log("✅ Login successful", response);
+            setUser(response.user); // Store user data in context
               navigate("/dashboard");
           } else {
               console.error("Login response error:", response);
