@@ -2,7 +2,8 @@
 // Validates setupTestUser: register → login → delete test user
 
 import { describe, expect, it, beforeAll, afterAll } from 'vitest';
-import { setupTestUser } from './setupTestUser';
+import { setupTestUser } from '@/../test-utils/setupTestUser';
+
 
 describe('setupTestUser utility', () => {
   let testUser;
