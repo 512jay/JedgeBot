@@ -2,12 +2,22 @@ import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
 
-export function renderWithProviders(ui, { route = "/dashboard" } = {}) {
-  return render(
-    <AuthProvider>
-      <MemoryRouter initialEntries={[route]}>
-        {ui}
-      </MemoryRouter>
-    </AuthProvider>
-  );
+export function renderWithProviders(ui, { route = "/", authContextValue = null } = {}) {
+  const Wrapper = ({ children }) => {
+    return (
+      <AuthProviderOverride value={authContextValue}>
+        <MemoryRouter initialEntries={[route]}>
+          {children}
+        </MemoryRouter>
+      </AuthProviderOverride>
+    );
+  };
+
+  return render(ui, { wrapper: Wrapper });
 }
+
+// Wrapper that overrides the AuthContext with test values
+import { AuthContext } from "@/context/AuthContext";
+export const AuthProviderOverride = ({ children, value }) => (
+  <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+);

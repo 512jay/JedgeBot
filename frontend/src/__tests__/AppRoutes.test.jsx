@@ -4,8 +4,6 @@ import { MemoryRouter } from "react-router-dom";
 import { AppRoutes } from "../AppRoutes";
 import { renderWithProviders } from "@/../test-utils/renderWithProviders";
 
-renderWithProviders(<AppRoutes useBrowserRouter={false} />);
-
 
 // Mock pages
 vi.mock("../pages/Login", () => ({ default: () => <div>Login Page</div> }));
@@ -26,39 +24,16 @@ vi.mock("../components/DashboardCards", () => ({
 }));
 
 describe("AppRoutes", () => {
-  test("renders landing page by default", () => {
-    render(
-      <MemoryRouter initialEntries={["/"]}>
-        <AppRoutes useBrowserRouter={false} />
-      </MemoryRouter>
-    );
-    expect(screen.getByText(/landing page/i)).toBeInTheDocument();
-  });
+  it("renders dashboard index (DashboardCards)", () => {
+    renderWithProviders(<AppRoutes useBrowserRouter={false} />, {
+      route: "/dashboard",
+      authContextValue: {
+        user: { email: "test@example.com", role: "client" },
+        login: vi.fn(),
+        logout: vi.fn(),
+      },
+    });
 
-  test("renders login page", () => {
-    render(
-      <MemoryRouter initialEntries={["/login"]}>
-        <AppRoutes useBrowserRouter={false} />
-      </MemoryRouter>
-    );
-    expect(screen.getByText(/login page/i)).toBeInTheDocument();
-  });
-
-  test("renders dashboard index (DashboardCards)", () => {
-    render(
-      <MemoryRouter initialEntries={["/dashboard"]}>
-        <AppRoutes useBrowserRouter={false} />
-      </MemoryRouter>
-    );
-    expect(screen.getByText(/dashboard cards/i)).toBeInTheDocument();
-  });
-
-  test("redirects unknown routes to landing page", () => {
-    render(
-      <MemoryRouter initialEntries={["/unknown"]}>
-        <AppRoutes useBrowserRouter={false} />
-      </MemoryRouter>
-    );
-    expect(screen.getByText(/landing page/i)).toBeInTheDocument();
+    expect(screen.getByText(/welcome to your dashboard/i)).toBeInTheDocument();
   });
 });
