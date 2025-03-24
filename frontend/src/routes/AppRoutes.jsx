@@ -1,17 +1,17 @@
 // /frontend/src/AppRoutes.jsx
 import {
-  Routes,
-  Route,
-  Navigate,
-  BrowserRouter,
+    BrowserRouter,
+    Navigate,
+    Route,
+    Routes,
 } from "react-router-dom";
 
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Landing from "./pages/Landing";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
-import DashboardView from "./views/DashboardView";
+import Dashboard from "../pages/Dashboard";
+import ForgotPassword from "../pages/ForgotPassword";
+import Landing from "../pages/Landing";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import ResetPassword from "../pages/ResetPassword";
 
 export function AppRoutes({ useBrowserRouter = true }) {
   const routes = (

@@ -1,9 +1,9 @@
 // /frontend/src/__tests__/Dashboard.test.jsx
 
-import { render, screen, within } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
-import { renderWithProviders } from "../../test-utils/renderWithProviders";
+import { screen, within } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 import Dashboard from "../pages/Dashboard";
+import { renderWithProviders } from "../test-utils/renderWithProviders";
 
 describe("Dashboard Page", () => {
   it("renders heading and Tailwind test div", () => {

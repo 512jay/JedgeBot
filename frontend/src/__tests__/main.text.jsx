@@ -1,9 +1,9 @@
 // /frontend/src/__tests__/main.test.jsx
 
-import { describe, it, expect } from "vitest";
 import { screen } from "@testing-library/react";
-import { renderWithProviders } from "../../test-utils/renderWithProviders";
+import { describe, expect, it } from "vitest";
 import App from "../App";
+import { renderWithProviders } from "../test-utils/renderWithProviders";
 
 describe("main.jsx entry point", () => {
   it("renders the App component without crashing", () => {

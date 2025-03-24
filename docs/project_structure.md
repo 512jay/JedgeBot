@@ -166,7 +166,6 @@ JedgeBot/
 │   │   ├── src
 │   │   │   ├── App.css
 │   │   │   ├── App.jsx
-│   │   │   ├── AppRoutes.jsx
 │   │   │   ├── __tests__
 │   │   │   │   ├── App.test.jsx
 │   │   │   │   ├── AppRoutes.test.jsx
@@ -196,8 +195,9 @@ JedgeBot/
 │   │   │   │   ├── react.svg
 │   │   │   ├── components
 │   │   │   │   ├── DashboardCards.jsx
-│   │   │   │   ├── Sidebar.jsx
 │   │   │   │   ├── TitleManager.jsx
+│   │   │   │   ├── layout
+│   │   │   │   │   ├── Sidebar.jsx
 │   │   │   │   ├── ui
 │   │   │   │   │   ├── Button.jsx
 │   │   │   │   │   ├── Card.jsx
@@ -214,10 +214,16 @@ JedgeBot/
 │   │   │   │   ├── Login.jsx
 │   │   │   │   ├── Register.jsx
 │   │   │   │   ├── ResetPassword.jsx
+│   │   │   ├── routes
+│   │   │   │   ├── AppRoutes.jsx
 │   │   │   ├── styles
 │   │   │   │   ├── Landing.css
 │   │   │   │   ├── Sidebar.css
 │   │   │   │   ├── global.css
+│   │   │   ├── test-utils
+│   │   │   │   ├── renderWithProviders.jsx
+│   │   │   ├── utils
+│   │   │   │   ├── setupTestUser.js
 │   │   │   ├── views
 │   │   │   │   ├── DashboardView.jsx
 │   │   │   │   ├── dashboard
@@ -225,11 +231,10 @@ JedgeBot/
 │   │   │   │   │   ├── EnterpriseDashboard.jsx
 │   │   │   │   │   ├── FreeDashboard.jsx
 │   │   │   │   │   ├── ManagerDashboard.jsx
+│   │   │   │   ├── landing
 │   │   ├── tailwind.config.js
 │   │   ├── test-utils
-│   │   │   ├── renderWithProviders.jsx
 │   │   │   ├── setup.js
-│   │   │   ├── setupTestUser.js
 │   │   ├── vite.config.js
 │   ├── generate_structure.py
 │   ├── jedgebot

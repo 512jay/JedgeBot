@@ -1,8 +1,8 @@
 // /frontend/src/__tests__/DashboardView.test.jsx
 
-import { describe, it, expect } from "vitest";
 import { screen } from "@testing-library/react";
-import { renderWithProviders } from "../../test-utils/renderWithProviders";
+import { describe, expect, it } from "vitest";
+import { renderWithProviders } from "../test-utils/renderWithProviders";
 import DashboardView from "../views/DashboardView";
 
 describe("DashboardView", () => {
