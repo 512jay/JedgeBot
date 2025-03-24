@@ -4,6 +4,11 @@ import Sidebar from "@/components/Sidebar";
 import DashboardCards from "@/components/DashboardCards";
 import { useAuth } from "@/context/AuthContext";
 import { Navigate } from "react-router-dom";
+import ClientDashboard from "./dashboard/ClientDashboard";
+import ManagerDashboard from "./dashboard/ManagerDashboard";
+import EnterpriseDashboard from "./dashboard/EnterpriseDashboard";
+import FreeDashboard from "./dashboard/FreeDashboard";
+
 
 const DashboardView = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -15,13 +20,13 @@ const DashboardView = () => {
   const renderDashboardContent = () => {
     switch (user.role) {
       case "client":
-        return <div>Client-specific dashboard</div>;
+        return <ClientDashboard />;
       case "manager":
-        return <div>Manager view under construction</div>;
+        return <ManagerDashboard />;
       case "enterprise":
-        return <div>Enterprise dashboard placeholder</div>;
+        return <EnterpriseDashboard />;
       case "free":
-        return <DashboardCards />;
+        return <FreeDashboard />;
       default:
         return <Navigate to="/login" />;
     }

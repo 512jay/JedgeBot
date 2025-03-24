@@ -174,6 +174,7 @@ JedgeBot/
 │   │   │   │   ├── Card.test.jsx
 │   │   │   │   ├── Dashboard.test.jsx
 │   │   │   │   ├── DashboardCards.test.jsx
+│   │   │   │   ├── DashboardView.test.jsx
 │   │   │   │   ├── ForgotPassword.test.jsx
 │   │   │   │   ├── Landing.test.jsx
 │   │   │   │   ├── Layout.test.jsx
@@ -219,6 +220,11 @@ JedgeBot/
 │   │   │   │   ├── global.css
 │   │   │   ├── views
 │   │   │   │   ├── DashboardView.jsx
+│   │   │   │   ├── dashboard
+│   │   │   │   │   ├── ClientDashboard.jsx
+│   │   │   │   │   ├── EnterpriseDashboard.jsx
+│   │   │   │   │   ├── FreeDashboard.jsx
+│   │   │   │   │   ├── ManagerDashboard.jsx
 │   │   ├── tailwind.config.js
 │   │   ├── test-utils
 │   │   │   ├── renderWithProviders.jsx

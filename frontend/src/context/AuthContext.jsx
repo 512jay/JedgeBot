@@ -5,7 +5,10 @@ export const AuthContext = createContext(null);
 
 
 // Custom hook
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  return useContext(AuthContext) ?? { user: null, loading: false };
+};
+
 
 // Provider component
 export const AuthProvider = ({ children }) => {
