@@ -172,8 +172,8 @@ JedgeBot/
 │   │   │   │   ├── DashboardCards.test.jsx
 │   │   │   │   ├── ForgotPassword.test.jsx
 │   │   │   │   ├── Landing.test.jsx
+│   │   │   │   ├── Layout.test.jsx
 │   │   │   │   ├── Login.test.jsx
-│   │   │   │   ├── Navbar.test.jsx
 │   │   │   │   ├── Register.test.jsx
 │   │   │   │   ├── ResetPassword.test.jsx
 │   │   │   │   ├── Sidebar.test.jsx
@@ -181,7 +181,6 @@ JedgeBot/
 │   │   │   │   ├── TitleManager.test.jsx
 │   │   │   │   ├── api_client.test.js
 │   │   │   │   ├── auth_api.test.js
-│   │   │   │   ├── main.test.jsx
 │   │   │   │   ├── setupTestUser.test.js
 │   │   │   ├── api
 │   │   │   │   ├── api_client.js
