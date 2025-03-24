@@ -9,7 +9,8 @@ export const setupTestUser = async (
     password: 'Test1234!',
     confirmPassword: 'Test1234!',
     first_name: 'Test',
-    last_name: 'User'
+    last_name: 'User',
+    role: 'client',
   }
 ) => {
   const { email, password } = testUser;
