@@ -2,13 +2,13 @@
 // Role-based dashboard entry point with integrated sidebar layout
 
 import React from "react";
-import { useAuth } from "../context/AuthContext";
 import { Navigate } from "react-router-dom";
 import Sidebar from "../components/layout/Sidebar";
+import { useAuth } from "../context/AuthContext";
+import ClientDashboard from../views/FreeDashboard
 import FreeDashboard from "../views/dashboard/FreeDashboard";
-import ClientDashboard from "../views/dashboard/ClientDashboard";
-import ManagerDashboard from "../views/dashboard/ManagerDashboard";
-import EnterpriseDashboard from "../views/dashboard/EnterpriseDashboard";
+import ManagerDashboard from "../views/ManagerDashboard";
+import EnterpriseDashboard from "../views/EnterpriseDashboard";
 
 const Dashboard = () => {
   const { user, loading } = useAuth();

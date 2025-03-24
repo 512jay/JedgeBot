@@ -195,7 +195,6 @@ JedgeBot/
 │   │   │   │   ├── react.svg
 │   │   │   ├── components
 │   │   │   │   ├── DashboardCards.jsx
-│   │   │   │   ├── TitleManager.jsx
 │   │   │   │   ├── layout
 │   │   │   │   │   ├── Sidebar.jsx
 │   │   │   │   ├── ui
@@ -223,18 +222,17 @@ JedgeBot/
 │   │   │   ├── test-utils
 │   │   │   │   ├── renderWithProviders.jsx
 │   │   │   ├── utils
+│   │   │   │   ├── setup.js
 │   │   │   │   ├── setupTestUser.js
 │   │   │   ├── views
+│   │   │   │   ├── ClientDashboard.jsx
 │   │   │   │   ├── DashboardView.jsx
-│   │   │   │   ├── dashboard
-│   │   │   │   │   ├── ClientDashboard.jsx
-│   │   │   │   │   ├── EnterpriseDashboard.jsx
-│   │   │   │   │   ├── FreeDashboard.jsx
-│   │   │   │   │   ├── ManagerDashboard.jsx
+│   │   │   │   ├── EnterpriseDashboard.jsx
+│   │   │   │   ├── FreeDashboard.jsx
+│   │   │   │   ├── ManagerDashboard.jsx
 │   │   │   │   ├── landing
 │   │   ├── tailwind.config.js
 │   │   ├── test-utils
-│   │   │   ├── setup.js
 │   │   ├── vite.config.js
 │   ├── generate_structure.py
 │   ├── jedgebot

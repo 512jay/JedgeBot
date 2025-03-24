@@ -1,14 +1,13 @@
 // /frontend/src/views/DashboardView.jsx
-import React, { useState } from "react";
 import Sidebar from "@/components/Sidebar";
-import DashboardCards from "@/components/DashboardCards";
 import { useAuth } from "@/context/AuthContext";
+import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
-import ClientDashboard from "./dashboard/ClientDashboard";
-import ManagerDashboard from "./dashboard/ManagerDashboard";
-import EnterpriseDashboard from "./dashboard/EnterpriseDashboard";
+import ClientDashboard from "./ClientDashboard";
 import FreeDashboard from "./dashboard/FreeDashboard";
-
+import ManagerDashboard from "./ManagerDashboard";
+import EnterpriseDashboard from "./EnterpriseDashboard";
+./FreeDashboard
 
 const DashboardView = () => {
   const [collapsed, setCollapsed] = useState(false);
