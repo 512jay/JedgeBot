@@ -14,13 +14,18 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'frontend/src'),
+      '~test-utils': path.resolve(__dirname, 'frontend/test-utils'), // ✅ FIXED
     },
+
   },
   test: {
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./frontend/test-utils/setup.js'],
-    include: ['frontend/src/**/*.{test,spec}.{js,jsx}'], // ✅ supports .test.js
+    include: [
+    'frontend/src/**/*.{test,spec}.{js,jsx}',
+    'frontend/test-utils/**/*.{test,spec}.{js,jsx}'
+    ], // ✅ supports .test.js
   },
 
 });

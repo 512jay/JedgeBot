@@ -87,6 +87,7 @@ JedgeBot/
 │   │   ├── sorter.js
 │   │   ├── src
 │   │   │   ├── App.jsx.html
+│   │   │   ├── AppRoutes.jsx.html
 │   │   │   ├── api
 │   │   │   │   ├── api_client.js.html
 │   │   │   │   ├── auth_api.js.html
@@ -103,6 +104,9 @@ JedgeBot/
 │   │   │   │   │   ├── PieChart.jsx.html
 │   │   │   │   │   ├── Table.jsx.html
 │   │   │   │   │   ├── index.html
+│   │   │   ├── context
+│   │   │   │   ├── AuthContext.jsx.html
+│   │   │   │   ├── index.html
 │   │   │   ├── index.html
 │   │   │   ├── main.jsx.html
 │   │   │   ├── pages
@@ -113,6 +117,13 @@ JedgeBot/
 │   │   │   │   ├── Register.jsx.html
 │   │   │   │   ├── ResetPassword.jsx.html
 │   │   │   │   ├── index.html
+│   │   │   ├── views
+│   │   │   │   ├── DashboardView.jsx.html
+│   │   │   │   ├── index.html
+│   │   ├── test-utils
+│   │   │   ├── index.html
+│   │   │   ├── renderWithProviders.jsx.html
+│   │   │   ├── setupTestUser.js.html
 │   ├── docker-compose.yml
 │   ├── docker-entrypoint-initdb.d
 │   │   ├── create_auth_db.sql
@@ -162,6 +173,7 @@ JedgeBot/
 │   │   │   │   ├── ForgotPassword.test.jsx
 │   │   │   │   ├── Landing.test.jsx
 │   │   │   │   ├── Login.test.jsx
+│   │   │   │   ├── Navbar.test.jsx
 │   │   │   │   ├── Register.test.jsx
 │   │   │   │   ├── ResetPassword.test.jsx
 │   │   │   │   ├── Sidebar.test.jsx
@@ -169,6 +181,7 @@ JedgeBot/
 │   │   │   │   ├── TitleManager.test.jsx
 │   │   │   │   ├── api_client.test.js
 │   │   │   │   ├── auth_api.test.js
+│   │   │   │   ├── main.test.jsx
 │   │   │   │   ├── setupTestUser.test.js
 │   │   │   ├── api
 │   │   │   │   ├── api_client.js

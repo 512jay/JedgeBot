@@ -1,5 +1,4 @@
 // /frontend/test-utils/setupTestUser.js
-// Utility for registering, logging in, and deleting a test user with saved cookies.
 
 let cookies = '';
 
@@ -15,7 +14,6 @@ export const setupTestUser = async (
 ) => {
   const { email, password } = testUser;
 
-  // Register the test user
   const registerRes = await fetch('http://localhost:8000/auth/register', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -28,7 +26,6 @@ export const setupTestUser = async (
     throw new Error('Registration failed');
   }
 
-  // Log in to get the session cookie
   const loginRes = await fetch('http://localhost:8000/auth/login', {
     method: 'POST',
     credentials: 'include',
@@ -42,7 +39,6 @@ export const setupTestUser = async (
     throw new Error('Failed to log in test user');
   }
 
-  // Save cookies (needed for auth in tests)
   cookies = loginRes.headers.get('set-cookie');
 
   return {
@@ -62,3 +58,24 @@ export const setupTestUser = async (
     },
   };
 };
+
+// ✅ Define helpers AFTER the main function
+export const setupTestManagerUser = () =>
+  setupTestUser({
+    email: `manager-${Date.now()}@example.com`,
+    password: 'Test1234!',
+    confirmPassword: 'Test1234!',
+    first_name: 'Manager',
+    last_name: 'User',
+    role: 'manager',
+  });
+
+export const setupTestClientUser = () =>
+  setupTestUser({
+    email: `client-${Date.now()}@example.com`,
+    password: 'Test1234!',
+    confirmPassword: 'Test1234!',
+    first_name: 'Client',
+    last_name: 'User',
+    role: 'client',
+  });
