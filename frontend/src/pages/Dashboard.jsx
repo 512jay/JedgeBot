@@ -1,25 +1,32 @@
 // /frontend/src/pages/Dashboard.jsx
-import React, { useState } from "react";
-import Sidebar from "@/components/Sidebar";
-import DashboardCards from "@/components/DashboardCards";
+// Role-based dashboard entry point, redirects if no valid role
+
+import React from "react";
+import { useAuth } from "../context/AuthContext";
+import { Navigate } from "react-router-dom";
+import FreeDashboard from "../views/dashboard/FreeDashboard";
+import ClientDashboard from "../views/dashboard/ClientDashboard";
+import ManagerDashboard from "../views/dashboard/ManagerDashboard";
+import EnterpriseDashboard from "../views/dashboard/EnterpriseDashboard";
 
 const Dashboard = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const { user, loading } = useAuth();
 
-  return (
-    <div className="flex min-h-screen">
-      {/* Sidebar */}
-      <Sidebar onToggleCollapse={() => setCollapsed(!collapsed)} />
+  if (loading) return <p className="p-6">Loading dashboard...</p>;
+  if (!user) return <Navigate to="/login" />;
 
-      {/* Main content adjusts to sidebar width */}
-      <div className={`transition-all duration-300 w-full ${collapsed ? "pl-16" : "pl-64"} p-6`}>
-        <h1 className="text-3xl font-bold mb-6">Welcome to your Dashboard</h1>
-        <div className="bg-pink-500 text-white p-4">Tailwind is working 🎉</div>
-
-        <DashboardCards />
-      </div>
-    </div>
-  );
+  switch (user.role) {
+    case "client":
+      return <ClientDashboard />;
+    case "manager":
+      return <ManagerDashboard />;
+    case "enterprise":
+      return <EnterpriseDashboard />;
+    case "free":
+      return <FreeDashboard />;
+    default:
+      return <Navigate to="/login" />;
+  }
 };
 
 export default Dashboard;

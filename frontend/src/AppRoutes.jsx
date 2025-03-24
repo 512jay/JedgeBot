@@ -24,7 +24,7 @@ export function AppRoutes({ useBrowserRouter = true }) {
       <Route path="/reset-password" element={<ResetPassword />} />
 
       {/* Role-aware Dashboard View */}
-      <Route path="/dashboard" element={<DashboardView />} />
+      <Route path="/dashboard" element={<Dashboard />} />
 
       {/* Redirect unknown routes to home */}
       <Route path="*" element={<Navigate to="/" replace />} />

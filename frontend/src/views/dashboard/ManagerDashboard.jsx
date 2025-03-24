@@ -4,7 +4,8 @@
 import React from "react";
 
 const ClientDashboard = () => {
-  return <div>Client-specific dashboard</div>;
+  return <div>Manager view under construction</div>;
+
 };
 
 export default ClientDashboard;

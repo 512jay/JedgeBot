@@ -5,6 +5,7 @@ import React from "react";
 
 const EnterpriseDashboard = () => {
   return <div>Enterprise dashboard placeholder</div>;
+
 };
 
 export default EnterpriseDashboard;
