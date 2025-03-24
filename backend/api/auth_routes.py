@@ -162,7 +162,12 @@ def login(request: Request, response: Response, login_data: LoginRequest, db: Se
         max_age=604800,
     )
 
-    return {"message": "Login successful"}
+    return {"message": "Login successful",
+            "user": {
+                "email": user.email, 
+                "role": user.role.value
+            }
+            }   
 
 
 @router.post("/refresh")
