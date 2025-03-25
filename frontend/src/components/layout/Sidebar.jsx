@@ -7,7 +7,7 @@ import {
   MDBIcon,
   MDBBtn,
 } from "mdb-react-ui-kit";
-import "../styles/Sidebar.css";
+import "../../styles/Sidebar.css";
 
 const Sidebar = ({ onAddClient }) => {
   const [collapsed, setCollapsed] = useState(window.innerWidth < 768);

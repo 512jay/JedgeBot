@@ -173,7 +173,6 @@ JedgeBot/
 │   │   │   │   ├── Card.test.jsx
 │   │   │   │   ├── Dashboard.test.jsx
 │   │   │   │   ├── DashboardCards.test.jsx
-│   │   │   │   ├── DashboardView.test.jsx
 │   │   │   │   ├── ForgotPassword.test.jsx
 │   │   │   │   ├── Landing.test.jsx
 │   │   │   │   ├── Layout.test.jsx
@@ -226,7 +225,6 @@ JedgeBot/
 │   │   │   │   ├── setupTestUser.js
 │   │   │   ├── views
 │   │   │   │   ├── ClientDashboard.jsx
-│   │   │   │   ├── DashboardView.jsx
 │   │   │   │   ├── EnterpriseDashboard.jsx
 │   │   │   │   ├── FreeDashboard.jsx
 │   │   │   │   ├── ManagerDashboard.jsx
