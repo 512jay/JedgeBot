@@ -21,6 +21,7 @@ from backend.data.database.auth.auth_services import create_user
 from backend.data.database.auth.auth_services import hash_password, verify_password
 from backend.data.database.auth.models import UserRole
 from backend.core.rate_limit import limiter
+from backend.data.database.auth.schemas import UserRead
 
 
 # -----------------------------------------------------------------------------
@@ -206,6 +207,9 @@ def logout(response: Response):
     return {"message": "Logged out successfully"}
 
 
-@router.get("/auth/me", response_model=UserRead)
-async def read_authenticated_user(user: User = Depends(get_current_user)):
-    return user
+@router.get("/me", response_model=UserRead)
+async def read_authenticated_user(
+    user: dict = Depends(get_current_user), db: Session = Depends(get_db)
+):
+    user_obj = get_user_by_email(db, user["email"])
+    return user_obj  # Pydantic will serialize this

@@ -109,3 +109,6 @@ def test_verify_password_fails_on_mismatch() -> None:
     wrong_password = "wrong_password"
     hashed = hash_password(correct_password)
     assert not verify_password(wrong_password, hashed)
+
+
+

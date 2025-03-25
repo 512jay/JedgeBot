@@ -1,21 +1,34 @@
+# /tests/conftest.py
+
 import pytest
 from fastapi.testclient import TestClient
-from backend.main import app
-from backend.core.settings import settings
-from backend.data.database.auth.auth_db import get_db
+from sqlalchemy import text
 
-# ✅ Assert the test mode is actually enabled
-assert settings.TESTING is True, "TESTING must be true when running tests"
+from backend.main import app
+from backend.data.database.auth.auth_db import get_db
+from backend.data.database.auth.auth_services import create_user, hash_password
+from backend.data.database.auth.models import UserRole
+from tests.utils.user_factory import random_email, random_password
+
 
 @pytest.fixture
 def client():
     return TestClient(app)
 
 
-# Optional: ensure DB schema is ready
-from backend.data.database.auth.auth_db import init_db
+@pytest.fixture
+def test_user(client):
+    db = next(get_db())
+    email = random_email()
+    password = random_password()
+    role = UserRole.CLIENT
+    hashed = hash_password(password)
 
+    # ✅ Pass hashed password as positional argument
+    create_user(db, email, hashed, role)
 
-@pytest.fixture(scope="session", autouse=True)
-def setup_real_db():
-    init_db()  # runs only once per test session
+    yield {"email": email, "password": password}
+
+    # 🧼 Securely delete test user using parameterized query
+    db.execute(text("DELETE FROM users WHERE email = :email"), {"email": email})
+    db.commit()

@@ -39,4 +39,14 @@ def test_register_user_with_manager_role() -> None:
         pass
 
 
+def test_auth_me_route(client, test_user):
+    response = client.post("/auth/login", json=test_user)
+    assert response.status_code == 200
+    cookies = response.cookies
 
+    client.cookies = cookies
+    me_response = client.get("/auth/me")
+    assert me_response.status_code == 200
+    data = me_response.json()
+    assert data["email"] == test_user["email"]
+    assert "role" in data
