@@ -1,6 +1,6 @@
 /// <reference types="vitest" />
 import { render, screen, fireEvent } from "@testing-library/react";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/layout/Sidebar";
 import { BrowserRouter } from "react-router-dom";
 
 // Mocks

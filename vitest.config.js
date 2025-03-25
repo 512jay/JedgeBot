@@ -21,7 +21,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: ['./frontend/test-utils/setup.js'],
+    setupFiles: ['./frontend/src/test-utils/setup.js'],
     include: [
     'frontend/src/**/*.{test,spec}.{js,jsx}',
     'frontend/test-utils/**/*.{test,spec}.{js,jsx}'

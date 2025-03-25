@@ -1,6 +1,5 @@
 import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { AuthProvider } from "@/context/AuthContext";
 
 export function renderWithProviders(ui, { route = "/", authContextValue = null } = {}) {
   const Wrapper = ({ children }) => {
@@ -17,7 +16,7 @@ export function renderWithProviders(ui, { route = "/", authContextValue = null }
 }
 
 // Wrapper that overrides the AuthContext with test values
-import { AuthContext } from "@/context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 export const AuthProviderOverride = ({ children, value }) => (
   <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 );

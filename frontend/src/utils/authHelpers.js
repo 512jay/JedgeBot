@@ -1,9 +1,11 @@
 // /frontend/src/utils/authHelpers.js
 // Utilities for handling token refresh and session restoration
+const BASE_URL = import.meta.env?.VITE_API_URL || "http://localhost:8000";
 
 export async function fetchWithRefresh(url, options = {}) {
   try {
-    const response = await fetch(url, {
+    const response = await fetch(url.startsWith("http") ? url : `${BASE_URL}${url}`, { ... });
+
       ...options,
       credentials: 'include', // Send cookies
       headers: {

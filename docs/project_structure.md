@@ -224,10 +224,10 @@ JedgeBot/
 │   │   │   │   ├── global.css
 │   │   │   ├── test-utils
 │   │   │   │   ├── renderWithProviders.jsx
+│   │   │   │   ├── setup.js
 │   │   │   ├── utils
 │   │   │   │   ├── apiClient.js
 │   │   │   │   ├── authHelpers.js
-│   │   │   │   ├── setup.js
 │   │   │   │   ├── setupTestUser.js
 │   │   │   ├── views
 │   │   │   │   ├── ClientDashboard.jsx
