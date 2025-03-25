@@ -1,12 +1,12 @@
 // /frontend/src/pages/Login.jsx
 
+import { MDBBtn, MDBInput } from "mdb-react-ui-kit";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
-import { login } from "../api/auth_api";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
+import { login } from "./auth_api";
 //import { fetchUserProfile } from "@/api/auth_api";
-import "../styles/global.css";
+import "../../styles/global.css";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 

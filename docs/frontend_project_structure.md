@@ -38,6 +38,15 @@ frontend/
 │   │   │   │   ├── ClientDashboard.jsx
 │   │   │   │   ├── ManagerDashboard.jsx
 │   │   │   │   ├── EnterpriseDashboard.jsx
+│   │   ├── landing/               # Public-facing pages (marketing)
+│   │   │   ├── Landing.jsx
+│   │   │   ├── Pricing.jsx
+│   │   │   ├── About.jsx
+│   │   │   ├── Contact.jsx
+│   │   │   ├── components/
+│   │   │   │   ├── HeroSection.jsx
+│   │   │   │   ├── PricingTable.jsx
+│   │   │   │   ├── FAQSection.jsx
 
 │   ├── context/                   # React contexts
 │   │   └── AuthContext.jsx
@@ -69,7 +78,7 @@ frontend/
 ## 🚀 Strategy Benefits
 
 ### ✅ Feature-First Modularity
-- Logical grouping by domain (`auth`, `dashboard`, `users`, etc.)
+- Logical grouping by domain (`auth`, `dashboard`, `landing`, etc.)
 - Easy to test, extend, and isolate features
 - Encourages decoupled, scalable architecture
 
@@ -104,4 +113,4 @@ frontend/
 
 ---
 
-This structure sets up JedgeBot’s frontend for maintainability, testability, and seamless collaboration as you scale into multi-role dashboards, settings, and broker management.
+This structure sets up JedgeBot’s frontend for maintainability, testability, and seamless collaboration as you scale into multi-role dashboards, landing pages, and broker management.

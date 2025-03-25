@@ -1,7 +1,7 @@
 // /frontend/src/api/auth_api.js
 // Handles authentication-related API calls (login, logout, register, token refresh)
 
-import { fetchWithCredentials } from "./api_client"; // ✅ Now using centralized request handler
+import { fetchWithCredentials } from "../../api/api_client"; // ✅ Now using centralized request handler
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000"; 
 

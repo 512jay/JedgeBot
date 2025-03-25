@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
-import "../styles/global.css";
+import "../../styles/global.css";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 

@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
-import "../styles/global.css";
+import "../../styles/global.css";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function ResetPassword() {
   const [searchParams] = useSearchParams();

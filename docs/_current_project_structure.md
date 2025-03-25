@@ -166,11 +166,11 @@ JedgeBot/
 │   │   ├── public
 │   │   │   ├── images
 │   │   │   │   ├── leftlogin.jpg
+│   │   │   │   ├── logo.webp
 │   │   │   │   ├── registrationleft.jpg
 │   │   │   │   ├── registrationleft.webp
 │   │   │   │   ├── welcomejedgebot.jpg
 │   │   │   │   ├── welcomejedgebot.webp
-│   │   │   ├── logo.webp
 │   │   │   ├── vite.svg
 │   │   ├── src
 │   │   │   ├── App.css
@@ -195,13 +195,9 @@ JedgeBot/
 │   │   │   │   ├── main.text.jsx
 │   │   │   ├── api
 │   │   │   │   ├── api_client.js
-│   │   │   │   ├── auth_api.js
 │   │   │   ├── assets
 │   │   │   │   ├── react.svg
 │   │   │   ├── components
-│   │   │   │   ├── DashboardCards.jsx
-│   │   │   │   ├── auth
-│   │   │   │   │   ├── PrivateRoute.jsx
 │   │   │   │   ├── layout
 │   │   │   │   │   ├── LoadingScreen.jsx
 │   │   │   │   │   ├── Sidebar.jsx
@@ -212,15 +208,26 @@ JedgeBot/
 │   │   │   │   │   ├── Table.jsx
 │   │   │   ├── context
 │   │   │   │   ├── AuthContext.jsx
+│   │   │   ├── features
+│   │   │   │   ├── auth
+│   │   │   │   │   ├── ForgotPassword.jsx
+│   │   │   │   │   ├── Login.jsx
+│   │   │   │   │   ├── PrivateRoute.jsx
+│   │   │   │   │   ├── Register.jsx
+│   │   │   │   │   ├── ResetPassword.jsx
+│   │   │   │   │   ├── auth_api.js
+│   │   │   │   ├── dashboard
+│   │   │   │   │   ├── Dashboard.jsx
+│   │   │   │   │   ├── DashboardCards.jsx
+│   │   │   │   │   ├── views
+│   │   │   │   │   │   ├── ClientDashboard.jsx
+│   │   │   │   │   │   ├── EnterpriseDashboard.jsx
+│   │   │   │   │   │   ├── FreeDashboard.jsx
+│   │   │   │   │   │   ├── ManagerDashboard.jsx
 │   │   │   ├── index.css
 │   │   │   ├── main.jsx
 │   │   │   ├── pages
-│   │   │   │   ├── Dashboard.jsx
-│   │   │   │   ├── ForgotPassword.jsx
 │   │   │   │   ├── Landing.jsx
-│   │   │   │   ├── Login.jsx
-│   │   │   │   ├── Register.jsx
-│   │   │   │   ├── ResetPassword.jsx
 │   │   │   ├── routes
 │   │   │   │   ├── AppRoutes.jsx
 │   │   │   ├── styles
@@ -235,10 +242,6 @@ JedgeBot/
 │   │   │   │   ├── authHelpers.js
 │   │   │   │   ├── setupTestUser.js
 │   │   │   ├── views
-│   │   │   │   ├── ClientDashboard.jsx
-│   │   │   │   ├── EnterpriseDashboard.jsx
-│   │   │   │   ├── FreeDashboard.jsx
-│   │   │   │   ├── ManagerDashboard.jsx
 │   │   │   │   ├── landing
 │   │   ├── tailwind.config.js
 │   │   ├── vite.config.js

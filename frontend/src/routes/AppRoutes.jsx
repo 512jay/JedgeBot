@@ -6,12 +6,12 @@ import {
     Routes,
 } from "react-router-dom";
 
-import Dashboard from "../pages/Dashboard";
-import ForgotPassword from "../pages/ForgotPassword";
-import Landing from "../pages/Landing";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
-import ResetPassword from "../pages/ResetPassword";
+import Dashboard from "../features/dashboard/Dashboard";
+import ForgotPassword from "../features/auth/ForgotPassword";
+import Landing from "../features/landing/Landing";
+import Login from "../features/auth/Login";
+import Register from "../features/auth/Register";
+import ResetPassword from "../features/auth/ResetPassword";
 
 export function AppRoutes({ useBrowserRouter = true }) {
   const routes = (

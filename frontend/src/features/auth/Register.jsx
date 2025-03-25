@@ -1,9 +1,9 @@
 // /frontend/src/pages/Register.jsx
+import { MDBBtn, MDBInput } from "mdb-react-ui-kit";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
-import { register } from "../api/auth_api";
-import "../styles/global.css";
+import "../../styles/global.css";
+import { register } from "./auth_api";
 
 const Register = () => {
   const [username, setUsername] = useState("");

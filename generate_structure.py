@@ -103,5 +103,5 @@ if __name__ == "__main__":
 
     save_structure_to_markdown(structure)
     print(
-        "✅ Done! Check `docs/project_structure.md` for the updated project structure."
+        "✅ Done! Check `docs/_current_project_structure.md` for the updated project structure."
     )

@@ -15,7 +15,7 @@ import {
   MDBCardBody,
   MDBCardImage,
 } from "mdb-react-ui-kit";
-import "../styles/Landing.css";
+import "../../styles/Landing.css";
 
 const Landing = () => {
   return (

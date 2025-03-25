@@ -1,8 +1,8 @@
 // /frontend/src/context/AuthContext.jsx
-import React, { createContext, useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { logout as logoutApi } from "../features/auth/auth_api";
 import { fetchWithRefresh } from "../utils/authHelpers";
-import { logout as logoutApi } from "../api/auth_api";
 
 export const AuthContext = createContext();
 
