@@ -1,52 +1,41 @@
-// /frontend/src/components/layout/Sidebar.jsx
-// Sidebar navigation component for dashboard layout
-
-import { useState } from "react";
+// /frontend/components/layout/Sidebar.jsx
+import React, { useState } from "react";
+import { FaBars, FaHome, FaUser, FaSignOutAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { FaBars, FaTimes, FaTachometerAlt, FaUser, FaSignOutAlt } from "react-icons/fa";
+import { MDBIcon } from "mdb-react-ui-kit";
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
 
-  const toggleSidebar = () => {
-    setCollapsed((prev) => !prev);
-  };
+  const toggleSidebar = () => setCollapsed(prev => !prev);
 
   return (
-    <nav
-      className={`sidebar bg-white text-black shadow-md ${
-        collapsed ? "w-16" : "w-64"
-      } transition-width duration-300`}
-      aria-label="Main sidebar"
+    <div
+      className={`h-screen bg-mutedRose text-white transition-all duration-300 ${
+        collapsed ? 'w-16' : 'w-64'
+      } flex flex-col shadow-lg fixed left-0 top-0 z-10`}
     >
-      <div className="flex items-center justify-between p-4 border-b">
-        {!collapsed && <h2 className="text-xl font-bold">JedgeBot</h2>}
-        <button onClick={toggleSidebar} aria-label="Toggle sidebar">
-          {collapsed ? <FaBars /> : <FaTimes />}
+      <div className="flex items-center justify-between p-4 border-b border-white/10">
+        {!collapsed && <h1 className="text-xl font-bold">JedgeBot</h1>}
+        <button onClick={toggleSidebar}>
+          <FaBars className="text-white" />
         </button>
       </div>
-
-      <ul className="p-4 space-y-4">
-        <li>
-          <Link to="/dashboard" className="flex items-center gap-2">
-            <FaTachometerAlt />
-            {!collapsed && <span>Dashboard</span>}
-          </Link>
-        </li>
-        <li>
-          <Link to="/profile" className="flex items-center gap-2">
-            <FaUser />
-            {!collapsed && <span>Profile</span>}
-          </Link>
-        </li>
-        <li>
-          <button className="flex items-center gap-2">
-            <FaSignOutAlt />
-            {!collapsed && <span>Logout</span>}
-          </button>
-        </li>
-      </ul>
-    </nav>
+      <nav className="flex-1 px-2 pt-4 space-y-4">
+        <Link to="/dashboard" className="flex items-center gap-3 hover:text-gray-300">
+          <FaHome />
+          {!collapsed && <span>Dashboard</span>}
+        </Link>
+        <Link to="/profile" className="flex items-center gap-3 hover:text-gray-300">
+          <FaUser />
+          {!collapsed && <span>Profile</span>}
+        </Link>
+        <Link to="/logout" className="flex items-center gap-3 hover:text-gray-300">
+          <FaSignOutAlt />
+          {!collapsed && <span>Logout</span>}
+        </Link>
+      </nav>
+    </div>
   );
 };
 

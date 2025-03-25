@@ -127,3 +127,18 @@ input {
     color: black !important;
     background-color: white !important;
 }
+
+/* /frontend/global.css */
+/* Custom background to match login/register page */
+:root {
+    --muted-rose: #9A616D;
+    --cornflower-blue: #6495ED;
+}
+
+.bg-mutedRose {
+    background-color: var(--muted-rose);
+}
+
+.bg-cornflowerBlue {
+    background-color: var(--cornflower-blue);
+}

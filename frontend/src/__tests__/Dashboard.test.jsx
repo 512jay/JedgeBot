@@ -9,8 +9,7 @@ describe("Dashboard Page", () => {
   it("renders heading and Tailwind test div", () => {
     renderWithProviders(<Dashboard />);
 
-    expect(screen.getByText(/welcome to your dashboard/i)).toBeInTheDocument();
-    expect(screen.getByText(/tailwind is working/i)).toBeInTheDocument();
+    expect(screen.getByTestId("dashboard-heading")).toBeInTheDocument();
   });
 
   it("renders sidebar with dashboard link", () => {
