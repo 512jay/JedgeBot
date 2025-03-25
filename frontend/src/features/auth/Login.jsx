@@ -1,12 +1,18 @@
-// /frontend/src/pages/Login.jsx
+// /frontend/src/features/auth/Login.jsx
 
-import { MDBBtn, MDBInput } from "mdb-react-ui-kit";
+import { Helmet } from "react-helmet-async";
 import React, { useState } from "react";
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBInput,
+  MDBBtn,
+  MDBTypography
+} from "mdb-react-ui-kit";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 import { login } from "./auth_api";
-//import { fetchUserProfile } from "@/api/auth_api";
-import "../../styles/global.css";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
@@ -17,81 +23,108 @@ function Login() {
   const navigate = useNavigate();
   const { setUser } = useAuth();
 
-
   const handleLogin = async (e) => {
-      e.preventDefault();
-      setError(null); // Clear previous errors
-      try {
-          const response = await login(email, password);
-
-          if (response.message === "Login successful") {
-            console.log("✅ Login successful", response);
-            setUser(response.user); // Store user data in context
-              navigate("/dashboard");
-          } else {
-              console.error("Login response error:", response);
-              setError("Invalid credentials. Please try again.");
-          }
-      } catch (err) {
-          console.error("Login error:", err);
-          setError("Login failed. Please try again.");
+    e.preventDefault();
+    setError(null);
+    try {
+      const response = await login(email, password);
+      if (response.message === "Login successful") {
+        setUser(response.user);
+        navigate("/dashboard");
+      } else {
+        setError("Invalid credentials. Please try again.");
       }
+    } catch (err) {
+      setError("Login failed. Please try again.");
+    }
   };
 
-
-
   return (
-    <div className="auth-page">
-      <div className="auth-container">
-        <div className="auth-image">
-          <img src="/images/leftlogin.jpg" alt="Professional Black woman with curly hair working on a laptop in a modern office." />
-        </div>
-        <div className="auth-box">
-          <h2 className="text-center mb-4">Sign into your account</h2>
-          {error && <p className="text-danger text-center">{error}</p>}
-          <form onSubmit={handleLogin} className="w-100 px-4">
-            <label htmlFor="email">Email Address</label>
-            <MDBInput
-              className="mb-3"
-              label="Email address"
-              type="email"
-              id="email"
-              name="email"
-              required
-              value={email}
-              autoComplete="email"
-              onChange={(e) => setEmail(e.target.value)}
+    <div
+      className="bg-mutedRose d-flex align-items-center justify-content-center"
+      style={{ minHeight: "100vh", width: "100vw" }}
+    >
+      <Helmet>
+        <title>Login | Fordis Ludus</title>
+      </Helmet>
+      <div
+        className="shadow-lg rounded-5 overflow-hidden bg-white"
+        style={{ maxWidth: "960px", width: "100%" }}
+      >
+        <MDBRow className="g-0">
+          {/* Left side image */}
+          <MDBCol md="6" className="d-none d-md-block">
+            <img
+              src="/images/leftlogin.jpg"
+              alt="Professional Black woman working on a laptop"
+              className="img-fluid h-100 w-100"
+              style={{ objectFit: "cover" }}
             />
+          </MDBCol>
 
-            <label htmlFor="password">Password</label>
-            <MDBInput
-              className="mb-2"
-              label="Password"
-              type="password"
-              id="password"
-              name="password"
-              required
-              value={password}
-              autoComplete="current-password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
+          {/* Right side form */}
+          <MDBCol
+            md="6"
+            className="d-flex flex-column justify-content-center align-items-center p-5"
+          >
+            <MDBTypography tag="h4" className="mb-4">
+              Sign into your account
+            </MDBTypography>
 
-            <div className="text-end mb-3">
-              <a href="/forgot-password" className="text-muted" style={{ fontSize: "0.9rem" }}>
-                Forgot your password?
+            {error && (
+              <p className="text-danger text-center w-100 mb-3">{error}</p>
+            )}
+
+            <form onSubmit={handleLogin} className="w-100 px-3">
+              <label htmlFor="email" className="form-label">
+                Email Address
+              </label>
+              <MDBInput
+                id="email"
+                type="email"
+                required
+                value={email}
+                autoComplete="email"
+                className="mb-3"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+
+              <label htmlFor="password" className="form-label">
+                Password
+              </label>
+              <MDBInput
+                id="password"
+                type="password"
+                required
+                value={password}
+                autoComplete="current-password"
+                className="mb-2"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+
+              <div className="text-end mb-3">
+                <a
+                  href="/forgot-password"
+                  className="text-muted"
+                  style={{ fontSize: "0.9rem" }}
+                >
+                  Forgot your password?
+                </a>
+              </div>
+
+              <MDBBtn className="w-100" type="submit">
+                LOGIN
+              </MDBBtn>
+            </form>
+
+            <p className="mt-4 text-center">
+              Don't have an account?{" "}
+              <a href="/register" className="text-primary">
+                Register here
               </a>
-
-            </div>
-
-            <MDBBtn className="auth-btn" type="submit">
-              Login
-            </MDBBtn>
-          </form>
-
-          <p className="mt-3 text-center">
-            Don't have an account? <a href="/register" className="text-primary">Register here</a>
-          </p>
-        </div>
+            </p>
+          </MDBCol>
+        </MDBRow>
       </div>
     </div>
   );

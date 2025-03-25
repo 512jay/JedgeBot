@@ -1,8 +1,10 @@
-// /frontend/src/pages/Register.jsx
-import { MDBBtn, MDBInput } from "mdb-react-ui-kit";
+// /frontend/src/features/auth/Register.jsx
+// Register component for user registration
+
+import { Helmet } from "react-helmet-async";
+import { MDBBtn, MDBInput, MDBTypography } from "mdb-react-ui-kit";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../styles/global.css";
 import { register } from "./auth_api";
 
 const Register = () => {
@@ -32,86 +34,105 @@ const Register = () => {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-container">
-        <div className="auth-image">
-          <img
-            src="/images/registrationleft.jpg"
-            alt="Confident Black woman in an upscale workspace"
-          />
-        </div>
-
-        <div className="auth-box">
-          <h2 className="text-center mb-4">Register</h2>
-          {error && <p className="text-danger text-center">{error}</p>}
-
-          <form onSubmit={handleRegister} className="w-100 px-4">
-            <label htmlFor="role">Select Role</label>
-            <select
-              id="role"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              className="mb-3 form-select"
-            >
-              <option value="free">Free – Manage 1 Brokerage Account</option>
-              <option value="client">Client – $30/mo for 10 Brokerage Accounts</option>
-              <option value="manager">Manager – $200/mo for 100 Brokerage Accounts</option>
-            </select>
-
-            <label htmlFor="username">Username</label>
-            <MDBInput
-              id="username"
-              type="text"
-              required
-              value={username}
-              autoComplete="username"
-              onChange={(e) => setUsername(e.target.value)}
-              className="mb-3"
+    <div
+      className="bg-mutedRose d-flex align-items-center justify-content-center"
+      style={{ minHeight: "100vh", width: "100vw" }}
+    >
+      <Helmet>
+        <title>Register | Fordis Ludus</title>
+      </Helmet>
+      <div
+        className="shadow-lg rounded-5 overflow-hidden bg-white"
+        style={{ maxWidth: "960px", width: "100%" }}
+      >
+        <div className="row g-0">
+          {/* Left image */}
+          <div className="col-md-6 d-none d-md-block">
+            <img
+              src="/images/registrationleft.jpg"
+              alt="Confident Black woman in an upscale workspace"
+              className="img-fluid h-100 w-100"
+              style={{ objectFit: "cover" }}
             />
-            <label htmlFor="email">Email Address</label>
-            <MDBInput
-              id="email"
-              type="email"
-              required
-              value={email}
-              autoComplete="email"
-              onChange={(e) => setEmail(e.target.value)}
-              className="mb-3"
-            />
+          </div>
 
-            <label htmlFor="password">Password</label>
-            <MDBInput
-              id="password"
-              type="password"
-              required
-              value={password}
-              autoComplete="new-password"
-              onChange={(e) => setPassword(e.target.value)}
-              className="mb-3"
-            />
-
-            <label htmlFor="confirm-password">Confirm Password</label>
-            <MDBInput
-              id="confirm-password"
-              type="password"
-              required
-              value={confirmPassword}
-              autoComplete="new-password"
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="mb-3"
-            />
-
-            <MDBBtn className="w-100" type="submit">
+          {/* Right form */}
+          <div className="col-md-6 d-flex flex-column justify-content-center align-items-center p-5">
+            <MDBTypography tag="h4" className="mb-4">
               Register
-            </MDBBtn>
-          </form>
+            </MDBTypography>
 
-          <p className="text-center mt-3">
-            Already have an account?{" "}
-            <a href="/login" className="text-primary">
-              Login
-            </a>
-          </p>
+            {error && <p className="text-danger text-center w-100 mb-3">{error}</p>}
+
+            <form onSubmit={handleRegister} className="w-100 px-3">
+              <label htmlFor="role">Select Role</label>
+              <select
+                id="role"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                className="mb-3 form-select"
+              >
+                <option value="free">Free – Manage 1 Brokerage Account</option>
+                <option value="client">Client – $30/mo for 10 Brokerage Accounts</option>
+                <option value="manager">Manager – $200/mo for 100 Brokerage Accounts</option>
+              </select>
+
+              <label htmlFor="username">Username</label>
+              <MDBInput
+                id="username"
+                type="text"
+                required
+                value={username}
+                autoComplete="username"
+                onChange={(e) => setUsername(e.target.value)}
+                className="mb-3"
+              />
+
+              <label htmlFor="email">Email Address</label>
+              <MDBInput
+                id="email"
+                type="email"
+                required
+                value={email}
+                autoComplete="email"
+                onChange={(e) => setEmail(e.target.value)}
+                className="mb-3"
+              />
+
+              <label htmlFor="password">Password</label>
+              <MDBInput
+                id="password"
+                type="password"
+                required
+                value={password}
+                autoComplete="new-password"
+                onChange={(e) => setPassword(e.target.value)}
+                className="mb-3"
+              />
+
+              <label htmlFor="confirm-password">Confirm Password</label>
+              <MDBInput
+                id="confirm-password"
+                type="password"
+                required
+                value={confirmPassword}
+                autoComplete="new-password"
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="mb-3"
+              />
+
+              <MDBBtn className="w-100" type="submit">
+                Register
+              </MDBBtn>
+            </form>
+
+            <p className="text-center mt-4">
+              Already have an account?{" "}
+              <a href="/login" className="text-primary">
+                Login
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </div>

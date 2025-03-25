@@ -1,6 +1,8 @@
 # /backend/api/password_reset_routes.py
 # FastAPI endpoints for initiating and completing password resets.
 
+from dotenv import load_dotenv
+import os
 from fastapi import APIRouter, HTTPException, status, Depends, Request
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
@@ -13,6 +15,9 @@ from backend.auth.password_reset_service import (
     mark_token_as_used,
 )
 from backend.core.rate_limit import limiter
+
+load_dotenv()
+FRONTEND_URL = os.getenv("FRONTEND_URL")
 
 router = APIRouter()
 
@@ -35,7 +40,7 @@ class ResetPasswordRequest(BaseModel):
 @router.post("/forgot-password")
 @limiter.limit("3/minute")  # 👈 Optional: less frequent than login
 def forgot_password(
-    request: Request,  # 👈 add this
+    request: Request,
     request_data: ForgotPasswordRequest,
     db: Session = Depends(get_db),
 ):
@@ -43,10 +48,19 @@ def forgot_password(
     Request a password reset link. Always returns 200 to prevent email enumeration.
     """
     user = get_user_by_email(db, request_data.email)
+
     if user:
         token = create_password_reset_token(db, user)
-        # TODO: Send token via email (for now, print it)
-        print(f"Password reset token for {user.email}: {token}")
+
+        # ✅ Log reset link only in testing/dev mode
+        if os.getenv("TESTING", "false").lower() == "true":
+            if not FRONTEND_URL:
+                print("⚠️ FRONTEND_URL not set in .env")
+            else:
+                reset_url = f"{FRONTEND_URL}/reset-password?token={token}"
+                print(f"\n🔗 Password reset link for {user.email}:\n{reset_url}\n")
+
+        # TODO: Send token via email in production
 
     return {"message": "If that email exists, a reset link has been sent."}
 

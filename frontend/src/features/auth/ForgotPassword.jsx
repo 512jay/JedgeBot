@@ -1,8 +1,8 @@
-// /frontend/src/pages/ForgotPassword.jsx
+// /frontend/src/features/auth/ForgotPassword.jsx
 
 import React, { useState } from "react";
-import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
-import "../../styles/global.css";
+import { MDBInput, MDBBtn, MDBTypography } from "mdb-react-ui-kit";
+import { Helmet } from "react-helmet-async";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
@@ -41,38 +41,63 @@ function ForgotPassword() {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-container">
-        <div className="auth-image">
-          <img src="/images/registrationleft.jpg" alt="Forgot password visual" />
-        </div>
+    <div
+      className="bg-mutedRose d-flex align-items-center justify-content-center"
+      style={{ minHeight: "100vh", width: "100vw" }}
+    >
+      <Helmet>
+        <title>Forgot Password | FL</title>
+      </Helmet>
 
-        <div className="auth-box">
-          <h2 className="text-center mb-4">Forgot your password?</h2>
-
-          <form onSubmit={handleSubmit} className="w-100 px-4">
-            <label htmlFor="email">Enter your email address</label>
-            <MDBInput
-              className="mb-3"
-              type="email"
-              id="email"
-              required
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+      <div
+        className="shadow-lg rounded-5 overflow-hidden bg-white"
+        style={{ maxWidth: "960px", width: "100%" }}
+      >
+        <div className="row g-0">
+          {/* Left image */}
+          <div className="col-md-6 d-none d-md-block">
+            <img
+              src="/images/registrationleft.jpg"
+              alt="Forgot password visual"
+              className="img-fluid h-100 w-100"
+              style={{ objectFit: "cover" }}
             />
+          </div>
 
-            {error && <p className="text-danger text-center">{error}</p>}
-            {message && <p className="text-success text-center">{message}</p>}
+          {/* Right form */}
+          <div className="col-md-6 d-flex flex-column justify-content-center align-items-center p-5">
+            <MDBTypography tag="h4" className="mb-4 text-center">
+              Forgot your password?
+            </MDBTypography>
 
-            <MDBBtn className="auth-btn" type="submit" disabled={loading}>
-              {loading ? "Sending..." : "Request Reset Link"}
-            </MDBBtn>
-          </form>
+            <form onSubmit={handleSubmit} className="w-100 px-3">
+              <label htmlFor="email" className="form-label">
+                Enter your email address
+              </label>
+              <MDBInput
+                className="mb-3"
+                type="email"
+                id="email"
+                required
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
 
-          <p className="mt-3 text-center">
-            <a href="/login" className="text-primary">← Back to login</a>
-          </p>
+              {error && <p className="text-danger text-center">{error}</p>}
+              {message && <p className="text-success text-center">{message}</p>}
+
+              <MDBBtn className="w-100" type="submit" disabled={loading}>
+                {loading ? "Sending..." : "Request Reset Link"}
+              </MDBBtn>
+            </form>
+
+            <p className="mt-4 text-center">
+              <a href="/login" className="text-primary">
+                ← Back to login
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </div>
