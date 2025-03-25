@@ -140,7 +140,9 @@ JedgeBot/
 │   │   ├── api_password_reset_endpoints.md
 │   │   ├── backend_project_structure.md
 │   │   ├── business_plan.md
-│   │   ├── database_schema.md
+│   │   ├── database
+│   │   │   ├── adding_database_table.md
+│   │   │   ├── database_schema.md
 │   │   ├── development_enviroment.md
 │   │   ├── frontend_project_structure.md
 │   │   ├── github_workflow.md
