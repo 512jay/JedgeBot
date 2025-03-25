@@ -1,24 +1,57 @@
 // /frontend/src/__tests__/Dashboard.test.jsx
-
-import { screen, within } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { screen } from "@testing-library/react";
+import { describe, it, expect, vi } from "vitest";
 import Dashboard from "../pages/Dashboard";
 import { renderWithProviders } from "../test-utils/renderWithProviders";
 
-describe("Dashboard Page", () => {
-  it("renders heading and Tailwind test div", () => {
-    renderWithProviders(<Dashboard />);
+const mockUser = {
+  username: "testuser",
+  role: "client",
+};
 
-    expect(screen.getByTestId("dashboard-heading")).toBeInTheDocument();
+describe("Dashboard Page", () => {
+  it("renders welcome heading", () => {
+    renderWithProviders(<Dashboard />, {
+      authContextValue: { user: mockUser, loading: false },
+    });
+    expect(
+      screen.getByText(/welcome to your dashboard/i)
+    ).toBeInTheDocument();
   });
 
-  it("renders sidebar with dashboard link", () => {
-    renderWithProviders(<Dashboard />);
+  it("renders portfolio, activity, and market insights cards", () => {
+    renderWithProviders(<Dashboard />, {
+      authContextValue: { user: mockUser, loading: false },
+    });
 
-    // Narrow the search to the sidebar
-    const sidebar = screen.getByRole("navigation", { name: /main sidebar/i });
-    const navLinks = within(sidebar).getAllByText(/dashboard/i);
+    expect(screen.getByText(/portfolio overview/i)).toBeInTheDocument();
+    expect(screen.getByText(/recent activity/i)).toBeInTheDocument();
+    expect(screen.getByText(/market insights/i)).toBeInTheDocument();
+  });
 
-    expect(navLinks.length).toBeGreaterThan(0);
+  it("renders the sidebar with navigation links", () => {
+    renderWithProviders(<Dashboard />, {
+      authContextValue: { user: mockUser, loading: false },
+    });
+
+    expect(screen.getByText(/dashboard/i)).toBeInTheDocument();
+    expect(screen.getByText(/profile/i)).toBeInTheDocument();
+  });
+
+  it("redirects unauthorized roles", () => {
+    const mockNavigator = vi.fn();
+
+    renderWithProviders(<Dashboard />, {
+      authContextValue: {
+        user: { username: "hacker", role: "evil" },
+        loading: false,
+      },
+      routerProps: {
+        navigator: { push: mockNavigator },
+        location: { pathname: "/" },
+      },
+    });
+
+    expect(mockNavigator).toHaveBeenCalledWith("/unauthorized");
   });
 });

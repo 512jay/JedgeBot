@@ -1,22 +1,28 @@
+// /frontend/src/test-utils/renderWithProviders.jsx
+// Utility for wrapping test components with app context providers
+
+import React from "react";
 import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext"; // ✅ Adjust path if needed
 
-export function renderWithProviders(ui, { route = "/", authContextValue = null } = {}) {
+// Add any other providers here (theme, data, etc.)
+export function renderWithProviders(
+  ui,
+  {
+    route = "/",
+    authContextValue = {},
+  } = {}
+) {
   const Wrapper = ({ children }) => {
     return (
-      <AuthProviderOverride value={authContextValue}>
+      <AuthContext.Provider value={authContextValue}>
         <MemoryRouter initialEntries={[route]}>
           {children}
         </MemoryRouter>
-      </AuthProviderOverride>
+      </AuthContext.Provider>
     );
   };
 
   return render(ui, { wrapper: Wrapper });
 }
-
-// Wrapper that overrides the AuthContext with test values
-import { AuthContext } from "../context/AuthContext";
-export const AuthProviderOverride = ({ children, value }) => (
-  <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-);

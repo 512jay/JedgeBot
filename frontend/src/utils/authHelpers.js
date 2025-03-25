@@ -1,45 +1,30 @@
 // /frontend/src/utils/authHelpers.js
 // Utilities for handling token refresh and session restoration
-const BASE_URL = import.meta.env?.VITE_API_URL || "http://localhost:8000";
 
-export async function fetchWithRefresh(url, options = {}) {
+export const refreshToken = async () => {
   try {
-    const response = await fetch(url.startsWith("http") ? url : `${BASE_URL}${url}`, { ... });
-
-      ...options,
-      credentials: 'include', // Send cookies
-      headers: {
-        'Content-Type': 'application/json',
-        ...(options.headers || {}),
-      },
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/refresh`, {
+      method: 'POST',
+      credentials: 'include',
     });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error refreshing token:", error);
+    throw error;
+  }
+};
 
-    // If not authorized, try refreshing token
+export const fetchWithRefresh = async (input, init = {}) => {
+  try {
+    const response = await fetch(input, init);
     if (response.status === 401) {
-      const refreshResponse = await fetch('/auth/refresh', {
-        method: 'POST',
-        credentials: 'include',
-      });
-
-      if (refreshResponse.ok) {
-        // Retry original request after successful refresh
-        const retry = await fetch(url, {
-          ...options,
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-            ...(options.headers || {}),
-          },
-        });
-        return retry;
-      } else {
-        throw new Error('Session expired');
-      }
+      await refreshToken();
+      return await fetch(input, init);
     }
-
     return response;
   } catch (err) {
     console.error('Fetch with refresh failed:', err);
     throw err;
   }
-}
+};

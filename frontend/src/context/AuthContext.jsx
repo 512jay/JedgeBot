@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { fetchWithRefresh } from "../utils/authHelpers";
 
-const AuthContext = createContext();
+export const AuthContext = createContext(); // <-- This was missing before
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
