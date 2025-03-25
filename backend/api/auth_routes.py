@@ -204,3 +204,8 @@ def logout(response: Response):
     response.delete_cookie("access_token")
     response.delete_cookie("refresh_token")
     return {"message": "Logged out successfully"}
+
+
+@router.get("/auth/me", response_model=UserRead)
+async def read_authenticated_user(user: User = Depends(get_current_user)):
+    return user

@@ -15,7 +15,8 @@ function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { login: setUser } = useAuth();
+  const { setUser } = useAuth();
+
 
   const handleLogin = async (e) => {
       e.preventDefault();

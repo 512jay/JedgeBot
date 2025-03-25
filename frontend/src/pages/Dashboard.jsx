@@ -1,37 +1,84 @@
-// /frontend/pages/Dashboard.jsx
-import React from "react";
+// /frontend/src/pages/Dashboard.jsx
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import Sidebar from "../components/layout/Sidebar";
-import { MDBContainer } from "mdb-react-ui-kit";
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
+  MDBCardText,
+  MDBCardTitle,
+} from "mdb-react-ui-kit";
 
 const Dashboard = () => {
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        navigate("/login");
+      } else if (!["free", "client", "manager", "enterprise"].includes(user.role)) {
+        navigate("/unauthorized");
+      }
+    }
+  }, [user, loading, navigate]);
+
+  if (loading || !user) return null;
+
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div style={{ display: "flex", height: "100vh", width: "100vw" }}>
       <Sidebar />
 
-      <main className="flex-1 overflow-y-auto bg-cornflowerBlue p-6 text-white">
-        <h1 className="text-4xl font-bold mb-6">Welcome to your dashboard</h1>
+      <div style={{ flex: 1, backgroundColor: "#6495ED", padding: "2rem", overflowY: "auto" }}>
+        <h1 style={{ fontSize: "2.5rem", fontWeight: "600", marginBottom: "2rem", color: "white" }}>
+          Welcome to your dashboard
+        </h1>
 
-        <MDBContainer className="bg-white text-black rounded shadow p-4 mb-6">
-          <h2 className="text-xl font-semibold mb-2">Portfolio Overview</h2>
-          <p>Total Balance: $125,000</p>
-          <p>Net P&L: +5.2%</p>
-        </MDBContainer>
+        <MDBContainer fluid style={{ paddingLeft: "2rem", paddingRight: "2rem" }}>
+          <MDBRow className="mb-4">
+            <MDBCol md="12">
+              <MDBCard>
+                <MDBCardBody>
+                  <MDBCardTitle>Portfolio Overview</MDBCardTitle>
+                  <MDBCardText>Total Balance: $125,000</MDBCardText>
+                  <MDBCardText className="text-success">Net P&amp;L: +5.2%</MDBCardText>
+                </MDBCardBody>
+              </MDBCard>
+            </MDBCol>
+          </MDBRow>
 
-        <MDBContainer className="bg-white text-black rounded shadow p-4 mb-6">
-          <h2 className="text-xl font-semibold mb-2">Recent Activity</h2>
-          <ul className="list-disc list-inside">
-            <li>Executed order: 100 shares of AAPL</li>
-            <li>New client added: John Doe</li>
-            <li>Portfolio rebalanced</li>
-          </ul>
-        </MDBContainer>
+          <MDBRow className="mb-4">
+            <MDBCol md="12">
+              <MDBCard>
+                <MDBCardBody>
+                  <MDBCardTitle>Recent Activity</MDBCardTitle>
+                  <ul className="ms-3">
+                    <li>Executed order: 100 shares of AAPL</li>
+                    <li>New client added: John Doe</li>
+                    <li>Portfolio rebalanced</li>
+                  </ul>
+                </MDBCardBody>
+              </MDBCard>
+            </MDBCol>
+          </MDBRow>
 
-        <MDBContainer className="bg-white text-black rounded shadow p-4">
-          <h2 className="text-xl font-semibold mb-2">Market Insights</h2>
-          <p>S&P 500: +1.8%</p>
-          <p>Top Gainer: TSLA +7.4%</p>
+          <MDBRow>
+            <MDBCol md="12">
+              <MDBCard>
+                <MDBCardBody>
+                  <MDBCardTitle>Market Insights</MDBCardTitle>
+                  <MDBCardText>S&amp;P 500: +1.8%</MDBCardText>
+                  <MDBCardText className="text-primary">Top Gainer: TSLA +7.4%</MDBCardText>
+                </MDBCardBody>
+              </MDBCard>
+            </MDBCol>
+          </MDBRow>
         </MDBContainer>
-      </main>
+      </div>
     </div>
   );
 };

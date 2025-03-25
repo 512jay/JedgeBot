@@ -60,6 +60,7 @@ JedgeBot/
 │   │   │   │   │   ├── models.py
 │   │   │   │   │   ├── password_reset_models.py
 │   │   │   │   │   ├── password_reset_service.py
+│   │   │   │   │   ├── schemas.py
 │   │   │   │   ├── business
 │   │   │   │   │   ├── __init__.py
 │   │   │   │   │   ├── initialize_business_db.py
@@ -194,7 +195,10 @@ JedgeBot/
 │   │   │   │   ├── react.svg
 │   │   │   ├── components
 │   │   │   │   ├── DashboardCards.jsx
+│   │   │   │   ├── auth
+│   │   │   │   │   ├── PrivateRoute.jsx
 │   │   │   │   ├── layout
+│   │   │   │   │   ├── LoadingScreen.jsx
 │   │   │   │   │   ├── Sidebar.jsx
 │   │   │   │   ├── ui
 │   │   │   │   │   ├── Button.jsx
@@ -221,6 +225,8 @@ JedgeBot/
 │   │   │   ├── test-utils
 │   │   │   │   ├── renderWithProviders.jsx
 │   │   │   ├── utils
+│   │   │   │   ├── apiClient.js
+│   │   │   │   ├── authHelpers.js
 │   │   │   │   ├── setup.js
 │   │   │   │   ├── setupTestUser.js
 │   │   │   ├── views
@@ -230,7 +236,6 @@ JedgeBot/
 │   │   │   │   ├── ManagerDashboard.jsx
 │   │   │   │   ├── landing
 │   │   ├── tailwind.config.js
-│   │   ├── test-utils
 │   │   ├── vite.config.js
 │   ├── generate_structure.py
 │   ├── jedgebot
@@ -277,5 +282,7 @@ JedgeBot/
 │   │   │   ├── auth
 │   │   │   │   ├── test_auth_routes.py
 │   │   │   ├── test_base_broker.py
+│   │   ├── utils
+│   │   │   ├── user_factory.py
 │   ├── vitest.config.js
 ```

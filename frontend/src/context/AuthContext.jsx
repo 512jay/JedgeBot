@@ -1,26 +1,49 @@
-import React, { createContext, useContext, useState } from "react";
+// /frontend/src/context/AuthContext.jsx
+import React, { createContext, useContext, useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { fetchWithRefresh } from "../utils/authHelpers";
 
-// Create context
-export const AuthContext = createContext(null); 
+const AuthContext = createContext();
 
-
-// Custom hook
-export const useAuth = () => {
-  return useContext(AuthContext) ?? { user: null, loading: false };
-};
-
-
-// Provider component
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null); // Example: { name, role }
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // In real app, populate user from API or cookie
-  const login = (userData) => setUser(userData);
-  const logout = () => setUser(null);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        setLoading(true);
+        const response = await fetchWithRefresh("/auth/me", {
+          method: "GET",
+          credentials: "include",
+        });
 
-  return (
-    <AuthContext.Provider value={{ user, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+        if (!response.ok) {
+          throw new Error("Failed to fetch user");
+        }
+
+        const data = await response.json();
+        setUser(data);
+      } catch (err) {
+        console.error("Failed to fetch user in AuthContext", err);
+        setUser(null);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  const value = { user, loading, error, setUser };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export const useAuth = () => useContext(AuthContext);
