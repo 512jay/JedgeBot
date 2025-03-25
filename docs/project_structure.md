@@ -234,7 +234,6 @@ JedgeBot/
 │   │   │   │   ├── Sidebar.css
 │   │   │   │   ├── global.css
 │   │   │   ├── test-utils
-│   │   │   │   ├── renderWithAuth.jsx
 │   │   │   │   ├── renderWithProviders.jsx
 │   │   │   │   ├── setup.js
 │   │   │   ├── utils
