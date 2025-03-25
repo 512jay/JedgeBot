@@ -224,10 +224,10 @@ JedgeBot/
 │   │   │   │   │   │   ├── EnterpriseDashboard.jsx
 │   │   │   │   │   │   ├── FreeDashboard.jsx
 │   │   │   │   │   │   ├── ManagerDashboard.jsx
+│   │   │   │   ├── landing
+│   │   │   │   │   ├── Landing.jsx
 │   │   │   ├── index.css
 │   │   │   ├── main.jsx
-│   │   │   ├── pages
-│   │   │   │   ├── Landing.jsx
 │   │   │   ├── routes
 │   │   │   │   ├── AppRoutes.jsx
 │   │   │   ├── styles
