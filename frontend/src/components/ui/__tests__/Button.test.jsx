@@ -1,6 +1,6 @@
 /// <reference types="vitest" />
 import { render, screen, fireEvent } from "@testing-library/react";
-import Button from "../components/ui/Button";
+import Button from "../Button";
 
 describe("Button Component", () => {
   test("renders child text", () => {

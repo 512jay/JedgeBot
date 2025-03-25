@@ -3,7 +3,7 @@ import {
   fetchWithCredentials,
   fetchMessage,
   fetchUserProfile,
-} from "../api/api_client";
+} from "../../api/api_client";
 
 global.fetch = vi.fn();
 

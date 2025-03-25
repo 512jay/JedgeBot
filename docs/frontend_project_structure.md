@@ -18,9 +18,19 @@ frontend/
 │   │   │   ├── Card.jsx
 │   │   │   ├── PieChart.jsx
 │   │   │   ├── Table.jsx
+│   │   │   ├── __tests__/
+│   │   │       ├── Button.test.jsx
+│   │   │       ├── Card.test.jsx
+│   │   │       ├── PieChart.test.jsx
+│   │   │       ├── Table.test.jsx
 │   │   ├── layout/                # Layout elements
 │   │   │   ├── Sidebar.jsx
 │   │   │   ├── LoadingScreen.jsx
+│   │   │   ├── __tests__/
+│   │   │       ├── Sidebar.test.jsx
+
+│   ├── context/                   # React contexts
+│   │   └── AuthContext.jsx
 
 │   ├── features/                  # Feature-based domain folders
 │   │   ├── auth/
@@ -30,6 +40,12 @@ frontend/
 │   │   │   ├── ResetPassword.jsx
 │   │   │   ├── auth_api.js
 │   │   │   ├── PrivateRoute.jsx
+│   │   │   ├── __tests__/
+│   │   │       ├── Login.test.jsx
+│   │   │       ├── Register.test.jsx
+│   │   │       ├── ForgotPassword.test.jsx
+│   │   │       ├── ResetPassword.test.jsx
+│   │   │       ├── auth_api.test.js
 │   │   ├── dashboard/
 │   │   │   ├── Dashboard.jsx
 │   │   │   ├── DashboardCards.jsx
@@ -38,18 +54,27 @@ frontend/
 │   │   │   │   ├── ClientDashboard.jsx
 │   │   │   │   ├── ManagerDashboard.jsx
 │   │   │   │   ├── EnterpriseDashboard.jsx
+│   │   │   ├── __tests__/
+│   │   │       ├── Dashboard.test.jsx
+│   │   │       ├── DashboardCards.test.jsx
 │   │   ├── landing/               # Public-facing pages (marketing)
 │   │   │   ├── Landing.jsx
-│   │   │   ├── Pricing.jsx
-│   │   │   ├── About.jsx
-│   │   │   ├── Contact.jsx
+│   │   │   ├── Pricing.jsx        # (future)
+│   │   │   ├── About.jsx          # (future)
+│   │   │   ├── Contact.jsx        # (future)
 │   │   │   ├── components/
 │   │   │   │   ├── HeroSection.jsx
 │   │   │   │   ├── PricingTable.jsx
 │   │   │   │   ├── FAQSection.jsx
-
-│   ├── context/                   # React contexts
-│   │   └── AuthContext.jsx
+│   │   │   ├── __tests__/
+│   │   │       ├── Landing.test.jsx
+│   │   ├── enterprise/            # (future)
+│   │   ├── clients/               # (future)
+│   │   ├── settings/              # (future)
+│   │   ├── app/
+│   │   │   ├── App.jsx            # App shell / layout
+│   │   │   ├── __tests__/
+│   │   │   │   ├── AppLayout.test.jsx
 
 │   ├── routes/                    # App-wide route definitions
 │   │   └── AppRoutes.jsx
@@ -58,6 +83,8 @@ frontend/
 │   │   ├── apiClient.js
 │   │   ├── authHelpers.js
 │   │   ├── setupTestUser.js
+│   │   ├── __tests__/
+│   │       ├── api_client.test.js
 
 │   ├── test-utils/                # Testing tools
 │   │   ├── renderWithProviders.jsx
@@ -100,17 +127,19 @@ frontend/
 
 - Move existing files into the structure above manually or using Git-aware tooling
 - Clean up any broken imports (VS Code should catch most)
-- Update route references if moved from `pages/`
+- Remove deprecated folders like `views/landing/` or `pages/` if migrated
+- Place tests under `__tests__` folders within their respective features
 
 ---
 
 ## 🔄 Long-Term Evolution Ideas
 
-- Add `users/`, `settings/`, `analytics/`, or `subscriptions/` under `features/`
-- Move state management (e.g., Zustand, Redux) under each feature if needed
+- Expand `features/` to include `users/`, `subscriptions/`, `analytics/`, etc.
+- Add `services/` and `hooks/` per feature for logic co-location
 - Add Storybook for isolated UI development
 - Support theming via global Tailwind config
 
 ---
 
 This structure sets up JedgeBot’s frontend for maintainability, testability, and seamless collaboration as you scale into multi-role dashboards, landing pages, and broker management.
+

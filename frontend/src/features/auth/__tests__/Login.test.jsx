@@ -17,7 +17,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import Login from "../pages/Login";
 import * as authApi from "../api/auth_api";
-import { AuthProvider } from "../context/AuthContext";
+import { AuthProvider } from "../../../context/AuthContext";
 
 // Mock navigate function
 const mockedNavigate = vi.fn();

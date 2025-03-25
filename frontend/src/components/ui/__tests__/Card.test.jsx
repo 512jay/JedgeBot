@@ -1,6 +1,6 @@
 /// <reference types="vitest" />
 import { render, screen } from "@testing-library/react";
-import { Card, CardContent } from "../components/ui/Card";
+import { Card, CardContent } from "../Card";
 
 describe("Card Component", () => {
   test("renders children", () => {

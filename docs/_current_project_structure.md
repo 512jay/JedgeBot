@@ -177,21 +177,7 @@ JedgeBot/
 │   │   │   ├── App.jsx
 │   │   │   ├── __tests__
 │   │   │   │   ├── App.test.jsx
-│   │   │   │   ├── Button.test.jsx
-│   │   │   │   ├── Card.test.jsx
-│   │   │   │   ├── Dashboard.test.jsx
-│   │   │   │   ├── DashboardCards.test.jsx
-│   │   │   │   ├── ForgotPassword.test.jsx
-│   │   │   │   ├── Landing.test.jsx
-│   │   │   │   ├── Layout.test.jsx
-│   │   │   │   ├── Login.test.jsx
-│   │   │   │   ├── PieChart.test.jsx
-│   │   │   │   ├── Register.test.jsx
-│   │   │   │   ├── ResetPassword.test.jsx
-│   │   │   │   ├── Sidebar.test.jsx
-│   │   │   │   ├── Table.test.jsx
-│   │   │   │   ├── api_client.test.js
-│   │   │   │   ├── auth_api.test.js
+│   │   │   │   ├── AppLayout.test.jsx
 │   │   │   │   ├── main.text.jsx
 │   │   │   ├── api
 │   │   │   │   ├── api_client.js
@@ -201,11 +187,18 @@ JedgeBot/
 │   │   │   │   ├── layout
 │   │   │   │   │   ├── LoadingScreen.jsx
 │   │   │   │   │   ├── Sidebar.jsx
+│   │   │   │   │   ├── __tests__
+│   │   │   │   │   │   ├── Sidebar.test.jsx
 │   │   │   │   ├── ui
 │   │   │   │   │   ├── Button.jsx
 │   │   │   │   │   ├── Card.jsx
 │   │   │   │   │   ├── PieChart.jsx
 │   │   │   │   │   ├── Table.jsx
+│   │   │   │   │   ├── __tests__
+│   │   │   │   │   │   ├── Button.test.jsx
+│   │   │   │   │   │   ├── Card.test.jsx
+│   │   │   │   │   │   ├── PieChart.test.jsx
+│   │   │   │   │   │   ├── Table.test.jsx
 │   │   │   ├── context
 │   │   │   │   ├── AuthContext.jsx
 │   │   │   ├── features
@@ -215,17 +208,31 @@ JedgeBot/
 │   │   │   │   │   ├── PrivateRoute.jsx
 │   │   │   │   │   ├── Register.jsx
 │   │   │   │   │   ├── ResetPassword.jsx
+│   │   │   │   │   ├── __tests__
+│   │   │   │   │   │   ├── ForgotPassword.test.jsx
+│   │   │   │   │   │   ├── Login.test.jsx
+│   │   │   │   │   │   ├── Register.test.jsx
+│   │   │   │   │   │   ├── ResetPassword.test.jsx
+│   │   │   │   │   │   ├── auth_api.test.js
 │   │   │   │   │   ├── auth_api.js
+│   │   │   │   ├── clients
 │   │   │   │   ├── dashboard
 │   │   │   │   │   ├── Dashboard.jsx
 │   │   │   │   │   ├── DashboardCards.jsx
+│   │   │   │   │   ├── __tests__
+│   │   │   │   │   │   ├── Dashboard.test.jsx
+│   │   │   │   │   │   ├── DashboardCards.test.jsx
 │   │   │   │   │   ├── views
 │   │   │   │   │   │   ├── ClientDashboard.jsx
 │   │   │   │   │   │   ├── EnterpriseDashboard.jsx
 │   │   │   │   │   │   ├── FreeDashboard.jsx
 │   │   │   │   │   │   ├── ManagerDashboard.jsx
+│   │   │   │   ├── enterprise
 │   │   │   │   ├── landing
 │   │   │   │   │   ├── Landing.jsx
+│   │   │   │   │   ├── __tests__
+│   │   │   │   │   │   ├── Landing.test.jsx
+│   │   │   │   ├── settings
 │   │   │   ├── index.css
 │   │   │   ├── main.jsx
 │   │   │   ├── routes
@@ -238,14 +245,13 @@ JedgeBot/
 │   │   │   │   ├── renderWithProviders.jsx
 │   │   │   │   ├── setup.js
 │   │   │   ├── utils
+│   │   │   │   ├── __tests__
+│   │   │   │   │   ├── api_client.test.js
 │   │   │   │   ├── apiClient.js
 │   │   │   │   ├── authHelpers.js
 │   │   │   │   ├── setupTestUser.js
-│   │   │   ├── views
-│   │   │   │   ├── landing
 │   │   ├── tailwind.config.js
 │   │   ├── vite.config.js
-│   ├── generate_structure.py
 │   ├── jedgebot
 │   │   ├── broker
 │   │   ├── common
@@ -293,4 +299,5 @@ JedgeBot/
 │   │   ├── utils
 │   │   │   ├── user_factory.py
 │   ├── vitest.config.js
+│   ├── x_generate_structure.py
 ```

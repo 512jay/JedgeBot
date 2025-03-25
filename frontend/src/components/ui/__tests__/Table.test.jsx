@@ -1,6 +1,6 @@
 /// <reference types="vitest" />
 import { render, screen, within } from "@testing-library/react";
-import Table from "../components/ui/Table";
+import Table from "../Table";
 
 describe("Table Component", () => {
   const headers = ["Name", "Age", "Location"];

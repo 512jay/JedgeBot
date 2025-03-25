@@ -7,7 +7,7 @@ import {
   refreshToken,
 } from "../api/auth_api";
 
-import * as client from "../api/api_client";
+import * as client from "../../../api/api_client";
 
 // Mock environment variable
 const API_URL = "http://localhost:8000";

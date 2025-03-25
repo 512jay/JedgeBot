@@ -1,9 +1,9 @@
 /// <reference types="vitest" />
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { screen, fireEvent, waitFor } from "@testing-library/react";
-import { renderWithProviders } from "../test-utils/renderWithProviders";
-import Sidebar from "../components/layout/Sidebar";
-import { AuthProvider } from "../context/AuthContext";
+import { renderWithProviders } from "../../../test-utils/renderWithProviders";
+import Sidebar from "../Sidebar";
+import { AuthProvider } from "../../../context/AuthContext";
 import * as authApi from "../api/auth_api";
 import { useLocation, Routes, Route } from "react-router-dom";
 

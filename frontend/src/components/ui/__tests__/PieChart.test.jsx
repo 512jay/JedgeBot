@@ -1,6 +1,6 @@
 // /frontend/src/__tests__/PieChart.test.jsx
 import { render } from "@testing-library/react";
-import PieChart from "../components/ui/PieChart";
+import PieChart from "../PieChart";
 
 describe("PieChart", () => {
   it("renders without crashing", () => {
