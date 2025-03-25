@@ -64,7 +64,7 @@ def generate_structure(root_dir, ignore_patterns, ignored_dirs, prefix=""):
 def save_structure_to_markdown(structure):
     """Saves the project structure to a markdown file inside the 'docs/' folder."""
     docs_folder = "docs"
-    md_file_path = os.path.join(docs_folder, "project_structure.md")
+    md_file_path = os.path.join(docs_folder, "_current_project_structure.md")
 
     if not os.path.exists(docs_folder):
         os.makedirs(docs_folder)  # Ensure docs folder exists

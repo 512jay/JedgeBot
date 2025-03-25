@@ -16,7 +16,7 @@ load_dotenv(dotenv_path=env_path)
 # ---------------------------------------------------------------------
 # Import your models' Base class
 # ---------------------------------------------------------------------
-from backend.data.database.auth.models import AuthBase
+from backend.auth.models import AuthBase
 
 # Alembic Config
 config = context.config

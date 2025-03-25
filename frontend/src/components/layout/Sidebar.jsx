@@ -75,7 +75,7 @@ const Sidebar = () => {
 
         <MDBListGroupItem tag="div" style={{ background: "transparent", border: "none" }}>
           <button
-            onClick={handleLogout}
+            onClick={logout}
             style={{
               background: "black",
               color: "white",

@@ -4,8 +4,8 @@
 import secrets
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
-from backend.data.database.auth.password_reset_models import PasswordResetToken
-from backend.data.database.auth.models import User
+from backend.auth.password_reset_models import PasswordResetToken
+from backend.auth.models import User
 
 
 def create_password_reset_token(db: Session, user: User) -> str:

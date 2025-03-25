@@ -15,13 +15,13 @@ from pydantic import BaseModel, EmailStr
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 
-from backend.data.database.auth.auth_db import get_db
-from backend.data.database.auth.auth_queries import get_user_by_email
-from backend.data.database.auth.auth_services import create_user
-from backend.data.database.auth.auth_services import hash_password, verify_password
-from backend.data.database.auth.models import UserRole
+from backend.auth.auth_db import get_db
+from backend.auth.auth_queries import get_user_by_email
+from backend.auth.auth_services import create_user
+from backend.auth.auth_services import hash_password, verify_password
+from backend.auth.models import UserRole
 from backend.core.rate_limit import limiter
-from backend.data.database.auth.schemas import UserRead
+from backend.auth.schemas import UserRead
 
 
 # -----------------------------------------------------------------------------

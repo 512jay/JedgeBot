@@ -1,299 +1,105 @@
-# JedgeBot Project Structure
+# JedgeBot Backend Structure Strategy
+
+## ✅ Project Structure Overview (Post-Migration)
 
 ```
-JedgeBot/
-│   ├── .flake8
-│   ├── LICENSE
-│   ├── README.md
+backend/
+├── auth/                       # Everything auth-specific (login, reset, etc.)
+│   ├── models.py
+│   ├── db.py
+│   ├── services.py
+│   ├── queries.py
+│   ├── password_reset.py
+│   ├── routes.py
+│   └── schemas.py
+
+├── users/                      # Business-side user management (roles, profiles)
+│   ├── models.py
+│   ├── services.py
+│   ├── routes.py
+│   ├── queries.py
+│   └── schemas.py
+
+├── brokers/                    # Broker integrations (Tastytrade, IBKR, etc.)
+│   ├── tastytrade/
+│   ├── ibkr/
+│   └── shared_interfaces.py
+
+├── database/                   # DB engine setup and base models
 │   ├── __init__.py
-│   ├── alembic
-│   │   ├── README
-│   │   ├── env.py
-│   │   ├── script.py.mako
-│   │   ├── versions
-│   │   │   ├── 73c2de2ee829_fix_password_reset_table_base.py
-│   │   │   ├── ac6a215aa1f4_include_password_reset_token_table.py
-│   │   │   ├── ef329bc9120d_initial_auth_schema_with_role_column.py
-│   │   │   ├── f6df294f76d5_add_cascade_delete_to_password_reset_.py
-│   ├── alembic.ini
-│   ├── backend
-│   │   ├── __init__.py
-│   │   ├── api
-│   │   │   ├── __init__.py
-│   │   │   ├── auth_routes.py
-│   │   │   ├── clients_routes.py
-│   │   │   ├── dev_routes.py
-│   │   │   ├── http_utils.py
-│   │   │   ├── password_reset_routes.py
-│   │   ├── broker
-│   │   │   ├── __init__.py
-│   │   │   ├── base_broker.py
-│   │   │   ├── tastytrade
-│   │   │   │   ├── __init__.py
-│   │   │   │   ├── data_handler.py
-│   │   │   │   ├── services
-│   │   │   │   │   ├── account.py
-│   │   │   │   │   ├── account_streaming.py
-│   │   │   │   │   ├── api_client.py
-│   │   │   │   │   ├── authentication.py
-│   │   │   │   │   ├── customer.py
-│   │   │   │   │   ├── market_data_streaming.py
-│   │   │   │   │   ├── order.py
-│   │   │   │   │   ├── quote_token_manager.py
-│   │   │   │   ├── tastytrade.py
-│   │   │   │   ├── utilities.py
-│   │   ├── common
-│   │   │   ├── __init__.py
-│   │   │   ├── enums.py
-│   │   ├── core
-│   │   │   ├── rate_limit.py
-│   │   │   ├── settings.py
-│   │   ├── data
-│   │   │   ├── __init__.py
-│   │   │   ├── database
-│   │   │   │   ├── __init__.py
-│   │   │   │   ├── auth
-│   │   │   │   │   ├── __init__.py
-│   │   │   │   │   ├── auth_db.py
-│   │   │   │   │   ├── auth_queries.py
-│   │   │   │   │   ├── auth_services.py
-│   │   │   │   │   ├── models.py
-│   │   │   │   │   ├── password_reset_models.py
-│   │   │   │   │   ├── password_reset_service.py
-│   │   │   │   │   ├── schemas.py
-│   │   │   │   ├── business
-│   │   │   │   │   ├── __init__.py
-│   │   │   │   │   ├── initialize_business_db.py
-│   │   │   │   ├── market
-│   │   │   │   │   ├── __init__.py
-│   │   │   │   │   ├── trading_base.py
-│   │   │   │   │   ├── trading_database.py
-│   │   │   │   │   ├── trading_models.py
-│   │   ├── main.py
-│   │   ├── utils
-│   │   │   ├── __init__.py
-│   │   │   ├── logging.py
-│   │   │   ├── security_utils.py
-│   ├── check_db_env.py
-│   ├── coverage
-│   │   ├── base.css
-│   │   ├── block-navigation.js
-│   │   ├── clover.xml
-│   │   ├── coverage-final.json
-│   │   ├── favicon.png
-│   │   ├── frontend
-│   │   │   ├── index.html
-│   │   │   ├── src
-│   │   │   │   ├── App.jsx.html
-│   │   │   │   ├── api
-│   │   │   │   │   ├── api_client.js.html
-│   │   │   │   │   ├── auth_api.js.html
-│   │   │   │   │   ├── index.html
-│   │   │   │   ├── components
-│   │   │   │   │   ├── DashboardCards.jsx.html
-│   │   │   │   │   ├── auth
-│   │   │   │   │   │   ├── PrivateRoute.jsx.html
-│   │   │   │   │   │   ├── index.html
-│   │   │   │   │   ├── index.html
-│   │   │   │   │   ├── layout
-│   │   │   │   │   │   ├── LoadingScreen.jsx.html
-│   │   │   │   │   │   ├── Sidebar.jsx.html
-│   │   │   │   │   │   ├── index.html
-│   │   │   │   │   ├── ui
-│   │   │   │   │   │   ├── Button.jsx.html
-│   │   │   │   │   │   ├── Card.jsx.html
-│   │   │   │   │   │   ├── PieChart.jsx.html
-│   │   │   │   │   │   ├── Table.jsx.html
-│   │   │   │   │   │   ├── index.html
-│   │   │   │   ├── context
-│   │   │   │   │   ├── AuthContext.jsx.html
-│   │   │   │   │   ├── index.html
-│   │   │   │   ├── index.html
-│   │   │   │   ├── main.jsx.html
-│   │   │   │   ├── pages
-│   │   │   │   │   ├── Dashboard.jsx.html
-│   │   │   │   │   ├── ForgotPassword.jsx.html
-│   │   │   │   │   ├── Landing.jsx.html
-│   │   │   │   │   ├── Login.jsx.html
-│   │   │   │   │   ├── Register.jsx.html
-│   │   │   │   │   ├── ResetPassword.jsx.html
-│   │   │   │   │   ├── index.html
-│   │   │   │   ├── routes
-│   │   │   │   │   ├── AppRoutes.jsx.html
-│   │   │   │   │   ├── index.html
-│   │   │   │   ├── test-utils
-│   │   │   │   │   ├── index.html
-│   │   │   │   │   ├── renderWithProviders.jsx.html
-│   │   │   │   ├── utils
-│   │   │   │   │   ├── apiClient.js.html
-│   │   │   │   │   ├── authHelpers.js.html
-│   │   │   │   │   ├── index.html
-│   │   │   │   │   ├── setupTestUser.js.html
-│   │   │   │   ├── views
-│   │   │   │   │   ├── ClientDashboard.jsx.html
-│   │   │   │   │   ├── EnterpriseDashboard.jsx.html
-│   │   │   │   │   ├── FreeDashboard.jsx.html
-│   │   │   │   │   ├── ManagerDashboard.jsx.html
-│   │   │   │   │   ├── index.html
-│   │   │   ├── tailwind.config.js.html
-│   │   ├── index.html
-│   │   ├── prettify.css
-│   │   ├── prettify.js
-│   │   ├── sort-arrow-sprite.png
-│   │   ├── sorter.js
-│   ├── docker-compose.yml
-│   ├── docker-entrypoint-initdb.d
-│   │   ├── create_auth_db.sql
-│   ├── docs
-│   │   ├── api_password_reset_endpoints.md
-│   │   ├── business_plan.md
-│   │   ├── database_schema.md
-│   │   ├── development_enviroment.md
-│   │   ├── github_workflow.md
-│   │   ├── legal_strategy.md
-│   │   ├── marketing_plan.md
-│   │   ├── password_reset.md
-│   │   ├── password_reset_index.md
-│   │   ├── poetry_workflow.md
-│   │   ├── project_structure.md
-│   │   ├── roadmap.md
-│   │   ├── test_password_reset_coverage.md
-│   │   ├── testing_strategy.md
-│   ├── frontend
-│   │   ├── .vite
-│   │   │   ├── deps
-│   │   │   │   ├── _metadata.json
-│   │   │   │   ├── package.json
-│   │   ├── README.md
-│   │   ├── eslint.config.js
-│   │   ├── index.html
-│   │   ├── package-lock.json
-│   │   ├── package.json
-│   │   ├── public
-│   │   │   ├── images
-│   │   │   │   ├── leftlogin.jpg
-│   │   │   │   ├── registrationleft.jpg
-│   │   │   │   ├── registrationleft.webp
-│   │   │   │   ├── welcomejedgebot.jpg
-│   │   │   │   ├── welcomejedgebot.webp
-│   │   │   ├── logo.webp
-│   │   │   ├── vite.svg
-│   │   ├── src
-│   │   │   ├── App.css
-│   │   │   ├── App.jsx
-│   │   │   ├── __tests__
-│   │   │   │   ├── App.test.jsx
-│   │   │   │   ├── Button.test.jsx
-│   │   │   │   ├── Card.test.jsx
-│   │   │   │   ├── Dashboard.test.jsx
-│   │   │   │   ├── DashboardCards.test.jsx
-│   │   │   │   ├── ForgotPassword.test.jsx
-│   │   │   │   ├── Landing.test.jsx
-│   │   │   │   ├── Layout.test.jsx
-│   │   │   │   ├── Login.test.jsx
-│   │   │   │   ├── PieChart.test.jsx
-│   │   │   │   ├── Register.test.jsx
-│   │   │   │   ├── ResetPassword.test.jsx
-│   │   │   │   ├── Sidebar.test.jsx
-│   │   │   │   ├── Table.test.jsx
-│   │   │   │   ├── api_client.test.js
-│   │   │   │   ├── auth_api.test.js
-│   │   │   │   ├── main.text.jsx
-│   │   │   ├── api
-│   │   │   │   ├── api_client.js
-│   │   │   │   ├── auth_api.js
-│   │   │   ├── assets
-│   │   │   │   ├── react.svg
-│   │   │   ├── components
-│   │   │   │   ├── DashboardCards.jsx
-│   │   │   │   ├── auth
-│   │   │   │   │   ├── PrivateRoute.jsx
-│   │   │   │   ├── layout
-│   │   │   │   │   ├── LoadingScreen.jsx
-│   │   │   │   │   ├── Sidebar.jsx
-│   │   │   │   ├── ui
-│   │   │   │   │   ├── Button.jsx
-│   │   │   │   │   ├── Card.jsx
-│   │   │   │   │   ├── PieChart.jsx
-│   │   │   │   │   ├── Table.jsx
-│   │   │   ├── context
-│   │   │   │   ├── AuthContext.jsx
-│   │   │   ├── index.css
-│   │   │   ├── main.jsx
-│   │   │   ├── pages
-│   │   │   │   ├── Dashboard.jsx
-│   │   │   │   ├── ForgotPassword.jsx
-│   │   │   │   ├── Landing.jsx
-│   │   │   │   ├── Login.jsx
-│   │   │   │   ├── Register.jsx
-│   │   │   │   ├── ResetPassword.jsx
-│   │   │   ├── routes
-│   │   │   │   ├── AppRoutes.jsx
-│   │   │   ├── styles
-│   │   │   │   ├── Landing.css
-│   │   │   │   ├── Sidebar.css
-│   │   │   │   ├── global.css
-│   │   │   ├── test-utils
-│   │   │   │   ├── renderWithProviders.jsx
-│   │   │   │   ├── setup.js
-│   │   │   ├── utils
-│   │   │   │   ├── apiClient.js
-│   │   │   │   ├── authHelpers.js
-│   │   │   │   ├── setupTestUser.js
-│   │   │   ├── views
-│   │   │   │   ├── ClientDashboard.jsx
-│   │   │   │   ├── EnterpriseDashboard.jsx
-│   │   │   │   ├── FreeDashboard.jsx
-│   │   │   │   ├── ManagerDashboard.jsx
-│   │   │   │   ├── landing
-│   │   ├── tailwind.config.js
-│   │   ├── vite.config.js
-│   ├── generate_structure.py
-│   ├── jedgebot
-│   │   ├── broker
-│   │   ├── common
-│   │   ├── execution
-│   │   ├── utils
-│   ├── launch_app.py
-│   ├── logs
-│   ├── notes
-│   │   ├── PortfolioManagmentRoadMap.md
-│   ├── package-lock.json
-│   ├── package.json
-│   ├── poetry.lock
-│   ├── pyproject.toml
-│   ├── python
-│   ├── run.py
-│   ├── scripts
-│   │   ├── __init__.py
-│   │   ├── archive
-│   │   │   ├── __init__.py
-│   │   │   ├── account_info.py
-│   │   │   ├── account_stream.py
-│   │   │   ├── balances.py
-│   │   │   ├── get_first_account_number.py
-│   │   │   ├── market_data_stream_script_1.py
-│   │   │   ├── market_data_streaming_script.py
-│   │   │   ├── start_streaming.py
-│   │   ├── btc_stream.py
-│   │   ├── run_rate_limit_manual.py
-│   │   ├── start_market_data_stream.py
-│   │   ├── validate_output.py
-│   ├── tests
-│   │   ├── conftest.py
-│   │   ├── integration
-│   │   │   ├── __init__.py
-│   │   │   ├── auth
-│   │   │   │   ├── __init__.py
-│   │   │   │   ├── test_auth_services.py
-│   │   │   │   ├── test_password_reset_flow.py
-│   │   │   │   ├── test_password_reset_token_validation.py
-│   │   ├── unit
-│   │   │   ├── __init__.py
-│   │   │   ├── auth
-│   │   │   │   ├── test_auth_routes.py
-│   │   │   ├── test_base_broker.py
-│   │   ├── utils
-│   │   │   ├── user_factory.py
-│   ├── vitest.config.js
+│   ├── auth_db.py
+│   ├── business_db.py
+│   └── base.py
+
+├── api/                        # API route aggregators (for FastAPI)
+│   ├── __init__.py
+│   ├── auth_routes.py
+│   ├── user_routes.py
+│   ├── broker_routes.py
+
+├── core/                       # App config, rate limiting, startup/shutdown hooks
+│   ├── config.py
+│   ├── settings.py
+│   ├── startup.py
+│   └── rate_limit.py
+
+├── utils/                      # Shared utilities (hashing, logging, tokens, etc.)
+│   ├── logging.py
+│   ├── security_utils.py
+│   └── token_helpers.py
+
+├── main.py                     # FastAPI app entry point
 ```
+
+---
+
+## 🌟 Structure Strategy
+
+### ✅ Feature-Based Domain Separation
+- Auth concerns live in `auth/`
+- Profile, roles, and client-manager-enterprise hierarchy live in `users/`
+- Brokers are modular and isolated per integration
+
+### ✅ Layered Concerns Within Domains
+Each folder contains its own:
+- `models.py` → SQLAlchemy data models
+- `schemas.py` → Pydantic schemas for validation
+- `services.py` → Core business logic
+- `queries.py` → Raw DB access logic
+- `routes.py` → FastAPI endpoints (when applicable)
+
+### ✅ Shared Config, Utils, and Routing
+- `core/` handles environment, startup, and rate-limiting
+- `utils/` is home to generic tools (e.g., logging, hashing, token generation)
+- `api/` aggregates and registers all FastAPI route groups
+
+---
+
+## 🚀 Long-Term Benefits
+
+| Benefit | Description |
+|---------|-------------|
+| **Scalable** | Easily extend each domain without restructuring |
+| **Clear Ownership** | Each folder reflects a real-world concern (auth, brokers, users) |
+| **Testable** | Isolated logic means easier unit and integration testing |
+| **Collaborator-Friendly** | Future devs can find and understand what each folder is doing |
+| **Microservice-Ready** | Domains like `auth/` or `brokers/` can later become standalone services |
+| **Fast Navigation** | No more digging through deep `data/database/auth` paths |
+
+---
+
+## 🔄 Next Steps
+
+- Continue moving business-related models (e.g., `UserProfile`) to `users/`
+- Update route logic to use domain-specific FastAPI routers
+- Confirm `alembic` is pointed at the correct DB models
+
+---
+
+## 📝 Notes
+
+This structure reflects a hybrid approach combining **domain-driven design**, **separation of concerns**, and **FastAPI-friendly layout**. It is designed to grow with the JedgeBot project as it supports:
+- Role-based dashboards
+- Multi-broker accounts
+- Long-term enterprise features
+

@@ -3,8 +3,8 @@
 
 from datetime import datetime
 from sqlalchemy.orm import Session
-from backend.data.database.auth.models import User, UserRole
-from backend.data.database.auth.auth_queries import get_user_by_email
+from backend.auth.models import User, UserRole
+from backend.auth.auth_queries import get_user_by_email
 from passlib.context import CryptContext
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

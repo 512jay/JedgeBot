@@ -7,7 +7,7 @@ from backend.api.auth_routes import (
 )  # ✅ Import get_current_user for authentication
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from backend.data.database.auth.auth_db import get_db  # ✅ Import get_db to access the database
+from backend.auth.auth_db import get_db  # ✅ Import get_db to access the database
 
 router = APIRouter()
 

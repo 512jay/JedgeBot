@@ -5,9 +5,9 @@ from fastapi.testclient import TestClient
 from sqlalchemy import text
 
 from backend.main import app
-from backend.data.database.auth.auth_db import get_db
-from backend.data.database.auth.auth_services import create_user, hash_password
-from backend.data.database.auth.models import UserRole
+from backend.auth.auth_db import get_db
+from backend.auth.auth_services import create_user, hash_password
+from backend.auth.models import UserRole
 from tests.utils.user_factory import random_email, random_password
 
 

@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from backend.data.database.auth.models import AuthBase
+from backend.auth.models import AuthBase
 
 # -----------------------------------------------------------------------------
 # Load environment variables from .env.auth

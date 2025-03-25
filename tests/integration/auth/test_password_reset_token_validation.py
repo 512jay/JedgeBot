@@ -6,9 +6,9 @@ from datetime import datetime, timedelta
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 from backend.main import app
-from backend.data.database.auth.auth_db import get_db
-from backend.data.database.auth.auth_services import create_user, hash_password
-from backend.data.database.auth.password_reset_models import PasswordResetToken
+from backend.auth.auth_db import get_db
+from backend.auth.auth_services import create_user, hash_password
+from backend.auth.password_reset_models import PasswordResetToken
 
 client = TestClient(app)
 

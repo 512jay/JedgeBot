@@ -4,10 +4,10 @@
 from fastapi import APIRouter, HTTPException, status, Depends, Request
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
-from backend.data.database.auth.auth_db import get_db
-from backend.data.database.auth.auth_queries import get_user_by_email
-from backend.data.database.auth.auth_services import hash_password
-from backend.data.database.auth.password_reset_service import (
+from backend.auth.auth_db import get_db
+from backend.auth.auth_queries import get_user_by_email
+from backend.auth.auth_services import hash_password
+from backend.auth.password_reset_service import (
     create_password_reset_token,
     validate_password_reset_token,
     mark_token_as_used,

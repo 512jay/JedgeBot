@@ -3,7 +3,7 @@
 
 from datetime import datetime
 from sqlalchemy.orm import Session
-from backend.data.database.auth.models import User, UserRole
+from backend.auth.models import User, UserRole
 
 
 def get_user_by_email(db: Session, email: str) -> User | None:

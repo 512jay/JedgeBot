@@ -1,7 +1,7 @@
 # /backend/data/database/auth/password_reset_models.py
 # Defines the PasswordResetToken table for managing password reset flows.
 
-from backend.data.database.auth.models import User, AuthBase  # ✅ Use AuthBase
+from backend.auth.models import User, AuthBase  # ✅ Use AuthBase
 from sqlalchemy import String, TIMESTAMP, ForeignKey, Boolean
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column

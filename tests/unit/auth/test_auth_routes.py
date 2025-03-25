@@ -6,8 +6,8 @@ from uuid import UUID
 import uuid
 
 from backend.main import app
-from backend.data.database.auth.auth_db import get_db
-from backend.data.database.auth.models import User, UserRole
+from backend.auth.auth_db import get_db
+from backend.auth.models import User, UserRole
 
 client = TestClient(app)
 

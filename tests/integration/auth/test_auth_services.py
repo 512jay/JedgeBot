@@ -2,7 +2,7 @@
 
 import pytest
 from sqlalchemy.orm import Session
-from backend.data.database.auth.auth_services import (
+from backend.auth.auth_services import (
     hash_password,
     verify_password,
     create_user,
@@ -10,8 +10,8 @@ from backend.data.database.auth.auth_services import (
     change_user_role,
     get_or_create_user,
 )
-from backend.data.database.auth.models import User, UserRole
-from backend.data.database.auth.auth_db import get_db
+from backend.auth.models import User, UserRole
+from backend.auth.auth_db import get_db
 import uuid
 
 
@@ -90,7 +90,7 @@ def test_update_last_login_sets_timestamp() -> None:
     assert user.last_login is None
 
     # update last login
-    from backend.data.database.auth.auth_services import update_last_login
+    from backend.auth.auth_services import update_last_login
 
     updated_user = update_last_login(db, user)
     assert updated_user.last_login is not None

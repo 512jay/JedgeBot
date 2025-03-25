@@ -5,10 +5,10 @@ import secrets
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 from backend.main import app
-from backend.data.database.auth.auth_db import get_db
-from backend.data.database.auth.auth_services import hash_password, create_user, verify_password
-from backend.data.database.auth.models import User, UserRole
-from backend.data.database.auth.password_reset_models import PasswordResetToken
+from backend.auth.auth_db import get_db
+from backend.auth.auth_services import hash_password, create_user, verify_password
+from backend.auth.models import User, UserRole
+from backend.auth.password_reset_models import PasswordResetToken
 
 client = TestClient(app)
 
@@ -85,7 +85,7 @@ def test_forgot_password_with_invalid_email_returns_200_and_creates_no_token() -
 
 
 def test_reset_password_with_valid_token_updates_password() -> None:
-    from backend.data.database.auth.password_reset_service import (
+    from backend.auth.password_reset_service import (
         validate_password_reset_token,
     )
 
