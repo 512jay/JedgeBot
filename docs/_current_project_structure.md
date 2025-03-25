@@ -136,17 +136,19 @@ JedgeBot/
 │   ├── docker-entrypoint-initdb.d
 │   │   ├── create_auth_db.sql
 │   ├── docs
+│   │   ├── _current_project_structure.md
 │   │   ├── api_password_reset_endpoints.md
+│   │   ├── backend_project_structure.md
 │   │   ├── business_plan.md
 │   │   ├── database_schema.md
 │   │   ├── development_enviroment.md
+│   │   ├── frontend_project_structure.md
 │   │   ├── github_workflow.md
 │   │   ├── legal_strategy.md
 │   │   ├── marketing_plan.md
 │   │   ├── password_reset.md
 │   │   ├── password_reset_index.md
 │   │   ├── poetry_workflow.md
-│   │   ├── project_structure.md
 │   │   ├── roadmap.md
 │   │   ├── test_password_reset_coverage.md
 │   │   ├── testing_guide.md
