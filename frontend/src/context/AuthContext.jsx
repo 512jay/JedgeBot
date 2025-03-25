@@ -3,9 +3,8 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { fetchWithRefresh } from "../utils/authHelpers";
 import { logout as logoutApi } from "../api/auth_api";
-import { useNavigate } from "react-router-dom";
 
-export const AuthContext = createContext(); // <-- This was missing before
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -39,13 +38,10 @@ export const AuthProvider = ({ children }) => {
     fetchUser();
   }, []);
 
-  const navigate = useNavigate();
-
   const logout = async () => {
     try {
-      await logoutApi(); // Calls /auth/logout
+      await logoutApi();
       setUser(null);
-      navigate("/login");
     } catch (err) {
       console.error("Logout failed", err);
     }

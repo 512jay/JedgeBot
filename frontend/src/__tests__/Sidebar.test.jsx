@@ -1,13 +1,13 @@
 /// <reference types="vitest" />
-import { describe, it, vi, expect, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { screen, fireEvent, waitFor } from "@testing-library/react";
 import { renderWithProviders } from "../test-utils/renderWithProviders";
 import Sidebar from "../components/layout/Sidebar";
-import { MemoryRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider } from "../context/AuthContext";
 import * as authApi from "../api/auth_api";
+import { useLocation, Routes, Route } from "react-router-dom";
 
-// ✅ Mock only the API function
+// ✅ Mock the logout API call only
 vi.mock("../api/auth_api", async () => {
   const mod = await vi.importActual("../api/auth_api");
   return {
@@ -16,6 +16,7 @@ vi.mock("../api/auth_api", async () => {
   };
 });
 
+// ✅ Utility component to detect route changes
 function LocationDisplay() {
   const location = useLocation();
   return <div data-testid="location-display">{location.pathname}</div>;
@@ -29,25 +30,24 @@ describe("Sidebar", () => {
   it("logs out and navigates to /login", async () => {
     renderWithProviders(
       <AuthProvider>
-        <MemoryRouter initialEntries={["/dashboard"]}>
-          <Routes>
-            <Route path="*" element={<Sidebar />} />
-            <Route path="*" element={<LocationDisplay />} />
-          </Routes>
-        </MemoryRouter>
-      </AuthProvider>
+        <Routes>
+          <Route path="*" element={<><Sidebar /><LocationDisplay /></>} />
+        </Routes>
+      </AuthProvider>,
+      {
+        route: "/dashboard",
+      }
     );
 
-    const button = screen.getByRole("button", { name: /logout/i });
-    fireEvent.click(button);
+    const logoutBtn = screen.getByRole("button", { name: /logout/i });
+    fireEvent.click(logoutBtn);
 
     await waitFor(() => {
       expect(authApi.logout).toHaveBeenCalled();
     });
 
     await waitFor(() => {
-      const location = screen.getByTestId("location-display");
-      expect(location.textContent).toBe("/login");
+      expect(screen.getByTestId("location-display").textContent).toBe("/login");
     });
   });
 });
