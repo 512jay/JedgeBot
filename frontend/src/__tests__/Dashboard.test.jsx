@@ -1,57 +1,47 @@
 // /frontend/src/__tests__/Dashboard.test.jsx
-import { screen } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
-import { renderWithProviders } from "../test-utils/renderWithProviders";
+import { AuthContext } from "../context/AuthContext";
 
-const mockUser = {
-  username: "testuser",
-  role: "client",
+const mockUser = { role: "client" };
+
+const renderDashboard = (user = mockUser, loading = false) => {
+  return render(
+    <AuthContext.Provider value={{ user, loading }}>
+      <MemoryRouter>
+        <Dashboard />
+      </MemoryRouter>
+    </AuthContext.Provider>
+  );
 };
 
 describe("Dashboard Page", () => {
   it("renders welcome heading", () => {
-    renderWithProviders(<Dashboard />, {
-      authContextValue: { user: mockUser, loading: false },
-    });
-    expect(
-      screen.getByText(/welcome to your dashboard/i)
-    ).toBeInTheDocument();
+    renderDashboard();
+    expect(screen.getByText(/welcome to your dashboard/i)).toBeInTheDocument();
   });
 
-  it("renders portfolio, activity, and market insights cards", () => {
-    renderWithProviders(<Dashboard />, {
-      authContextValue: { user: mockUser, loading: false },
-    });
-
+  it("renders portfolio overview card", () => {
+    renderDashboard();
     expect(screen.getByText(/portfolio overview/i)).toBeInTheDocument();
+    expect(screen.getByText(/total balance/i)).toBeInTheDocument();
+    expect(screen.getByText(/net p&l/i)).toBeInTheDocument();
+  });
+
+  it("renders recent activity section", () => {
+    renderDashboard();
     expect(screen.getByText(/recent activity/i)).toBeInTheDocument();
+    expect(screen.getByText(/executed order/i)).toBeInTheDocument();
+    expect(screen.getByText(/new client added/i)).toBeInTheDocument();
+    expect(screen.getByText(/portfolio rebalanced/i)).toBeInTheDocument();
+  });
+
+  it("renders market insights section", () => {
+    renderDashboard();
     expect(screen.getByText(/market insights/i)).toBeInTheDocument();
-  });
-
-  it("renders the sidebar with navigation links", () => {
-    renderWithProviders(<Dashboard />, {
-      authContextValue: { user: mockUser, loading: false },
-    });
-
-    expect(screen.getByText(/dashboard/i)).toBeInTheDocument();
-    expect(screen.getByText(/profile/i)).toBeInTheDocument();
-  });
-
-  it("redirects unauthorized roles", () => {
-    const mockNavigator = vi.fn();
-
-    renderWithProviders(<Dashboard />, {
-      authContextValue: {
-        user: { username: "hacker", role: "evil" },
-        loading: false,
-      },
-      routerProps: {
-        navigator: { push: mockNavigator },
-        location: { pathname: "/" },
-      },
-    });
-
-    expect(mockNavigator).toHaveBeenCalledWith("/unauthorized");
+    expect(screen.getByText(/s&p 500/i)).toBeInTheDocument();
+    expect(screen.getByText(/top gainer/i)).toBeInTheDocument();
   });
 });

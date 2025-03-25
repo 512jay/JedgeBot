@@ -85,16 +85,20 @@ JedgeBot/
 │   │   │   ├── index.html
 │   │   │   ├── src
 │   │   │   │   ├── App.jsx.html
-│   │   │   │   ├── AppRoutes.jsx.html
 │   │   │   │   ├── api
 │   │   │   │   │   ├── api_client.js.html
 │   │   │   │   │   ├── auth_api.js.html
 │   │   │   │   │   ├── index.html
 │   │   │   │   ├── components
 │   │   │   │   │   ├── DashboardCards.jsx.html
-│   │   │   │   │   ├── Sidebar.jsx.html
-│   │   │   │   │   ├── TitleManager.jsx.html
+│   │   │   │   │   ├── auth
+│   │   │   │   │   │   ├── PrivateRoute.jsx.html
+│   │   │   │   │   │   ├── index.html
 │   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── layout
+│   │   │   │   │   │   ├── LoadingScreen.jsx.html
+│   │   │   │   │   │   ├── Sidebar.jsx.html
+│   │   │   │   │   │   ├── index.html
 │   │   │   │   │   ├── ui
 │   │   │   │   │   │   ├── Button.jsx.html
 │   │   │   │   │   │   ├── Card.jsx.html
@@ -114,14 +118,24 @@ JedgeBot/
 │   │   │   │   │   ├── Register.jsx.html
 │   │   │   │   │   ├── ResetPassword.jsx.html
 │   │   │   │   │   ├── index.html
+│   │   │   │   ├── routes
+│   │   │   │   │   ├── AppRoutes.jsx.html
+│   │   │   │   │   ├── index.html
+│   │   │   │   ├── test-utils
+│   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── renderWithProviders.jsx.html
+│   │   │   │   ├── utils
+│   │   │   │   │   ├── apiClient.js.html
+│   │   │   │   │   ├── authHelpers.js.html
+│   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── setupTestUser.js.html
 │   │   │   │   ├── views
-│   │   │   │   │   ├── DashboardView.jsx.html
+│   │   │   │   │   ├── ClientDashboard.jsx.html
+│   │   │   │   │   ├── EnterpriseDashboard.jsx.html
+│   │   │   │   │   ├── FreeDashboard.jsx.html
+│   │   │   │   │   ├── ManagerDashboard.jsx.html
 │   │   │   │   │   ├── index.html
 │   │   │   ├── tailwind.config.js.html
-│   │   │   ├── test-utils
-│   │   │   │   ├── index.html
-│   │   │   │   ├── renderWithProviders.jsx.html
-│   │   │   │   ├── setupTestUser.js.html
 │   │   ├── index.html
 │   │   ├── prettify.css
 │   │   ├── prettify.js
@@ -169,7 +183,6 @@ JedgeBot/
 │   │   │   ├── App.jsx
 │   │   │   ├── __tests__
 │   │   │   │   ├── App.test.jsx
-│   │   │   │   ├── AppRoutes.test.jsx
 │   │   │   │   ├── Button.test.jsx
 │   │   │   │   ├── Card.test.jsx
 │   │   │   │   ├── Dashboard.test.jsx
@@ -183,11 +196,9 @@ JedgeBot/
 │   │   │   │   ├── ResetPassword.test.jsx
 │   │   │   │   ├── Sidebar.test.jsx
 │   │   │   │   ├── Table.test.jsx
-│   │   │   │   ├── TitleManager.test.jsx
 │   │   │   │   ├── api_client.test.js
 │   │   │   │   ├── auth_api.test.js
 │   │   │   │   ├── main.text.jsx
-│   │   │   │   ├── setupTestUser.test.js
 │   │   │   ├── api
 │   │   │   │   ├── api_client.js
 │   │   │   │   ├── auth_api.js
@@ -223,6 +234,7 @@ JedgeBot/
 │   │   │   │   ├── Sidebar.css
 │   │   │   │   ├── global.css
 │   │   │   ├── test-utils
+│   │   │   │   ├── renderWithAuth.jsx
 │   │   │   │   ├── renderWithProviders.jsx
 │   │   │   │   ├── setup.js
 │   │   │   ├── utils

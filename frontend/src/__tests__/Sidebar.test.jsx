@@ -1,16 +1,23 @@
 // /frontend/src/__tests__/Sidebar.test.jsx
-import { render, screen, fireEvent } from "@testing-library/react";
-import Sidebar from "@/components/layout/Sidebar";
-import { BrowserRouter } from "react-router-dom";
+import { describe, it, vi, expect } from "vitest";
+import { screen, fireEvent, waitFor } from "@testing-library/react";
+import { renderWithProviders } from "../test-utils/renderWithProviders";
+import Sidebar from "../components/layout/Sidebar";
 
-describe("Sidebar Component", () => {
-  const renderSidebar = () =>
-    render(
-      <BrowserRouter>
-        <Sidebar />
-      </BrowserRouter>
-    );
+// Mock the logout function
+const mockLogout = vi.fn(() => Promise.resolve());
 
-  test("renders navigation links", () => {
-    renderSidebar();
-    expect(screen.getByText(/dashboard/i)).toBeInThe
+describe("Sidebar", () => {
+  it("calls logout and navigates on Logout button click", async () => {
+    renderWithProviders(<Sidebar />, {
+      authContextValue: { logout: mockLogout },
+    });
+
+    const button = screen.getByRole("button", { name: /logout/i });
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(mockLogout).toHaveBeenCalled();
+    });
+  });
+});

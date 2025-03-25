@@ -8,10 +8,11 @@ import {
   MDBBtn,
 } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
-
+  const { logout } = useAuth(); 
   const toggleSidebar = () => {
     setCollapsed(!collapsed);
   };
@@ -73,7 +74,7 @@ const Sidebar = () => {
 
         <MDBListGroupItem tag="div" style={{ background: "transparent", border: "none" }}>
           <button
-            onClick={() => console.log("Logout clicked")}
+            onClick={logout}
             style={{
               background: "black",
               color: "white",
