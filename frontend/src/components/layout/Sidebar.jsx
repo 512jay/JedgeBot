@@ -1,91 +1,51 @@
-// /frontend/src/components/Sidebar.jsx
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  MDBListGroup,
-  MDBListGroupItem,
-  MDBIcon,
-  MDBBtn,
-} from "mdb-react-ui-kit";
-import "../../styles/Sidebar.css";
+// /frontend/src/components/layout/Sidebar.jsx
+// Sidebar navigation component for dashboard layout
 
-const Sidebar = ({ onAddClient }) => {
-  const [collapsed, setCollapsed] = useState(window.innerWidth < 768);
-  const navigate = useNavigate();
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { FaBars, FaTimes, FaTachometerAlt, FaUser, FaSignOutAlt } from "react-icons/fa";
 
-  useEffect(() => {
-    const handleResize = () => {
-      setCollapsed(window.innerWidth < 768);
-    };
+const Sidebar = () => {
+  const [collapsed, setCollapsed] = useState(false);
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("access_token");
-    navigate("/login");
-    window.location.reload();
+  const toggleSidebar = () => {
+    setCollapsed((prev) => !prev);
   };
 
   return (
-    <nav className={`sidebar ${collapsed ? "collapsed" : ""}`} aria-label="Main sidebar">
-      <MDBBtn
-        className="toggle-btn m-2"
-        color="primary"
-        onClick={() => setCollapsed(!collapsed)}
-      >
-        <MDBIcon fas icon={collapsed ? "angle-right" : "angle-left"} />
-      </MDBBtn>
-
-      <h4 className={`text-center py-2 ${collapsed ? "d-none" : ""}`}>JedgeBot</h4>
-
-      <MDBListGroup className="flex-grow-1">
-        <Link to="/dashboard">
-          <MDBListGroupItem action>
-            <MDBIcon fas icon="chart-line" className="me-3" />
-            {!collapsed && "Dashboard"}
-          </MDBListGroupItem>
-        </Link>
-        <Link to="/accounts">
-          <MDBListGroupItem action>
-            <MDBIcon fas icon="money-check-alt" className="me-3" />
-            {!collapsed && "Accounts"}
-          </MDBListGroupItem>
-        </Link>
-        <Link to="/clients">
-          <MDBListGroupItem action>
-            <MDBIcon fas icon="users" className="me-3" />
-            {!collapsed && "Clients"}
-          </MDBListGroupItem>
-        </Link>
-        <Link to="/markets">
-          <MDBListGroupItem action>
-            <MDBIcon fas icon="globe" className="me-3" />
-            {!collapsed && "Markets"}
-          </MDBListGroupItem>
-        </Link>
-        <Link to="/settings">
-          <MDBListGroupItem action>
-            <MDBIcon fas icon="cog" className="me-3" />
-            {!collapsed && "Settings"}
-          </MDBListGroupItem>
-        </Link>
-      </MDBListGroup>
-
-      <div className="p-2">
-        <MDBBtn color="success" className="w-100" onClick={onAddClient}>
-          <MDBIcon fas icon="user-plus" className="me-2" />
-          {!collapsed && "New Client"}
-        </MDBBtn>
+    <nav
+      className={`sidebar bg-white text-black shadow-md ${
+        collapsed ? "w-16" : "w-64"
+      } transition-width duration-300`}
+      aria-label="Main sidebar"
+    >
+      <div className="flex items-center justify-between p-4 border-b">
+        {!collapsed && <h2 className="text-xl font-bold">JedgeBot</h2>}
+        <button onClick={toggleSidebar} aria-label="Toggle sidebar">
+          {collapsed ? <FaBars /> : <FaTimes />}
+        </button>
       </div>
 
-      <div className="logout-btn-container p-2">
-        <MDBBtn color="danger" className="w-100" onClick={handleLogout}>
-          <MDBIcon fas icon="sign-out-alt" className="me-2" />
-          {!collapsed && "Logout"}
-        </MDBBtn>
-      </div>
+      <ul className="p-4 space-y-4">
+        <li>
+          <Link to="/dashboard" className="flex items-center gap-2">
+            <FaTachometerAlt />
+            {!collapsed && <span>Dashboard</span>}
+          </Link>
+        </li>
+        <li>
+          <Link to="/profile" className="flex items-center gap-2">
+            <FaUser />
+            {!collapsed && <span>Profile</span>}
+          </Link>
+        </li>
+        <li>
+          <button className="flex items-center gap-2">
+            <FaSignOutAlt />
+            {!collapsed && <span>Logout</span>}
+          </button>
+        </li>
+      </ul>
     </nav>
   );
 };

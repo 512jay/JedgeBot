@@ -79,7 +79,7 @@ describe("Sidebar Component", () => {
     fireEvent.click(toggleBtn);
 
     // After one click, sidebar should have class "collapsed"
-    const sidebar = screen.getByRole("navigation", { name: /main sidebar/i });
+    const sidebar = screen.getByRole("navigation", { name: /Main sidebar/i });
     expect(sidebar).toHaveClass("collapsed");
   });
 });
