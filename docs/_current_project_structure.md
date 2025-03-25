@@ -144,6 +144,7 @@ JedgeBot/
 │   │   ├── development_enviroment.md
 │   │   ├── frontend_project_structure.md
 │   │   ├── github_workflow.md
+│   │   ├── launch_app.md
 │   │   ├── legal_strategy.md
 │   │   ├── marketing_plan.md
 │   │   ├── password_reset.md
@@ -174,10 +175,8 @@ JedgeBot/
 │   │   │   ├── vite.svg
 │   │   ├── src
 │   │   │   ├── App.css
-│   │   │   ├── App.jsx
 │   │   │   ├── __tests__
 │   │   │   │   ├── App.test.jsx
-│   │   │   │   ├── AppLayout.test.jsx
 │   │   │   │   ├── main.text.jsx
 │   │   │   ├── api
 │   │   │   │   ├── api_client.js
@@ -202,6 +201,10 @@ JedgeBot/
 │   │   │   ├── context
 │   │   │   │   ├── AuthContext.jsx
 │   │   │   ├── features
+│   │   │   │   ├── app
+│   │   │   │   │   ├── App.jsx
+│   │   │   │   │   ├── __tests__
+│   │   │   │   │   │   ├── AppLayout.test.jsx
 │   │   │   │   ├── auth
 │   │   │   │   │   ├── ForgotPassword.jsx
 │   │   │   │   │   ├── Login.jsx
