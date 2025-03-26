@@ -10,7 +10,7 @@ from backend.auth.auth_services import (
     change_user_role,
     get_or_create_user,
 )
-from backend.auth.models import User, UserRole
+from backend.auth.models import UserStatus, UserRole
 from backend.auth.auth_db import get_db
 import uuid
 
@@ -68,7 +68,7 @@ def test_deactivate_user_and_change_role() -> None:
 
     # deactivate user
     deactivated_user = deactivate_user(db, user)
-    assert deactivated_user.is_active is False
+    assert deactivated_user.status is UserStatus.deactivated
 
     # cleanup
     db.delete(user)

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { logout as logoutApi } from "../features/auth/auth_api";
 import { fetchWithRefresh } from "../utils/authHelpers";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const AuthContext = createContext();
 
@@ -15,7 +16,7 @@ export const AuthProvider = ({ children }) => {
     const fetchUser = async () => {
       try {
         setLoading(true);
-        const response = await fetchWithRefresh("/auth/me", {
+        const response = await fetchWithRefresh(`${BASE_URL}/auth/me`, {
           method: "GET",
           credentials: "include",
         });
@@ -24,8 +25,14 @@ export const AuthProvider = ({ children }) => {
           throw new Error("Failed to fetch user");
         }
 
-        const data = await response.json();
-        setUser(data);
+        let data = null;
+        try {
+          data = await response.json();
+          setUser(data);
+        } catch (parseErr) {
+          console.warn("Failed to parse JSON response from /auth/me");
+          setUser(null);
+        }
       } catch (err) {
         console.error("Failed to fetch user in AuthContext", err);
         setUser(null);
@@ -37,6 +44,7 @@ export const AuthProvider = ({ children }) => {
 
     fetchUser();
   }, []);
+
 
   const logout = async () => {
     try {

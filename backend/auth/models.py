@@ -1,7 +1,7 @@
-# /backend/data/database/auth/models.py
+# /backend/auth/models.py
 # Models for the authentication database using SQLAlchemy 2.0-style typing and PostgreSQL UUIDs.
 
-from sqlalchemy import String, Boolean, TIMESTAMP, text, Enum
+from sqlalchemy import String, TIMESTAMP, text, Enum as PgEnum
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from datetime import datetime
@@ -9,28 +9,33 @@ import uuid
 import enum
 
 
-# -----------------------------------------------------------------------------
-# Base class for all authentication database models
-# -----------------------------------------------------------------------------
 class AuthBase(DeclarativeBase):
     """Declarative base for the auth database."""
 
     pass
 
 
-# -----------------------------------------------------------------------------
+# -------------------------------------------------------------------
 # Enum: Defines valid user roles
-# -----------------------------------------------------------------------------
+# -------------------------------------------------------------------
 class UserRole(enum.Enum):
-    FREE = "free"  # Default unverified or limited user
-    CLIENT = "client"  # Paid client with access to multiple brokerage accounts
-    MANAGER = "manager"  # Can manage client accounts (with permission)
-    ENTERPRISE = "enterprise"  # (Reserved) Future enterprise account tier
+    free = "free"
+    client = "client"
+    manager = "manager"
+    enterprise = "enterprise"
 
 
-# -----------------------------------------------------------------------------
+class UserStatus(enum.Enum):
+    active = "active"
+    grace = "grace"
+    downgraded = "downgraded"
+    banned = "banned"
+    deactivated = "deactivated"
+
+
+# -------------------------------------------------------------------
 # Table: users
-# -----------------------------------------------------------------------------
+# -------------------------------------------------------------------
 class User(AuthBase):
     __tablename__ = "users"
 
@@ -50,14 +55,23 @@ class User(AuthBase):
     )
 
     role: Mapped[UserRole] = mapped_column(
-        Enum(UserRole),
+        PgEnum(
+            UserRole, native_enum=False, values_callable=lambda x: [e.value for e in x]
+        ),
         nullable=False,
-        default=UserRole.FREE,
+        default=UserRole.free,
         comment="Role of the user",
     )
 
-    is_active: Mapped[bool] = mapped_column(
-        Boolean, default=True, comment="Whether the account is active"
+    status: Mapped[UserStatus] = mapped_column(
+        PgEnum(
+            UserStatus,
+            native_enum=False,
+            values_callable=lambda x: [e.value for e in x],
+        ),
+        nullable=False,
+        default=UserStatus.active,
+        comment="Account status used for login gating",
     )
 
     created_at: Mapped[datetime] = mapped_column(

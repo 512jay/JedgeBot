@@ -6,6 +6,8 @@ from sqlalchemy.orm import Session
 from backend.auth.models import User, UserRole
 from backend.auth.auth_queries import get_user_by_email
 from passlib.context import CryptContext
+from backend.auth.models import UserStatus
+
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -21,7 +23,7 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 
 def create_user(
-    db: Session, email: str, password_hash: str, role: UserRole = UserRole.FREE
+    db: Session, email: str, password_hash: str, role: UserRole = UserRole.free
 ) -> User:
     """
     Creates a new user in the database if the email is not already taken.
@@ -77,7 +79,7 @@ def deactivate_user(db: Session, user: User) -> User:
     Returns:
         User: The updated user object
     """
-    user.is_active = False
+    user.status = UserStatus.DEACTIVATED
     db.commit()
     db.refresh(user)
     return user
@@ -114,7 +116,7 @@ def change_user_role(db: Session, user: User, new_role: UserRole) -> User:
 
 
 def get_or_create_user(
-    db: Session, email: str, password_hash: str, role: UserRole = UserRole.FREE
+    db: Session, email: str, password_hash: str, role: UserRole = UserRole.free
 ) -> User:
     """
     Retrieves a user by email or creates a new one if not found.

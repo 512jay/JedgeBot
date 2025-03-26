@@ -11,29 +11,34 @@ JedgeBot/
 │   │   ├── env.py
 │   │   ├── script.py.mako
 │   │   ├── versions
-│   │   │   ├── 73c2de2ee829_fix_password_reset_table_base.py
-│   │   │   ├── ac6a215aa1f4_include_password_reset_token_table.py
-│   │   │   ├── ef329bc9120d_initial_auth_schema_with_role_column.py
-│   │   │   ├── f6df294f76d5_add_cascade_delete_to_password_reset_.py
+│   │   │   ├── 6f28cb8d274e_create_password_reset_tokens_table.py
+│   │   │   ├── a1e3e950dc21_create_user_profiles_table.py
+│   │   │   ├── ce2eb894601a_upgrade_password_reset_tokens_table_to_.py
 │   ├── alembic.ini
 │   ├── backend
 │   │   ├── __init__.py
 │   │   ├── api
 │   │   │   ├── __init__.py
-│   │   │   ├── auth_routes.py
 │   │   │   ├── clients_routes.py
 │   │   │   ├── dev_routes.py
 │   │   │   ├── http_utils.py
-│   │   │   ├── password_reset_routes.py
 │   │   ├── auth
 │   │   │   ├── __init__.py
-│   │   │   ├── auth_db.py
+│   │   │   ├── auth_models.py
 │   │   │   ├── auth_queries.py
+│   │   │   ├── auth_routes.py
+│   │   │   ├── auth_schemas.py
 │   │   │   ├── auth_services.py
-│   │   │   ├── models.py
-│   │   │   ├── password_reset_models.py
-│   │   │   ├── password_reset_service.py
-│   │   │   ├── schemas.py
+│   │   │   ├── dependencies.py
+│   │   │   ├── password_reset
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── models.py
+│   │   │   │   ├── routes.py
+│   │   │   │   ├── schemas.py
+│   │   │   │   ├── service.py
+│   │   │   │   ├── tests
+│   │   │   ├── tests
+│   │   │   │   ├── test_dependencies.py
 │   │   ├── broker
 │   │   │   ├── __init__.py
 │   │   │   ├── base_broker.py
@@ -59,8 +64,17 @@ JedgeBot/
 │   │   │   ├── settings.py
 │   │   ├── data
 │   │   │   ├── __init__.py
+│   │   │   ├── database
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── base.py
+│   │   │   │   ├── db.py
+│   │   │   │   ├── models.py
 │   │   ├── main.py
-│   │   ├── users
+│   │   ├── user
+│   │   │   ├── __init__.py
+│   │   │   ├── user_models.py
+│   │   │   ├── user_routes.py
+│   │   │   ├── user_schemas.py
 │   │   ├── utils
 │   │   │   ├── __init__.py
 │   │   │   ├── logging.py
@@ -269,6 +283,7 @@ JedgeBot/
 │   ├── package-lock.json
 │   ├── package.json
 │   ├── poetry.lock
+│   ├── psql_connect.sh
 │   ├── pyproject.toml
 │   ├── python
 │   ├── run.py
@@ -284,6 +299,7 @@ JedgeBot/
 │   │   │   ├── market_data_streaming_script.py
 │   │   │   ├── start_streaming.py
 │   │   ├── btc_stream.py
+│   │   ├── cleanup_test_users.py
 │   │   ├── run_rate_limit_manual.py
 │   │   ├── start_market_data_stream.py
 │   │   ├── validate_output.py
@@ -293,14 +309,6 @@ JedgeBot/
 │   │   │   ├── __init__.py
 │   │   │   ├── auth
 │   │   │   │   ├── __init__.py
-│   │   │   │   ├── test_auth_services.py
-│   │   │   │   ├── test_password_reset_flow.py
-│   │   │   │   ├── test_password_reset_token_validation.py
-│   │   ├── unit
-│   │   │   ├── __init__.py
-│   │   │   ├── auth
-│   │   │   │   ├── test_auth_routes.py
-│   │   │   ├── test_base_broker.py
 │   │   ├── utils
 │   │   │   ├── user_factory.py
 │   ├── vitest.config.js
