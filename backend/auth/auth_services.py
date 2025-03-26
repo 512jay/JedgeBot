@@ -79,7 +79,7 @@ def deactivate_user(db: Session, user: User) -> User:
     Returns:
         User: The updated user object
     """
-    user.status = UserStatus.DEACTIVATED
+    user.status = UserStatus.deactivated
     db.commit()
     db.refresh(user)
     return user
