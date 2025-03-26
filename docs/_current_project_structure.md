@@ -39,6 +39,7 @@ JedgeBot/
 │   │   │   │   │   ├── __init__.py
 │   │   │   │   │   ├── test_password_reset_service.py
 │   │   │   ├── tests
+│   │   │   │   ├── test_auth_services.py
 │   │   │   │   ├── test_dependencies.py
 │   │   ├── broker
 │   │   │   ├── __init__.py
