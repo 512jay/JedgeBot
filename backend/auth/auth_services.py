@@ -160,38 +160,3 @@ def update_user_password(db: Session, user_id: str, new_password: str) -> User:
     db.refresh(user)
     return user
 
-
-# TODO: Implement password reset functionality, including generating and validating reset tokens.
-# TODO: Implement email verification functionality, including generating and validating verification tokens.
-# TODO: Implement user profile management, allowing users to update their information.
-# TODO: Implement logging for all user actions (login, logout, password change, etc.).
-# TODO: Implement rate limiting for login attempts to prevent brute force attacks.
-# TODO: Implement multi-factor authentication (MFA) for added security.
-# TODO: Implement OAuth2 or other third-party authentication methods for user convenience.
-# TODO: Implement user activity tracking to monitor and analyze user behavior.
-# TODO: Implement API rate limiting to prevent abuse of the authentication endpoints.
-# TODO: Implement session management to handle user sessions securely.
-# TODO: Implement CSRF protection for web-based authentication flows.
-# TODO: Implement secure storage and handling of sensitive user data (e.g., passwords, tokens).
-# TODO: Implement logging and monitoring for security-related events (e.g., failed login attempts, account lockouts).
-# TODO: Implement a mechanism for users to delete their accounts and associated data.
-# TODO: Implement a mechanism for administrators to manage user accounts (e.g., view, edit, delete).
-# TODO: Implement a mechanism for users to recover their accounts in case of forgotten passwords or locked accounts.
-# TODO: Implement a mechanism for users to update their email addresses.
-# TODO: Implement a mechanism for users to update their passwords.
-# TODO: Implement a mechanism for users to manage their notification preferences.
-# TODO: Implement a mechanism for users to manage their privacy settings.
-# TODO: Implement a mechanism for users to manage their security settings (e.g., change password, enable/disable MFA).
-# TODO: Implement a mechanism for users to manage their connected applications (e.g., revoke access).
-# TODO: Implement a mechanism for users to manage their API keys.
-# TODO: Implement a mechanism for users to manage their access tokens.
-# TODO: Implement a mechanism for users to manage their refresh tokens.
-# TODO: Implement a mechanism for users to manage their session tokens.
-# TODO: Implement a mechanism for users to manage their login history.
-# TODO: Implement a mechanism for users to manage their account activity.
-# TODO: Implement a mechanism for users to manage their account settings.
-# TODO: Implement a mechanism for users to manage their account preferences.
-# TODO: Implement a mechanism for users to manage their account notifications.
-# TODO: Implement a mechanism for users to manage their account security.
-# TODO: Implement a mechanism for users to manage their account privacy.
-# If/when you implement audit logging, this is the file where those log_event(...) calls will go — and it’s already designed to support it

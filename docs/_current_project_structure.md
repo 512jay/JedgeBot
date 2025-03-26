@@ -11,6 +11,7 @@ JedgeBot/
 │   │   ├── env.py
 │   │   ├── script.py.mako
 │   │   ├── versions
+│   │   │   ├── 20240326_add_is_email_verified_to_users.py
 │   │   │   ├── 6f28cb8d274e_create_password_reset_tokens_table.py
 │   │   │   ├── a1e3e950dc21_create_user_profiles_table.py
 │   │   │   ├── ce2eb894601a_upgrade_password_reset_tokens_table_to_.py
@@ -76,8 +77,13 @@ JedgeBot/
 │   │   ├── dev
 │   │   │   ├── __init__.py
 │   │   │   ├── cleanup.py
+│   │   │   ├── roadmap
+│   │   │   │   ├── auth_roadmap.md
+│   │   │   │   ├── email_verification_roadmap.md
 │   │   │   ├── routes.py
 │   │   ├── main.py
+│   │   ├── notifications
+│   │   │   ├── email_service.py
 │   │   ├── user
 │   │   │   ├── __init__.py
 │   │   │   ├── user_models.py
@@ -185,6 +191,9 @@ JedgeBot/
 │   │   │   │   ├── _metadata.json
 │   │   │   │   ├── package.json
 │   │   ├── README.md
+│   │   ├── dev
+│   │   │   ├── roadmap
+│   │   │   │   ├── ut_roadmap.md
 │   │   ├── eslint.config.js
 │   │   ├── index.html
 │   │   ├── package-lock.json
