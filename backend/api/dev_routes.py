@@ -8,6 +8,7 @@ from backend.core.settings import settings
 from backend.data.database.db import get_db
 from backend.auth.auth_models import User
 from backend.auth.auth_services import get_user_by_email, delete_user
+from backend.maintenance.cleanup import cleanup_password_reset_tokens
 
 router = APIRouter()
 
@@ -32,3 +33,9 @@ def delete_test_user(data: dict, db: Session = Depends(get_db)):
 
     delete_user(db, user)
     return {"message": f"Test user '{email}' deleted successfully."}
+
+
+@router.post("/cleanup/reset-tokens")
+def dev_cleanup_tokens(db: Session = Depends(get_db)):
+    deleted = cleanup_password_reset_tokens(db)
+    return {"deleted": deleted}

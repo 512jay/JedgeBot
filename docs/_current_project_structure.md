@@ -72,6 +72,9 @@ JedgeBot/
 │   │   │   │   ├── db.py
 │   │   │   │   ├── models.py
 │   │   ├── main.py
+│   │   ├── maintenance
+│   │   │   ├── __init__.py
+│   │   │   ├── cleanup.py
 │   │   ├── user
 │   │   │   ├── __init__.py
 │   │   │   ├── user_models.py
