@@ -12,6 +12,7 @@ from slowapi import Limiter
 from slowapi.util import get_remote_address
 from passlib.context import CryptContext
 from jose import JWTError, jwt
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from backend.data.database.db import get_db
@@ -22,7 +23,7 @@ from backend.core.rate_limit import limiter
 from backend.auth.auth_schemas import UserRead, RegisterRequest, LoginRequest
 from backend.user.user_models import UserProfile
 from backend.auth.dependencies import get_current_user
-
+from backend.auth.constants import RESERVED_USERNAMES
 
 # -----------------------------------------------------------------------------
 # Configuration
@@ -38,9 +39,6 @@ REFRESH_TOKEN_EXPIRE_DAYS = 7
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 router = APIRouter()
-
-
-
 
 
 # -----------------------------------------------------------------------------
@@ -92,9 +90,22 @@ def check_authentication(request: Request, db: Session = Depends(get_db)):
 def register(request: RegisterRequest, db: Session = Depends(get_db)):
     """
     Register a new user, hash password, and create linked UserProfile with username.
+    Usernames are compared in lowercase against a reserved list.
     """
     if get_user_by_email(db, request.email):
         raise HTTPException(status_code=400, detail="Email already registered")
+
+    username_lower = request.username.lower() if request.username else None
+
+    if username_lower in RESERVED_USERNAMES:
+        raise HTTPException(status_code=400, detail="This username is reserved.")
+
+    if (
+        db.query(UserProfile)
+        .filter(func.lower(UserProfile.username) == username_lower)
+        .first()
+    ):
+        raise HTTPException(status_code=400, detail="Username already taken")
 
     hashed_password = hash_password(request.password)
 
@@ -107,7 +118,6 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
             raise HTTPException(status_code=400, detail="Profile already exists")
 
         profile = UserProfile(user_id=user.id, username=request.username)
-        # TODO: Expand profile creation to use more fields as onboarding evolves
         db.add(profile)
         db.commit()
         db.refresh(profile)

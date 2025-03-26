@@ -2,6 +2,7 @@
 # Integration tests for auth endpoints using TestClient and real DB.
 
 import uuid
+import jwt as pyjwt
 import pytest
 from fastapi.testclient import TestClient
 from backend.auth.auth_models import UserRole
@@ -229,3 +230,30 @@ def test_register_invalid_role(client: TestClient, unique_email, unique_username
         },
     )
     assert response.status_code == 422
+
+
+def test_check_with_tampered_access_token(
+    client: TestClient, unique_email, unique_username
+):
+    # Register and login
+    client.post(
+        "/auth/register",
+        json={
+            "email": unique_email,
+            "password": "secure123",
+            "role": "client",
+            "username": unique_username,
+        },
+    )
+    login_payload = {"email": unique_email, "password": "secure123"}
+    response = client.post("/auth/login", json=login_payload)
+
+    # Tamper with token
+    token = response.cookies["access_token"]
+    parts = token.split(".")
+    tampered_token = f"{parts[0]}.{parts[1]}.AAAAAA"  # break the signature
+
+    # Send tampered token
+    client.cookies.set("access_token", tampered_token)
+    response = client.get("/auth/check")
+    assert response.status_code == 401

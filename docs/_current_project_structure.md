@@ -28,6 +28,7 @@ JedgeBot/
 │   │   │   ├── auth_routes.py
 │   │   │   ├── auth_schemas.py
 │   │   │   ├── auth_services.py
+│   │   │   ├── constants.py
 │   │   │   ├── dependencies.py
 │   │   │   ├── password
 │   │   │   │   ├── __init__.py
