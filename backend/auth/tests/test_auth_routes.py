@@ -89,3 +89,84 @@ def test_refresh_logout_me_flow(
         db.query(UserProfile).filter_by(user_id=user.id).delete()
         db.delete(user)
     db.commit()
+
+
+def test_login_wrong_password(
+    client: TestClient, get_db_session, unique_email, unique_username
+):
+    # Setup: register the user
+    payload = {
+        "email": unique_email,
+        "password": "rightpass",
+        "role": "client",
+        "username": unique_username,
+    }
+    client.post("/auth/register", json=payload)
+
+    # Try logging in with wrong password
+    login_payload = {"email": unique_email, "password": "wrongpass"}
+    response = client.post("/auth/login", json=login_payload)
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Invalid email or password"
+
+    # Cleanup
+    db = next(get_db())
+    user = get_user_by_email(db, unique_email)
+    if user:
+        db.query(UserProfile).filter_by(user_id=user.id).delete()
+        db.delete(user)
+    db.commit()
+
+
+def test_login_nonexistent_email(client: TestClient):
+    response = client.post(
+        "/auth/login",
+        json={"email": "doesnotexist@example.com", "password": "whatever"},
+    )
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Invalid email or password"
+
+
+def test_register_duplicate_email(client: TestClient, unique_email, unique_username):
+    # First registration
+    client.post(
+        "/auth/register",
+        json={
+            "email": unique_email,
+            "password": "secure123",
+            "role": "client",
+            "username": unique_username,
+        },
+    )
+
+    # Second registration with same email but new username
+    response = client.post(
+        "/auth/register",
+        json={
+            "email": unique_email,
+            "password": "anotherpass",
+            "role": "client",
+            "username": f"{unique_username}_new",
+        },
+    )
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Email already registered"
+
+    # Cleanup
+    db = next(get_db())
+    user = get_user_by_email(db, unique_email)
+    if user:
+        db.query(UserProfile).filter_by(user_id=user.id).delete()
+        db.delete(user)
+    db.commit()
+
+
+def test_refresh_without_cookie(client: TestClient):
+    response = client.post("/auth/refresh")
+    assert response.status_code == 401
+    assert response.json()["detail"] == "No refresh token found"
+
+
+def test_me_without_session(client: TestClient):
+    response = client.get("/auth/me")
+    assert response.status_code == 401
