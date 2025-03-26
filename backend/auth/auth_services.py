@@ -3,10 +3,10 @@
 
 from datetime import datetime
 from sqlalchemy.orm import Session
-from backend.auth.models import User, UserRole
+from backend.auth.auth_models import User, UserRole
 from backend.auth.auth_queries import get_user_by_email
 from passlib.context import CryptContext
-from backend.auth.models import UserStatus
+from backend.auth.auth_models import UserStatus
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -134,6 +134,32 @@ def get_or_create_user(
     if user:
         return user
     return create_user(db, email, password_hash, role)
+
+
+def update_user_password(db: Session, user_id: str, new_password: str) -> User:
+    """
+    Updates a user's password.
+
+    Args:
+        db (Session): SQLAlchemy session
+        user_id (str): ID of the user to update
+        new_password (str): New plaintext password
+
+    Returns:
+        User: The updated user object
+
+    Raises:
+        ValueError: If the user is not found
+    """
+    user = db.query(User).filter_by(id=user_id).first()
+    if not user:
+        raise ValueError("User not found")
+
+    user.password_hash = hash_password(new_password)
+    db.commit()
+    db.refresh(user)
+    return user
+
 
 # TODO: Implement password reset functionality, including generating and validating reset tokens.
 # TODO: Implement email verification functionality, including generating and validating verification tokens.

@@ -1,3 +1,5 @@
+# /backend/core/settings.py
+# Pydantic settings model for the FastAPI application.
 import os
 from dotenv import load_dotenv
 

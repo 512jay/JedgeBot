@@ -1,15 +1,16 @@
-# /backend/data/database/auth/auth_db.py
-# Handles the setup and interaction with the authentication database using SQLAlchemy.
+# /backend/data/database/db.py
+# Handles the setup and connection to the main PostgreSQL database used by all services.
+# It also provides a dependency for FastAPI routes to inject a database session.
 
 import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from backend.auth.models import AuthBase
+from backend.data.database.base import Base  # Shared base for all models
 
 # -----------------------------------------------------------------------------
-# Load environment variables from .env.auth
+# Load environment variables
 # -----------------------------------------------------------------------------
 load_dotenv()
 
@@ -29,21 +30,21 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 # -----------------------------------------------------------------------------
-# Function to initialize the database (create all tables)
+# Initialize all tables if run directly (Dev only)
 # -----------------------------------------------------------------------------
 def init_db():
-    """Create all tables defined in the authentication database schema."""
-    AuthBase.metadata.create_all(bind=engine)
+    """Create all tables registered with Base metadata."""
+    Base.metadata.create_all(bind=engine)
 
 
 # -----------------------------------------------------------------------------
-# Dependency function for FastAPI routes to get a DB session
+# Dependency for FastAPI routes
 # -----------------------------------------------------------------------------
 def get_db():
     """
-    Yields a new database session to FastAPI route handlers.
+    Dependency injection for database session.
 
-    Ensures that the session is closed after the request is completed.
+    Yields a session and ensures it's closed afterward.
     """
     db = SessionLocal()
     try:
@@ -53,8 +54,11 @@ def get_db():
 
 
 # -----------------------------------------------------------------------------
-# CLI Utility: Initialize the database if run as a script
+# CLI: Run `python db.py` to create all tables
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
     init_db()
-    print("Authentication database setup complete.")
+    print("Database setup complete.")
+
+# /backend/data/database/db.py
+# Compare this snippet from backend/data/database/models.py:

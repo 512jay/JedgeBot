@@ -10,28 +10,38 @@ export const refreshToken = async () => {
       credentials: 'include',
     });
 
-    const data = await response.json();
-    return data;
+    if (!response.ok) {
+      console.warn("Refresh failed with status:", response.status);
+      return null;
+    }
+
+    try {
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.warn("Refresh response not JSON.");
+      return null;
+    }
   } catch (error) {
     console.error("Error refreshing token:", error);
-    throw error;
+    return null;
   }
 };
 
 export const fetchWithRefresh = async (input, init = {}) => {
   try {
-    let response = await fetch(input, init);
+    let response = await fetch(input, { ...init, credentials: "include" });
 
     if (response.status === 401) {
       const refreshed = await refreshToken();
       if (refreshed) {
-        response = await fetch(input, init);
+        response = await fetch(input, { ...init, credentials: "include" });
       }
     }
 
     return response;
   } catch (err) {
-    console.error('Fetch with refresh failed:', err);
+    console.error("Fetch with refresh failed:", err);
     throw err;
   }
 };

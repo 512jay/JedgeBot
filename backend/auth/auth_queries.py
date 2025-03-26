@@ -3,7 +3,8 @@
 
 from datetime import datetime
 from sqlalchemy.orm import Session
-from backend.auth.models import User, UserRole
+from sqlalchemy import func
+from backend.auth.auth_models import User, UserRole
 
 
 def get_user_by_email(db: Session, email: str) -> User | None:
@@ -17,7 +18,7 @@ def get_user_by_email(db: Session, email: str) -> User | None:
     Returns:
         User or None: The user object if found, else None
     """
-    return db.query(User).filter(User.email == email).first()
+    return db.query(User).filter(func.lower(User.email) == email.lower()).first()
 
 
 def get_user_by_id(db: Session, user_id: str) -> User | None:

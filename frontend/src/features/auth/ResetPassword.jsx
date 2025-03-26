@@ -1,3 +1,4 @@
+// /frontend/src/features/auth/ResetPassword.jsx
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { MDBInput, MDBBtn, MDBTypography } from "mdb-react-ui-kit";
@@ -15,8 +16,8 @@ function ResetPassword() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [tokenValid, setTokenValid] = useState(false);
 
-  // Toast state
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastColor, setToastColor] = useState("danger");
@@ -41,6 +42,8 @@ function ResetPassword() {
         if (!res.ok) {
           const data = await res.json();
           setError(data.detail || "Token is invalid or expired.");
+        } else {
+          setTokenValid(true);
         }
       } catch (err) {
         console.error("Token validation error:", err);
@@ -138,12 +141,9 @@ function ResetPassword() {
               <p className="text-success text-center">
                 ✅ Password reset. Redirecting to login...
               </p>
-            ) : (
+            ) : tokenValid ? (
               <>
-                {error && (
-                  <p className="text-danger text-center mb-3">{error}</p>
-                )}
-
+                {error && <p className="text-danger text-center mb-3">{error}</p>}
                 <form onSubmit={handleSubmit} className="w-100 px-3">
                   <label htmlFor="password" className="form-label">
                     New Password
@@ -175,6 +175,12 @@ function ResetPassword() {
                     Reset Password
                   </MDBBtn>
                 </form>
+              </>
+            ) : (
+              <>
+                <p className="text-danger text-center">
+                  This password reset link is invalid or expired.
+                </p>
               </>
             )}
 

@@ -37,6 +37,7 @@ JedgeBot/
 │   │   │   │   ├── schemas.py
 │   │   │   │   ├── service.py
 │   │   │   │   ├── tests
+│   │   │   │   │   ├── test_password_reset_service.py
 │   │   │   ├── tests
 │   │   │   │   ├── test_dependencies.py
 │   │   ├── broker
@@ -80,6 +81,7 @@ JedgeBot/
 │   │   │   ├── logging.py
 │   │   │   ├── security_utils.py
 │   ├── check_db_env.py
+│   ├── conftest.py
 │   ├── coverage
 │   │   ├── base.css
 │   │   ├── block-navigation.js
@@ -304,12 +306,13 @@ JedgeBot/
 │   │   ├── start_market_data_stream.py
 │   │   ├── validate_output.py
 │   ├── tests
-│   │   ├── conftest.py
+│   │   ├── __init__.py
 │   │   ├── integration
 │   │   │   ├── __init__.py
 │   │   │   ├── auth
 │   │   │   │   ├── __init__.py
 │   │   ├── utils
+│   │   │   ├── __init__.py
 │   │   │   ├── user_factory.py
 │   ├── vitest.config.js
 │   ├── x_generate_structure.py

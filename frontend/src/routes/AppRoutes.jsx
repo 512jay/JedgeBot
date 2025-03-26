@@ -1,4 +1,4 @@
-// /frontend/src/AppRoutes.jsx
+// /frontend/src/routes/AppRoutes.jsx
 import {
     BrowserRouter,
     Navigate,

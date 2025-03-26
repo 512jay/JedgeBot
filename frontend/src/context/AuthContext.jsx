@@ -13,37 +13,45 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        setLoading(true);
-        const response = await fetchWithRefresh(`${BASE_URL}/auth/me`, {
-          method: "GET",
-          credentials: "include",
-        });
+  const fetchUser = async () => {
+    const hasSession = document.cookie.includes("has_session=1");
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch user");
-        }
+    if (!hasSession) {
+      setLoading(false); // Skip fetching entirely for first-time users
+      return;
+    }
 
-        let data = null;
-        try {
-          data = await response.json();
-          setUser(data);
-        } catch (parseErr) {
-          console.warn("Failed to parse JSON response from /auth/me");
-          setUser(null);
-        }
-      } catch (err) {
-        console.error("Failed to fetch user in AuthContext", err);
-        setUser(null);
-        setError(err.message);
-      } finally {
-        setLoading(false);
+    try {
+      setLoading(true);
+      const response = await fetchWithRefresh(`${BASE_URL}/auth/me`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch user");
       }
-    };
 
-    fetchUser();
-  }, []);
+      let data = null;
+      try {
+        data = await response.json();
+        setUser(data);
+      } catch (parseErr) {
+        console.warn("Failed to parse JSON response from /auth/me");
+        setUser(null);
+      }
+    } catch (err) {
+      console.error("Failed to fetch user in AuthContext", err);
+      setUser(null);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchUser();
+}, []);
+
 
 
   const logout = async () => {

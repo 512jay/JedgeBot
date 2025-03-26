@@ -1,18 +1,13 @@
-# /backend/auth/models.py
+# /backend/auth/auth_models.py
 # Models for the authentication database using SQLAlchemy 2.0-style typing and PostgreSQL UUIDs.
 
 from sqlalchemy import String, TIMESTAMP, text, Enum as PgEnum
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 from datetime import datetime
 import uuid
 import enum
-
-
-class AuthBase(DeclarativeBase):
-    """Declarative base for the auth database."""
-
-    pass
+from backend.data.database.base import Base
 
 
 # -------------------------------------------------------------------
@@ -36,7 +31,7 @@ class UserStatus(enum.Enum):
 # -------------------------------------------------------------------
 # Table: users
 # -------------------------------------------------------------------
-class User(AuthBase):
+class User(Base):
     __tablename__ = "users"
 
     id: Mapped[uuid.UUID] = mapped_column(
@@ -83,3 +78,5 @@ class User(AuthBase):
     last_login: Mapped[datetime] = mapped_column(
         TIMESTAMP, nullable=True, comment="Last login timestamp"
     )
+
+    profile = relationship("UserProfile", back_populates="user", uselist=False)
