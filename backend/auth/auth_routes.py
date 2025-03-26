@@ -11,7 +11,7 @@ from fastapi.security import OAuth2PasswordBearer
 from slowapi import Limiter
 from slowapi.util import get_remote_address
 from passlib.context import CryptContext
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 
@@ -45,10 +45,10 @@ router = APIRouter()
 # Schemas
 # -----------------------------------------------------------------------------
 class RegisterRequest(BaseModel):
-    """Schema for user registration request."""
-
     email: EmailStr
-    password: str
+    password: str = Field(
+        min_length=6, description="Password must be at least 6 characters"
+    )
     role: UserRole
     username: Optional[str]
 

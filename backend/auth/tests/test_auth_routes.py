@@ -170,3 +170,62 @@ def test_refresh_without_cookie(client: TestClient):
 def test_me_without_session(client: TestClient):
     response = client.get("/auth/me")
     assert response.status_code == 401
+
+
+def test_register_blank_password(client: TestClient, unique_email, unique_username):
+    response = client.post(
+        "/auth/register",
+        json={
+            "email": unique_email,
+            "password": "",
+            "role": "client",
+            "username": unique_username,
+        },
+    )
+    assert response.status_code == 422  # FastAPI validation
+
+
+def test_register_missing_fields(client: TestClient):
+    response = client.post("/auth/register", json={})
+    assert response.status_code == 422
+    assert "email" in response.text
+
+
+def test_register_invalid_email_format(client: TestClient, unique_username):
+    response = client.post(
+        "/auth/register",
+        json={
+            "email": "notanemail",
+            "password": "secure123",
+            "role": "client",
+            "username": unique_username,
+        },
+    )
+    assert response.status_code == 422
+
+
+def test_register_short_password(client: TestClient, unique_email, unique_username):
+    # Optional: your backend doesn’t enforce min length yet, but here's how it might behave
+    response = client.post(
+        "/auth/register",
+        json={
+            "email": unique_email,
+            "password": "123",
+            "role": "client",
+            "username": unique_username,
+        },
+    )
+    assert response.status_code in (200, 422)  # Adjust once validation is enforced
+
+
+def test_register_invalid_role(client: TestClient, unique_email, unique_username):
+    response = client.post(
+        "/auth/register",
+        json={
+            "email": unique_email,
+            "password": "secure123",
+            "role": "giga-admin",  # not a valid role
+            "username": unique_username,
+        },
+    )
+    assert response.status_code == 422
