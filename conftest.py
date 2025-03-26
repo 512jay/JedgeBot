@@ -21,6 +21,11 @@ def client() -> TestClient:
     return TestClient(app)
 
 
+@pytest.fixture
+def unique_username():
+    return f"tester_{uuid.uuid4().hex[:8]}"
+
+
 @pytest.fixture(scope="function")
 def get_db_session() -> Generator[Session, None, None]:
     """Yields a real SQLAlchemy DB session for use in tests."""
