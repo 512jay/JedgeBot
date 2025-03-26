@@ -1,13 +1,16 @@
 # /backend/auth/schemas.py
 # Pydantic models for user input/output validation
 
-from pydantic import BaseModel, EmailStr, ConfigDict
+from pydantic import BaseModel, EmailStr, ConfigDict, Field
 from enum import Enum
 from uuid import UUID
 from datetime import datetime
 from typing import Optional
 
 
+# -------------------------------------------------------------------
+# Enums
+# -------------------------------------------------------------------
 class UserRole(str, Enum):
     free = "free"
     client = "client"
@@ -23,6 +26,26 @@ class UserStatus(str, Enum):
     deactivated = "deactivated"
 
 
+# -------------------------------------------------------------------
+# Request Schemas
+# -------------------------------------------------------------------
+class RegisterRequest(BaseModel):
+    email: EmailStr
+    password: str = Field(
+        min_length=6, description="Password must be at least 6 characters"
+    )
+    role: UserRole
+    username: Optional[str]
+
+
+class LoginRequest(BaseModel):
+    email: str
+    password: str
+
+
+# -------------------------------------------------------------------
+# Response Schemas
+# -------------------------------------------------------------------
 class UserRead(BaseModel):
     id: UUID
     email: EmailStr
@@ -31,4 +54,4 @@ class UserRead(BaseModel):
     created_at: datetime
     last_login: Optional[datetime]
 
-    model_config = ConfigDict(from_attributes=True)  # Replaces orm_mode
+    model_config = ConfigDict(from_attributes=True)

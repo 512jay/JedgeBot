@@ -11,7 +11,6 @@ from fastapi.security import OAuth2PasswordBearer
 from slowapi import Limiter
 from slowapi.util import get_remote_address
 from passlib.context import CryptContext
-from pydantic import BaseModel, EmailStr, Field
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 
@@ -20,7 +19,7 @@ from backend.auth.auth_queries import get_user_by_email
 from backend.auth.auth_services import create_user, hash_password, verify_password
 from backend.auth.auth_models import UserRole
 from backend.core.rate_limit import limiter
-from backend.auth.auth_schemas import UserRead
+from backend.auth.auth_schemas import UserRead, RegisterRequest, LoginRequest
 from backend.user.user_models import UserProfile
 from backend.auth.dependencies import get_current_user
 
@@ -41,23 +40,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 router = APIRouter()
 
 
-# -----------------------------------------------------------------------------
-# Schemas
-# -----------------------------------------------------------------------------
-class RegisterRequest(BaseModel):
-    email: EmailStr
-    password: str = Field(
-        min_length=6, description="Password must be at least 6 characters"
-    )
-    role: UserRole
-    username: Optional[str]
 
-
-class LoginRequest(BaseModel):
-    """Schema for user login request."""
-
-    email: str
-    password: str
 
 
 # -----------------------------------------------------------------------------
