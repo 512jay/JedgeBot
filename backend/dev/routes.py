@@ -8,7 +8,7 @@ from backend.core.settings import settings
 from backend.data.database.db import get_db
 from backend.auth.auth_models import User
 from backend.auth.auth_services import get_user_by_email, delete_user
-from backend.maintenance.cleanup import cleanup_password_reset_tokens
+from backend.dev.cleanup import cleanup_password_reset_tokens
 
 router = APIRouter()
 

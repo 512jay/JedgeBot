@@ -20,7 +20,6 @@ JedgeBot/
 │   │   ├── api
 │   │   │   ├── __init__.py
 │   │   │   ├── clients_routes.py
-│   │   │   ├── dev_routes.py
 │   │   │   ├── http_utils.py
 │   │   ├── auth
 │   │   │   ├── __init__.py
@@ -71,10 +70,11 @@ JedgeBot/
 │   │   │   │   ├── base.py
 │   │   │   │   ├── db.py
 │   │   │   │   ├── models.py
-│   │   ├── main.py
-│   │   ├── maintenance
+│   │   ├── dev
 │   │   │   ├── __init__.py
 │   │   │   ├── cleanup.py
+│   │   │   ├── routes.py
+│   │   ├── main.py
 │   │   ├── user
 │   │   │   ├── __init__.py
 │   │   │   ├── user_models.py
@@ -293,6 +293,7 @@ JedgeBot/
 │   ├── pyproject.toml
 │   ├── python
 │   ├── run.py
+│   ├── run_maintenance.py
 │   ├── scripts
 │   │   ├── __init__.py
 │   │   ├── archive

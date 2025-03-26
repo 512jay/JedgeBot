@@ -22,9 +22,9 @@ if settings.ENVIRONMENT == "production" and settings.TESTING:
 app = FastAPI()
 
 if settings.TESTING:
-    from backend.api import dev_routes
+    from backend.dev import routes
 
-    app.include_router(dev_routes.router)    
+    app.include_router(routes.router)    
 # Only enable rate limiting if not in test mode
 if not settings.TESTING:
     app.state.limiter = limiter
