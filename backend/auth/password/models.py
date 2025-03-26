@@ -1,3 +1,5 @@
+# /backend/auth/password/models.py
+
 from sqlalchemy import Column, DateTime, Boolean, String, ForeignKey, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from backend.data.database.base import Base

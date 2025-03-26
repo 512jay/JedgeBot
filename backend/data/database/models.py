@@ -3,7 +3,7 @@
 # Import all models that use the shared Base
 from backend.auth.auth_models import User
 from backend.user.user_models import UserProfile
-from backend.auth.password_reset.models import PasswordResetToken
+from backend.auth.password.models import PasswordResetToken
 
 from backend.data.database.base import Base
 

@@ -30,13 +30,14 @@ JedgeBot/
 │   │   │   ├── auth_schemas.py
 │   │   │   ├── auth_services.py
 │   │   │   ├── dependencies.py
-│   │   │   ├── password_reset
+│   │   │   ├── password
 │   │   │   │   ├── __init__.py
 │   │   │   │   ├── models.py
 │   │   │   │   ├── routes.py
 │   │   │   │   ├── schemas.py
 │   │   │   │   ├── service.py
 │   │   │   │   ├── tests
+│   │   │   │   │   ├── __init__.py
 │   │   │   │   │   ├── test_password_reset_service.py
 │   │   │   ├── tests
 │   │   │   │   ├── test_dependencies.py

@@ -1,4 +1,4 @@
-# /backend/auth/password_reset/schemas.py
+# /backend/auth/password/schemas.py
 # Pydantic schemas for password reset endpoints
 
 from pydantic import BaseModel, EmailStr, Field

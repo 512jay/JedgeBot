@@ -10,7 +10,7 @@ from backend.core.settings import settings
 from backend.core.rate_limit import limiter
 from backend.auth.auth_routes import router as auth_router
 from backend.user.user_routes import router as user_router
-from backend.auth.password_reset.routes import router as password_reset_router
+from backend.auth.password.routes import router as password_reset_router
 from backend.core.settings import settings
 
 

@@ -1,4 +1,4 @@
-# /backend/auth/password_reset/service.py
+# /backend/auth/password/service.py
 # Logic for creating and validating password reset tokens.
 
 
@@ -6,7 +6,7 @@ import secrets
 from datetime import datetime, timedelta
 from typing import Callable, Optional
 from sqlalchemy.orm import Session
-from backend.auth.password_reset.models import PasswordResetToken
+from backend.auth.password.models import PasswordResetToken
 from backend.auth.auth_models import User
 from datetime import timezone
 

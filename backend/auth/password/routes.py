@@ -1,14 +1,14 @@
-# /backend/auth/password_reset/routes.py
+# /backend/auth/password/routes.py
 # FastAPI routes for password reset: request, validate, and submit.
 
 import traceback
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from backend.auth.password_reset.schemas import (
+from backend.auth.password.schemas import (
     ForgotPasswordRequest,
     ResetPasswordRequest,
 )
-from backend.auth.password_reset.service import (
+from backend.auth.password.service import (
     create_password_reset_token,
     validate_token,
     mark_token_as_used,
