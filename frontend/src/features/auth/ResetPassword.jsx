@@ -10,6 +10,7 @@ function ResetPassword() {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   const navigate = useNavigate();
+  const handleSuccessFn = props?.handleSuccess || ((cb) => setTimeout(cb, 3000));
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -18,43 +19,35 @@ function ResetPassword() {
   const [loading, setLoading] = useState(true);
   const [tokenValid, setTokenValid] = useState(false);
 
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
-  const [toastColor, setToastColor] = useState("danger");
+      
+            
+useEffect(() => {
+  if (!token) {
+    setError("Reset token missing.");
+    setLoading(false);
+    return;
+  }
 
-  const triggerToast = (message, color = "danger", duration = 4000) => {
-    setToastMessage(message);
-    setToastColor(color);
-    setShowToast(true);
-    setTimeout(() => setShowToast(false), duration);
+  const checkToken = async () => {
+    try {
+      const res = await fetch(`${API_URL}/auth/validate-token?token=${token}`);
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.detail || "Token is invalid or expired.");
+      } else {
+        setTokenValid(true);
+      }
+    } catch (err) {
+      console.error("Token validation error:", err);
+      setError("Could not validate token.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  useEffect(() => {
-    if (!token) {
-      setError("Reset token missing.");
-      setLoading(false);
-      return;
-    }
+  checkToken();
+}, [token]);
 
-    const checkToken = async () => {
-      try {
-        const res = await fetch(`${API_URL}/auth/validate-token?token=${token}`);
-        if (!res.ok) {
-          const data = await res.json();
-          setError(data.detail || "Token is invalid or expired.");
-        } else {
-          setTokenValid(true);
-        }
-      } catch (err) {
-        console.error("Token validation error:", err);
-        setError("Could not validate token.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    checkToken();
-  }, [token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -76,7 +69,7 @@ function ResetPassword() {
 
       if (response.ok) {
         setSuccess(true);
-        setTimeout(() => navigate("/login"), 3000);
+        handleSuccessFn(() => navigate("/login"));
       } else {
         setError(data.detail || "Reset failed.");
       }
@@ -84,8 +77,7 @@ function ResetPassword() {
       console.error("Reset error:", err);
       setError("Something went wrong.");
     }
-  };
-
+  
   return (
     <div
       className="bg-mutedRose d-flex align-items-center justify-content-center"
@@ -117,19 +109,8 @@ function ResetPassword() {
             </MDBTypography>
 
             {/* Toast */}
-            {showToast && (
-              <div
-                className={`toast align-items-center text-white bg-${toastColor} border-0 show mb-4`}
-                role="alert"
-                style={{ zIndex: 9999, minWidth: "250px" }}
-              >
-                <div className="d-flex justify-content-between align-items-center p-2 px-3">
-                  <div>{toastMessage}</div>
-                  <button
-                    type="button"
-                    className="btn-close btn-close-white ms-3"
-                    aria-label="Close"
-                    onClick={() => setShowToast(false)}
+                        <ToastMessage showToast={!!error} setShowToast={() => setError(null)} message={error} color="danger" />
+
                   ></button>
                 </div>
               </div>
