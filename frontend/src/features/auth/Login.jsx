@@ -54,6 +54,22 @@ function Login() {
       }
   };
 
+  const handleResendVerification = async () => {
+    try {
+      const res = await fetch(`${API_URL}/auth/resend-verification`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await res.json();
+      setError(data.message || "Verification email resent.");
+    } catch (err) {
+      setError("Failed to resend verification email. Please try again.");
+    }
+  };
+
   return (
     <div
       className="bg-mutedRose d-flex align-items-center justify-content-center"
@@ -87,8 +103,22 @@ function Login() {
             </MDBTypography>
 
             {error && (
-              <p className="text-danger text-center w-100 mb-3">{error}</p>
+              <>
+                <p className="text-danger text-center w-100 mb-2">{error}</p>
+                {error.toLowerCase().includes("not been verified") && (
+                  <div className="text-center mb-3">
+                    <MDBBtn
+                      color="warning"
+                      size="sm"
+                      onClick={handleResendVerification}
+                    >
+                      Resend Verification Email
+                    </MDBBtn>
+                  </div>
+                )}
+              </>
             )}
+
 
             <form onSubmit={handleLogin} className="w-100 px-3">
               <label htmlFor="email" className="form-label">
@@ -144,5 +174,6 @@ function Login() {
     </div>
   );
 }
+
 
 export default Login;
