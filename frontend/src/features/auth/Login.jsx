@@ -21,16 +21,18 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [showResend, setShowResend] = useState(false); // 👈 added
   const navigate = useNavigate();
   const { setUser } = useAuth();
 
   const isVerificationError = (msg) =>
     typeof msg === "string" &&
-    msg.includes("Your email address has not been verified. Please check your inbox for the verification email.");
+    msg.toLowerCase().includes("email not verified");
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(null);
+    setShowResend(false);
     try {
       const response = await login(email, password);
       if (response.message === "Login successful") {
@@ -47,9 +49,8 @@ function Login() {
         "Login failed. Please try again.";
 
       if (isVerificationError(message)) {
-        setError(
-          "Your email address has not been verified. Please check your inbox for the verification email."
-        );
+        setError("Email not verified. Please check your email to verify your account.");
+        setShowResend(true);
       } else {
         setError(message);
       }
@@ -67,6 +68,7 @@ function Login() {
 
       const data = await res.json();
       setError(data.message || "Verification email resent.");
+      setShowResend(false); // hide button after send
     } catch {
       setError("Failed to resend verification email. Please try again.");
     }
@@ -83,7 +85,6 @@ function Login() {
 
       <div className="shadow-lg rounded-5 overflow-hidden bg-white" style={{ maxWidth: "960px", width: "100%" }}>
         <MDBRow className="g-0">
-          {/* Left image */}
           <MDBCol md="6" className="d-none d-md-block">
             <img
               src="/images/leftlogin.jpg"
@@ -93,33 +94,29 @@ function Login() {
             />
           </MDBCol>
 
-          {/* Right form */}
           <MDBCol md="6" className="d-flex flex-column justify-content-center align-items-center p-5">
             <MDBTypography tag="h4" className="mb-4">
               Sign into your account
             </MDBTypography>
 
-            {isVerificationError(error) ? (
-              <>
-                <p className="text-danger text-center w-100 mb-2" role="alert">
-                  {error}
-                </p>
-                <div className="text-center mb-3">
-                  <MDBBtn
-                    data-testid="resend-btn"
-                    color="warning"
-                    size="sm"
-                    onClick={handleResendVerification}
-                  >
-                    Resend Verification Email
-                  </MDBBtn>
-                </div>
-              </>
-            ) : error ? (
+            {error && (
               <p className="text-danger text-center w-100 mb-2" role="alert">
                 {error}
               </p>
-            ) : null}
+            )}
+
+            {showResend && (
+              <div className="text-center mb-3">
+                <MDBBtn
+                  data-testid="resend-btn"
+                  color="warning"
+                  size="sm"
+                  onClick={handleResendVerification}
+                >
+                  Resend Verification Email
+                </MDBBtn>
+              </div>
+            )}
 
             <form onSubmit={handleLogin} className="w-100 px-3" noValidate>
               <label htmlFor="email" className="form-label">Email Address</label>

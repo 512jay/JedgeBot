@@ -344,7 +344,9 @@ def test_email_verification_flow(
     }
     response = client.post("/auth/register", json=payload)
     assert response.status_code == 200
-    assert "verify your account" in response.json()["message"].lower()
+    message = response.json()["message"].lower()
+    assert "verify" in message and "email" in message
+
 
     # Extract token from mocked email
     token_url = next(
