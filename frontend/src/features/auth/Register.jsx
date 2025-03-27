@@ -5,7 +5,8 @@ import { MDBBtn, MDBInput, MDBTypography } from "mdb-react-ui-kit";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { register } from "./auth_api";
-import { MDBToast, MDBToastContainer } from "mdb-react-ui-kit";
+import ToastMessage from '../../components/ToastMessage';
+
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -60,18 +61,15 @@ useEffect(() => {
       className="bg-mutedRose d-flex align-items-center justify-content-center"
       style={{ minHeight: "100vh", width: "100vw" }}
     >
-      {toastMessage && (
-        <MDBToastContainer position="top-end" className="p-3">
-          <MDBToast show={showToast} onClose={() => setShowToast(false)}>
-            <div className="toast-header">
-              <strong className="me-auto">Welcome!</strong>
-            </div>
-            <div className="toast-body">{toastMessage}</div>
-          </MDBToast>
-        </MDBToastContainer>
-      )}
-
-
+      <ToastMessage
+        show={showToast}
+        message={toastMessage}
+        type="success"
+        onClose={() => {
+          setShowToast(false);
+          setToastMessage(null);
+        }}
+      />
       <Helmet>
         <title>Register | Fordis Ludus</title>
       </Helmet>

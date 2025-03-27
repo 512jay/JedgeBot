@@ -219,6 +219,7 @@ JedgeBot/
 │   │   │   ├── assets
 │   │   │   │   ├── react.svg
 │   │   │   ├── components
+│   │   │   │   ├── ToastMessage.jsx
 │   │   │   │   ├── layout
 │   │   │   │   │   ├── LoadingScreen.jsx
 │   │   │   │   │   ├── Sidebar.jsx
