@@ -10,8 +10,6 @@ beforeAll(() => {
   };
 });
 
-/// <reference types="vitest" />
-// /frontend/src/__tests__/Login.test.jsx
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
@@ -35,15 +33,14 @@ describe("Login Page", () => {
   });
 
   function renderWithRouter() {
-  return render(
-    <AuthProvider>
-      <BrowserRouter>
-        <Login />
-      </BrowserRouter>
-    </AuthProvider>
-  );
-}
-
+    return render(
+      <AuthProvider>
+        <BrowserRouter>
+          <Login />
+        </BrowserRouter>
+      </AuthProvider>
+    );
+  }
 
   test("renders email and password fields", () => {
     renderWithRouter();
@@ -65,7 +62,11 @@ describe("Login Page", () => {
   });
 
   test("calls login and navigates on success", async () => {
-    vi.spyOn(authApi, "login").mockResolvedValue({ message: "Login successful" });
+    const mockUser = { email: "test@example.com", role: "client" };
+    vi.spyOn(authApi, "login").mockResolvedValue({
+      message: "Login successful",
+      user: mockUser,
+    });
 
     renderWithRouter();
 
@@ -78,7 +79,9 @@ describe("Login Page", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /login/i }));
 
-    await waitFor(() => expect(authApi.login).toHaveBeenCalledWith("test@example.com", "password123"));
+    await waitFor(() =>
+      expect(authApi.login).toHaveBeenCalledWith("test@example.com", "password123")
+    );
     expect(mockedNavigate).toHaveBeenCalledWith("/dashboard");
   });
 
@@ -117,6 +120,68 @@ describe("Login Page", () => {
 
     await waitFor(() =>
       expect(screen.getByText(/login failed/i)).toBeInTheDocument()
+    );
+  });
+
+  test("shows error when email is not verified", async () => {
+    vi.spyOn(authApi, "login").mockRejectedValueOnce({
+      detail: "Email not verified. Please check your email to verify your account.",
+    });
+
+    renderWithRouter();
+
+    fireEvent.change(screen.getByLabelText(/email address/i), {
+      target: { value: "unverified@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText(/password/i), {
+      target: { value: "password123" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: /login/i }));
+
+    await waitFor(() =>
+      expect(
+        screen.getByText(/your email address has not been verified/i)
+      ).toBeInTheDocument()
+    );
+  });
+
+  test("shows resend button and sends request on click", async () => {
+    vi.spyOn(authApi, "login").mockRejectedValueOnce({
+      detail: "Email not verified. Please check your email to verify your account.",
+    });
+
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          message: "Verification email has been resent. Please check your inbox.",
+        }),
+    });
+
+    renderWithRouter();
+
+    fireEvent.change(screen.getByLabelText(/email address/i), {
+      target: { value: "unverified@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText(/password/i), {
+      target: { value: "password123" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: /login/i }));
+
+    await waitFor(() =>
+      expect(
+        screen.getByRole("button", { name: /resend verification email/i })
+      ).toBeInTheDocument()
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: /resend verification email/i }));
+
+    await waitFor(() =>
+      expect(
+        screen.getByText(/verification email has been resent/i)
+      ).toBeInTheDocument()
     );
   });
 });
