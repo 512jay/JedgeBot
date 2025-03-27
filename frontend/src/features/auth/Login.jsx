@@ -1,20 +1,21 @@
 // /frontend/src/features/auth/Login.jsx
+// Login form for user authentication
 
 import { Helmet } from "react-helmet-async";
 import React, { useState } from "react";
 import {
-  MDBContainer,
-  MDBRow,
   MDBCol,
+  MDBRow,
   MDBInput,
   MDBBtn,
   MDBTypography
 } from "mdb-react-ui-kit";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { login } from "@auth/auth_api";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const RESEND_ENDPOINT = `${API_URL}/auth/resend-verification`;
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -22,6 +23,10 @@ function Login() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { setUser } = useAuth();
+
+  const isVerificationError = (msg) =>
+    typeof msg === "string" &&
+    msg.toLowerCase().includes("email not verified");
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -34,29 +39,26 @@ function Login() {
       } else {
         setError("Invalid credentials. Please try again.");
       }
-      } catch (_err) {
-        const message =
-          _err?.detail ||
-          _err?.response?.data?.detail ||
-          _err?.message ||
-          "Login failed. Please try again.";
+    } catch (err) {
+      const message =
+        err?.detail ||
+        err?.response?.data?.detail ||
+        err?.message ||
+        "Login failed. Please try again.";
 
-        if (
-          typeof message === "string" &&
-          message.toLowerCase().includes("email not verified")
-        ) {
-          setError(
-            "Your email address has not been verified. Please check your inbox for the verification email."
-          );
-        } else {
-          setError(message);
-        }
+      if (isVerificationError(message)) {
+        setError(
+          "Your email address has not been verified. Please check your inbox for the verification email."
+        );
+      } else {
+        setError(message);
       }
+    }
   };
 
   const handleResendVerification = async () => {
     try {
-      const res = await fetch(`${API_URL}/auth/resend-verification`, {
+      const res = await fetch(RESEND_ENDPOINT, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -78,12 +80,10 @@ function Login() {
       <Helmet>
         <title>Login | Fordis Ludus</title>
       </Helmet>
-      <div
-        className="shadow-lg rounded-5 overflow-hidden bg-white"
-        style={{ maxWidth: "960px", width: "100%" }}
-      >
+
+      <div className="shadow-lg rounded-5 overflow-hidden bg-white" style={{ maxWidth: "960px", width: "100%" }}>
         <MDBRow className="g-0">
-          {/* Left side image */}
+          {/* Left image */}
           <MDBCol md="6" className="d-none d-md-block">
             <img
               src="/images/leftlogin.jpg"
@@ -93,25 +93,20 @@ function Login() {
             />
           </MDBCol>
 
-          {/* Right side form */}
-          <MDBCol
-            md="6"
-            className="d-flex flex-column justify-content-center align-items-center p-5"
-          >
+          {/* Right form */}
+          <MDBCol md="6" className="d-flex flex-column justify-content-center align-items-center p-5">
             <MDBTypography tag="h4" className="mb-4">
               Sign into your account
             </MDBTypography>
 
             {error && (
               <>
-                <p className="text-danger text-center w-100 mb-2">{error}</p>
-                {error.toLowerCase().includes("not been verified") && (
+                <p className="text-danger text-center w-100 mb-2" role="alert">
+                  {error}
+                </p>
+                {isVerificationError(error) && (
                   <div className="text-center mb-3">
-                    <MDBBtn
-                      color="warning"
-                      size="sm"
-                      onClick={handleResendVerification}
-                    >
+                    <MDBBtn color="warning" size="sm" onClick={handleResendVerification}>
                       Resend Verification Email
                     </MDBBtn>
                   </div>
@@ -119,54 +114,43 @@ function Login() {
               </>
             )}
 
-
-            <form onSubmit={handleLogin} className="w-100 px-3">
-              <label htmlFor="email" className="form-label">
-                Email Address
-              </label>
+            <form onSubmit={handleLogin} className="w-100 px-3" noValidate>
+              <label htmlFor="email" className="form-label">Email Address</label>
               <MDBInput
                 id="email"
                 type="email"
                 required
-                value={email}
                 autoComplete="email"
-                className="mb-3"
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                className="mb-3"
               />
 
-              <label htmlFor="password" className="form-label">
-                Password
-              </label>
+              <label htmlFor="password" className="form-label">Password</label>
               <MDBInput
                 id="password"
                 type="password"
                 required
-                value={password}
                 autoComplete="current-password"
-                className="mb-2"
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                className="mb-2"
               />
 
               <div className="text-end mb-3">
-                <a
-                  href="/forgot-password"
-                  className="text-muted"
-                  style={{ fontSize: "0.9rem" }}
-                >
+                <Link to="/forgot-password" className="text-muted" style={{ fontSize: "0.9rem" }}>
                   Forgot your password?
-                </a>
+                </Link>
               </div>
 
-              <MDBBtn className="w-100" type="submit">
-                LOGIN
-              </MDBBtn>
+              <MDBBtn type="submit" className="w-100">LOGIN</MDBBtn>
             </form>
 
             <p className="mt-4 text-center">
-              Don't have an account?{" "}
-              <a href="/register" className="text-primary">
+              Don’t have an account?{" "}
+              <Link to="/register" className="text-primary">
                 Register here
-              </a>
+              </Link>
             </p>
           </MDBCol>
         </MDBRow>
@@ -174,6 +158,5 @@ function Login() {
     </div>
   );
 }
-
 
 export default Login;

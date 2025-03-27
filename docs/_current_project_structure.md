@@ -264,6 +264,7 @@ JedgeBot/
 │   │   │   │   │   ├── VerifyEmail.jsx
 │   │   │   │   │   ├── __tests__
 │   │   │   │   │   │   ├── ForgotPassword.test.jsx
+│   │   │   │   │   │   ├── Login.test.jsx
 │   │   │   │   │   │   ├── auth_api.test.js
 │   │   │   │   │   ├── auth_api.js
 │   │   │   │   ├── clients
