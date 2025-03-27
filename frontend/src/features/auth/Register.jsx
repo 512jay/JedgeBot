@@ -23,16 +23,11 @@ useEffect(() => {
   if (showToast) {
     const timer = setTimeout(() => {
       setShowToast(false);
-      setToastMessage(null);
-      navigate("/login"); // Move navigation here
-    }, 3000);
+    }, 30000); // Keep toast visible for 30s
     return () => clearTimeout(timer);
   }
-}, [showToast, navigate]); // <-- include navigate as a dependency
+}, [showToast]);
 
-
-
-  
 
   const handleRegister = async (event) => {
     event.preventDefault();
@@ -45,10 +40,8 @@ useEffect(() => {
       const response = await register({ email, password, role, username });
       setToastMessage(response?.message || "Registration successful! Please verify your account by email.");
       setShowToast(true);
-      setTimeout(() => {
-        setShowToast(false);
-        navigate("/login");
-      }, 3000);
+      // Let user decide when to go to login
+
 
     } catch (err) {
       console.error("Registration error:", err);
@@ -94,7 +87,12 @@ useEffect(() => {
               Register
             </MDBTypography>
 
-            {error && <p className="text-danger text-center w-100 mb-3">{error}</p>}
+            {!error && showToast && (
+              <div className="alert alert-success text-center w-100 mb-3" role="alert">
+                {toastMessage}
+              </div>
+            )}
+
 
             <form onSubmit={handleRegister} className="w-100 px-3">
               <label htmlFor="role" className="form-label">Select Role</label>
@@ -158,12 +156,12 @@ useEffect(() => {
               </MDBBtn>
             </form>
 
-            <p className="text-center mt-4">
-              Already have an account?{" "}
-              <Link to="/login" className="text-primary">
-                Login
-              </Link>
-            </p>
+            {showToast && (
+              <MDBBtn className="mt-3" onClick={() => navigate("/login")}>
+                Go to Login
+              </MDBBtn>
+            )}
+
           </div>
         </div>
       </div>
