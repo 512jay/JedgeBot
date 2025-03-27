@@ -1,9 +1,11 @@
 // /frontend/src/__tests__/Login.test.jsx
 /// <reference types="vitest" />
+/* eslint-env vitest */
+
 
 beforeAll(() => {
   global.IntersectionObserver = class {
-    constructor(callback) {}
+    constructor() {}
     observe() {}
     unobserve() {}
     disconnect() {}

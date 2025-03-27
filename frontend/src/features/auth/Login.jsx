@@ -34,11 +34,11 @@ function Login() {
       } else {
         setError("Invalid credentials. Please try again.");
       }
-      } catch (err) {
+      } catch (_err) {
         const message =
-          err?.detail ||
-          err?.response?.data?.detail ||
-          err?.message ||
+          _err?.detail ||
+          _err?.response?.data?.detail ||
+          _err?.message ||
           "Login failed. Please try again.";
 
         if (
@@ -65,7 +65,7 @@ function Login() {
 
       const data = await res.json();
       setError(data.message || "Verification email resent.");
-    } catch (err) {
+    } catch {
       setError("Failed to resend verification email. Please try again.");
     }
   };
