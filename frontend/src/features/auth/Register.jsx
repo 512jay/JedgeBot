@@ -156,7 +156,7 @@ export default function Register(props) {
               </MDBBtn>
             </form>
 
-            <MDBBtn className="mt-3" onClick={() => navigate("/login")} data-testid="go-login-btn">
+            <MDBBtn className="mt-3" onClick={() => navigateFn("/login")} data-testid="go-login-btn">
               Go to Login
             </MDBBtn>
 
