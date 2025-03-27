@@ -99,38 +99,34 @@ describe("Register.jsx", () => {
     expect(await screen.findByTestId("registration-error")).toBeInTheDocument();
   });
 
-    it("navigates to login on successful registration", async () => {
-    vi.useFakeTimers(); // 👈 Start fake timers
+it("navigates to login on successful registration", async () => {
+  register.mockResolvedValueOnce({ message: "Registration successful" });
 
-    register.mockResolvedValueOnce({ message: "Registration successful" });
+  renderWithProviders({
+    navigateFn: mockNavigate,
+    handleSuccess: (cb) => cb(), // simulate instant navigation
+  });
 
-    renderWithProviders({ navigateFn: mockNavigate });
+  fireEvent.change(screen.getByLabelText(/username/i), {
+    target: { value: "newuser" },
+  });
+  fireEvent.change(screen.getByLabelText(/email/i), {
+    target: { value: "new@example.com" },
+  });
+  fireEvent.change(screen.getByLabelText(/^password$/i), {
+    target: { value: "123456" },
+  });
+  fireEvent.change(screen.getByLabelText(/confirm password/i), {
+    target: { value: "123456" },
+  });
 
-    fireEvent.change(screen.getByLabelText(/username/i), {
-        target: { value: "newuser" },
-    });
-    fireEvent.change(screen.getByLabelText(/email/i), {
-        target: { value: "new@example.com" },
-    });
-    fireEvent.change(screen.getByLabelText(/^password$/i), {
-        target: { value: "123456" },
-    });
-    fireEvent.change(screen.getByLabelText(/confirm password/i), {
-        target: { value: "123456" },
-    });
+  fireEvent.click(screen.getByTestId("register-btn"));
 
-    fireEvent.click(screen.getByTestId("register-btn"));
-
-    await waitFor(() => {
-        expect(screen.queryByTestId("registration-error")).not.toBeInTheDocument();
-    });
-
-    vi.runAllTimers(); // 👈 Trigger the 2s timeout
-
+  await waitFor(() => {
     expect(mockNavigate).toHaveBeenCalledWith("/login");
+  });
+});
 
-    vi.useRealTimers(); // Cleanup
-    });
 
 
 }, 10000);

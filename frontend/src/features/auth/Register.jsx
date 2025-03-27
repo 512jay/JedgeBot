@@ -30,6 +30,11 @@ export default function Register(props) {
     usernameRef.current?.focus();
   }, []);
 
+  function handleSuccess(navigateCallback) {
+    setTimeout(navigateCallback, 2000);
+  }
+
+
   const handleRegister = async (e) => {
     e.preventDefault();
     setError(null);
@@ -49,7 +54,7 @@ export default function Register(props) {
       if (result?.message === "Registration successful") {
         setToastMessage("Registration successful. Please verify your email.");
         setShowToast(true);
-        setTimeout(() => navigateFn("/login"), 2000);
+        handleSuccess(() => navigateFn("/login"));
       } else {
         setError("Something went wrong. Please try again.");
       }
