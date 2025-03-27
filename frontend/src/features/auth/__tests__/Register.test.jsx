@@ -26,11 +26,11 @@ vi.mock("react-router-dom", async (importOriginal) => {
 
 import { register } from "@auth/auth_api";
 
-function renderWithProviders() {
+function renderWithProviders(customProps = {}) {
   return render(
     <HelmetProvider>
       <BrowserRouter>
-        <Register />
+        <Register {...customProps} />
       </BrowserRouter>
     </HelmetProvider>
   );
@@ -42,7 +42,7 @@ describe("Register.jsx", () => {
   });
 
   it("renders form inputs and buttons", () => {
-    renderWithProviders();
+    renderWithProviders({ navigateFn: mockNavigate });
     expect(screen.getByLabelText(/username/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
     expect(screen.getAllByLabelText(/password/i)).toHaveLength(2);
@@ -50,7 +50,7 @@ describe("Register.jsx", () => {
   });
 
   it("validates password match", async () => {
-    renderWithProviders();
+    renderWithProviders({ navigateFn: mockNavigate });
     fireEvent.change(screen.getByLabelText(/^password$/i), {
       target: { value: "123456" },
     });
@@ -64,7 +64,7 @@ describe("Register.jsx", () => {
   });
 
   it("validates password length", async () => {
-    renderWithProviders();
+    renderWithProviders({ navigateFn: mockNavigate });
     fireEvent.change(screen.getByLabelText(/^password$/i), {
       target: { value: "123" },
     });
@@ -79,7 +79,7 @@ describe("Register.jsx", () => {
 
   it("shows error on failed registration", async () => {
     register.mockRejectedValueOnce({ detail: "Email already in use" });
-    renderWithProviders();
+    renderWithProviders({ navigateFn: mockNavigate });
 
     fireEvent.change(screen.getByLabelText(/username/i), {
       target: { value: "existinguser" },
@@ -100,10 +100,11 @@ describe("Register.jsx", () => {
   });
 
     it("navigates to login on successful registration", async () => {
-    vi.useFakeTimers(); // 🔁 Move this to the top!
+    vi.useFakeTimers(); // 👈 Start fake timers
 
     register.mockResolvedValueOnce({ message: "Registration successful" });
-    renderWithProviders();
+
+    renderWithProviders({ navigateFn: mockNavigate });
 
     fireEvent.change(screen.getByLabelText(/username/i), {
         target: { value: "newuser" },
@@ -124,12 +125,12 @@ describe("Register.jsx", () => {
         expect(screen.queryByTestId("registration-error")).not.toBeInTheDocument();
     });
 
-    // 🔁 Advance timers *after* ensuring no error
-    vi.runAllTimers();
+    vi.runAllTimers(); // 👈 Trigger the 2s timeout
 
     expect(mockNavigate).toHaveBeenCalledWith("/login");
 
-    vi.useRealTimers(); // cleanup
+    vi.useRealTimers(); // Cleanup
     });
 
-});
+
+}, 10000);

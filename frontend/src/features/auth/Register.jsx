@@ -13,7 +13,7 @@ const roleOptions = [
   { value: "manager", label: "Manager – $200/mo for 100 Brokerage Accounts" },
 ];
 
-export default function Register() {
+export default function Register(props) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -22,7 +22,8 @@ export default function Register() {
   const [error, setError] = useState(null);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const navigate = useNavigate();
+  const internalNavigate = useNavigate();
+  const navigateFn = props?.navigateFn || internalNavigate;
   const usernameRef = useRef(null);
 
   useEffect(() => {
@@ -48,7 +49,7 @@ export default function Register() {
       if (result?.message === "Registration successful") {
         setToastMessage("Registration successful. Please verify your email.");
         setShowToast(true);
-        setTimeout(() => navigate("/login"), 2000);
+        setTimeout(() => navigateFn("/login"), 2000);
       } else {
         setError("Something went wrong. Please try again.");
       }
