@@ -2,7 +2,12 @@
 // Unit tests for Login.jsx using Vitest + React Testing Library
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+} from "@testing-library/react";
 import { HelmetProvider } from "react-helmet-async";
 import { BrowserRouter } from "react-router-dom";
 import Login from "../Login";
@@ -74,7 +79,7 @@ describe("Login.jsx", () => {
 
   it("shows error on failed login", async () => {
     login.mockRejectedValueOnce({
-      detail: "Invalid credentials",
+      response: { data: { detail: "Invalid credentials" } },
     });
 
     renderWithProviders();
@@ -94,7 +99,12 @@ describe("Login.jsx", () => {
 
   it("shows resend button if email is not verified", async () => {
     login.mockRejectedValueOnce({
-      detail: "Email not verified",
+      response: {
+        data: {
+          detail:
+            "Your email address has not been verified. Please check your inbox for the verification email.",
+        },
+      },
     });
 
     renderWithProviders();
@@ -107,20 +117,17 @@ describe("Login.jsx", () => {
     });
     fireEvent.click(screen.getByRole("button", { name: /login/i }));
 
-    await waitFor(() => {
-      expect(screen.getByRole("button", { name: /resend verification email/i })).toBeInTheDocument();
-    });
+    const resendBtn = await screen.findByTestId("resend-btn");
+    expect(resendBtn).toBeInTheDocument();
   });
 
   it("includes navigation links to forgot password and register", () => {
     renderWithProviders();
-    expect(screen.getByRole("link", { name: /forgot your password/i })).toHaveAttribute(
-      "href",
-      "/forgot-password"
-    );
-    expect(screen.getByRole("link", { name: /register here/i })).toHaveAttribute(
-      "href",
-      "/register"
-    );
+    expect(
+      screen.getByRole("link", { name: /forgot your password/i })
+    ).toHaveAttribute("href", "/forgot-password");
+    expect(
+      screen.getByRole("link", { name: /register here/i })
+    ).toHaveAttribute("href", "/register");
   });
 });

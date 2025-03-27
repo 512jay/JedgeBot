@@ -1,182 +1,167 @@
 // /frontend/src/features/auth/Register.jsx
-// Register component for user registration
-import { Helmet } from "react-helmet-async";
-import { MDBBtn, MDBInput, MDBTypography } from "mdb-react-ui-kit";
-import { useState, useEffect } from "react";
+// Registration form for new users with validation, feedback, and role selection.
+
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
 import { register } from "@auth/auth_api";
-import ToastMessage from '@/components/ToastMessage';
+import ToastMessage from "@/components/common/ToastMessage";
 
+const roleOptions = [
+  { value: "free", label: "Free – Manage 1 Brokerage Account" },
+  { value: "client", label: "Client – $30/mo for 10 Brokerage Accounts" },
+  { value: "manager", label: "Manager – $200/mo for 100 Brokerage Accounts" },
+];
 
-const Register = () => {
-  const [username, setUsername] = useState("");
+export default function Register() {
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState("free");
   const [error, setError] = useState(null);
   const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState(null);
+  const [toastMessage, setToastMessage] = useState("");
   const navigate = useNavigate();
+  const usernameRef = useRef(null);
 
-useEffect(() => {
-  if (showToast) {
-    const timer = setTimeout(() => {
-      setShowToast(false);
-    }, 30000); // Keep toast visible for 30s
-    return () => clearTimeout(timer);
-  }
-}, [showToast]);
+  useEffect(() => {
+    usernameRef.current?.focus();
+  }, []);
 
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setError(null);
 
-  const handleRegister = async (event) => {
-    event.preventDefault();
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError("Passwords do not match.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters.");
       return;
     }
 
     try {
-      const response = await register({ email, password, role, username });
-      setToastMessage(response?.message || "Registration successful! Please verify your account by email.");
-      setShowToast(true);
-      // Let user decide when to go to login
-
-
+      const result = await register(email, password, username, role);
+      if (result?.message === "Registration successful") {
+        setToastMessage("Registration successful. Please verify your email.");
+        setShowToast(true);
+        setTimeout(() => navigate("/login"), 2000);
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
     } catch (err) {
-      console.error("Registration error:", err);
-      setError("Registration failed. Please try again.");
+      const message =
+        err?.response?.data?.detail || err?.message || "Registration failed.";
+      setError(message);
     }
   };
 
   return (
-    <div
-      className="bg-mutedRose d-flex align-items-center justify-content-center"
-      style={{ minHeight: "100vh", width: "100vw" }}
-    >
-      <ToastMessage
-        show={showToast}
-        message={toastMessage}
-        type="success"
-        onClose={() => {
-          setShowToast(false);
-          setToastMessage(null);
-        }}
-      />
-      <Helmet>
-        <title>Register | Fordis Ludus</title>
-      </Helmet>
-      <div
-        className="shadow-lg rounded-5 overflow-hidden bg-white"
-        style={{ maxWidth: "960px", width: "100%" }}
-      >
+    <div className="d-flex justify-content-center align-items-center bg-mutedRose" style={{ minHeight: "100vh", width: "100vw" }}>
+      <div className="shadow-lg rounded-5 overflow-hidden bg-white" style={{ maxWidth: "960px", width: "100%" }}>
         <div className="row g-0">
-          {/* Left image */}
           <div className="col-md-6 d-none d-md-block">
             <img
               src="/images/registrationleft.jpg"
-              alt="Confident Black woman in an upscale workspace"
+              alt="Confident Black woman in a professional setting, seated at a modern desk in a stylish office, wearing a beige blazer and natural hair styled in an afro."
               className="img-fluid h-100 w-100"
               style={{ objectFit: "cover" }}
             />
           </div>
 
-          {/* Right form */}
-          <div className="col-md-6 d-flex flex-column justify-content-center align-items-center p-5">
-            <MDBTypography tag="h4" className="mb-4">
-              Register
-            </MDBTypography>
+          <div className="col-md-6 p-5 d-flex flex-column justify-content-center align-items-center">
+            <h4 className="mb-4">Create your account</h4>
 
-            {!error && showToast && (
-              <div className="alert alert-success text-center w-100 mb-3" role="alert">
-                {toastMessage}
-              </div>
-            )}
+            <form className="w-100 px-3" onSubmit={handleRegister} noValidate>
+              <MDBInput
+                label="Email Address"
+                aria-label="Email Address"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mb-3"
+                required
+                autoComplete="email"
+              />
 
+              <MDBInput
+                label="Username"
+                aria-label="Username"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="mb-3"
+                required
+                autoComplete="username"
+                ref={usernameRef}
+              />
 
-            <form onSubmit={handleRegister} className="w-100 px-3">
-              <label htmlFor="role" className="form-label">Select Role</label>
+              <MDBInput
+                label="Password"
+                aria-label="Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mb-3"
+                required
+                autoComplete="new-password"
+              />
+
+              <MDBInput
+                label="Confirm Password"
+                aria-label="Confirm Password"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="mb-3"
+                required
+                autoComplete="new-password"
+              />
+
+              <label htmlFor="role" className="form-label">
+                Choose your role:
+              </label>
               <select
                 id="role"
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
                 className="mb-3 form-select"
+                aria-label="Choose your role"
               >
-                <option value="free">Free – Manage 1 Brokerage Account</option>
-                <option value="client">Client – $30/mo for 10 Brokerage Accounts</option>
-                <option value="manager">Manager – $200/mo for 100 Brokerage Accounts</option>
+                {roleOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </select>
 
-              <label htmlFor="username">Username</label>
-              <MDBInput
-                id="username"
-                type="text"
-                required
-                value={username}
-                autoComplete="username"
-                onChange={(e) => setUsername(e.target.value)}
-                className="mb-3"
-              />
+              {error && (
+                <div className="alert alert-danger text-center w-100 mb-3" role="alert" data-testid="registration-error">
+                  {error}
+                </div>
+              )}
 
-              <label htmlFor="email">Email Address</label>
-              <MDBInput
-                id="email"
-                type="email"
-                required
-                value={email}
-                autoComplete="email"
-                onChange={(e) => setEmail(e.target.value)}
-                className="mb-3"
-              />
-
-              <label htmlFor="password">Password</label>
-              <MDBInput
-                id="password"
-                type="password"
-                required
-                value={password}
-                autoComplete="new-password"
-                onChange={(e) => setPassword(e.target.value)}
-                className="mb-3"
-              />
-
-              <label htmlFor="confirm-password">Confirm Password</label>
-              <MDBInput
-                id="confirm-password"
-                type="password"
-                required
-                value={confirmPassword}
-                autoComplete="new-password"
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="mb-3"
-              />
-
-              <MDBBtn className="w-100" type="submit">
+              <MDBBtn className="w-100" type="submit" data-testid="register-btn">
                 Register
               </MDBBtn>
             </form>
 
-            {showToast && (
-              <MDBBtn className="mt-3" onClick={() => navigate("/login")}>
-                Go to Login
-              </MDBBtn>
-            )}
-            <div className="text-center mt-3">
-              <span>Already have an account? </span>
-              <a
-                href="/login"
-                className="text-primary fw-bold"
-                style={{ textDecoration: "underline", cursor: "pointer" }}
-              >
-                Login
-              </a>
-            </div>
+            <MDBBtn className="mt-3" onClick={() => navigate("/login")} data-testid="go-login-btn">
+              Go to Login
+            </MDBBtn>
+
+            <ToastMessage
+              showToast={showToast}
+              setShowToast={setShowToast}
+              message={toastMessage}
+              color="success"
+            />
           </div>
         </div>
       </div>
     </div>
   );
-  
-};
-
-export default Register;
+}

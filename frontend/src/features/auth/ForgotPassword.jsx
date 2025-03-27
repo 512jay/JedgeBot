@@ -60,7 +60,7 @@ function ForgotPassword() {
           <div className="col-md-6 d-none d-md-block">
             <img
               src="/images/registrationleft.jpg"
-              alt="Forgot password visual"
+              alt="Confident Black woman in a professional setting, seated at a modern desk in a stylish office, wearing a beige blazer and natural hair styled in an afro."
               className="img-fluid h-100 w-100"
               style={{ objectFit: "cover" }}
             />

@@ -154,7 +154,8 @@ JedgeBot/
 │   │   │   ├── assets
 │   │   │   │   ├── react.svg
 │   │   │   ├── components
-│   │   │   │   ├── ToastMessage.jsx
+│   │   │   │   ├── common
+│   │   │   │   │   ├── ToastMessage.jsx
 │   │   │   │   ├── layout
 │   │   │   │   │   ├── LoadingScreen.jsx
 │   │   │   │   │   ├── Sidebar.jsx
@@ -189,6 +190,7 @@ JedgeBot/
 │   │   │   │   │   ├── __tests__
 │   │   │   │   │   │   ├── ForgotPassword.test.jsx
 │   │   │   │   │   │   ├── Login.test.jsx
+│   │   │   │   │   │   ├── Register.test.jsx
 │   │   │   │   │   │   ├── auth_api.test.js
 │   │   │   │   │   ├── auth_api.js
 │   │   │   │   ├── clients

@@ -26,7 +26,7 @@ function Login() {
 
   const isVerificationError = (msg) =>
     typeof msg === "string" &&
-    msg.toLowerCase().includes("email not verified");
+    msg.includes("Your email address has not been verified. Please check your inbox for the verification email.");
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -99,20 +99,27 @@ function Login() {
               Sign into your account
             </MDBTypography>
 
-            {error && (
+            {isVerificationError(error) ? (
               <>
                 <p className="text-danger text-center w-100 mb-2" role="alert">
                   {error}
                 </p>
-                {isVerificationError(error) && (
-                  <div className="text-center mb-3">
-                    <MDBBtn color="warning" size="sm" onClick={handleResendVerification}>
-                      Resend Verification Email
-                    </MDBBtn>
-                  </div>
-                )}
+                <div className="text-center mb-3">
+                  <MDBBtn
+                    data-testid="resend-btn"
+                    color="warning"
+                    size="sm"
+                    onClick={handleResendVerification}
+                  >
+                    Resend Verification Email
+                  </MDBBtn>
+                </div>
               </>
-            )}
+            ) : error ? (
+              <p className="text-danger text-center w-100 mb-2" role="alert">
+                {error}
+              </p>
+            ) : null}
 
             <form onSubmit={handleLogin} className="w-100 px-3" noValidate>
               <label htmlFor="email" className="form-label">Email Address</label>
