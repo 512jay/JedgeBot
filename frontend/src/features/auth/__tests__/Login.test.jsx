@@ -108,7 +108,7 @@ describe("Login.jsx", () => {
     fireEvent.click(screen.getByRole("button", { name: /login/i }));
 
     await waitFor(() => {
-      expect(screen.getByText(/resend verification email/i)).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: /resend verification email/i })).toBeInTheDocument();
     });
   });
 
