@@ -1,10 +1,12 @@
 // /frontend/src/features/auth/ForgotPassword.jsx
+// Forgot password form allowing users to request a reset email.
 
 import React, { useState } from "react";
 import { MDBInput, MDBBtn, MDBTypography } from "mdb-react-ui-kit";
 import { Helmet } from "react-helmet-async";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const RESET_ENDPOINT = `${API_URL}/auth/forgot-password`;
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -19,7 +21,7 @@ function ForgotPassword() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/auth/forgot-password`, {
+      const response = await fetch(RESET_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -54,7 +56,7 @@ function ForgotPassword() {
         style={{ maxWidth: "960px", width: "100%" }}
       >
         <div className="row g-0">
-          {/* Left image */}
+          {/* Left Image */}
           <div className="col-md-6 d-none d-md-block">
             <img
               src="/images/registrationleft.jpg"
@@ -64,30 +66,31 @@ function ForgotPassword() {
             />
           </div>
 
-          {/* Right form */}
+          {/* Right Form */}
           <div className="col-md-6 d-flex flex-column justify-content-center align-items-center p-5">
             <MDBTypography tag="h4" className="mb-4 text-center">
               Forgot your password?
             </MDBTypography>
 
-            <form onSubmit={handleSubmit} className="w-100 px-3">
+            <form onSubmit={handleSubmit} className="w-100 px-3" noValidate>
               <label htmlFor="email" className="form-label">
                 Enter your email address
               </label>
               <MDBInput
-                className="mb-3"
-                type="email"
                 id="email"
+                type="email"
                 required
                 autoComplete="email"
+                className="mb-3"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                aria-describedby="forgot-help-text"
               />
 
-              {error && <p className="text-danger text-center">{error}</p>}
-              {message && <p className="text-success text-center">{message}</p>}
+              {error && <p className="text-danger text-center" role="alert">{error}</p>}
+              {message && <p className="text-success text-center" role="status">{message}</p>}
 
-              <MDBBtn className="w-100" type="submit" disabled={loading}>
+              <MDBBtn type="submit" className="w-100" disabled={loading}>
                 {loading ? "Sending..." : "Request Reset Link"}
               </MDBBtn>
             </form>

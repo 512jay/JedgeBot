@@ -1,4 +1,4 @@
-// /frontend/src/api/auth_api.js
+// /frontend/src/features/auth/auth_api.js
 // Provides reusable async functions to interact with the backend authentication API.
 
 import { fetchWithCredentials } from "@/api/api_client"; // Shared utility for fetch requests with cookies included

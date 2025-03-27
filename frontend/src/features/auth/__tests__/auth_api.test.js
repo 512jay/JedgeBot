@@ -2,7 +2,7 @@
 // Unit tests for authentication API functions using Vitest
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import * as authApi from "@/api/auth_api";
+import * as authApi from "@auth/auth_api";
 import { fetchWithCredentials } from "@/api/api_client";
 
 // Mock fetchWithCredentials so we can control API responses

@@ -106,20 +106,18 @@ JedgeBot/
 │   │   ├── frontend
 │   │   │   ├── index.html
 │   │   │   ├── src
-│   │   │   │   ├── App.jsx.html
 │   │   │   │   ├── api
 │   │   │   │   │   ├── api_client.js.html
-│   │   │   │   │   ├── auth_api.js.html
 │   │   │   │   │   ├── index.html
 │   │   │   │   ├── components
-│   │   │   │   │   ├── DashboardCards.jsx.html
-│   │   │   │   │   ├── auth
-│   │   │   │   │   │   ├── PrivateRoute.jsx.html
-│   │   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── ToastMessage.jsx.html
 │   │   │   │   │   ├── index.html
 │   │   │   │   │   ├── layout
 │   │   │   │   │   │   ├── LoadingScreen.jsx.html
 │   │   │   │   │   │   ├── Sidebar.jsx.html
+│   │   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── routing
+│   │   │   │   │   │   ├── PrivateRoute.jsx.html
 │   │   │   │   │   │   ├── index.html
 │   │   │   │   │   ├── ui
 │   │   │   │   │   │   ├── Button.jsx.html
@@ -130,16 +128,34 @@ JedgeBot/
 │   │   │   │   ├── context
 │   │   │   │   │   ├── AuthContext.jsx.html
 │   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── useAuth.js.html
+│   │   │   │   ├── features
+│   │   │   │   │   ├── app
+│   │   │   │   │   │   ├── App.jsx.html
+│   │   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── auth
+│   │   │   │   │   │   ├── ForgotPassword.jsx.html
+│   │   │   │   │   │   ├── Login.jsx.html
+│   │   │   │   │   │   ├── Register.jsx.html
+│   │   │   │   │   │   ├── ResetPassword.jsx.html
+│   │   │   │   │   │   ├── VerifyEmail.jsx.html
+│   │   │   │   │   │   ├── auth_api.js.html
+│   │   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── dashboard
+│   │   │   │   │   │   ├── Dashboard.jsx.html
+│   │   │   │   │   │   ├── DashboardCards.jsx.html
+│   │   │   │   │   │   ├── index.html
+│   │   │   │   │   │   ├── views
+│   │   │   │   │   │   │   ├── ClientDashboard.jsx.html
+│   │   │   │   │   │   │   ├── EnterpriseDashboard.jsx.html
+│   │   │   │   │   │   │   ├── FreeDashboard.jsx.html
+│   │   │   │   │   │   │   ├── ManagerDashboard.jsx.html
+│   │   │   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── landing
+│   │   │   │   │   │   ├── Landing.jsx.html
+│   │   │   │   │   │   ├── index.html
 │   │   │   │   ├── index.html
 │   │   │   │   ├── main.jsx.html
-│   │   │   │   ├── pages
-│   │   │   │   │   ├── Dashboard.jsx.html
-│   │   │   │   │   ├── ForgotPassword.jsx.html
-│   │   │   │   │   ├── Landing.jsx.html
-│   │   │   │   │   ├── Login.jsx.html
-│   │   │   │   │   ├── Register.jsx.html
-│   │   │   │   │   ├── ResetPassword.jsx.html
-│   │   │   │   │   ├── index.html
 │   │   │   │   ├── routes
 │   │   │   │   │   ├── AppRoutes.jsx.html
 │   │   │   │   │   ├── index.html
@@ -151,12 +167,6 @@ JedgeBot/
 │   │   │   │   │   ├── authHelpers.js.html
 │   │   │   │   │   ├── index.html
 │   │   │   │   │   ├── setupTestUser.js.html
-│   │   │   │   ├── views
-│   │   │   │   │   ├── ClientDashboard.jsx.html
-│   │   │   │   │   ├── EnterpriseDashboard.jsx.html
-│   │   │   │   │   ├── FreeDashboard.jsx.html
-│   │   │   │   │   ├── ManagerDashboard.jsx.html
-│   │   │   │   │   ├── index.html
 │   │   │   ├── tailwind.config.js.html
 │   │   ├── index.html
 │   │   ├── prettify.css
