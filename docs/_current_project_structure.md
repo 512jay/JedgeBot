@@ -188,7 +188,6 @@ JedgeBot/
 │   │   ├── testing_guide.md
 │   │   ├── testing_strategy.md
 │   ├── frontend
-│   │   ├── .eslintrc.cjs
 │   │   ├── .vite
 │   │   │   ├── deps
 │   │   │   │   ├── _metadata.json
