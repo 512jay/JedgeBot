@@ -263,6 +263,7 @@ JedgeBot/
 │   │   │   │   │   ├── ResetPassword.jsx
 │   │   │   │   │   ├── VerifyEmail.jsx
 │   │   │   │   │   ├── __tests__
+│   │   │   │   │   │   ├── ForgotPassword.test.jsx
 │   │   │   │   │   │   ├── auth_api.test.js
 │   │   │   │   │   ├── auth_api.js
 │   │   │   │   ├── clients
