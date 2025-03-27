@@ -1,5 +1,6 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vite';
+import viteConfig from "./frontend/vite.config";
 import react from '@vitejs/plugin-react';
 import path from 'path'; // ✅ ADD THIS
 
@@ -14,6 +15,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'frontend/src'),
+      '@feat': path.resolve(__dirname, 'frontend/src/features'),
+      '@auth': path.resolve(__dirname, 'frontend/src/features/auth'),
       '~test-utils': path.resolve(__dirname, 'frontend/test-utils'), // ✅ FIXED
     },
 

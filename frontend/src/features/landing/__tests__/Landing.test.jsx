@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
-import Landing from "../pages/Landing";
+import Landing from "@feat/landing/Landing";
 
 describe("Landing Page", () => {
   function renderPage() {

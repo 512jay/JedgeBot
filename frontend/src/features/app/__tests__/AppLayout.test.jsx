@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import App from "@/App";
+import App from "@feat/app/App";
 
 test("renders Navbar and Sidebar in full layout", () => {
   render(<App />);

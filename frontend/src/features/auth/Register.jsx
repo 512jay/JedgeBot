@@ -3,9 +3,9 @@
 import { Helmet } from "react-helmet-async";
 import { MDBBtn, MDBInput, MDBTypography } from "mdb-react-ui-kit";
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { register } from "./auth_api";
-import ToastMessage from '../../components/ToastMessage';
+import { useNavigate } from "react-router-dom";
+import { register } from "@auth/auth_api";
+import ToastMessage from '@/components/ToastMessage';
 
 
 const Register = () => {
@@ -161,7 +161,16 @@ useEffect(() => {
                 Go to Login
               </MDBBtn>
             )}
-
+            <div className="text-center mt-3">
+              <span>Already have an account? </span>
+              <a
+                href="/login"
+                className="text-primary fw-bold"
+                style={{ textDecoration: "underline", cursor: "pointer" }}
+              >
+                Login
+              </a>
+            </div>
           </div>
         </div>
       </div>

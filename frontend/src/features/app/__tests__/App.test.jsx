@@ -1,6 +1,6 @@
 /// <reference types="vitest" />
 import { render, screen } from "@testing-library/react";
-import App from "../App";
+import App from "@feat/app/App";
 
 describe("App", () => {
   test("renders without crashing and includes ToastContainer", () => {

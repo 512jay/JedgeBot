@@ -1,4 +1,6 @@
 // /frontend/src/routes/AppRoutes.jsx
+import PrivateRoute from "@/components/routing/PrivateRoute";
+
 import {
     BrowserRouter,
     Navigate,
@@ -24,9 +26,11 @@ export function AppRoutes({ useBrowserRouter = true }) {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/verify-email" element={<VerifyEmail />} />
-
-      {/* Role-aware Dashboard View */}
-      <Route path="/dashboard" element={<Dashboard />} />
+      
+      {/* Protected routes */}
+      <Route element={<PrivateRoute />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Route>
 
       {/* Redirect unknown routes to home */}
       <Route path="*" element={<Navigate to="/" replace />} />

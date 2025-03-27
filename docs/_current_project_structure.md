@@ -195,7 +195,9 @@ JedgeBot/
 │   │   ├── README.md
 │   │   ├── dev
 │   │   │   ├── roadmaps
-│   │   │   │   ├── email_verification_frontend.md
+│   │   │   │   ├── Dashboar_Role_Routing.md
+│   │   │   │   ├── completed
+│   │   │   │   │   ├── email_verification_frontend.md
 │   │   │   │   ├── ut_roadmap.md
 │   │   ├── eslint.config.js
 │   │   ├── index.html
@@ -212,7 +214,6 @@ JedgeBot/
 │   │   │   ├── vite.svg
 │   │   ├── src
 │   │   │   ├── __tests__
-│   │   │   │   ├── App.test.jsx
 │   │   │   │   ├── main.text.jsx
 │   │   │   ├── api
 │   │   │   │   ├── api_client.js
@@ -224,7 +225,8 @@ JedgeBot/
 │   │   │   │   │   ├── LoadingScreen.jsx
 │   │   │   │   │   ├── Sidebar.jsx
 │   │   │   │   │   ├── __tests__
-│   │   │   │   │   │   ├── Sidebar.test.jsx
+│   │   │   │   ├── routing
+│   │   │   │   │   ├── PrivateRoute.jsx
 │   │   │   │   ├── ui
 │   │   │   │   │   ├── Button.jsx
 │   │   │   │   │   ├── Card.jsx
@@ -237,32 +239,26 @@ JedgeBot/
 │   │   │   │   │   │   ├── Table.test.jsx
 │   │   │   ├── context
 │   │   │   │   ├── AuthContext.jsx
+│   │   │   │   ├── useAuth.js
 │   │   │   ├── features
 │   │   │   │   ├── app
 │   │   │   │   │   ├── App.jsx
 │   │   │   │   │   ├── __tests__
+│   │   │   │   │   │   ├── App.test.jsx
 │   │   │   │   │   │   ├── AppLayout.test.jsx
 │   │   │   │   ├── auth
 │   │   │   │   │   ├── ForgotPassword.jsx
 │   │   │   │   │   ├── Login.jsx
-│   │   │   │   │   ├── PrivateRoute.jsx
 │   │   │   │   │   ├── Register.jsx
 │   │   │   │   │   ├── ResetPassword.jsx
 │   │   │   │   │   ├── VerifyEmail.jsx
 │   │   │   │   │   ├── __tests__
-│   │   │   │   │   │   ├── ForgotPassword.test.jsx
-│   │   │   │   │   │   ├── Login.test.jsx
-│   │   │   │   │   │   ├── Register.test.jsx
-│   │   │   │   │   │   ├── ResetPassword.test.jsx
-│   │   │   │   │   │   ├── auth_api.test.js
 │   │   │   │   │   ├── auth_api.js
 │   │   │   │   ├── clients
 │   │   │   │   ├── dashboard
 │   │   │   │   │   ├── Dashboard.jsx
 │   │   │   │   │   ├── DashboardCards.jsx
 │   │   │   │   │   ├── __tests__
-│   │   │   │   │   │   ├── Dashboard.test.jsx
-│   │   │   │   │   │   ├── DashboardCards.test.jsx
 │   │   │   │   │   ├── views
 │   │   │   │   │   │   ├── ClientDashboard.jsx
 │   │   │   │   │   │   ├── EnterpriseDashboard.jsx

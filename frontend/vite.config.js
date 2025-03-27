@@ -18,6 +18,8 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "src"),
+        "@feat": path.resolve(__dirname, "src/features"),
+        "@auth": path.resolve(__dirname, "src/features/auth"),
       },
     },
     server: {

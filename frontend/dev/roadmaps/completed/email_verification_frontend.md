@@ -24,33 +24,33 @@ Your job on the frontend is to:
 
 ## 1. 📝 **Registration Flow**
 
-- [ ] POST form to `/auth/register`
-- [ ] On success: show message like:
+- [x] POST form to `/auth/register`
+- [x] On success: show message like:
   > "🎉 Registration successful! Please check your email to verify your account."
-- [ ] Redirect to `/login`
+- [x] Redirect to `/login`
 
 ---
 
 ## 2. 🔐 **Login Page Behavior**
 
-- [ ] POST form to `/auth/login`
-- [ ] If `403 Email not verified`, show:
+- [x] POST form to `/auth/login`
+- [x] If `403 Email not verified`, show:
   > "Your account hasn’t been verified yet. [Resend Verification Email]"
 
-- [ ] If redirected from `/login?verified=true`, show:
+- [x] If redirected from `/login?verified=true`, show:
   > "✅ Your email was successfully verified. Please log in."
 
-- [ ] Disable login until verified (visually or via alert)
+- [x] Disable login until verified (visually or via alert)
 
 ---
 
 ## 3. 📩 **Resend Verification Email**
 
-- [ ] Add a button below login form:
+- [x] Add a button below login form:
   > "Didn’t get the email? [Resend it]"
 
-- [ ] POST `{ email }` to `/auth/resend-verification`
-- [ ] Show confirmation:
+- [x] POST `{ email }` to `/auth/resend-verification`
+- [x] Show confirmation:
   > "If your account exists, we’ve sent a new verification link."
 
 ---

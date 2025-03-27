@@ -1,8 +1,8 @@
 // /frontend/src/context/AuthContext.jsx
 import PropTypes from "prop-types";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { logout as logoutApi } from "../features/auth/auth_api";
-import { fetchWithRefresh } from "../utils/authHelpers";
+import { logout as logoutApi } from "@auth/auth_api";
+import { fetchWithRefresh } from "@/utils/authHelpers";
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const AuthContext = createContext();
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
       try {
         data = await response.json();
         setUser(data);
-      } catch (parseErr) {
+      } catch {
         console.warn("Failed to parse JSON response from /auth/me");
         setUser(null);
       }
