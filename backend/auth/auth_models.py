@@ -1,7 +1,7 @@
 # /backend/auth/auth_models.py
 # Models for the authentication database using SQLAlchemy 2.0-style typing and PostgreSQL UUIDs.
 
-from sqlalchemy import String, TIMESTAMP, text, Enum as PgEnum
+from sqlalchemy import String, TIMESTAMP, text, Enum as PgEnum, DateTime, Column, Boolean
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from datetime import datetime
@@ -44,6 +44,8 @@ class User(Base):
     email: Mapped[str] = mapped_column(
         String(255), unique=True, nullable=False, comment="User's email address"
     )
+    is_email_verified = Column(Boolean, default=False)
+    email_verified_at = Column(DateTime(timezone=True), nullable=True)
 
     password_hash: Mapped[str] = mapped_column(
         String, nullable=False, comment="BCrypt-hashed password"

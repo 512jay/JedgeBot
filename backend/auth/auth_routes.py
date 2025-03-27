@@ -8,6 +8,7 @@ from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status, Response, Request
 from fastapi.security import OAuth2PasswordBearer
+from fastapi.responses import RedirectResponse
 from slowapi import Limiter
 from slowapi.util import get_remote_address
 from passlib.context import CryptContext
@@ -17,13 +18,16 @@ from sqlalchemy.orm import Session
 
 from backend.data.database.db import get_db
 from backend.auth.auth_queries import get_user_by_email
-from backend.auth.auth_services import create_user, hash_password, verify_password
+from backend.auth.auth_services import create_user, hash_password, verify_password, create_email_verification_token
 from backend.auth.auth_models import UserRole
 from backend.core.rate_limit import limiter
-from backend.auth.auth_schemas import UserRead, RegisterRequest, LoginRequest
+from backend.auth.auth_schemas import UserRead, RegisterRequest, LoginRequest, EmailRequest
 from backend.user.user_models import UserProfile
 from backend.auth.dependencies import get_current_user
 from backend.auth.constants import RESERVED_USERNAMES
+from backend.notifications import email_service
+from backend.core.settings import settings
+
 
 # -----------------------------------------------------------------------------
 # Configuration
@@ -121,13 +125,22 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
         db.add(profile)
         db.commit()
         db.refresh(profile)
+        # Send email verification link
+        token = create_email_verification_token(user.email)
+        verify_url = f"{settings.FRONTEND_URL}/verify-email?token={token}"  # Update for prod later
+
+        email_service.send_email(
+            to=user.email,
+            subject="Verify your email for Fordis Ludus",
+            body=f"Thanks for registering with Fordis Ludus! Please verify your email by clicking the link below:\n\n{verify_url}\n\nIf you didn’t register, you can ignore this email."
+        )
 
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
     return {
-        "message": f"User registered successfully as {request.role.value}",
-        "profile_id": str(profile.id),
+        "message": "User registered. Check your email to verify your account.",
+        "next": "/login",
     }
 
 
@@ -145,6 +158,13 @@ def login(
     user = get_user_by_email(db, login_data.email)
     if not user or not verify_password(login_data.password, user.password_hash):
         raise HTTPException(status_code=400, detail="Invalid email or password")
+    
+    if not user.is_email_verified:
+        raise HTTPException(
+            status_code=403,
+            detail="Email not verified. Please check your email to verify your account.",
+        )
+
 
     access_token = create_access_token(data={"sub": user.email})
     refresh_token = create_refresh_token(user.email)
@@ -219,3 +239,63 @@ async def read_authenticated_user(
     """Return the authenticated user's data."""
     user_obj = get_user_by_email(db, user["email"])
     return user_obj
+
+
+@router.get("/verify-email")
+def verify_email(token: str, db: Session = Depends(get_db)):
+    try:
+        payload = jwt.decode(
+            token,
+            settings.SECRET_KEY,
+            algorithms=[settings.EMAIL_VERIFICATION_ALGORITHM],
+        )
+        if payload.get("type") != "verify":
+            raise HTTPException(status_code=400, detail="Invalid token type")
+
+        email = payload.get("sub")
+        if not email:
+            raise HTTPException(status_code=400, detail="Invalid token payload")
+
+        user = get_user_by_email(db, email)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        if user.is_email_verified:
+            return {"message": "Email already verified."}
+
+        user.is_email_verified = True
+        user.email_verified_at = datetime.utcnow()
+        db.commit()
+
+        return {"message": "Email verified. Please log in."}
+
+    except JWTError:
+        raise HTTPException(
+            status_code=400, detail="Invalid or expired verification token"
+        )
+
+
+@router.post("/resend-verification")
+def resend_verification(request: EmailRequest, db: Session = Depends(get_db)):
+    user = get_user_by_email(db, request.email)
+
+    if not user:
+        # Do not reveal user existence
+        return {
+            "message": "If your account exists, a verification email has been sent."
+        }
+
+    if user.is_email_verified:
+        return {"message": "Email is already verified. Please log in."}
+
+    # Reuse token + email logic
+    token = create_email_verification_token(user.email)
+    verify_url = f"{settings.FRONTEND_URL}/verify-email?token={token}"
+
+    email_service.send_email(
+        to=user.email,
+        subject="Verify your email for JedgeBot",
+        body=f"Click to verify your email:\n\n{verify_url}",
+    )
+
+    return {"message": "Verification email has been resent. Please check your inbox."}

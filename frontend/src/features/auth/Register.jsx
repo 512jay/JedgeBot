@@ -1,11 +1,11 @@
 // /frontend/src/features/auth/Register.jsx
 // Register component for user registration
-
 import { Helmet } from "react-helmet-async";
 import { MDBBtn, MDBInput, MDBTypography } from "mdb-react-ui-kit";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { register } from "./auth_api";
+import { MDBToast, MDBToastContainer } from "mdb-react-ui-kit";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -14,7 +14,24 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState("free");
   const [error, setError] = useState(null);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState(null);
   const navigate = useNavigate();
+
+useEffect(() => {
+  if (showToast) {
+    const timer = setTimeout(() => {
+      setShowToast(false);
+      setToastMessage(null);
+      navigate("/login"); // Move navigation here
+    }, 3000);
+    return () => clearTimeout(timer);
+  }
+}, [showToast, navigate]); // <-- include navigate as a dependency
+
+
+
+  
 
   const handleRegister = async (event) => {
     event.preventDefault();
@@ -24,9 +41,14 @@ const Register = () => {
     }
 
     try {
-      await register({ email, password, role, username });
-      alert("Registration successful! Please log in.");
-      navigate("/login");
+      const response = await register({ email, password, role, username });
+      setToastMessage(response?.message || "Registration successful! Please verify your account by email.");
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+        navigate("/login");
+      }, 3000);
+
     } catch (err) {
       console.error("Registration error:", err);
       setError("Registration failed. Please try again.");
@@ -38,6 +60,18 @@ const Register = () => {
       className="bg-mutedRose d-flex align-items-center justify-content-center"
       style={{ minHeight: "100vh", width: "100vw" }}
     >
+      {toastMessage && (
+        <MDBToastContainer position="top-end" className="p-3">
+          <MDBToast show={showToast} onClose={() => setShowToast(false)}>
+            <div className="toast-header">
+              <strong className="me-auto">Welcome!</strong>
+            </div>
+            <div className="toast-body">{toastMessage}</div>
+          </MDBToast>
+        </MDBToastContainer>
+      )}
+
+
       <Helmet>
         <title>Register | Fordis Ludus</title>
       </Helmet>
@@ -65,7 +99,7 @@ const Register = () => {
             {error && <p className="text-danger text-center w-100 mb-3">{error}</p>}
 
             <form onSubmit={handleRegister} className="w-100 px-3">
-              <label htmlFor="role">Select Role</label>
+              <label htmlFor="role" className="form-label">Select Role</label>
               <select
                 id="role"
                 value={role}
@@ -128,15 +162,16 @@ const Register = () => {
 
             <p className="text-center mt-4">
               Already have an account?{" "}
-              <a href="/login" className="text-primary">
+              <Link to="/login" className="text-primary">
                 Login
-              </a>
+              </Link>
             </p>
           </div>
         </div>
       </div>
     </div>
   );
+  
 };
 
 export default Register;

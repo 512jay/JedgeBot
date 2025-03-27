@@ -43,6 +43,10 @@ class LoginRequest(BaseModel):
     password: str
 
 
+class EmailRequest(BaseModel):
+    email: EmailStr
+
+
 # -------------------------------------------------------------------
 # Response Schemas
 # -------------------------------------------------------------------

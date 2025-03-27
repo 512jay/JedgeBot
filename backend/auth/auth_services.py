@@ -1,15 +1,23 @@
 # /backend/data/database/auth/auth_services.py
 # Business logic layer for authentication actions and workflows.
 
-from datetime import datetime
+
+from datetime import datetime, timedelta
+from jose import jwt
 from sqlalchemy.orm import Session
 from backend.auth.auth_models import User, UserRole
 from backend.auth.auth_queries import get_user_by_email
 from passlib.context import CryptContext
 from backend.auth.auth_models import UserStatus
-
+from backend.core.settings import settings
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+
+def create_email_verification_token(email: str) -> str:
+    expire = datetime.utcnow() + timedelta(hours=24)
+    payload = {"sub": email, "exp": expire, "type": "verify"}
+    return jwt.encode(payload, settings.SECRET_KEY, algorithm=settings.EMAIL_VERIFICATION_ALGORITHM)
 
 
 def hash_password(password: str) -> str:
@@ -159,4 +167,3 @@ def update_user_password(db: Session, user_id: str, new_password: str) -> User:
     db.commit()
     db.refresh(user)
     return user
-

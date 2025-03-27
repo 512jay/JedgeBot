@@ -11,9 +11,10 @@ JedgeBot/
 │   │   ├── env.py
 │   │   ├── script.py.mako
 │   │   ├── versions
-│   │   │   ├── 20240326_add_is_email_verified_to_users.py
+│   │   │   ├── 04553e1d9a84_add_is_email_verified_and_email_.py
 │   │   │   ├── 6f28cb8d274e_create_password_reset_tokens_table.py
 │   │   │   ├── a1e3e950dc21_create_user_profiles_table.py
+│   │   │   ├── a3f1add06d8a_add_is_email_verified.py
 │   │   │   ├── ce2eb894601a_upgrade_password_reset_tokens_table_to_.py
 │   ├── alembic.ini
 │   ├── backend
@@ -77,9 +78,10 @@ JedgeBot/
 │   │   ├── dev
 │   │   │   ├── __init__.py
 │   │   │   ├── cleanup.py
-│   │   │   ├── roadmap
+│   │   │   ├── roadmaps
 │   │   │   │   ├── auth_roadmap.md
-│   │   │   │   ├── email_verification_roadmap.md
+│   │   │   │   ├── completed
+│   │   │   │   │   ├── email_verification_roadmap.md
 │   │   │   ├── routes.py
 │   │   ├── main.py
 │   │   ├── notifications
@@ -192,7 +194,8 @@ JedgeBot/
 │   │   │   │   ├── package.json
 │   │   ├── README.md
 │   │   ├── dev
-│   │   │   ├── roadmap
+│   │   │   ├── roadmaps
+│   │   │   │   ├── email_verification_frontend.md
 │   │   │   │   ├── ut_roadmap.md
 │   │   ├── eslint.config.js
 │   │   ├── index.html
@@ -208,7 +211,6 @@ JedgeBot/
 │   │   │   │   ├── welcomejedgebot.webp
 │   │   │   ├── vite.svg
 │   │   ├── src
-│   │   │   ├── App.css
 │   │   │   ├── __tests__
 │   │   │   │   ├── App.test.jsx
 │   │   │   │   ├── main.text.jsx
@@ -245,6 +247,7 @@ JedgeBot/
 │   │   │   │   │   ├── PrivateRoute.jsx
 │   │   │   │   │   ├── Register.jsx
 │   │   │   │   │   ├── ResetPassword.jsx
+│   │   │   │   │   ├── VerifyEmail.jsx
 │   │   │   │   │   ├── __tests__
 │   │   │   │   │   │   ├── ForgotPassword.test.jsx
 │   │   │   │   │   │   ├── Login.test.jsx

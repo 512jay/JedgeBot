@@ -29,7 +29,7 @@ def forgot_password(request: ForgotPasswordRequest, db: Session = Depends(get_db
         if settings.TESTING:
             print("\n\n🔗 Password reset link for", request.email)
             print(f"{settings.FRONTEND_URL}/reset-password?token={token}\n")
-            print(f"curl {settings.VITE_API_URL}/auth/validate-token?token={token}\n")
+            print(f"curl {settings.BACKEND_URL}/auth/validate-token?token={token}\n")
 
     return {"message": "If that email is registered, a reset link was sent."}
 

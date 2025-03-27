@@ -13,6 +13,15 @@ from backend.auth.auth_services import create_user, hash_password
 from backend.auth.auth_models import User, UserRole
 from backend.data.database.db import get_db
 from tests.utils.user_factory import random_email, random_password
+from backend.notifications import email_service
+
+
+@pytest.fixture(autouse=True)
+def patch_send_email(monkeypatch):
+    def dummy_send_email(to, subject, body):
+        print(f"[MOCK EMAIL] To: {to} | Subject: {subject} | Body: {body[:60]}...")
+
+    monkeypatch.setattr(email_service, "send_email", dummy_send_email)
 
 
 @pytest.fixture(scope="module")
@@ -76,3 +85,17 @@ def manager_user(get_db_session: Session) -> Generator[dict, None, None]:
     yield user
     get_db_session.query(User).filter(User.id == user["id"]).delete()
     get_db_session.commit()
+
+
+@pytest.fixture
+def captured_email(monkeypatch):
+    sent_email = {}
+
+    def mock_send_email(to, subject, body):
+        sent_email["to"] = to
+        sent_email["subject"] = subject
+        sent_email["body"] = body
+        print(f"[MOCK EMAIL] To: {to} | Subject: {subject} | Body: {body[:60]}...")
+
+    monkeypatch.setattr(email_service, "send_email", mock_send_email)
+    return sent_email

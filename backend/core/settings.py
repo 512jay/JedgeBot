@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     ENVIRONMENT: str = Field(default="development")
     TESTING: bool = Field(default=False)
     FRONTEND_URL: str = Field(default="http://localhost:5173")
+    BACKEND_URL: str
     DATABASE_URL: str = Field(default="sqlite:///./auth.db")
     TASTYTRADE_USERNAME: str
     TASTYTRADE_PASSWORD: str
@@ -33,5 +34,10 @@ class Settings(BaseSettings):
     DB_NAME: str
     DB_USER: str
     DB_PASSWORD: str
+    EMAIL_HOST: str
+    EMAIL_PORT: int
+    EMAIL_FROM: str
+    EMAIL_VERIFICATION_ALGORITHM: str
+
 
 settings = Settings()

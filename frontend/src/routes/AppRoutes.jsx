@@ -12,6 +12,7 @@ import Landing from "../features/landing/Landing";
 import Login from "../features/auth/Login";
 import Register from "../features/auth/Register";
 import ResetPassword from "../features/auth/ResetPassword";
+import VerifyEmail from "../features/auth/VerifyEmail"; 
 
 export function AppRoutes({ useBrowserRouter = true }) {
   const routes = (
@@ -22,6 +23,7 @@ export function AppRoutes({ useBrowserRouter = true }) {
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/verify-email" element={<VerifyEmail />} />
 
       {/* Role-aware Dashboard View */}
       <Route path="/dashboard" element={<Dashboard />} />

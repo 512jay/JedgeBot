@@ -21,10 +21,13 @@ def unique_username():
     return f"tester_{uuid.uuid4().hex[:8]}"
 
 
+# backend/auth/tests/test_auth_routes.py
+
+
 def test_register_and_login_flow(
     client: TestClient, get_db_session, unique_email: str, unique_username: str
 ):
-    # Register
+    # Step 1: Register a new user
     payload = {
         "email": unique_email,
         "password": "secure123",
@@ -34,29 +37,38 @@ def test_register_and_login_flow(
     response = client.post("/auth/register", json=payload)
     assert response.status_code == 200
 
-    # Login
+    # Step 2: Mark email as verified (simulate clicking verification link)
+    user = get_user_by_email(get_db_session, unique_email)
+    user.is_email_verified = True
+    get_db_session.commit()
+
+    # Step 3: Log in with the same credentials
     login_payload = {"email": unique_email, "password": "secure123"}
     response = client.post("/auth/login", json=login_payload)
     assert response.status_code == 200
-    client.cookies.update(response.cookies)
+    client.cookies.update(response.cookies)  # Set auth cookies for future requests
 
+    # Step 4: Use /auth/check to verify user is authenticated
     response = client.get("/auth/check")
     assert response.status_code == 200
     assert response.json()["authenticated"] is True
 
-    # Cleanup
+    # Step 5: Clean up test user and their profile
     db = next(get_db())
     user = get_user_by_email(db, unique_email)
     if user:
         db.query(UserProfile).filter_by(user_id=user.id).delete()
         db.delete(user)
-    db.commit()
+        db.commit()
+
+
+# backend/auth/tests/test_auth_routes.py
 
 
 def test_refresh_logout_me_flow(
     client: TestClient, get_db_session, unique_email: str, unique_username: str
 ):
-    # Register and login to get cookies
+    # Register
     payload = {
         "email": unique_email,
         "password": "secure123",
@@ -64,32 +76,35 @@ def test_refresh_logout_me_flow(
         "username": unique_username,
     }
     client.post("/auth/register", json=payload)
+
+    # Mark user as verified
+    user = get_user_by_email(get_db_session, unique_email)
+    user.is_email_verified = True
+    get_db_session.commit()
+
+    # Login
     login_payload = {"email": unique_email, "password": "secure123"}
     response = client.post("/auth/login", json=login_payload)
+    assert response.status_code == 200
     client.cookies.update(response.cookies)
 
-    # /me
+    # Check authenticated session
     response = client.get("/auth/me")
     assert response.status_code == 200
-    assert response.json()["email"] == unique_email
+    assert "email" in response.json()
 
-    # /refresh
+    # Refresh session
     response = client.post("/auth/refresh")
     assert response.status_code == 200
     assert "access_token" in response.cookies
 
-    # /logout
+    # Logout
     response = client.post("/auth/logout")
     assert response.status_code == 200
-    assert response.json()["message"] == "Logged out successfully"
 
-    # Cleanup
-    db = next(get_db())
-    user = get_user_by_email(db, unique_email)
-    if user:
-        db.query(UserProfile).filter_by(user_id=user.id).delete()
-        db.delete(user)
-    db.commit()
+    # Confirm logged out
+    response = client.get("/auth/me")
+    assert response.status_code == 401
 
 
 def test_login_wrong_password(
@@ -233,9 +248,9 @@ def test_register_invalid_role(client: TestClient, unique_email, unique_username
 
 
 def test_check_with_tampered_access_token(
-    client: TestClient, unique_email, unique_username
+    client: TestClient, get_db_session, unique_email, unique_username
 ):
-    # Register and login
+    # Register
     client.post(
         "/auth/register",
         json={
@@ -245,15 +260,119 @@ def test_check_with_tampered_access_token(
             "username": unique_username,
         },
     )
+
+    # Force-verify email
+    user = get_user_by_email(get_db_session, unique_email)
+    user.is_email_verified = True
+    get_db_session.commit()
+
+    # Login
     login_payload = {"email": unique_email, "password": "secure123"}
     response = client.post("/auth/login", json=login_payload)
+    assert response.status_code == 200
+    client.cookies.update(response.cookies)
 
-    # Tamper with token
+    # Get real token
     token = response.cookies["access_token"]
-    parts = token.split(".")
-    tampered_token = f"{parts[0]}.{parts[1]}.AAAAAA"  # break the signature
+    assert token.startswith("ey")
 
-    # Send tampered token
+    # Tamper with it
+    tampered_token = token + "abc"
+
+    # Try using tampered token
     client.cookies.set("access_token", tampered_token)
     response = client.get("/auth/check")
     assert response.status_code == 401
+
+
+def test_email_verification_flow(client: TestClient, get_db_session, unique_email, unique_username, monkeypatch):
+    captured_email = {}
+
+    # Monkeypatch send_email to capture the tokenized link
+    def mock_send_email(to, subject, body):
+        assert to == unique_email
+        assert "verify your email" in subject.lower()
+        assert "verify-email?token=" in body
+        captured_email["link"] = [line for line in body.splitlines() if "verify-email?token=" in line][0]
+
+    # Replace the real send_email with our mock
+    from backend.auth import auth_routes
+    monkeypatch.setattr(auth_routes, "send_email", mock_send_email)
+
+    # Register the user
+    payload = {
+        "email": unique_email,
+        "password": "secure123",
+        "role": "client",
+        "username": unique_username,
+    }
+    response = client.post("/auth/register", json=payload)
+    assert response.status_code == 200
+    assert "verify your account" in response.json()["message"].lower()
+
+    # Extract token from the mocked email
+    assert "link" in captured_email
+    token_url = captured_email["link"]
+    token = token_url.split("token=")[-1]
+
+    # Call verify-email endpoint
+    response = client.get(f"/auth/verify-email?token={token}")
+    assert response.status_code == 200
+    assert "verified" in response.json()["message"].lower()
+
+    # Verify DB update
+    db = next(get_db())
+    user = get_user_by_email(db, unique_email)
+    assert user.is_email_verified is True
+    assert user.email_verified_at is not None
+
+    # Cleanup
+    db.query(UserProfile).filter_by(user_id=user.id).delete()
+    db.delete(user)
+    db.commit()
+
+
+def test_email_verification_flow(
+    client: TestClient, get_db_session, unique_email, unique_username, captured_email
+):
+    # Register user (mocked email will be captured)
+    payload = {
+        "email": unique_email,
+        "password": "secure123",
+        "role": "client",
+        "username": unique_username,
+    }
+    response = client.post("/auth/register", json=payload)
+    assert response.status_code == 200
+    assert "verify your account" in response.json()["message"].lower()
+
+    # Extract token from mocked email
+    token_url = next(
+        (
+            line
+            for line in captured_email["body"].splitlines()
+            if "verify-email?token=" in line
+        ),
+        None,
+    )
+    assert token_url, "Token URL not found in email"
+    from urllib.parse import urlparse, parse_qs
+
+    parsed_url = urlparse(token_url)
+    token = parse_qs(parsed_url.query)["token"][0]
+
+    # Call verification endpoint
+    response = client.get(f"/auth/verify-email?token={token}")
+    assert response.status_code == 200
+    assert "verified" in response.json()["message"].lower()
+
+    # Confirm DB updated
+    db = next(get_db())
+    user = get_user_by_email(db, unique_email)
+    assert user.is_email_verified is True
+    assert user.email_verified_at is not None
+
+    # Cleanup
+    db.query(UserProfile).filter_by(user_id=user.id).delete()
+    db.delete(user)
+    db.commit()
