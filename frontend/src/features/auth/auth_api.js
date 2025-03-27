@@ -1,29 +1,43 @@
 // /frontend/src/api/auth_api.js
-// Handles authentication-related API calls (login, logout, register, token refresh)
+// Provides reusable async functions to interact with the backend authentication API.
 
-import { fetchWithCredentials } from "@/api/api_client"; // ✅ Now using centralized request handler
+import { fetchWithCredentials } from "@/api/api_client"; // Shared utility for fetch requests with cookies included
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000"; 
+// Use environment variable or fallback to localhost
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
-// Register request
+/**
+ * Registers a new user with the backend
+ * @param {Object} userData - { email, password, username }
+ * @returns {Promise<Response>}
+ */
 export async function register(userData) {
-    return fetchWithCredentials(`${API_URL}/auth/register`, {
-        method: "POST",
-        body: JSON.stringify(userData),
-    });
+  return fetchWithCredentials(`${API_URL}/auth/register`, {
+    method: "POST",
+    body: JSON.stringify(userData),
+  });
 }
 
-// Login request
+/**
+ * Logs in a user by sending credentials to the backend
+ * @param {string} email
+ * @param {string} password
+ * @returns {Promise<Object>} Auth data from server
+ * @throws {Error} Throws error if response is not OK
+ */
 export async function login(email, password) {
   const response = await fetch(`${API_URL}/auth/login`, {
     method: "POST",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
+    credentials: "include", // include cookies for session
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({ email, password }),
   });
 
   const data = await response.json();
 
+  // Centralized error handling with detail fallback
   if (!response.ok) {
     const error = new Error(data?.detail || "Login failed");
     error.status = response.status;
@@ -34,18 +48,30 @@ export async function login(email, password) {
   return data;
 }
 
-
-// Logout request
+/**
+ * Logs out the current user
+ * @returns {Promise<Response>}
+ */
 export async function logout() {
-    return fetchWithCredentials(`${API_URL}/auth/logout`, { method: "POST" });
+  return fetchWithCredentials(`${API_URL}/auth/logout`, {
+    method: "POST",
+  });
 }
 
-// Check authentication status
+/**
+ * Checks if the user is currently authenticated
+ * @returns {Promise<Response>} User object or error
+ */
 export async function checkAuthentication() {
-    return fetchWithCredentials(`${API_URL}/auth/check`);
+  return fetchWithCredentials(`${API_URL}/auth/check`);
 }
 
-// Refresh token
+/**
+ * Attempts to refresh the user's access token
+ * @returns {Promise<Response>} New token or error
+ */
 export async function refreshToken() {
-    return fetchWithCredentials(`${API_URL}/auth/refresh`, { method: "POST" });
+  return fetchWithCredentials(`${API_URL}/auth/refresh`, {
+    method: "POST",
+  });
 }
