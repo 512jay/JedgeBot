@@ -15,11 +15,25 @@ export async function register(userData) {
 
 // Login request
 export async function login(email, password) {
-    return fetchWithCredentials(`${API_URL}/auth/login`, {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-    });
+  const response = await fetch(`${API_URL}/auth/login`, {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    const error = new Error(data?.detail || "Login failed");
+    error.status = response.status;
+    error.detail = data?.detail;
+    throw error;
+  }
+
+  return data;
 }
+
 
 // Logout request
 export async function logout() {

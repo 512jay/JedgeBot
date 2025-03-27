@@ -34,8 +34,9 @@ function Login() {
       } else {
         setError("Invalid credentials. Please try again.");
       }
-    } catch (err) {
+      } catch (err) {
         const message =
+          err?.detail ||
           err?.response?.data?.detail ||
           err?.message ||
           "Login failed. Please try again.";
