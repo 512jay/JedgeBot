@@ -25,6 +25,7 @@ export default function Register(props) {
   const internalNavigate = useNavigate();
   const navigateFn = props?.navigateFn || internalNavigate;
   const usernameRef = useRef(null);
+  const handleSuccessFn = props?.handleSuccess || handleSuccess;
 
   useEffect(() => {
     usernameRef.current?.focus();
@@ -54,7 +55,7 @@ export default function Register(props) {
       if (result?.message === "Registration successful") {
         setToastMessage("Registration successful. Please verify your email.");
         setShowToast(true);
-        handleSuccess(() => navigateFn("/login"));
+        handleSuccessFn(() => navigateFn("/login"));
       } else {
         setError("Something went wrong. Please try again.");
       }
