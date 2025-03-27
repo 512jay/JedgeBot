@@ -35,8 +35,22 @@ function Login() {
         setError("Invalid credentials. Please try again.");
       }
     } catch (err) {
-      setError("Login failed. Please try again.");
-    }
+        const message =
+          err?.response?.data?.detail ||
+          err?.message ||
+          "Login failed. Please try again.";
+
+        if (
+          typeof message === "string" &&
+          message.toLowerCase().includes("email not verified")
+        ) {
+          setError(
+            "Your email address has not been verified. Please check your inbox for the verification email."
+          );
+        } else {
+          setError(message);
+        }
+      }
   };
 
   return (
