@@ -139,7 +139,7 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail=str(e))
 
     return {
-        "message": "User registered. Check your email to verify your account.",
+        "message": "Registration successful. Please verify your email, before loggin in.",
         "next": "/login",
     }
 

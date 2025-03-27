@@ -25,15 +25,12 @@ export default function Register(props) {
   const internalNavigate = useNavigate();
   const navigateFn = props?.navigateFn || internalNavigate;
   const usernameRef = useRef(null);
-  const handleSuccessFn = props?.handleSuccess || handleSuccess;
+  const [success, setSuccess] = useState(false);
+
 
   useEffect(() => {
     usernameRef.current?.focus();
   }, []);
-
-  function handleSuccess(navigateCallback) {
-    setTimeout(navigateCallback, 2000);
-  }
 
 
   const handleRegister = async (e) => {
@@ -51,19 +48,43 @@ export default function Register(props) {
     }
 
     try {
-      const result = await register(email, password, username, role);
-      if (result?.message === "Registration successful") {
-        setToastMessage("Registration successful. Please verify your email.");
+      const result = await register({
+        email,
+        password,
+        username,
+        role,
+      });
+      console.log("Registration result:", result);
+      if (result?.message && result?.next) {
+        setToastMessage(result.message);
         setShowToast(true);
-        handleSuccessFn(() => navigateFn("/login"));
+        setSuccess(true);
+        setEmail("");
+        setPassword("");
+        setUsername("");
+        setConfirmPassword("");
+
       } else {
-        setError("Something went wrong. Please try again.");
+        const errorDetail = result?.detail || "Something went wrong. Please try again.";
+        setError(errorDetail);
       }
-    } catch (err) {
-      const message =
-        err?.response?.data?.detail || err?.message || "Registration failed.";
-      setError(message);
-    }
+
+      } catch (err) {
+        console.error("Registration error:", err);
+
+        // Try extracting JSON response if available
+        if (err.response && typeof err.response.json === "function") {
+          try {
+            const data = await err.response.json();
+            setError(data.detail || "Registration failed.");
+          } catch {
+            setError("Registration failed.");
+          }
+        } else {
+          setError(err.detail || err.message || "Registration failed.");
+        }
+      }
+
   };
 
   return (
@@ -80,8 +101,16 @@ export default function Register(props) {
           </div>
 
           <div className="col-md-6 p-5 d-flex flex-column justify-content-center align-items-center">
-            <h4 className="mb-4">Create your account</h4>
+            <h4 className="mb-4">{success ? "🎉 Welcome to Fordis Ludus!" : "Create your account"}</h4>
 
+            {success ? (
+              <div className="text-success text-center">
+                ✅ Registration successful! <br />
+                Please check your email to verify your account before logging in.
+              </div>
+            ) : (
+              <>
+                {/* existing form inputs and buttons */}
             <form className="w-100 px-3" onSubmit={handleRegister} noValidate>
               <MDBInput
                 label="Email Address"
@@ -155,7 +184,8 @@ export default function Register(props) {
                 Register
               </MDBBtn>
             </form>
-
+              </>
+            )}
             <MDBBtn className="mt-3" onClick={() => navigateFn("/login")} data-testid="go-login-btn">
               Go to Login
             </MDBBtn>

@@ -26,11 +26,28 @@ def forgot_password(request: ForgotPasswordRequest, db: Session = Depends(get_db
     user = get_user_by_email(db, request.email)
     if user:
         token = create_password_reset_token(db, user)
+        reset_url = f"{settings.FRONTEND_URL}/reset-password?token={token}"
+
+        # ✅ Actually send the email
+        from backend.notifications import (
+            email_service,
+        )  # import here to avoid circular deps
+
+        email_service.send_email(
+            to=user.email,
+            subject="Reset your password for JedgeBot",
+            body=(
+                f"You requested a password reset for your JedgeBot account.\n\n"
+                f"Click the link below to set a new password:\n{reset_url}\n\n"
+                f"If you didn’t request this, you can ignore this email."
+            ),
+        )
+
         if settings.TESTING:
             print("\n\n🔗 Password reset link for", request.email)
-            print(f"{settings.FRONTEND_URL}/reset-password?token={token}\n")
-            print(f"curl {settings.BACKEND_URL}/auth/validate-token?token={token}\n")
+            print(reset_url)
 
+    # Always return success message to avoid exposing user existence
     return {"message": "If that email is registered, a reset link was sent."}
 
 
