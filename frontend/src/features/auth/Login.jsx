@@ -9,7 +9,7 @@ import {
 } from "mdb-react-ui-kit";
 import { useNavigate } from "react-router-dom";
 import { login } from "@auth/auth_api";
-import loginImage from "@images/hero/login.webp"; // keep consistent with register
+import loginImage from "@images/hero/login.webp"; // matching Register layout
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -32,7 +32,7 @@ export default function Login() {
 
   return (
     <div
-      className="shadow-lg rounded-5 overflow-hidden bg-white mx-auto"
+      className="card-hover shadow-lg rounded-5 overflow-hidden bg-white mx-auto"
       style={{ maxWidth: "960px", width: "100%" }}
     >
       <MDBRow className="g-0">
@@ -47,7 +47,7 @@ export default function Login() {
         <MDBCol md="6">
           <MDBCardBody
             className="d-flex flex-column justify-content-center p-5"
-            aria-labelledby="login-title" 
+            aria-labelledby="login-title"
           >
             <h3 id="login-title" className="text-center mb-4">
               Sign into your account

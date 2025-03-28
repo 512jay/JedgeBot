@@ -5,10 +5,10 @@ export default function About() {
   return (
     <div
       className="d-flex justify-content-center align-items-center"
-      style={{ minHeight: 'calc(100vh - 120px)' }} // Adjust for header/footer
+      style={{ minHeight: 'calc(100vh - 120px)' }}
     >
       <div
-        className="d-flex rounded shadow overflow-hidden"
+        className="d-flex rounded shadow overflow-hidden hover-grow"
         style={{ maxWidth: '800px', width: '100%', backgroundColor: 'white' }}
         aria-labelledby="about-heading"
         role="region"
