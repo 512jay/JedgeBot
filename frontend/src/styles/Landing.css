@@ -1,5 +1,9 @@
 /* Landing.css - Layout inspired by Login page */
 
+body {
+    overflow-x: hidden;
+}
+
 /* Toast style */
 .custom-toast {
     animation: fade-in-out 3.5s ease-in-out;
@@ -39,6 +43,14 @@
     background-color: white;
     border-radius: 1rem;
     overflow: hidden;
+    margin: auto;
+    /* center the card */
+}
+
+@media (max-width: 767px) {
+    .landing-card {
+        flex-direction: column;
+    }
 }
 
 .image-section {
