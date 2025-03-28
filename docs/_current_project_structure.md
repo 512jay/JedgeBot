@@ -322,6 +322,7 @@ JedgeBot/
 │   │   ├── public
 │   │   │   ├── images
 │   │   │   │   ├── 404.png
+│   │   │   │   ├── about.jpg
 │   │   │   │   ├── hero
 │   │   │   │   │   ├── forgot.jpg
 │   │   │   │   │   ├── login.webp
@@ -331,11 +332,17 @@ JedgeBot/
 │   │   │   │   ├── landing-side.jpg
 │   │   │   │   ├── leftlogin.jpg
 │   │   │   │   ├── logo.webp
+│   │   │   │   ├── pricing.jpg
 │   │   │   │   ├── raw
 │   │   │   │   │   ├── DALL·E 2025-03-28 10.59.48 - A whimsical, wordless illustration representing forgetting a password, designed for a SaaS trading platform. The scene features a puzzled character se.webp
 │   │   │   │   │   ├── DALL·E 2025-03-28 11.13.35 - A modern, wordless illustration representing resetting a password, designed for a SaaS trading platform. The scene features a relieved character succe.webp
 │   │   │   │   │   ├── DALL·E 2025-03-28 12.34.54 - A sleek, wordless illustration representing a login page for a SaaS trading platform. The scene features a confident character entering a secure porta.webp
+│   │   │   │   │   ├── pexels-ibertola-2681319.jpg
+│   │   │   │   │   ├── pexels-karolina-grabowska-4386433.jpg
+│   │   │   │   │   ├── pexels-rdne-7648057.jpg
+│   │   │   │   │   ├── pexels-snapwire-618613.jpg
 │   │   │   │   │   ├── welcomejedgebot.webp
+│   │   │   │   ├── registration.jpg
 │   │   │   │   ├── registrationleft.jpg
 │   │   │   │   ├── registrationleft.webp
 │   │   │   ├── vite.svg
