@@ -103,6 +103,7 @@ JedgeBot/
 │   ├── docs
 │   │   ├── _current_project_structure.md
 │   │   ├── api_password_reset_endpoints.md
+│   │   ├── auth_roadmap.md
 │   │   ├── backend_project_structure.md
 │   │   ├── business_plan.md
 │   │   ├── database
@@ -139,6 +140,8 @@ JedgeBot/
 │   │   ├── package.json
 │   │   ├── public
 │   │   │   ├── images
+│   │   │   │   ├── 404.png
+│   │   │   │   ├── landing-side.jpg
 │   │   │   │   ├── leftlogin.jpg
 │   │   │   │   ├── logo.webp
 │   │   │   │   ├── registrationleft.jpg
@@ -160,6 +163,9 @@ JedgeBot/
 │   │   │   │   │   ├── LoadingScreen.jsx
 │   │   │   │   │   ├── Sidebar.jsx
 │   │   │   │   │   ├── __tests__
+│   │   │   │   ├── layouts
+│   │   │   │   │   ├── DashboardLayout.jsx
+│   │   │   │   │   ├── PublicLayout.jsx
 │   │   │   │   ├── routing
 │   │   │   │   │   ├── PrivateRoute.jsx
 │   │   │   │   ├── ui
@@ -173,14 +179,16 @@ JedgeBot/
 │   │   │   │   │   │   ├── PieChart.test.jsx
 │   │   │   │   │   │   ├── Table.test.jsx
 │   │   │   ├── context
-│   │   │   │   ├── AuthContext.jsx
+│   │   │   │   ├── AuthProvider.jsx
+│   │   │   │   ├── auth-context.js
 │   │   │   │   ├── useAuth.js
 │   │   │   ├── features
 │   │   │   │   ├── app
 │   │   │   │   │   ├── App.jsx
 │   │   │   │   │   ├── __tests__
 │   │   │   │   │   │   ├── App.test.jsx
-│   │   │   │   │   │   ├── AppLayout.test.jsx
+│   │   │   │   │   ├── pages
+│   │   │   │   │   │   ├── NotFound.jsx
 │   │   │   │   ├── auth
 │   │   │   │   │   ├── ForgotPassword.jsx
 │   │   │   │   │   ├── Login.jsx
@@ -189,8 +197,6 @@ JedgeBot/
 │   │   │   │   │   ├── VerifyEmail.jsx
 │   │   │   │   │   ├── __tests__
 │   │   │   │   │   │   ├── ForgotPassword.test.jsx
-│   │   │   │   │   │   ├── Login.test.jsx
-│   │   │   │   │   │   ├── Register.test.jsx
 │   │   │   │   │   │   ├── auth_api.test.js
 │   │   │   │   │   ├── auth_api.js
 │   │   │   │   ├── clients
@@ -205,7 +211,11 @@ JedgeBot/
 │   │   │   │   │   │   ├── ManagerDashboard.jsx
 │   │   │   │   ├── enterprise
 │   │   │   │   ├── landing
+│   │   │   │   │   ├── About.jsx
+│   │   │   │   │   ├── Contact.jsx
 │   │   │   │   │   ├── Landing.jsx
+│   │   │   │   │   ├── Pricing.jsx
+│   │   │   │   │   ├── WaitlistForm.jsx
 │   │   │   │   │   ├── __tests__
 │   │   │   │   │   │   ├── Landing.test.jsx
 │   │   │   │   ├── settings
@@ -222,7 +232,6 @@ JedgeBot/
 │   │   │   │   ├── setup.js
 │   │   │   ├── utils
 │   │   │   │   ├── __tests__
-│   │   │   │   │   ├── api_client.test.js
 │   │   │   │   ├── apiClient.js
 │   │   │   │   ├── authHelpers.js
 │   │   │   │   ├── setupTestUser.js
@@ -236,6 +245,7 @@ JedgeBot/
 │   ├── launch_app.py
 │   ├── logs
 │   ├── notes
+│   │   ├── Landing-Waitlist-Roadmap.md
 │   │   ├── PortfolioManagmentRoadMap.md
 │   ├── package-lock.json
 │   ├── package.json
@@ -272,4 +282,5 @@ JedgeBot/
 │   │   │   ├── user_factory.py
 │   ├── vitest.config.js
 │   ├── x_generate_structure.py
+│   ├── zscript.sh
 ```

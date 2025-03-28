@@ -96,6 +96,10 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
     Register a new user, hash password, and create linked UserProfile with username.
     Usernames are compared in lowercase against a reserved list.
     """
+    if not settings.ALLOW_REGISTRATION:
+        raise HTTPException(
+            status_code=403, detail="Registration is temporarily disabled."
+        )
     if get_user_by_email(db, request.email):
         raise HTTPException(status_code=400, detail="Email already registered")
 

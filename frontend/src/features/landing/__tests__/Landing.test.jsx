@@ -1,59 +1,29 @@
-/// <reference types="vitest" />
-import { render, screen } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
-import Landing from "@feat/landing/Landing";
+// /frontend/src/features/landing/__tests__/Landing.test.jsx
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import Landing from '../Landing';
+import { HelmetProvider } from 'react-helmet-async';
 
-describe("Landing Page", () => {
-  function renderPage() {
+describe('Landing Page', () => {
+  it('renders the title and subheading', () => {
     render(
-      <BrowserRouter>
+      <HelmetProvider>
         <Landing />
-      </BrowserRouter>
+      </HelmetProvider>
     );
-  }
 
-  test("renders navbar with expected links", () => {
-    renderPage();
-
-    const links = [
-      /about/i,
-      /pricing/i,
-      /how it works/i,
-      /login/i,
-    ];
-
-    for (const label of links) {
-      expect(screen.getByRole("link", { name: label })).toBeInTheDocument();
-    }
-
-    // Navbar Sign Up button (small)
-    const navButtons = screen.getAllByRole("button", { name: /sign up/i });
-    expect(navButtons[0]).toBeInTheDocument();
+    expect(screen.getByText('Fordis Ludus')).toBeInTheDocument();
+    expect(screen.getByText(/Multi-Broker Trading/i)).toBeInTheDocument();
   });
 
-  test("renders hero card content", () => {
-    renderPage();
+  it('renders the waitlist form', () => {
+    render(
+      <HelmetProvider>
+        <Landing />
+      </HelmetProvider>
+    );
 
-    expect(
-      screen.getByRole("heading", { name: /welcome to jedgebot/i })
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByText(/your ultimate trading automation/i)
-    ).toBeInTheDocument();
-
-    const heroButtons = screen.getAllByRole("button", { name: /sign up/i });
-    const loginButton = screen.getByRole("button", { name: /login/i });
-
-    expect(loginButton).toBeInTheDocument();
-    expect(heroButtons.length).toBeGreaterThanOrEqual(2); // Navbar + Hero
-  });
-
-  test("includes hero image", () => {
-    renderPage();
-
-    const image = screen.getByAltText(/jedgebot/i);
-    expect(image).toBeInTheDocument();
-    expect(image.getAttribute("src")).toContain("welcomejedgebot");
+    expect(screen.getByLabelText(/Email/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Join the Waitlist/i })).toBeInTheDocument();
   });
 });

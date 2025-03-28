@@ -38,6 +38,6 @@ class Settings(BaseSettings):
     EMAIL_PORT: int
     EMAIL_FROM: str
     EMAIL_VERIFICATION_ALGORITHM: str
-
+    ALLOW_REGISTRATION: bool = Field(default=True)
 
 settings = Settings()
