@@ -1,74 +1,65 @@
-// /frontend/src/features/auth/pages/Register.jsx
-import { Link } from "react-router-dom";
+// /frontend/src/features/auth/Register.jsx
+
+import React, { useState } from 'react';
 import {
-  MDBBtn,
+  MDBContainer,
+  MDBCard,
   MDBCardBody,
-  MDBCol,
   MDBInput,
+  MDBBtn,
   MDBRow,
-} from "mdb-react-ui-kit";
-import registerImage from "@images/registration.jpg"; // updated path
+  MDBCol,
+  MDBDropdown,
+  MDBDropdownToggle,
+  MDBDropdownMenu,
+  MDBDropdownItem,
+} from 'mdb-react-ui-kit';
 
 export default function Register() {
+  const [role, setRole] = useState('Choose a role');
+
   return (
-    <div
-      className="card-hover shadow-lg rounded-5 overflow-hidden bg-white mx-auto"
-      style={{ maxWidth: "960px", width: "100%" }}
-      role="region"
-      aria-labelledby="register-heading"
-    >
-      <MDBRow className="g-0">
-        <MDBCol md="6">
+    <MDBContainer fluid className="d-flex justify-content-center align-items-center" style={{ minHeight: 'calc(100vh - 120px)' }}>
+      <MDBCard className="hover-grow d-flex flex-row overflow-hidden shadow" style={{ maxWidth: '850px', width: '100%' }}>
+        <MDBCol md="6" className="d-none d-md-block">
           <img
-            src={registerImage}
-            alt="A welcoming registration scene with people at a desk"
-            className="w-100 h-100 object-fit-cover"
+            src="/images/registration.jpg"
+            alt="Three women talking at a registration table"
+            className="img-fluid h-100 w-100 object-fit-cover"
+            style={{ objectFit: 'cover' }}
           />
         </MDBCol>
+        <MDBCardBody className="p-5 d-flex flex-column justify-content-center" style={{ flex: 1 }}>
+          <h4 className="mb-4 text-center">Create your account</h4>
 
-        <MDBCol md="6">
-          <MDBCardBody className="d-flex flex-column justify-content-center p-5">
-            <h3 className="text-center mb-4" id="register-heading">
-              Create your account
-            </h3>
+          <label htmlFor="registerEmail" className="sr-only">Email address</label>
+          <MDBInput id="registerEmail" label="Email address" type="email" className="mb-4" required />
 
-            <MDBInput
-              label="Email address"
-              id="register-email"
-              type="email"
-              className="mb-3"
-              aria-label="Email address"
-            />
+          <label htmlFor="registerPassword" className="sr-only">Password</label>
+          <MDBInput id="registerPassword" label="Password" type="password" className="mb-4" required />
 
-            <MDBInput
-              label="Password"
-              id="register-password"
-              type="password"
-              className="mb-3"
-              aria-label="Password"
-            />
+          <label htmlFor="registerConfirm" className="sr-only">Confirm Password</label>
+          <MDBInput id="registerConfirm" label="Confirm Password" type="password" className="mb-4" required />
 
-            <MDBInput
-              label="Confirm Password"
-              id="register-confirm-password"
-              type="password"
-              className="mb-4"
-              aria-label="Confirm password"
-            />
+          <label htmlFor="roleDropdown" className="sr-only">Select Role</label>
+          <MDBDropdown className="mb-4">
+            <MDBDropdownToggle color="light" id="roleDropdown">{role}</MDBDropdownToggle>
+            <MDBDropdownMenu>
+              {['Free', 'Client', 'Manager', 'Enterprise'].map((option) => (
+                <MDBDropdownItem key={option} onClick={() => setRole(option)}>
+                  {option}
+                </MDBDropdownItem>
+              ))}
+            </MDBDropdownMenu>
+          </MDBDropdown>
 
-            <MDBBtn className="w-100 mb-3" color="primary">
-              Register
-            </MDBBtn>
+          <MDBBtn className="btn-primary w-100 mb-3">Register</MDBBtn>
 
-            <div className="text-center" aria-label="Login redirect">
-              Already have an account?{" "}
-              <Link to="/login" className="text-decoration-underline">
-                Login
-              </Link>
-            </div>
-          </MDBCardBody>
-        </MDBCol>
-      </MDBRow>
-    </div>
+          <div className="text-center">
+            <small>Already have an account? <a href="/login">Login</a></small>
+          </div>
+        </MDBCardBody>
+      </MDBCard>
+    </MDBContainer>
   );
 }
