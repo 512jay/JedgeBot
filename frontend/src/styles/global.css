@@ -118,10 +118,30 @@ html {
 }
 
 /* Table row hover effect */
-.pricing-table tbody tr:hover {
-  background-color: rgba(255, 255, 255, 0.15);
-  transition: background-color 0.3s ease;
-  cursor: default;
+.table-hover tbody tr:hover {
+  background-color: rgba(100, 149, 237, 0.05);
+  /* light cornflowerblue */
+}
+
+.animate__animated {
+  animation-duration: 0.6s;
+  animation-fill-mode: both;
+}
+
+.animate__fadeIn {
+  animation-name: fadeIn;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Light mode default input + button */
