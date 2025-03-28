@@ -15,4 +15,6 @@ export const ROUTES = {
 
   DASHBOARD: "/dashboard",
   NOT_FOUND: "*",
+
+  TEST: "/test-centering",
 };

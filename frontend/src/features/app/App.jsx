@@ -1,4 +1,4 @@
-// /frontend/src/App.jsx
+// /frontend/src/features/app/App.jsx
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AppRoutes from "@/routes/AppRoutes";

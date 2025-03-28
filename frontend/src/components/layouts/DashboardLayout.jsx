@@ -1,7 +1,7 @@
 // /frontend/src/components/layouts/DashboardLayout.jsx
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Sidebar from "@/components/layout/Sidebar";
+import Sidebar from "@/components/layouts/Sidebar";
 import { useAuth } from "@/context/useAuth";
 
 export default function DashboardLayout({ children }) {

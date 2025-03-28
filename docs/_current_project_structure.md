@@ -324,8 +324,10 @@ JedgeBot/
 │   │   │   │   ├── 404.png
 │   │   │   │   ├── hero
 │   │   │   │   │   ├── forgot.jpg
+│   │   │   │   │   ├── login.webp
 │   │   │   │   │   ├── register.jpg
 │   │   │   │   │   ├── welcomejedgebot.jpg
+│   │   │   │   │   ├── welcomejedgebot.webp
 │   │   │   │   ├── landing-side.jpg
 │   │   │   │   ├── leftlogin.jpg
 │   │   │   │   ├── logo.webp
@@ -347,15 +349,13 @@ JedgeBot/
 │   │   │   ├── components
 │   │   │   │   ├── common
 │   │   │   │   │   ├── ToastMessage.jsx
-│   │   │   │   ├── layout
-│   │   │   │   │   ├── LoadingScreen.jsx
-│   │   │   │   │   ├── Sidebar.jsx
-│   │   │   │   │   ├── __tests__
 │   │   │   │   ├── layouts
 │   │   │   │   │   ├── DashboardLayout.jsx
+│   │   │   │   │   ├── Footer.jsx
+│   │   │   │   │   ├── Header.jsx
+│   │   │   │   │   ├── LoadingScreen.jsx
 │   │   │   │   │   ├── PublicLayout.jsx
-│   │   │   │   ├── routing
-│   │   │   │   │   ├── PrivateRoute.jsx
+│   │   │   │   │   ├── Sidebar.jsx
 │   │   │   │   ├── ui
 │   │   │   │   │   ├── Button.jsx
 │   │   │   │   │   ├── Card.jsx
@@ -407,10 +407,12 @@ JedgeBot/
 │   │   │   │   │   ├── __tests__
 │   │   │   │   │   │   ├── Landing.test.jsx
 │   │   │   │   ├── settings
-│   │   │   ├── index.css
 │   │   │   ├── main.jsx
+│   │   │   ├── pages
+│   │   │   │   ├── TestCentering.jsx
 │   │   │   ├── routes
 │   │   │   │   ├── AppRoutes.jsx
+│   │   │   │   ├── PrivateRoute.jsx
 │   │   │   │   ├── routes.js
 │   │   │   ├── styles
 │   │   │   │   ├── Landing.css

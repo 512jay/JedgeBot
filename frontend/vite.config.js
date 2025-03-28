@@ -22,6 +22,8 @@ export default defineConfig(({ mode }) => {
         "@auth": path.resolve(__dirname, "src/features/auth"),
         "@images": path.resolve(__dirname, "public/images"),
         "@styles": path.resolve(__dirname, "src/styles"),
+        "@pages": path.resolve(__dirname, "src/pages"),
+        "@useAuth": path.resolve(__dirname, "src/context/useAuth"),
       },
     },
     server: {

@@ -1,16 +1,34 @@
 import React from 'react';
-import { MDBInput, MDBBtn } from 'mdb-react-ui-kit';
+import { Form, Button, Card } from 'react-bootstrap';
 
 export default function Contact() {
   return (
-    <div className="p-5">
-      <h2>Contact Us</h2>
-      <form>
-        <MDBInput label='Your Email' type='email' required className='mb-3' />
-        <MDBInput label='Message' type='textarea' rows={4} required className='mb-3' />
-        <MDBBtn>Send Message</MDBBtn>
-      </form>
-    </div>
+    <Card className="shadow-sm">
+      <Card.Body className="p-5">
+        <h2 className="text-center mb-4">Contact Us</h2>
+        <Form>
+          <Form.Group className="mb-3">
+            <Form.Label>Your Email</Form.Label>
+            <Form.Control type="email" required placeholder="Enter your email" />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Message</Form.Label>
+            <Form.Control 
+              as="textarea" 
+              rows={4} 
+              required 
+              placeholder="Your message" 
+            />
+          </Form.Group>
+
+          <div className="text-center">
+            <Button variant="primary" type="submit">
+              Send Message
+            </Button>
+          </div>
+        </Form>
+      </Card.Body>
+    </Card>
   );
 }
-

@@ -1,16 +1,18 @@
 /* /frontend/src/styles/global.css */
 
 /* 🔹 Base HTML Reset */
-html,
-body {
-  height: 100%;
-  width: 100%;
+body,
+html {
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
+  background-color: #9A616D;
+  height: 100%;
+  width: 100%;
+  /* Changed from vw to % */
+  overflow-x: hidden;
 }
 
-/* 🔹 Brand Colors as CSS Variables (for custom classes or inline use) */
+/* 🔹 Brand Colors as CSS Variables */
 :root {
   --muted-rose: #9A616D;
   --cornflower-blue: #6495ED;
@@ -24,14 +26,33 @@ body {
   background-color: var(--cornflower-blue);
 }
 
-/* 🔹 Autofill Override for MDB <MDBInput> consistency */
-input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
-  -webkit-text-fill-color: black !important;
-  transition: background-color 5000s ease-in-out 0s;
+/* Removed the flex styling from :root */
+
+/* 🔹 Layout Helpers */
+.container-layout {
+  min-height: calc(100vh - 64px - 56px);
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-input {
-  color: black !important;
-  background-color: white !important;
+@media (max-width: 768px) {
+  .container-layout {
+    flex-direction: column;
+    padding: 1rem;
+  }
+}
+
+.visually-hidden {
+  border: 0 !important;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
 }

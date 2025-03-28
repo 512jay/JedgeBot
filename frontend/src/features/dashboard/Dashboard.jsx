@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/useAuth";
-import Sidebar from "../../components/layout/Sidebar";
+import Sidebar from "@/components/layouts/Sidebar";
 import {
   MDBContainer,
   MDBRow,

@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { ROUTES } from "@/routes/routes";
 import PublicLayout from "@/components/layouts/PublicLayout";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import PrivateRoute from "@/components/routing/PrivateRoute";
+import PrivateRoute from "@/routes/PrivateRoute";
 
 // Public pages
 import Landing from "@/features/landing/Landing";
@@ -22,11 +22,19 @@ import VerifyEmail from "@/features/auth/VerifyEmail";
 // Dashboard
 import Dashboard from "@/features/dashboard/Dashboard";
 
+// Testing
+import TestCentering from "../pages/TestCentering";
+
 export default function AppRoutes() {
   return (
     <Routes>
       {/* 🌐 Public-facing layout */}
       <Route element={<PublicLayout />}>
+        
+        {/* Testing */}
+        <Route path={ROUTES.TEST} element={<TestCentering />} />
+
+        {/* Landing page */}
         <Route path={ROUTES.HOME} element={<Landing />} />
         <Route path={ROUTES.ABOUT} element={<About />} />
         <Route path={ROUTES.PRICING} element={<Pricing />} />
