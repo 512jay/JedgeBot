@@ -11,7 +11,7 @@ import {
   MDBTypography
 } from "mdb-react-ui-kit";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/context/useAuth";
 import { login } from "@auth/auth_api";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";

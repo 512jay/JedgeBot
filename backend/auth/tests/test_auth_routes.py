@@ -25,8 +25,9 @@ def unique_username():
 
 
 def test_register_and_login_flow(
-    client: TestClient, get_db_session, unique_email: str, unique_username: str
+    client: TestClient, get_db_session, unique_email: str, unique_username: str, monkeypatch
 ):
+    monkeypatch.setattr("backend.core.settings.settings.ALLOW_REGISTRATION", True)
     # Step 1: Register a new user
     payload = {
         "email": unique_email,
@@ -66,8 +67,9 @@ def test_register_and_login_flow(
 
 
 def test_refresh_logout_me_flow(
-    client: TestClient, get_db_session, unique_email: str, unique_username: str
+    client: TestClient, get_db_session, unique_email: str, unique_username: str, monkeypatch
 ):
+    monkeypatch.setattr("backend.core.settings.settings.ALLOW_REGISTRATION", True)
     # Register
     payload = {
         "email": unique_email,
@@ -143,7 +145,9 @@ def test_login_nonexistent_email(client: TestClient):
     assert response.json()["detail"] == "Invalid email or password"
 
 
-def test_register_duplicate_email(client: TestClient, unique_email, unique_username):
+def test_register_duplicate_email(client: TestClient, unique_email, unique_username, monkeypatch):
+
+    monkeypatch.setattr("backend.core.settings.settings.ALLOW_REGISTRATION", True)
     # First registration
     client.post(
         "/auth/register",
@@ -248,8 +252,10 @@ def test_register_invalid_role(client: TestClient, unique_email, unique_username
 
 
 def test_check_with_tampered_access_token(
-    client: TestClient, get_db_session, unique_email, unique_username
+    client: TestClient, get_db_session, unique_email, unique_username, monkeypatch
 ):
+
+    monkeypatch.setattr("backend.core.settings.settings.ALLOW_REGISTRATION", True)
     # Register
     client.post(
         "/auth/register",
@@ -285,7 +291,9 @@ def test_check_with_tampered_access_token(
     assert response.status_code == 401
 
 
-def test_email_verification_flow(client: TestClient, get_db_session, unique_email, unique_username, monkeypatch):
+def test_email_verification_flow(
+    client: TestClient, get_db_session, unique_email, unique_username, monkeypatch
+):
     captured_email = {}
 
     # Monkeypatch send_email to capture the tokenized link
@@ -293,10 +301,15 @@ def test_email_verification_flow(client: TestClient, get_db_session, unique_emai
         assert to == unique_email
         assert "verify your email" in subject.lower()
         assert "verify-email?token=" in body
-        captured_email["link"] = [line for line in body.splitlines() if "verify-email?token=" in line][0]
+        captured_email["link"] = [
+            line for line in body.splitlines() if "verify-email?token=" in line
+        ][0]
 
-    # Replace the real send_email with our mock
+    # Patch both ALLOW_REGISTRATION and send_email using the same monkeypatch fixture
+    monkeypatch.setattr("backend.core.settings.settings.ALLOW_REGISTRATION", True)
+
     from backend.auth import auth_routes
+
     monkeypatch.setattr(auth_routes, "send_email", mock_send_email)
 
     # Register the user
@@ -333,8 +346,10 @@ def test_email_verification_flow(client: TestClient, get_db_session, unique_emai
 
 
 def test_email_verification_flow(
-    client: TestClient, get_db_session, unique_email, unique_username, captured_email
+    client: TestClient, get_db_session, unique_email, unique_username, captured_email, monkeypatch
 ):
+
+    monkeypatch.setattr("backend.core.settings.settings.ALLOW_REGISTRATION", True)
     # Register user (mocked email will be captured)
     payload = {
         "email": unique_email,
@@ -346,7 +361,6 @@ def test_email_verification_flow(
     assert response.status_code == 200
     message = response.json()["message"].lower()
     assert "verify" in message and "email" in message
-
 
     # Extract token from mocked email
     token_url = next(

@@ -223,6 +223,7 @@ JedgeBot/
 │   │   │   ├── main.jsx
 │   │   │   ├── routes
 │   │   │   │   ├── AppRoutes.jsx
+│   │   │   │   ├── routes.js
 │   │   │   ├── styles
 │   │   │   │   ├── Landing.css
 │   │   │   │   ├── Sidebar.css

@@ -1,7 +1,7 @@
 // /frontend/src/components/auth/PrivateRoute.jsx
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "@/context/useAuth";
 import LoadingScreen from "../layout/LoadingScreen"; // optional loading component
 
 const PrivateRoute = () => {
