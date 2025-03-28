@@ -26,15 +26,17 @@ export default defineConfig(({ mode }) => {
         "@useAuth": path.resolve(__dirname, "src/context/useAuth"),
       },
     },
-    server: {
-      proxy: {
-        "/auth": {
-          target: env.VITE_API_URL || "http://localhost:8000",
-          changeOrigin: true,
-          secure: false,
+      server: {
+        host: '0.0.0.0',
+        port: 5173,
+        proxy: {
+          "/auth": {
+            target: env.VITE_API_URL || "http://localhost:8000",
+            changeOrigin: true,
+            secure: false,
+          },
         },
       },
-    },
     define: {
       "import.meta.env.VITE_API_URL": JSON.stringify(env.VITE_API_URL || "http://localhost:8000"),
     },

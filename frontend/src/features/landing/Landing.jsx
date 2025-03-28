@@ -30,7 +30,7 @@ export default function Landing() {
 
   return (
     <MDBContainer className="landing-split d-flex flex-column align-items-center justify-content-center py-5">
-      <div className="landing-card">
+      <div className="landing-card hover-grow">
         {/* Hero Image */}
         <div className="image-section">
           <img
