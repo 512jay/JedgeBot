@@ -56,3 +56,126 @@ html {
   width: 1px;
   white-space: nowrap;
 }
+
+/* Button hover effect */
+.btn-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-hover:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(100, 149, 237, 0.3);
+  /* cornflowerblue glow */
+}
+
+/* Input field focus effect */
+.input-highlight:focus {
+  border-color: cornflowerblue;
+  box-shadow: 0 0 0 0.2rem rgba(100, 149, 237, 0.25);
+  /* cornflowerblue glow */
+  outline: none;
+}
+
+/* Card hover effect */
+.card-hover {
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card-hover:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Pricing table flair */
+
+.pricing-check {
+  color: #6495ED;
+  /* cornflowerblue */
+  font-size: 1.2rem;
+}
+
+.pricing-x {
+  color: #9A616D;
+  /* muted rose */
+  font-size: 1.2rem;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pricing-row {
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+/* Table row hover effect */
+.pricing-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transition: background-color 0.3s ease;
+  cursor: default;
+}
+
+/* Light mode default input + button */
+.input-highlight {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background-color: white;
+  color: #212529;
+}
+
+.input-highlight:focus {
+  border-color: cornflowerblue;
+  box-shadow: 0 0 0 0.2rem rgba(100, 149, 237, 0.25);
+  outline: none;
+}
+
+.input-highlight[aria-invalid="true"] {
+  border-color: #dc3545;
+  /* Bootstrap danger red */
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.btn-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: cornflowerblue;
+  color: white;
+}
+
+.btn-hover:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(100, 149, 237, 0.3);
+}
+
+/* Dark mode support using [data-theme="dark"] on <body> or html */
+[data-theme="dark"] .input-highlight {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+  border-color: #555;
+}
+
+[data-theme="dark"] .input-highlight:focus {
+  border-color: cornflowerblue;
+  box-shadow: 0 0 0 0.2rem rgba(100, 149, 237, 0.35);
+}
+
+[data-theme="dark"] .input-highlight[aria-invalid="true"] {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 0.2rem rgba(255, 107, 107, 0.3);
+}
+
+[data-theme="dark"] .btn-hover {
+  background-color: cornflowerblue;
+  color: white;
+}
+
+[data-theme="dark"] .btn-hover:hover {
+  box-shadow: 0 4px 12px rgba(100, 149, 237, 0.4);
+}

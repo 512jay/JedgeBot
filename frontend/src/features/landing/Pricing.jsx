@@ -4,18 +4,18 @@ import React from 'react';
 export default function Pricing() {
   return (
     <div
-      className="d-flex justify-content-center align-items-center"
-      style={{ minHeight: 'calc(100vh - 120px)' }} // header + footer
+      className="d-flex flex-column align-items-center justify-content-center"
+      style={{ minHeight: 'calc(100vh - 120px)' }} // Adjust for header/footer
     >
       <div
-        className="d-flex rounded shadow overflow-hidden"
+        className="d-flex rounded shadow overflow-hidden mb-4"
         style={{ maxWidth: '900px', width: '100%', backgroundColor: 'white' }}
         aria-labelledby="pricing-heading"
       >
         <div className="d-none d-md-block" style={{ flex: 1 }}>
           <img
             src="/images/pricing.jpg"
-            alt="A person pulling cash from a wallet, symbolizing investment decisions"
+            alt="Close-up of a person holding cash in a wallet"
             className="img-fluid h-100 w-100 object-fit-cover"
             style={{ objectFit: 'cover' }}
           />
@@ -24,31 +24,78 @@ export default function Pricing() {
           className="p-4 d-flex flex-column justify-content-center"
           style={{ flex: 1 }}
         >
-          <h2 id="pricing-heading">Plans That Grow With You</h2>
-          <p>
-            Whether you're just getting started or managing dozens of accounts, Fordis Ludus
-            meets you where you are—and helps you go further.
-          </p>
-
-          <ul className="list-unstyled">
-            <li className="mb-3">
-              <strong>🌱 Free:</strong>{' '}
-              Perfect for individual traders testing the waters. Connect 1 brokerage account and experience the core platform—no strings attached.
+          <h2 id="pricing-heading">Pricing</h2>
+          <ul>
+            <li><strong>Free:</strong> 1 brokerage account – perfect for testing the waters.</li>
+            <li>
+              <strong>Client ($30/month):</strong> Manage up to 10 accounts and access strategy automation with ease.
             </li>
-            <li className="mb-3">
-              <strong>🚀 Client ($30/month):</strong>{' '}
-              Serious about scaling? Manage up to 10 accounts with streamlined automation and professional tools to grow your portfolio.
+            <li>
+              <strong>Manager ($200/month):</strong> Control up to 100 accounts. Designed for professionals managing multiple clients.
             </li>
-            <li className="mb-3">
-              <strong>🏢 Manager ($200/month):</strong>{' '}
-              Designed for growing firms and advanced advisors. Manage up to <strong>100 accounts</strong>, with access to detailed analytics, compliance exports, and white-glove support.
-            </li>
-            <li className="mb-3">
-              <strong>🏛️ Enterprise:</strong>{' '}
-              Built for institutions. Manage unlimited managers and accounts across teams. <a href="/contact">Contact us for pricing</a> and tailored onboarding.
+            <li>
+              <strong>Enterprise:</strong> Need more? Get in touch to discuss pricing, compliance, and custom features.
             </li>
           </ul>
         </div>
+      </div>
+
+      <div className="table-responsive" style={{ maxWidth: '960px', width: '100%' }}>
+        <table className="table text-center shadow-sm animated-table">
+          <thead className="table-light">
+            <tr>
+              <th>Feature</th>
+              <th>Free</th>
+              <th>Client ($30/mo)</th>
+              <th>Manager ($200/mo)</th>
+              <th>Enterprise</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td># of Brokerage Accounts</td>
+              <td>1</td>
+              <td>Up to 10</td>
+              <td>Up to 100</td>
+              <td>Unlimited</td>
+            </tr>
+            <tr>
+              <td>Strategy Support</td>
+              <td>Basic</td>
+              <td>Standard</td>
+              <td>Advanced</td>
+              <td>Custom</td>
+            </tr>
+            <tr>
+              <td>Priority Support</td>
+              <td><span className="xmark">✗</span></td>
+              <td><span className="checkmark">✓</span></td>
+              <td><span className="checkmark">✓</span></td>
+              <td>VIP</td>
+            </tr>
+            <tr>
+              <td>Manage Clients</td>
+              <td><span className="xmark">✗</span></td>
+              <td><span className="xmark">✗</span></td>
+              <td><span className="checkmark">✓</span></td>
+              <td><span className="checkmark">✓</span></td>
+            </tr>
+            <tr>
+              <td>Onboarding Assistance</td>
+              <td><span className="xmark">✗</span></td>
+              <td><span className="xmark">✗</span></td>
+              <td><span className="xmark">✗</span></td>
+              <td>Negotiable</td>
+            </tr>
+            <tr>
+              <td>Custom Reporting</td>
+              <td><span className="xmark">✗</span></td>
+              <td><span className="xmark">✗</span></td>
+              <td><span className="xmark">✗</span></td>
+              <td><span className="checkmark">✓</span></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );
