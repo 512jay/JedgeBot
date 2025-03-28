@@ -1,109 +1,32 @@
-/* /frontend/src/styles/global.css */
-
-/* 🔹 Base HTML Reset */
-body,
-html {
-  margin: 0;
-  padding: 0;
-  background-color: #9A616D;
-  height: 100%;
-  width: 100%;
-  /* Changed from vw to % */
-  overflow-x: hidden;
-}
-
-/* 🔹 Brand Colors as CSS Variables */
+/* /frontend/src/global.css */
+/* Global brand colors */
 :root {
-  --muted-rose: #9A616D;
-  --cornflower-blue: #6495ED;
+  --color-cornflower: cornflowerblue;
+  --color-mutedrose: #9A616D;
+  --color-hover: rgba(100, 149, 237, 0.08);
+  /* cornflowerblue soft */
 }
 
-.bg-mutedRose {
-  background-color: var(--muted-rose);
-}
-
-.bg-cornflowerBlue {
-  background-color: var(--cornflower-blue);
-}
-
-/* Removed the flex styling from :root */
-
-/* 🔹 Layout Helpers */
-.container-layout {
-  min-height: calc(100vh - 64px - 56px);
-  padding: 2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-@media (max-width: 768px) {
-  .container-layout {
-    flex-direction: column;
-    padding: 1rem;
-  }
-}
-
-.visually-hidden {
-  border: 0 !important;
-  clip: rect(1px, 1px, 1px, 1px);
-  clip-path: inset(50%);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
-  white-space: nowrap;
-}
-
-/* Button hover effect */
-.btn-hover {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.btn-hover:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(100, 149, 237, 0.3);
-  /* cornflowerblue glow */
-}
-
-/* Input field focus effect */
-.input-highlight:focus {
-  border-color: cornflowerblue;
-  box-shadow: 0 0 0 0.2rem rgba(100, 149, 237, 0.25);
-  /* cornflowerblue glow */
-  outline: none;
-}
-
-/* Card hover effect */
-.card-hover {
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-.card-hover:hover {
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  transform: translateY(-2px);
-}
-
-/* Pricing table flair */
-
+/* Pricing checkmark and X mark styles */
 .pricing-check {
-  color: #6495ED;
-  /* cornflowerblue */
-  font-size: 1.2rem;
+  color: var(--color-cornflower);
+  font-weight: bold;
 }
 
 .pricing-x {
-  color: #9A616D;
-  /* muted rose */
-  font-size: 1.2rem;
+  color: var(--color-mutedrose);
+  font-weight: bold;
+}
+
+/* Table row animation */
+.pricing-row {
+  animation: fadeInUp 0.6s ease forwards;
 }
 
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(15px);
+    transform: translateY(12px);
   }
 
   to {
@@ -112,90 +35,8 @@ html {
   }
 }
 
-.pricing-row {
-  animation: fadeInUp 0.6s ease forwards;
-  opacity: 0;
-}
-
-/* Table row hover effect */
+/* Table hover effect */
 .table-hover tbody tr:hover {
-  background-color: rgba(100, 149, 237, 0.05);
-  /* light cornflowerblue */
-}
-
-.animate__animated {
-  animation-duration: 0.6s;
-  animation-fill-mode: both;
-}
-
-.animate__fadeIn {
-  animation-name: fadeIn;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Light mode default input + button */
-.input-highlight {
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  background-color: white;
-  color: #212529;
-}
-
-.input-highlight:focus {
-  border-color: cornflowerblue;
-  box-shadow: 0 0 0 0.2rem rgba(100, 149, 237, 0.25);
-  outline: none;
-}
-
-.input-highlight[aria-invalid="true"] {
-  border-color: #dc3545;
-  /* Bootstrap danger red */
-  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
-}
-
-.btn-hover {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  background-color: cornflowerblue;
-  color: white;
-}
-
-.btn-hover:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(100, 149, 237, 0.3);
-}
-
-/* Dark mode support using [data-theme="dark"] on <body> or html */
-[data-theme="dark"] .input-highlight {
-  background-color: #1e1e1e;
-  color: #f1f1f1;
-  border-color: #555;
-}
-
-[data-theme="dark"] .input-highlight:focus {
-  border-color: cornflowerblue;
-  box-shadow: 0 0 0 0.2rem rgba(100, 149, 237, 0.35);
-}
-
-[data-theme="dark"] .input-highlight[aria-invalid="true"] {
-  border-color: #ff6b6b;
-  box-shadow: 0 0 0 0.2rem rgba(255, 107, 107, 0.3);
-}
-
-[data-theme="dark"] .btn-hover {
-  background-color: cornflowerblue;
-  color: white;
-}
-
-[data-theme="dark"] .btn-hover:hover {
-  box-shadow: 0 4px 12px rgba(100, 149, 237, 0.4);
+  background-color: var(--color-hover);
+  transition: background-color 0.3s ease;
 }
