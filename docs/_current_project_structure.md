@@ -323,6 +323,7 @@ JedgeBot/
 │   │   │   ├── images
 │   │   │   │   ├── 404.png
 │   │   │   │   ├── about.jpg
+│   │   │   │   ├── contact.jpg
 │   │   │   │   ├── hero
 │   │   │   │   │   ├── forgot.jpg
 │   │   │   │   │   ├── login.webp

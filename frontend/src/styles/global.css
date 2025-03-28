@@ -1,42 +1,125 @@
 /* /frontend/src/global.css */
-/* Global brand colors */
+
+/* Theme Colors */
 :root {
-  --color-cornflower: cornflowerblue;
-  --color-mutedrose: #9A616D;
-  --color-hover: rgba(100, 149, 237, 0.08);
-  /* cornflowerblue soft */
+  --cornflowerblue: #6495ED;
+  --mutedrose: #9A616D;
 }
 
-/* Pricing checkmark and X mark styles */
-.pricing-check {
-  color: var(--color-cornflower);
-  font-weight: bold;
+body {
+  background-color: var(--mutedrose);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #212529;
 }
 
-.pricing-x {
-  color: var(--color-mutedrose);
-  font-weight: bold;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
 }
 
-/* Table row animation */
-.pricing-row {
-  animation: fadeInUp 0.6s ease forwards;
+button,
+.btn {
+  border-radius: 0.3rem;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.btn-primary {
+  background-color: var(--cornflowerblue);
+  border-color: var(--cornflowerblue);
 }
 
-/* Table hover effect */
+.btn-primary:hover {
+  background-color: #517fd4;
+  border-color: #517fd4;
+}
+
+a {
+  color: var(--cornflowerblue);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.card,
+.hover-grow {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover,
+.hover-grow:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
 .table-hover tbody tr:hover {
-  background-color: var(--color-hover);
-  transition: background-color 0.3s ease;
+  background-color: rgba(100, 149, 237, 0.1);
+  /* soft cornflowerblue */
+}
+
+th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+/* Utility class for accessibility outlines */
+:focus-visible {
+  outline: 2px dashed var(--cornflowerblue);
+  outline-offset: 3px;
+}
+
+/* Remove Bootstrap's default focus ring */
+:focus {
+  box-shadow: none !important;
+}
+
+/* Custom checkbox/X colors */
+.text-check {
+  color: var(--cornflowerblue);
+  font-weight: bold;
+}
+
+.text-x {
+  color: var(--mutedrose);
+  font-weight: bold;
+}
+
+/* Responsive Image Styling */
+img.img-fluid {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Accessibility: High contrast for screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Automatically apply hover-grow effect to all MDB cards */
+.card:hover .card-body {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform: scale(1.02);
+  z-index: 1;
+  position: relative;
+}
+
+.card-body {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }

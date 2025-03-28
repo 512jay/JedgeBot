@@ -47,7 +47,7 @@ export default function Login() {
         <MDBCol md="6">
           <MDBCardBody
             className="d-flex flex-column justify-content-center p-5"
-            aria-labelledby="login-title"
+            aria-labelledby="login-title" 
           >
             <h3 id="login-title" className="text-center mb-4">
               Sign into your account
