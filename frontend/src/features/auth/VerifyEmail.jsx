@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { MDBTypography, MDBBtn } from "mdb-react-ui-kit";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -14,6 +13,8 @@ export default function VerifyEmail() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.title = "Verify Email | Fordis Ludus";
+
     if (!token) {
       setStatus("error");
       setMessage("Missing or invalid token.");
@@ -43,31 +44,22 @@ export default function VerifyEmail() {
 
   return (
     <div
-      className="bg-mutedRose d-flex align-items-center justify-content-center"
-      style={{ minHeight: "100vh", width: "100vw" }}
+      className="shadow-lg rounded-5 overflow-hidden bg-white p-5 text-center mx-auto"
+      style={{ maxWidth: "500px", width: "100%" }}
     >
-      <Helmet>
-        <title>Verify Email | JedgeBot</title>
-      </Helmet>
+      <MDBTypography tag="h4" className="mb-4">
+        Email Verification
+      </MDBTypography>
 
-      <div
-        className="shadow-lg rounded-5 overflow-hidden bg-white p-5 text-center"
-        style={{ maxWidth: "500px", width: "100%" }}
-      >
-        <MDBTypography tag="h4" className="mb-4">
-          Email Verification
-        </MDBTypography>
+      <p className={`text-${status === "success" ? "success" : "danger"}`}>
+        {message}
+      </p>
 
-        <p className={`text-${status === "success" ? "success" : "danger"}`}>
-          {message}
-        </p>
-
-        {status === "error" && (
-          <MDBBtn color="primary" onClick={() => navigate("/login")}>
-            ← Back to Login
-          </MDBBtn>
-        )}
-      </div>
+      {status === "error" && (
+        <MDBBtn color="primary" onClick={() => navigate("/login")}>
+          ← Back to Login
+        </MDBBtn>
+      )}
     </div>
   );
 }

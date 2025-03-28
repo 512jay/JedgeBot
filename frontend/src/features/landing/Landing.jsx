@@ -1,62 +1,118 @@
 // /frontend/src/features/landing/Landing.jsx
-import React from 'react';
-import { Link } from 'react-router-dom';
-import WaitlistForm from './WaitlistForm';
-import '@/styles/Landing.css';
-import '@/styles/global.css';
+import React, { useState } from "react";
 import {
-  MDBNavbar,
-  MDBNavbarBrand,
-  MDBNavbarNav,
-  MDBNavbarItem,
   MDBContainer,
-  MDBFooter
-} from 'mdb-react-ui-kit';
+  MDBInput,
+  MDBBtn
+} from "mdb-react-ui-kit";
+import "@styles/Landing.css";
+
+const heroImage = "/images/hero/welcomejedgebot.jpg"; // public image path
 
 export default function Landing() {
-  return (
-    <div className="bg-mutedRose min-vh-100 d-flex flex-column">
-      {/* Top Navbar */}
-      <MDBNavbar expand="lg" light bgColor="light" className="landing-navbar shadow-sm">
-        <MDBContainer>
-          <MDBNavbarBrand tag={Link} to="/" className="fw-bold" style={{ color: '#9A616D' }}>
-            Fordis Ludus
-          </MDBNavbarBrand>
-          <MDBNavbarNav right fullWidth={false} className="d-flex flex-row gap-3">
-            <MDBNavbarItem><Link className="nav-link" to="/about">About</Link></MDBNavbarItem>
-            <MDBNavbarItem><Link className="nav-link" to="/pricing">Pricing</Link></MDBNavbarItem>
-            <MDBNavbarItem><Link className="nav-link" to="/contact">Contact</Link></MDBNavbarItem>
-            <MDBNavbarItem><Link className="nav-link" to="/login">Login</Link></MDBNavbarItem>
-            <MDBNavbarItem><Link className="nav-link" to="/register">Register</Link></MDBNavbarItem>
-          </MDBNavbarNav>
-        </MDBContainer>
-      </MDBNavbar>
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [role, setRole] = useState("");
+  const [message, setMessage] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
 
-      {/* Main Split Section */}
-      <div className="flex-grow-1 d-flex justify-content-center align-items-center landing-split">
-        <div className="landing-card shadow-lg">
-          <div className="image-section">
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Waitlist form submitted:", { email, name, role, message });
+
+    // Simulated success
+    setEmail("");
+    setName("");
+    setRole("");
+    setMessage("");
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3500);
+  };
+
+  return (
+    <>
+      <MDBContainer fluid className="min-vh-100 d-flex flex-column bg-muted-rose">
+        <div className="d-flex flex-column flex-lg-row justify-content-center align-items-center flex-grow-1">
+          {/* Hero Image */}
+          <div className="w-100 w-lg-50">
             <img
-              src="/images/landing-side.jpg"
-              alt="Welcome to Fordis Ludus"
-              className="img-fluid h-100 w-100 object-cover rounded-start"
+              src={heroImage}
+              alt="Trading dashboard"
+              className="img-fluid h-100 w-100 object-cover"
+              style={{ objectFit: "cover", borderRadius: "1rem 0 0 1rem" }}
             />
           </div>
-          <div className="form-section p-4">
-            <h2 className="mb-3 text-center">Fordis Ludus</h2>
-            <p className="mb-4 text-center">Multi-Broker Trading. Automated. Intelligent.</p>
-            <WaitlistForm />
+
+          {/* Waitlist Form */}
+          <div className="bg-white p-4 p-md-5 shadow-lg rounded w-100 w-lg-50">
+            <h3 className="text-center fw-bold mb-3">Fordis Ludus</h3>
+            <p className="text-center text-muted mb-4">
+              Multi-Broker Trading. Automated. Intelligent.
+            </p>
+
+            <form onSubmit={handleSubmit}>
+              <MDBInput
+                label="Email"
+                type="email"
+                className="mb-3"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+
+              <MDBInput
+                label="Name (optional)"
+                type="text"
+                className="mb-3"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+
+              <div className="form-outline mb-3">
+                <label className="form-label" htmlFor="role">
+                  Select Role
+                </label>
+                <select
+                  id="role"
+                  className="form-select"
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  required
+                >
+                  <option value="">Choose...</option>
+                  <option value="client">Client</option>
+                  <option value="manager">Manager</option>
+                  <option value="enterprise">Enterprise</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <MDBInput
+                label="What would you like to see in Fordis Ludus?"
+                type="text"
+                className="mb-3"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+              />
+
+              <MDBBtn type="submit" className="w-100 bg-primary">
+                JOIN THE WAITLIST
+              </MDBBtn>
+
+              {showSuccess && (
+                <div className="alert alert-success mt-3" role="alert">
+                  🎉 You’re on the list! Thanks for believing in Fordis Ludus.
+                </div>
+              )}
+            </form>
           </div>
         </div>
-      </div>
 
-      {/* Footer */}
-      <MDBFooter className="text-center text-white py-3" style={{ backgroundColor: '#9A616D' }}>
-        © {new Date().getFullYear()} Fordis Ludus &nbsp;|&nbsp;
-        <Link to="/terms" className="text-white text-decoration-underline">Terms</Link> &nbsp;|&nbsp;
-        <Link to="/privacy" className="text-white text-decoration-underline">Privacy</Link> &nbsp;|&nbsp;
-        <Link to="/contact" className="text-white text-decoration-underline">Contact</Link>
-      </MDBFooter>
-    </div>
+        <footer className="text-center text-white mt-auto py-3 small bg-dark bg-opacity-25">
+          © 2025 Fordis Ludus | <a href="/terms">Terms</a> |{" "}
+          <a href="/privacy">Privacy</a> | <a href="/contact">Contact</a>
+        </footer>
+      </MDBContainer>
+    </>
   );
 }

@@ -1,110 +1,73 @@
-// /frontend/src/features/auth/ForgotPassword.jsx
-// Forgot password form allowing users to request a reset email.
+// /frontend/src/features/auth/pages/ForgotPassword.jsx
+// Page for requesting a password reset link, with a11y and semantic markup
 
-import React, { useState } from "react";
-import { MDBInput, MDBBtn, MDBTypography } from "mdb-react-ui-kit";
-import { Helmet } from "react-helmet-async";
+import { MDBCardBody, MDBCol, MDBInput, MDBRow, MDBBtn } from "mdb-react-ui-kit";
+import { Link } from "react-router-dom";
+import forgotImage from "/images/hero/forgot.jpg";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
-const RESET_ENDPOINT = `${API_URL}/auth/forgot-password`;
-
-function ForgotPassword() {
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [message, setMessage] = useState(null);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
-    setMessage(null);
-    setLoading(true);
-
-    try {
-      const response = await fetch(RESET_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessage(`If an account exists for ${email}, a reset link has been sent.`);
-      } else {
-        setError(data.detail || "Something went wrong.");
-      }
-    } catch (err) {
-      console.error("Forgot password error:", err);
-      setError("Unable to process your request. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
+export default function ForgotPassword() {
   return (
     <div
-      className="bg-mutedRose d-flex align-items-center justify-content-center"
-      style={{ minHeight: "100vh", width: "100vw" }}
+      className="shadow-lg rounded-5 overflow-hidden bg-white mx-auto"
+      style={{ maxWidth: "960px", width: "100%" }}
+      role="main"
     >
-      <Helmet>
-        <title>Forgot Password | FL</title>
-      </Helmet>
+      <MDBRow className="g-0">
+        {/* Left image section */}
+        <MDBCol md="6">
+          <img
+            src={forgotImage}
+            alt="Reset password illustration"
+            className="w-100 h-100 object-fit-cover"
+          />
+        </MDBCol>
 
-      <div
-        className="shadow-lg rounded-5 overflow-hidden bg-white"
-        style={{ maxWidth: "960px", width: "100%" }}
-      >
-        <div className="row g-0">
-          {/* Left Image */}
-          <div className="col-md-6 d-none d-md-block">
-            <img
-              src="/images/registrationleft.jpg"
-              alt="Confident Black woman in a professional setting, seated at a modern desk in a stylish office, wearing a beige blazer and natural hair styled in an afro."
-              className="img-fluid h-100 w-100"
-              style={{ objectFit: "cover" }}
-            />
-          </div>
+        {/* Right form section */}
+        <MDBCol md="6">
+          <MDBCardBody
+            className="d-flex flex-column justify-content-center p-5"
+            aria-label="Password reset request form"
+          >
+            <h3 className="text-center mb-4">Forgot your password?</h3>
+            <p className="text-center mb-4">
+              Enter your email and we'll send you a reset link.
+            </p>
 
-          {/* Right Form */}
-          <div className="col-md-6 d-flex flex-column justify-content-center align-items-center p-5">
-            <MDBTypography tag="h4" className="mb-4 text-center">
-              Forgot your password?
-            </MDBTypography>
-
-            <form onSubmit={handleSubmit} className="w-100 px-3" noValidate>
-              <label htmlFor="email" className="form-label">
-                Enter your email address
+            {/* Form input */}
+            <form className="w-100" noValidate aria-label="Forgot password form">
+              <label htmlFor="forgot-email" className="form-label">
+                Email address
               </label>
               <MDBInput
-                id="email"
+                id="forgot-email"
                 type="email"
                 required
-                autoComplete="email"
-                className="mb-3"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                aria-describedby="forgot-help-text"
+                size="lg"
+                aria-label="Email address"
+                className="mb-4"
               />
 
-              {error && <p className="text-danger text-center" role="alert">{error}</p>}
-              {message && <p className="text-success text-center" role="status">{message}</p>}
-
-              <MDBBtn type="submit" className="w-100" disabled={loading}>
-                {loading ? "Sending..." : "Request Reset Link"}
+              {/* Submit button */}
+              <MDBBtn
+                type="submit"
+                className="w-100 mb-3"
+                color="primary"
+                aria-label="Send password reset link"
+              >
+                Send Reset Link
               </MDBBtn>
             </form>
 
-            <p className="mt-4 text-center">
-              <a href="/login" className="text-primary">
-                ← Back to login
-              </a>
-            </p>
-          </div>
-        </div>
-      </div>
+            {/* Navigation link */}
+            <div className="text-center mt-2">
+              <span>Remembered your password? </span>
+              <Link to="/login" aria-label="Login page">
+                Login
+              </Link>
+            </div>
+          </MDBCardBody>
+        </MDBCol>
+      </MDBRow>
     </div>
   );
 }
-
-export default ForgotPassword;

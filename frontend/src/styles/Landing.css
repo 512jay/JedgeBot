@@ -1,5 +1,32 @@
 /* Landing.css - Layout inspired by Login page */
 
+/* Toast style */
+.custom-toast {
+    animation: fade-in-out 3.5s ease-in-out;
+}
+
+@keyframes fade-in-out {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    10% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    90% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+}
+
 .landing-split {
     padding: 2rem;
 }
@@ -17,7 +44,6 @@
 .image-section {
     width: 50%;
     min-height: 400px;
-    display: none;
 }
 
 .image-section img {

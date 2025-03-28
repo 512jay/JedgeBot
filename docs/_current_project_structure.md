@@ -97,6 +97,96 @@ JedgeBot/
 │   │   │   ├── security_utils.py
 │   ├── check_db_env.py
 │   ├── conftest.py
+│   ├── coverage
+│   │   ├── base.css
+│   │   ├── block-navigation.js
+│   │   ├── clover.xml
+│   │   ├── coverage-final.json
+│   │   ├── favicon.png
+│   │   ├── frontend
+│   │   │   ├── index.html
+│   │   │   ├── src
+│   │   │   │   ├── api
+│   │   │   │   │   ├── api_client.js.html
+│   │   │   │   │   ├── index.html
+│   │   │   │   ├── components
+│   │   │   │   │   ├── common
+│   │   │   │   │   │   ├── ToastMessage.jsx.html
+│   │   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── layout
+│   │   │   │   │   │   ├── LoadingScreen.jsx.html
+│   │   │   │   │   │   ├── Sidebar.jsx.html
+│   │   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── layouts
+│   │   │   │   │   │   ├── DashboardLayout.jsx.html
+│   │   │   │   │   │   ├── PublicLayout.jsx.html
+│   │   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── routing
+│   │   │   │   │   │   ├── PrivateRoute.jsx.html
+│   │   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── ui
+│   │   │   │   │   │   ├── Button.jsx.html
+│   │   │   │   │   │   ├── Card.jsx.html
+│   │   │   │   │   │   ├── PieChart.jsx.html
+│   │   │   │   │   │   ├── Table.jsx.html
+│   │   │   │   │   │   ├── index.html
+│   │   │   │   ├── context
+│   │   │   │   │   ├── AuthProvider.jsx.html
+│   │   │   │   │   ├── auth-context.js.html
+│   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── useAuth.js.html
+│   │   │   │   ├── features
+│   │   │   │   │   ├── app
+│   │   │   │   │   │   ├── App.jsx.html
+│   │   │   │   │   │   ├── index.html
+│   │   │   │   │   │   ├── pages
+│   │   │   │   │   │   │   ├── NotFound.jsx.html
+│   │   │   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── auth
+│   │   │   │   │   │   ├── ForgotPassword.jsx.html
+│   │   │   │   │   │   ├── Login.jsx.html
+│   │   │   │   │   │   ├── Register.jsx.html
+│   │   │   │   │   │   ├── ResetPassword.jsx.html
+│   │   │   │   │   │   ├── VerifyEmail.jsx.html
+│   │   │   │   │   │   ├── auth_api.js.html
+│   │   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── dashboard
+│   │   │   │   │   │   ├── Dashboard.jsx.html
+│   │   │   │   │   │   ├── DashboardCards.jsx.html
+│   │   │   │   │   │   ├── index.html
+│   │   │   │   │   │   ├── views
+│   │   │   │   │   │   │   ├── ClientDashboard.jsx.html
+│   │   │   │   │   │   │   ├── EnterpriseDashboard.jsx.html
+│   │   │   │   │   │   │   ├── FreeDashboard.jsx.html
+│   │   │   │   │   │   │   ├── ManagerDashboard.jsx.html
+│   │   │   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── landing
+│   │   │   │   │   │   ├── About.jsx.html
+│   │   │   │   │   │   ├── Contact.jsx.html
+│   │   │   │   │   │   ├── Landing.jsx.html
+│   │   │   │   │   │   ├── Pricing.jsx.html
+│   │   │   │   │   │   ├── WaitlistForm.jsx.html
+│   │   │   │   │   │   ├── index.html
+│   │   │   │   ├── index.html
+│   │   │   │   ├── main.jsx.html
+│   │   │   │   ├── routes
+│   │   │   │   │   ├── AppRoutes.jsx.html
+│   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── routes.js.html
+│   │   │   │   ├── test-utils
+│   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── renderWithProviders.jsx.html
+│   │   │   │   ├── utils
+│   │   │   │   │   ├── apiClient.js.html
+│   │   │   │   │   ├── authHelpers.js.html
+│   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── setupTestUser.js.html
+│   │   │   ├── tailwind.config.js.html
+│   │   ├── index.html
+│   │   ├── prettify.css
+│   │   ├── prettify.js
+│   │   ├── sort-arrow-sprite.png
+│   │   ├── sorter.js
 │   ├── docker-compose.yml
 │   ├── docker-entrypoint-initdb.d
 │   │   ├── create_auth_db.sql
@@ -128,6 +218,97 @@ JedgeBot/
 │   │   │   │   ├── _metadata.json
 │   │   │   │   ├── package.json
 │   │   ├── README.md
+│   │   ├── coverage
+│   │   │   ├── base.css
+│   │   │   ├── block-navigation.js
+│   │   │   ├── clover.xml
+│   │   │   ├── coverage-final.json
+│   │   │   ├── favicon.png
+│   │   │   ├── frontend
+│   │   │   │   ├── index.html
+│   │   │   │   ├── src
+│   │   │   │   │   ├── api
+│   │   │   │   │   │   ├── api_client.js.html
+│   │   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── components
+│   │   │   │   │   │   ├── common
+│   │   │   │   │   │   │   ├── ToastMessage.jsx.html
+│   │   │   │   │   │   │   ├── index.html
+│   │   │   │   │   │   ├── layout
+│   │   │   │   │   │   │   ├── LoadingScreen.jsx.html
+│   │   │   │   │   │   │   ├── Sidebar.jsx.html
+│   │   │   │   │   │   │   ├── index.html
+│   │   │   │   │   │   ├── layouts
+│   │   │   │   │   │   │   ├── DashboardLayout.jsx.html
+│   │   │   │   │   │   │   ├── PublicLayout.jsx.html
+│   │   │   │   │   │   │   ├── index.html
+│   │   │   │   │   │   ├── routing
+│   │   │   │   │   │   │   ├── PrivateRoute.jsx.html
+│   │   │   │   │   │   │   ├── index.html
+│   │   │   │   │   │   ├── ui
+│   │   │   │   │   │   │   ├── Button.jsx.html
+│   │   │   │   │   │   │   ├── Card.jsx.html
+│   │   │   │   │   │   │   ├── PieChart.jsx.html
+│   │   │   │   │   │   │   ├── Table.jsx.html
+│   │   │   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── context
+│   │   │   │   │   │   ├── AuthProvider.jsx.html
+│   │   │   │   │   │   ├── auth-context.js.html
+│   │   │   │   │   │   ├── index.html
+│   │   │   │   │   │   ├── useAuth.js.html
+│   │   │   │   │   ├── features
+│   │   │   │   │   │   ├── app
+│   │   │   │   │   │   │   ├── App.jsx.html
+│   │   │   │   │   │   │   ├── index.html
+│   │   │   │   │   │   │   ├── pages
+│   │   │   │   │   │   │   │   ├── NotFound.jsx.html
+│   │   │   │   │   │   │   │   ├── index.html
+│   │   │   │   │   │   ├── auth
+│   │   │   │   │   │   │   ├── ForgotPassword.jsx.html
+│   │   │   │   │   │   │   ├── Login.jsx.html
+│   │   │   │   │   │   │   ├── Register.jsx.html
+│   │   │   │   │   │   │   ├── ResetPassword.jsx.html
+│   │   │   │   │   │   │   ├── VerifyEmail.jsx.html
+│   │   │   │   │   │   │   ├── auth_api.js.html
+│   │   │   │   │   │   │   ├── index.html
+│   │   │   │   │   │   ├── dashboard
+│   │   │   │   │   │   │   ├── Dashboard.jsx.html
+│   │   │   │   │   │   │   ├── DashboardCards.jsx.html
+│   │   │   │   │   │   │   ├── index.html
+│   │   │   │   │   │   │   ├── views
+│   │   │   │   │   │   │   │   ├── ClientDashboard.jsx.html
+│   │   │   │   │   │   │   │   ├── EnterpriseDashboard.jsx.html
+│   │   │   │   │   │   │   │   ├── FreeDashboard.jsx.html
+│   │   │   │   │   │   │   │   ├── ManagerDashboard.jsx.html
+│   │   │   │   │   │   │   │   ├── index.html
+│   │   │   │   │   │   ├── landing
+│   │   │   │   │   │   │   ├── About.jsx.html
+│   │   │   │   │   │   │   ├── Contact.jsx.html
+│   │   │   │   │   │   │   ├── Landing.jsx.html
+│   │   │   │   │   │   │   ├── Pricing.jsx.html
+│   │   │   │   │   │   │   ├── WaitlistForm.jsx.html
+│   │   │   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── main.jsx.html
+│   │   │   │   │   ├── routes
+│   │   │   │   │   │   ├── AppRoutes.jsx.html
+│   │   │   │   │   │   ├── index.html
+│   │   │   │   │   │   ├── routes.js.html
+│   │   │   │   │   ├── test-utils
+│   │   │   │   │   │   ├── index.html
+│   │   │   │   │   │   ├── renderWithProviders.jsx.html
+│   │   │   │   │   │   ├── setup.js.html
+│   │   │   │   │   ├── utils
+│   │   │   │   │   │   ├── apiClient.js.html
+│   │   │   │   │   │   ├── authHelpers.js.html
+│   │   │   │   │   │   ├── index.html
+│   │   │   │   │   │   ├── setupTestUser.js.html
+│   │   │   │   ├── tailwind.config.js.html
+│   │   │   ├── index.html
+│   │   │   ├── prettify.css
+│   │   │   ├── prettify.js
+│   │   │   ├── sort-arrow-sprite.png
+│   │   │   ├── sorter.js
 │   │   ├── dev
 │   │   │   ├── roadmaps
 │   │   │   │   ├── Dashboar_Role_Routing.md
@@ -141,13 +322,20 @@ JedgeBot/
 │   │   ├── public
 │   │   │   ├── images
 │   │   │   │   ├── 404.png
+│   │   │   │   ├── hero
+│   │   │   │   │   ├── forgot.jpg
+│   │   │   │   │   ├── register.jpg
+│   │   │   │   │   ├── welcomejedgebot.jpg
 │   │   │   │   ├── landing-side.jpg
 │   │   │   │   ├── leftlogin.jpg
 │   │   │   │   ├── logo.webp
+│   │   │   │   ├── raw
+│   │   │   │   │   ├── DALL·E 2025-03-28 10.59.48 - A whimsical, wordless illustration representing forgetting a password, designed for a SaaS trading platform. The scene features a puzzled character se.webp
+│   │   │   │   │   ├── DALL·E 2025-03-28 11.13.35 - A modern, wordless illustration representing resetting a password, designed for a SaaS trading platform. The scene features a relieved character succe.webp
+│   │   │   │   │   ├── DALL·E 2025-03-28 12.34.54 - A sleek, wordless illustration representing a login page for a SaaS trading platform. The scene features a confident character entering a secure porta.webp
+│   │   │   │   │   ├── welcomejedgebot.webp
 │   │   │   │   ├── registrationleft.jpg
 │   │   │   │   ├── registrationleft.webp
-│   │   │   │   ├── welcomejedgebot.jpg
-│   │   │   │   ├── welcomejedgebot.webp
 │   │   │   ├── vite.svg
 │   │   ├── src
 │   │   │   ├── __tests__

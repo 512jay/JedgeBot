@@ -1,7 +1,6 @@
 // /frontend/src/features/auth/Login.jsx
 // Login form for user authentication
 
-import { Helmet } from "react-helmet-async";
 import React, { useState } from "react";
 import {
   MDBCol,
@@ -74,93 +73,95 @@ function Login() {
     }
   };
 
-  return (
-    <div
-      className="bg-mutedRose d-flex align-items-center justify-content-center"
-      style={{ minHeight: "100vh", width: "100vw" }}
-    >
-      <Helmet>
-        <title>Login | Fordis Ludus</title>
-      </Helmet>
+return (
+  <>
+    <MDBContainer fluid className="min-vh-100 d-flex flex-column bg-muted-rose">
+      <div className="d-flex flex-column flex-lg-row justify-content-center align-items-center flex-grow-1">
+        {/* Image Section */}
+        <div className="w-100 w-lg-50">
+          <img
+            src={heroImage}
+            alt="Trading dashboard"
+            className="img-fluid h-100 w-100 object-cover"
+            style={{ objectFit: "cover", borderRadius: "1rem 0 0 1rem" }}
+          />
+        </div>
 
-      <div className="shadow-lg rounded-5 overflow-hidden bg-white" style={{ maxWidth: "960px", width: "100%" }}>
-        <MDBRow className="g-0">
-          <MDBCol md="6" className="d-none d-md-block">
-            <img
-              src="/images/leftlogin.jpg"
-              alt="Professional Black woman working on a laptop"
-              className="img-fluid h-100 w-100"
-              style={{ objectFit: "cover" }}
+        {/* Form Section */}
+        <div className="bg-white p-4 p-md-5 shadow-lg rounded w-100 w-lg-50">
+          <h3 className="text-center fw-bold mb-3">Fordis Ludus</h3>
+          <p className="text-center text-muted mb-4">
+            Multi-Broker Trading. Automated. Intelligent.
+          </p>
+
+          <form onSubmit={handleSubmit}>
+            <MDBInput
+              label="Email"
+              type="email"
+              className="mb-3"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
-          </MDBCol>
+            <MDBInput
+              label="Name (optional)"
+              type="text"
+              className="mb-3"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
 
-          <MDBCol md="6" className="d-flex flex-column justify-content-center align-items-center p-5">
-            <MDBTypography tag="h4" className="mb-4">
-              Sign into your account
-            </MDBTypography>
-
-            {error && (
-              <p className="text-danger text-center w-100 mb-2" role="alert">
-                {error}
-              </p>
-            )}
-
-            {showResend && (
-              <div className="text-center mb-3">
-                <MDBBtn
-                  data-testid="resend-btn"
-                  color="warning"
-                  size="sm"
-                  onClick={handleResendVerification}
-                >
-                  Resend Verification Email
-                </MDBBtn>
-              </div>
-            )}
-
-            <form onSubmit={handleLogin} className="w-100 px-3" noValidate>
-              <label htmlFor="email" className="form-label">Email Address</label>
-              <MDBInput
-                id="email"
-                type="email"
+            {/* Native select input styled to match */}
+            <div className="form-outline mb-3">
+              <label className="form-label" htmlFor="role">
+                Select Role
+              </label>
+              <select
+                id="role"
+                className="form-select"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
                 required
-                autoComplete="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mb-3"
-              />
+              >
+                <option value="">Choose...</option>
+                <option value="client">Client</option>
+                <option value="manager">Manager</option>
+                <option value="enterprise">Enterprise</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
 
-              <label htmlFor="password" className="form-label">Password</label>
-              <MDBInput
-                id="password"
-                type="password"
-                required
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mb-2"
-              />
+            <MDBInput
+              label="What would you like to see in Fordis Ludus?"
+              type="text"
+              className="mb-3"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
 
-              <div className="text-end mb-3">
-                <Link to="/forgot-password" className="text-muted" style={{ fontSize: "0.9rem" }}>
-                  Forgot your password?
-                </Link>
-              </div>
-
-              <MDBBtn type="submit" className="w-100">LOGIN</MDBBtn>
-            </form>
-
-            <p className="mt-4 text-center">
-              Don’t have an account?{" "}
-              <Link to="/register" className="text-primary">
-                Register here
-              </Link>
-            </p>
-          </MDBCol>
-        </MDBRow>
+            <MDBBtn type="submit" className="w-100 bg-primary">
+              JOIN THE WAITLIST
+            </MDBBtn>
+          </form>
+        </div>
       </div>
-    </div>
-  );
+
+      <Footer />
+    </MDBContainer>
+
+    <MDBToast
+      open={showToast}
+      setOpen={setShowToast}
+      position="bottom-right"
+      autohide
+      delay={3500}
+      color="success"
+    >
+      🎉 You're on the list! We'll be in touch soon.
+    </MDBToast>
+  </>
+);
+
 }
 
 export default Login;

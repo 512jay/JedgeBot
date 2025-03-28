@@ -15,6 +15,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'frontend/src'),
+      '@styles': path.resolve(__dirname, 'frontend/src/styles'),
+      '@images': path.resolve(__dirname, 'frontend/public/images'),
       '@feat': path.resolve(__dirname, 'frontend/src/features'),
       '@auth': path.resolve(__dirname, 'frontend/src/features/auth'),
       '~test-utils': path.resolve(__dirname, 'frontend/test-utils'), // ✅ FIXED

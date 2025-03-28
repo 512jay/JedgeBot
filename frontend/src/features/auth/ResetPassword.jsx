@@ -1,19 +1,20 @@
 // /frontend/src/features/auth/ResetPassword.jsx
+// Handles user password reset with token validation, a11y support, and feedback UI
+
 import React, { useState, useEffect } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import { MDBInput, MDBBtn, MDBTypography } from "mdb-react-ui-kit";
 import { Helmet } from "react-helmet-async";
 import ToastMessage from "@/components/common/ToastMessage";
 
-
 const API_URL = import.meta.env.VITE_API_URL;
 
-function ResetPassword(props) {
+function ResetPassword({ handleSuccess }) {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   const navigate = useNavigate();
-  const handleSuccessFn = props?.handleSuccess || ((cb) => setTimeout(cb, 3000));
 
+  // State management
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [success, setSuccess] = useState(false);
@@ -21,8 +22,9 @@ function ResetPassword(props) {
   const [loading, setLoading] = useState(true);
   const [tokenValid, setTokenValid] = useState(false);
 
-      
-            
+  const handleSuccessFn = handleSuccess || ((cb) => setTimeout(cb, 3000));
+
+  // Validate reset token on mount
   useEffect(() => {
     if (!token) {
       setError("Reset token missing.");
@@ -46,9 +48,11 @@ function ResetPassword(props) {
         setLoading(false);
       }
     };
+
     checkToken();
   }, [token]);
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -78,101 +82,117 @@ function ResetPassword(props) {
       setError("Something went wrong.");
     }
   };
-    return (
+
+  return (
+    <div
+      className="bg-mutedRose d-flex align-items-center justify-content-center"
+      style={{ minHeight: "100vh", width: "100vw" }}
+    >
+      <Helmet>
+        <title>Reset Password | JedgeBot</title>
+      </Helmet>
+
       <div
-        className="bg-mutedRose d-flex align-items-center justify-content-center"
-        style={{ minHeight: "100vh", width: "100vw" }}
+        className="shadow-lg rounded-5 overflow-hidden bg-white"
+        style={{ maxWidth: "960px", width: "100%" }}
+        role="main"
       >
-        <Helmet>
-          <title>Reset Password | JedgeBot</title>
-        </Helmet>
+        <div className="row g-0">
+          {/* Left image panel */}
+          <div className="col-md-6 d-none d-md-block">
+            <img
+              src="/images/registrationleft.jpg"
+              alt="Reset password visual"
+              className="img-fluid h-100 w-100"
+              style={{ objectFit: "cover" }}
+            />
+          </div>
 
-        <div
-          className="shadow-lg rounded-5 overflow-hidden bg-white"
-          style={{ maxWidth: "960px", width: "100%" }}
-        >
-          <div className="row g-0">
-            {/* Left image */}
-            <div className="col-md-6 d-none d-md-block">
-              <img
-                src="/images/registrationleft.jpg"
-                alt="Reset password visual"
-                className="img-fluid h-100 w-100"
-                style={{ objectFit: "cover" }}
-              />
-            </div>
+          {/* Right form panel */}
+          <div className="col-md-6 d-flex flex-column justify-content-center align-items-center p-5 position-relative">
+            <MDBTypography tag="h4" className="mb-4 text-center">
+              Reset Your Password
+            </MDBTypography>
 
-            {/* Right form */}
-            <div className="col-md-6 d-flex flex-column justify-content-center align-items-center p-5 position-relative">
-              <MDBTypography tag="h4" className="mb-4 text-center">
-                Reset Your Password
-              </MDBTypography>
+            <ToastMessage
+              showToast={!!error}
+              setShowToast={() => setError(null)}
+              message={error}
+              color="danger"
+            />
 
-              {/* Toast */}
-              <ToastMessage
-                showToast={!!error}
-                setShowToast={() => setError(null)}
-                message={error}
-                color="danger"
-              />
-              {loading ? (
-                <p className="text-center">🔄 Checking your reset link...</p>
-              ) : success ? (
-                <p className="text-success text-center">
+            {/* Feedback area for screen readers */}
+            <div aria-live="polite" className="w-100 text-center">
+              {loading && <p>🔄 Checking your reset link...</p>}
+              {success && (
+                <p className="text-success" role="alert">
                   ✅ Password reset. Redirecting to login...
                 </p>
-              ) : tokenValid ? (
-                <>
-                  {error && <p className="text-danger text-center mb-3">{error}</p>}
-                  <form onSubmit={handleSubmit} className="w-100 px-3">
-                    <label htmlFor="password" className="form-label">
-                      New Password
-                    </label>
-                    <MDBInput
-                      className="mb-3"
-                      type="password"
-                      id="password"
-                      required
-                      value={password}
-                      autoComplete="new-password"
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-
-                    <label htmlFor="confirmPassword" className="form-label">
-                      Confirm Password
-                    </label>
-                    <MDBInput
-                      className="mb-3"
-                      type="password"
-                      id="confirmPassword"
-                      required
-                      value={confirmPassword}
-                      autoComplete="new-password"
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-
-                    <MDBBtn className="w-100" type="submit">
-                      Reset Password
-                    </MDBBtn>
-                  </form>
-                </>
-              ) : (
-                <>
-                  <p className="text-danger text-center">
-                    This password reset link is invalid or expired.
-                  </p>
-                </>
               )}
-
-              <p className="mt-4 text-center">
-                <a href="/login" className="text-primary">
-                  ← Back to login
-                </a>
-              </p>
+              {error && !loading && (
+                <p className="text-danger mb-3" role="alert">
+                  {error}
+                </p>
+              )}
             </div>
+
+            {/* Password reset form */}
+            {!loading && tokenValid && !success && (
+              <form onSubmit={handleSubmit} className="w-100 px-3" aria-label="Reset password form">
+                <label htmlFor="password" className="form-label">
+                  New Password
+                </label>
+                <MDBInput
+                  id="password"
+                  type="password"
+                  required
+                  autoComplete="new-password"
+                  className="mb-3"
+                  aria-required="true"
+                  aria-label="New password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+
+                <label htmlFor="confirmPassword" className="form-label">
+                  Confirm Password
+                </label>
+                <MDBInput
+                  id="confirmPassword"
+                  type="password"
+                  required
+                  autoComplete="new-password"
+                  className="mb-3"
+                  aria-required="true"
+                  aria-label="Confirm password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+
+                <MDBBtn type="submit" className="w-100" aria-label="Submit new password">
+                  Reset Password
+                </MDBBtn>
+              </form>
+            )}
+
+            {/* Expired token message */}
+            {!loading && !tokenValid && (
+              <p className="text-danger text-center" role="alert">
+                This password reset link is invalid or expired.
+              </p>
+            )}
+
+            {/* Back to login link */}
+            <p className="mt-4 text-center">
+              <Link to="/login" className="text-primary" aria-label="Back to login">
+                ← Back to login
+              </Link>
+            </p>
           </div>
         </div>
       </div>
-    );
-};
+    </div>
+  );
+}
+
 export default ResetPassword;

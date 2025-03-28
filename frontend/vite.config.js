@@ -20,6 +20,8 @@ export default defineConfig(({ mode }) => {
         "@": path.resolve(__dirname, "src"),
         "@feat": path.resolve(__dirname, "src/features"),
         "@auth": path.resolve(__dirname, "src/features/auth"),
+        "@images": path.resolve(__dirname, "public/images"),
+        "@styles": path.resolve(__dirname, "src/styles"),
       },
     },
     server: {
