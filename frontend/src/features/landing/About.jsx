@@ -9,20 +9,28 @@ export default function About() {
       style={{ minHeight: 'calc(100vh - 120px)' }}
     >
       <div
-        className="d-flex rounded shadow overflow-hidden hover-grow"
+        className="d-flex flex-column flex-md-row rounded shadow overflow-hidden hover-grow"
         style={{ maxWidth: '800px', width: '100%', backgroundColor: 'white' }}
         aria-labelledby="about-heading"
         role="region"
         aria-label="About Section"
       >
-        <div className="d-none d-md-block" style={{ flex: 1 }}>
+        {/* 🖼️ Image */}
+        <div style={{ flex: 1 }}>
           <img
             src={aboutImage}
             alt="Illuminated sign saying 'Think About Things Differently'"
-            className="img-fluid h-100 w-100 object-fit-cover"
-            style={{ objectFit: 'cover' }}
+            className="img-fluid w-100"
+            style={{
+              height: '100%',
+              maxHeight: '400px',
+              objectFit: 'cover',
+              objectPosition: 'center',
+            }}
           />
         </div>
+
+        {/* 📄 Text content */}
         <div
           className="p-4 d-flex flex-column justify-content-center text-center text-md-start"
           style={{ flex: 1 }}

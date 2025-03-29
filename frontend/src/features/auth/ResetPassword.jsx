@@ -5,7 +5,6 @@ import registrationleftImage from "@/images/registrationleft.jpg";
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import { MDBInput, MDBBtn, MDBTypography } from "mdb-react-ui-kit";
-import { Helmet } from "react-helmet-async";
 import ToastMessage from "@/components/common/ToastMessage";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -89,9 +88,6 @@ function ResetPassword({ handleSuccess }) {
       className="bg-mutedRose d-flex align-items-center justify-content-center"
       style={{ minHeight: "100vh", width: "100vw" }}
     >
-      <Helmet>
-        <title>Reset Password | JedgeBot</title>
-      </Helmet>
 
       <div
         className="shadow-lg rounded-5 overflow-hidden bg-white"

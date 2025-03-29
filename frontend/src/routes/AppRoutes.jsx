@@ -21,6 +21,7 @@ import VerifyEmail from "@/features/auth/VerifyEmail";
 
 // Dashboard
 import Dashboard from "@/features/dashboard/Dashboard";
+import Profile from "@feat/profile/Profile"
 
 // Testing
 import TestCentering from "../pages/TestCentering";
@@ -52,6 +53,7 @@ export default function AppRoutes() {
       <Route element={<PrivateRoute />}>
         <Route element={<DashboardLayout />}>
           <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
+          <Route path={ROUTES.PROFILE} element={<Profile />} />
         </Route>
       </Route>
 

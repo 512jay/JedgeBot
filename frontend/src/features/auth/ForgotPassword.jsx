@@ -28,7 +28,7 @@ export default function ForgotPassword() {
             className="d-flex flex-column justify-content-center p-5"
             aria-label="Password reset request form"
           >
-            <h3 className="text-center mb-4">Forgot your password?</h3>
+            <h3 className="text-center mb-4">Reset your password.</h3>
             <p className="text-center mb-4">
               Enter your email and we'll send you a reset link.
             </p>

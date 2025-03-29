@@ -388,20 +388,23 @@ JedgeBot/
 │   │   │   │   │   ├── WaitlistForm.jsx
 │   │   │   │   │   ├── __tests__
 │   │   │   │   │   │   ├── Landing.test.jsx
+│   │   │   │   ├── profile
+│   │   │   │   │   ├── Profile.jsx
 │   │   │   │   ├── settings
 │   │   │   ├── images
 │   │   │   │   ├── 404.png
 │   │   │   │   ├── about.jpg
 │   │   │   │   ├── contact.jpg
 │   │   │   │   ├── hero
+│   │   │   │   │   ├── contact.jpg
 │   │   │   │   │   ├── forgot.jpg
 │   │   │   │   │   ├── landing.jpg
+│   │   │   │   │   ├── leftlogin.jpg
 │   │   │   │   │   ├── login.webp
 │   │   │   │   │   ├── register.jpg
 │   │   │   │   │   ├── welcomejedgebot.jpg
 │   │   │   │   │   ├── welcomejedgebot.webp
 │   │   │   │   ├── landing-side.jpg
-│   │   │   │   ├── leftlogin.jpg
 │   │   │   │   ├── logo.webp
 │   │   │   │   ├── pricing.jpg
 │   │   │   │   ├── raw
@@ -409,7 +412,9 @@ JedgeBot/
 │   │   │   │   │   ├── DALL·E 2025-03-28 11.13.35 - A modern, wordless illustration representing resetting a password, designed for a SaaS trading platform. The scene features a relieved character succe.webp
 │   │   │   │   │   ├── DALL·E 2025-03-28 12.34.54 - A sleek, wordless illustration representing a login page for a SaaS trading platform. The scene features a confident character entering a secure porta.webp
 │   │   │   │   │   ├── DALL·E 2025-03-28 21.05.34 - A modern and minimalistic illustration representing the concept of registration. The image features a clipboard with a checklist being filled out, a d.webp
+│   │   │   │   │   ├── leftlogin.jpg
 │   │   │   │   │   ├── pexels-alesiakozik-6771426.jpg
+│   │   │   │   │   ├── pexels-fauxels-3184416.jpg
 │   │   │   │   │   ├── pexels-ibertola-2681319.jpg
 │   │   │   │   │   ├── pexels-karolina-grabowska-4386433.jpg
 │   │   │   │   │   ├── pexels-rdne-7648057.jpg

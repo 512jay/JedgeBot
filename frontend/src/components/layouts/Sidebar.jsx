@@ -73,6 +73,13 @@ const Sidebar = () => {
         </MDBListGroupItem>
 
         <MDBListGroupItem tag="div" style={{ background: "transparent", border: "none" }}>
+          <Link to="/notifications" style={{ color: "white", textDecoration: "none" }}>
+            <MDBIcon icon="bell" className="me-2" />
+            {!collapsed && "Notifications"}
+          </Link>
+        </MDBListGroupItem>
+
+        <MDBListGroupItem tag="div" style={{ background: "transparent", border: "none" }}>
           <button
             onClick={logout}
             style={{

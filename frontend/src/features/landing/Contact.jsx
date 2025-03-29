@@ -1,5 +1,5 @@
 // /frontend/src/features/landing/Contact.jsx
-import contactImage from "@/images/contact.jpg";
+import contactImage from "@/images/hero/contact.jpg";
 import React from 'react';
 import { Form, Button, Card, Container } from 'react-bootstrap';
 

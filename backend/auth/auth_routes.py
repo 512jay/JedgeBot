@@ -242,7 +242,19 @@ async def read_authenticated_user(
 ):
     """Return the authenticated user's data."""
     user_obj = get_user_by_email(db, user["email"])
-    return user_obj
+
+    if not user_obj.profile:
+        user_obj.profile = db.query(UserProfile).filter_by(user_id=user_obj.id).first()
+
+    return {
+        "id": user_obj.id,
+        "email": user_obj.email,
+        "role": user_obj.role,
+        "status": user_obj.status,
+        "created_at": user_obj.created_at,
+        "last_login": user_obj.last_login,
+        "username": user_obj.profile.username if user_obj.profile else None,
+    }
 
 
 @router.get("/verify-email")

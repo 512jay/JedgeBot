@@ -2,10 +2,12 @@
 // Centralized route path constants for the app
 
 export const ROUTES = {
+  NOT_FOUND: "*",
   HOME: "/",
   ABOUT: "/about",
   PRICING: "/pricing",
   CONTACT: "/contact",
+
 
   LOGIN: "/login",
   REGISTER: "/register",
@@ -14,7 +16,7 @@ export const ROUTES = {
   VERIFY_EMAIL: "/verify-email",
 
   DASHBOARD: "/dashboard",
-  NOT_FOUND: "*",
+  PROFILE: "/profile",
 
   TEST: "/test-centering",
 };

@@ -9,7 +9,7 @@ import {
 } from "mdb-react-ui-kit";
 import { useNavigate } from "react-router-dom";
 import { login } from "@auth/auth_api";
-import loginImage from "@images/hero/login.webp"; // matching Register layout
+import loginImage from "@images/hero/leftlogin.jpg"; // matching Register layout
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -35,15 +35,8 @@ export default function Login() {
       className="card-hover shadow-lg rounded-5 overflow-hidden bg-white mx-auto"
       style={{ maxWidth: "960px", width: "100%" }}
     >
-      <MDBRow className="g-0">
-        <MDBCol md="6">
-          <img
-            src={loginImage}
-            alt="Secure login to trading platform"
-            className="w-100 h-100 object-fit-cover"
-          />
-        </MDBCol>
-
+      <MDBRow className="g-0 flex-column flex-md-row-reverse">
+        {/* Form Column — first on mobile */}
         <MDBCol md="6">
           <MDBCardBody
             className="d-flex flex-column justify-content-center p-5"
@@ -117,6 +110,27 @@ export default function Login() {
             </p>
           </MDBCardBody>
         </MDBCol>
+
+        {/* Image Column — shown second on mobile */}
+<MDBCol
+  md="6"
+  className="d-flex align-items-stretch"
+  style={{
+    minHeight: "250px", // ensures height on mobile
+    height: "100%",     // match form height on desktop
+  }}
+>
+  <img
+    src={loginImage}
+    alt="Secure login to trading platform"
+    className="w-100 h-100 object-fit-cover"
+    style={{
+      objectFit: "cover",
+      objectPosition: "center",
+    }}
+  />
+</MDBCol>
+
       </MDBRow>
     </div>
   );

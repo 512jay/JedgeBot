@@ -57,5 +57,6 @@ class UserRead(BaseModel):
     status: UserStatus
     created_at: datetime
     last_login: Optional[datetime]
+    username: Optional[str]
 
     model_config = ConfigDict(from_attributes=True)
