@@ -1,4 +1,5 @@
 // /frontend/src/features/landing/Pricing.jsx
+import pricingImage from "@/images/pricing.jpg";
 import React from 'react';
 
 export default function Pricing() {
@@ -14,7 +15,7 @@ export default function Pricing() {
       >
         <div className="d-none d-md-block" style={{ flex: 1 }}>
           <img
-            src="/images/pricing.jpg"
+            src={pricingImage}
             alt="Close-up of a person holding cash in a wallet"
             className="img-fluid h-100 w-100 object-fit-cover"
             style={{ objectFit: 'cover' }}

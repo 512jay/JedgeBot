@@ -1,4 +1,5 @@
 // /frontend/src/features/auth/Register.jsx
+import registrationImage from "@/images/hero/register.jpg";
 
 import React, { useState } from 'react';
 import {
@@ -23,7 +24,7 @@ export default function Register() {
       <MDBCard className="hover-grow d-flex flex-row overflow-hidden shadow" style={{ maxWidth: '850px', width: '100%' }}>
         <MDBCol md="6" className="d-none d-md-block">
           <img
-            src="/images/registration.jpg"
+            src={registrationImage}
             alt="Three women talking at a registration table"
             className="img-fluid h-100 w-100 object-fit-cover"
             style={{ objectFit: 'cover' }}

@@ -1,4 +1,4 @@
-// /frontend/src/__tests__/main.test.jsx
+// /frontend/src/__tests__/main.text.jsx
 
 import { screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";

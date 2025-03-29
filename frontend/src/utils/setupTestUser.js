@@ -1,3 +1,4 @@
+// /frontend/src/utils/setupTestUser.js
 // /frontend/test-utils/setupTestUser.js
 
 let cookies = '';

@@ -1,4 +1,4 @@
-// /frontend/src/pages/Dashboard.jsx
+// /frontend/src/features/dashboard/Dashboard.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/useAuth";
@@ -31,7 +31,6 @@ const Dashboard = () => {
 
   return (
     <div style={{ display: "flex", height: "100vh", width: "100vw" }}>
-      <Sidebar />
 
       <div style={{ flex: 1, backgroundColor: "#6495ED", padding: "2rem", overflowY: "auto" }}>
         <h1 style={{ fontSize: "2.5rem", fontWeight: "600", marginBottom: "2rem", color: "white" }}>

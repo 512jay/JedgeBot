@@ -1,4 +1,4 @@
-// /frontend/src/components/layout/LoadingScreen.jsx
+// /frontend/src/components/layouts/LoadingScreen.jsx
 import React from "react";
 import { MDBSpinner } from "mdb-react-ui-kit";
 

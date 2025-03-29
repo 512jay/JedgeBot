@@ -1,109 +1,164 @@
 // /frontend/src/features/landing/Landing.jsx
-import React, { useState } from "react";
+import { useState } from "react";
 import {
-  MDBContainer,
   MDBInput,
-  MDBBtn
+  MDBBtn,
+  MDBValidation,
+  MDBValidationItem,
+  MDBTextArea,
 } from "mdb-react-ui-kit";
-import "@styles/Landing.css";
-
-const heroImage = "/images/hero/welcomejedgebot.jpg"; // public image path
+import heroImage from "@/images/hero/landing.jpg";
 
 export default function Landing() {
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [role, setRole] = useState("");
-  const [message, setMessage] = useState("");
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Waitlist form submitted:", { email, name, role, message });
-
-    setEmail("");
-    setName("");
-    setRole("");
-    setMessage("");
-    setShowSuccess(true);
-    setTimeout(() => setShowSuccess(false), 3500);
+    setFormSubmitted(true);
   };
 
   return (
-    <MDBContainer className="landing-split d-flex flex-column align-items-center justify-content-center py-5">
-      <div className="landing-card hover-grow">
-        {/* Hero Image */}
-        <div className="image-section">
-          <img
-            src={heroImage}
-            alt="Fordis Ludus dashboard"
-            className="img-fluid h-100 w-100 object-cover"
-          />
-        </div>
-
-        {/* Waitlist Form */}
-        <div className="form-section p-4 p-md-5">
-          <h3 className="text-center fw-bold mb-3">Fordis Ludus</h3>
-          <p className="text-center text-muted mb-4">
-            Multi-Broker Trading. Automated. Intelligent.
-          </p>
-
-          <form onSubmit={handleSubmit}>
-            <MDBInput
-              label="Email"
-              type="email"
-              className="mb-3"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
+    <>
+      {/* 🔹 Desktop version with full-width hero and border effect */}
+      <div className="d-none d-md-block">
+        <div
+          style={{
+            padding: "1.5rem",
+            backgroundColor: "#9A616D",
+            margin: 0,
+            width: "100vw",
+            position: "relative",
+            left: "50%",
+            right: "50%",
+            marginLeft: "-50vw",
+            marginRight: "-50vw",
+          }}
+        >
+          <div
+            className="position-relative overflow-hidden"
+            style={{
+              backgroundImage: `url(${heroImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              width: "100%",
+              height: "85vh",
+              borderRadius: "0.75rem",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              maxWidth: "1400px",
+              margin: "0 auto",
+              boxShadow: "0 8px 24px rgba(0, 0, 0, 0.15)",
+            }}
+          >
+            <WaitlistCard
+              formSubmitted={formSubmitted}
+              handleSubmit={handleSubmit}
             />
+          </div>
+        </div>
+      </div>
+
+      {/* 🔹 Mobile version (full-bleed) */}
+      <div className="d-block d-md-none">
+        <section
+          className="d-flex align-items-center justify-content-center"
+          style={{
+            backgroundImage: `url(${heroImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            width: "100vw",
+            height: "100vh",
+            marginLeft: "calc(-50vw + 50%)",
+          }}
+        >
+          <WaitlistCard
+            formSubmitted={formSubmitted}
+            handleSubmit={handleSubmit}
+          />
+        </section>
+      </div>
+    </>
+  );
+}
+
+function WaitlistCard({ formSubmitted, handleSubmit }) {
+  return (
+    <div
+      className="bg-white bg-opacity-75 p-4 p-md-5 rounded shadow"
+      style={{ maxWidth: "500px", width: "90%", backdropFilter: "blur(5px)" }}
+    >
+      <h2 className="fw-bold mb-2 text-center">Fordis Ludus</h2>
+      <p className="text-muted text-center mb-3">
+        Multi-Broker Trading. Automated. Intelligent.
+      </p>
+      <p className="text-center text-muted mb-4">
+        Be the first to test our multi-account trading platform, get early access
+        perks, and shape the future of Fordis Ludus.
+      </p>
+
+      {formSubmitted ? (
+        <div className="alert alert-success text-center" role="alert">
+          🎉 Thanks! You're on the waitlist.
+        </div>
+      ) : (
+        <MDBValidation tag="form" onSubmit={handleSubmit} noValidate>
+          <fieldset>
+            <legend className="visually-hidden">Waitlist Signup</legend>
+
+            <MDBValidationItem feedback="Email is required" invalid>
+              <MDBInput
+                label="Email"
+                id="waitlist-email"
+                name="email"
+                required
+                aria-label="Email address"
+                className="mb-3"
+              />
+            </MDBValidationItem>
 
             <MDBInput
               label="Name (optional)"
-              type="text"
+              id="waitlist-name"
+              name="name"
+              aria-label="Your name"
               className="mb-3"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
             />
 
-            <div className="form-outline mb-3">
-              <label className="form-label" htmlFor="role">
+            <div className="mb-3">
+              <label htmlFor="waitlist-role" className="form-label">
                 Select Role
               </label>
               <select
-                id="role"
-                className="form-select"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
+                id="waitlist-role"
+                name="role"
                 required
+                className="form-select"
+                aria-label="Select your role"
               >
                 <option value="">Choose...</option>
                 <option value="client">Client</option>
                 <option value="manager">Manager</option>
                 <option value="enterprise">Enterprise</option>
-                <option value="other">Other</option>
               </select>
             </div>
 
-            <MDBInput
-              label="What would you like to see in Fordis Ludus?"
-              type="text"
-              className="mb-3"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
+            <MDBTextArea
+              label="What would you like to see from Fordis Ludus?"
+              rows={3}
+              id="waitlist-feedback"
+              className="mb-4"
+              aria-label="Suggestions or feedback"
             />
 
-            <MDBBtn type="submit" className="w-100 bg-primary">
-              JOIN THE WAITLIST
+            <MDBBtn type="submit" className="w-100 fw-bold">
+              Join the Waitlist
             </MDBBtn>
-
-            {showSuccess && (
-              <div className="alert alert-success mt-3" role="alert">
-                🎉 You’re on the list! Thanks for believing in Fordis Ludus.
-              </div>
-            )}
-          </form>
-        </div>
-      </div>
-    </MDBContainer>
+          </fieldset>
+        </MDBValidation>
+      )}
+    </div>
   );
 }

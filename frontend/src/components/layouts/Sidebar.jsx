@@ -1,4 +1,4 @@
-// /frontend/src/components/layout/Sidebar.jsx
+// /frontend/src/components/layouts/Sidebar.jsx
 import React, { useState } from "react";
 import {
   MDBIcon,
@@ -7,6 +7,7 @@ import {
   MDBCollapse,
   MDBBtn,
 } from "mdb-react-ui-kit";
+import { Link } from "react-router-dom";
 import { useAuth } from "@/context/useAuth";
 
 const Sidebar = () => {

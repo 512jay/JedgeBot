@@ -1,9 +1,9 @@
-// /frontend/src/features/auth/pages/ForgotPassword.jsx
+// /frontend/src/features/auth/ForgotPassword.jsx
+import forgotImage from "@/images/hero/forgot.jpg";
 // Page for requesting a password reset link, with a11y and semantic markup
 
 import { MDBCardBody, MDBCol, MDBInput, MDBRow, MDBBtn } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
-import forgotImage from "/images/hero/forgot.jpg";
 
 export default function ForgotPassword() {
   return (

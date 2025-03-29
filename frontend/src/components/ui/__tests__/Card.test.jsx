@@ -1,3 +1,4 @@
+// /frontend/src/components/ui/__tests__/Card.test.jsx
 /// <reference types="vitest" />
 import { render, screen } from "@testing-library/react";
 import { Card, CardContent } from "../Card";

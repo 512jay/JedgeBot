@@ -1,3 +1,4 @@
+// /frontend/src/features/app/__tests__/App.test.jsx
 /// <reference types="vitest" />
 import { render, screen } from "@testing-library/react";
 import App from "@feat/app/App";

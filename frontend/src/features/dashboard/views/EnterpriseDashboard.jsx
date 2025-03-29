@@ -1,4 +1,4 @@
-// /frontend/src/views/dashboard/EnterpriseDashboard.jsx
+// /frontend/src/features/dashboard/views/EnterpriseDashboard.jsx
 // Placeholder for enterprise dashboard.
 
 import React from "react";

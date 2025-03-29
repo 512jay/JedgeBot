@@ -1,4 +1,5 @@
 // /frontend/src/features/landing/Contact.jsx
+import contactImage from "@/images/contact.jpg";
 import React from 'react';
 import { Form, Button, Card, Container } from 'react-bootstrap';
 
@@ -10,7 +11,7 @@ export default function Contact() {
       style={{ minHeight: 'calc(100vh - 120px)' }} // header & footer space
     >
       <img
-        src="/images/contact.jpg"
+        src={contactImage}
         alt="Professional reviewing data on laptop"
         className="img-fluid mb-4 rounded shadow-sm"
         style={{ maxHeight: '300px', objectFit: 'cover', width: '100%', maxWidth: '900px' }}

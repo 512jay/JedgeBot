@@ -1,4 +1,4 @@
-// /frontend/src/views/dashboard/FreeDashboard.jsx
+// /frontend/src/features/dashboard/views/FreeDashboard.jsx
 // Renders default dashboard view for free-tier users.
 
 import React from "react";

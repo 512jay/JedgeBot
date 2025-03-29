@@ -1,4 +1,4 @@
-// /frontend/src/__tests__/PieChart.test.jsx
+// /frontend/src/components/ui/__tests__/PieChart.test.jsx
 import { render } from "@testing-library/react";
 import PieChart from "../PieChart";
 

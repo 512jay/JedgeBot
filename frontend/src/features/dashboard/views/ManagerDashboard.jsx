@@ -1,4 +1,4 @@
-// /frontend/src/views/dashboard/ClientDashboard.jsx
+// /frontend/src/features/dashboard/views/ManagerDashboard.jsx
 // Renders the dashboard for clients.
 
 import React from "react";

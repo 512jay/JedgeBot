@@ -1,4 +1,5 @@
 // /frontend/src/features/auth/ResetPassword.jsx
+import registrationleftImage from "@/images/registrationleft.jpg";
 // Handles user password reset with token validation, a11y support, and feedback UI
 
 import React, { useState, useEffect } from "react";
@@ -101,7 +102,7 @@ function ResetPassword({ handleSuccess }) {
           {/* Left image panel */}
           <div className="col-md-6 d-none d-md-block">
             <img
-              src="/images/registrationleft.jpg"
+              src={registrationleftImage}
               alt="Reset password visual"
               className="img-fluid h-100 w-100"
               style={{ objectFit: "cover" }}

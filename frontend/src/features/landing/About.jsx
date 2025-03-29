@@ -1,4 +1,5 @@
 // /frontend/src/features/landing/About.jsx
+import aboutImage from "@/images/about.jpg";
 import React from 'react';
 
 export default function About() {
@@ -16,7 +17,7 @@ export default function About() {
       >
         <div className="d-none d-md-block" style={{ flex: 1 }}>
           <img
-            src="/images/about.jpg"
+            src={aboutImage}
             alt="Illuminated sign saying 'Think About Things Differently'"
             className="img-fluid h-100 w-100 object-fit-cover"
             style={{ objectFit: 'cover' }}

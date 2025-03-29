@@ -35,11 +35,17 @@ def get_lan_ips():
 
 
 def print_qr_in_terminal(data: str):
-    """Render a QR code in the terminal."""
-    qr_code = qrcode.QRCode(border=1)
+    """Render a compact QR code in the terminal."""
+    qr_code = qrcode.QRCode(
+        version=2,  # Lower number = smaller grid (1-40)
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=1,
+        border=1,  # Minimum white border
+    )
     qr_code.add_data(data)
     qr_code.make(fit=True)
     qr_matrix = qr_code.get_matrix()
+
     for row in qr_matrix:
         print("".join("██" if cell else "  " for cell in row))
 

@@ -1,4 +1,4 @@
-// /frontend/src/compnents/layouts/PublicLayout.jsx
+// /frontend/src/components/layouts/PublicLayout.jsx
 
 import React, { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";

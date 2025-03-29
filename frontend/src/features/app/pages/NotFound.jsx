@@ -1,11 +1,12 @@
-// /frontend/src/app/pages/NotFound.jsx
+// /frontend/src/features/app/pages/NotFound.jsx
 import { Link } from "react-router-dom";
+import NotFoundImage from "@images/404.png"; // or .webp etc
 
 export default function NotFound() {
   return (
     <div className="text-center p-5">
       <img
-        src="/images/404.png"
+        src={NotFoundImage}
         alt="404 - Page not found"
         style={{ maxWidth: "300px" }}
         className="img-fluid mb-4"

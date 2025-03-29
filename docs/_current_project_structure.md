@@ -320,32 +320,6 @@ JedgeBot/
 │   │   ├── package-lock.json
 │   │   ├── package.json
 │   │   ├── public
-│   │   │   ├── images
-│   │   │   │   ├── 404.png
-│   │   │   │   ├── about.jpg
-│   │   │   │   ├── contact.jpg
-│   │   │   │   ├── hero
-│   │   │   │   │   ├── forgot.jpg
-│   │   │   │   │   ├── login.webp
-│   │   │   │   │   ├── register.jpg
-│   │   │   │   │   ├── welcomejedgebot.jpg
-│   │   │   │   │   ├── welcomejedgebot.webp
-│   │   │   │   ├── landing-side.jpg
-│   │   │   │   ├── leftlogin.jpg
-│   │   │   │   ├── logo.webp
-│   │   │   │   ├── pricing.jpg
-│   │   │   │   ├── raw
-│   │   │   │   │   ├── DALL·E 2025-03-28 10.59.48 - A whimsical, wordless illustration representing forgetting a password, designed for a SaaS trading platform. The scene features a puzzled character se.webp
-│   │   │   │   │   ├── DALL·E 2025-03-28 11.13.35 - A modern, wordless illustration representing resetting a password, designed for a SaaS trading platform. The scene features a relieved character succe.webp
-│   │   │   │   │   ├── DALL·E 2025-03-28 12.34.54 - A sleek, wordless illustration representing a login page for a SaaS trading platform. The scene features a confident character entering a secure porta.webp
-│   │   │   │   │   ├── pexels-ibertola-2681319.jpg
-│   │   │   │   │   ├── pexels-karolina-grabowska-4386433.jpg
-│   │   │   │   │   ├── pexels-rdne-7648057.jpg
-│   │   │   │   │   ├── pexels-snapwire-618613.jpg
-│   │   │   │   │   ├── welcomejedgebot.webp
-│   │   │   │   ├── registration.jpg
-│   │   │   │   ├── registrationleft.jpg
-│   │   │   │   ├── registrationleft.webp
 │   │   │   ├── vite.svg
 │   │   ├── src
 │   │   │   ├── __tests__
@@ -415,6 +389,35 @@ JedgeBot/
 │   │   │   │   │   ├── __tests__
 │   │   │   │   │   │   ├── Landing.test.jsx
 │   │   │   │   ├── settings
+│   │   │   ├── images
+│   │   │   │   ├── 404.png
+│   │   │   │   ├── about.jpg
+│   │   │   │   ├── contact.jpg
+│   │   │   │   ├── hero
+│   │   │   │   │   ├── forgot.jpg
+│   │   │   │   │   ├── landing.jpg
+│   │   │   │   │   ├── login.webp
+│   │   │   │   │   ├── register.jpg
+│   │   │   │   │   ├── welcomejedgebot.jpg
+│   │   │   │   │   ├── welcomejedgebot.webp
+│   │   │   │   ├── landing-side.jpg
+│   │   │   │   ├── leftlogin.jpg
+│   │   │   │   ├── logo.webp
+│   │   │   │   ├── pricing.jpg
+│   │   │   │   ├── raw
+│   │   │   │   │   ├── DALL·E 2025-03-28 10.59.48 - A whimsical, wordless illustration representing forgetting a password, designed for a SaaS trading platform. The scene features a puzzled character se.webp
+│   │   │   │   │   ├── DALL·E 2025-03-28 11.13.35 - A modern, wordless illustration representing resetting a password, designed for a SaaS trading platform. The scene features a relieved character succe.webp
+│   │   │   │   │   ├── DALL·E 2025-03-28 12.34.54 - A sleek, wordless illustration representing a login page for a SaaS trading platform. The scene features a confident character entering a secure porta.webp
+│   │   │   │   │   ├── DALL·E 2025-03-28 21.05.34 - A modern and minimalistic illustration representing the concept of registration. The image features a clipboard with a checklist being filled out, a d.webp
+│   │   │   │   │   ├── pexels-alesiakozik-6771426.jpg
+│   │   │   │   │   ├── pexels-ibertola-2681319.jpg
+│   │   │   │   │   ├── pexels-karolina-grabowska-4386433.jpg
+│   │   │   │   │   ├── pexels-rdne-7648057.jpg
+│   │   │   │   │   ├── pexels-snapwire-618613.jpg
+│   │   │   │   │   ├── welcomejedgebot.webp
+│   │   │   │   ├── registration.jpg
+│   │   │   │   ├── registrationleft.jpg
+│   │   │   │   ├── registrationleft.webp
 │   │   │   ├── main.jsx
 │   │   │   ├── pages
 │   │   │   │   ├── TestCentering.jsx
@@ -456,6 +459,7 @@ JedgeBot/
 │   ├── run_maintenance.py
 │   ├── scripts
 │   │   ├── __init__.py
+│   │   ├── add-or-correct-path-comments.js
 │   │   ├── archive
 │   │   │   ├── __init__.py
 │   │   │   ├── account_info.py
@@ -467,6 +471,7 @@ JedgeBot/
 │   │   │   ├── start_streaming.py
 │   │   ├── btc_stream.py
 │   │   ├── cleanup_test_users.py
+│   │   ├── convert-public-image-refs.js
 │   │   ├── run_rate_limit_manual.py
 │   │   ├── start_market_data_stream.py
 │   │   ├── validate_output.py

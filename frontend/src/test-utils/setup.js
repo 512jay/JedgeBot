@@ -1,3 +1,4 @@
+// /frontend/src/test-utils/setup.js
 // /frontend/test/testSetup.js
 import '@testing-library/jest-dom/vitest';
 

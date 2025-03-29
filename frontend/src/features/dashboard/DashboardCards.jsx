@@ -1,4 +1,4 @@
-// /frontend/src/components/DashboardCards.jsx
+// /frontend/src/features/dashboard/DashboardCards.jsx
 import { Card, CardContent } from "@/components/ui/Card";
 
 

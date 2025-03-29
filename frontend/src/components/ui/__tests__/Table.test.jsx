@@ -1,3 +1,4 @@
+// /frontend/src/components/ui/__tests__/Table.test.jsx
 /// <reference types="vitest" />
 import { render, screen, within } from "@testing-library/react";
 import Table from "../Table";
