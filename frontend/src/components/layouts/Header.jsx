@@ -16,21 +16,40 @@ export default function Header() {
   return (
     <MDBNavbar expand="lg" light bgColor="light" className="shadow-sm">
       <MDBContainer>
-        <MDBNavbarBrand tag={Link} to="/" className="fw-bold" style={{ color: "#9A616D" }}>
+        <MDBNavbarBrand
+          tag={Link}
+          to="/"
+          className="fw-bold"
+          style={{ color: "#9A616D" }}
+        >
           Fordis Ludus
         </MDBNavbarBrand>
+
         <MDBNavbarNav right fullWidth={false} className="d-flex flex-row gap-3">
-          <MDBNavbarItem><Link className="nav-link" to="/about">About</Link></MDBNavbarItem>
-          <MDBNavbarItem><Link className="nav-link" to="/pricing">Pricing</Link></MDBNavbarItem>
-          <MDBNavbarItem><Link className="nav-link" to="/contact">Contact</Link></MDBNavbarItem>
-          {user?.isAuthenticated ? (
+          <MDBNavbarItem>
+            <Link className="nav-link" to="/about">About</Link>
+          </MDBNavbarItem>
+          <MDBNavbarItem>
+            <Link className="nav-link" to="/pricing">Pricing</Link>
+          </MDBNavbarItem>
+          <MDBNavbarItem>
+            <Link className="nav-link" to="/contact">Contact</Link>
+          </MDBNavbarItem>
+
+          {user ? (
             <MDBNavbarItem>
-              <Link className="nav-link fw-semibold" to="/dashboard">Back to Dashboard</Link>
+              <Link className="nav-link fw-semibold text-primary" to="/dashboard">
+                Back to Dashboard
+              </Link>
             </MDBNavbarItem>
           ) : (
             <>
-              <MDBNavbarItem><Link className="nav-link" to="/login">Login</Link></MDBNavbarItem>
-              <MDBNavbarItem><Link className="nav-link" to="/register">Register</Link></MDBNavbarItem>
+              <MDBNavbarItem>
+                <Link className="nav-link" to="/login">Login</Link>
+              </MDBNavbarItem>
+              <MDBNavbarItem>
+                <Link className="nav-link" to="/register">Register</Link>
+              </MDBNavbarItem>
             </>
           )}
         </MDBNavbarNav>
