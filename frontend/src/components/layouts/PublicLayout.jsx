@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { Container, Row, Col } from 'react-bootstrap';
-import { useAuth } from "@/context/useAuth";
+import { useAuth } from "@hooks/useAuth";
 import Header from "./Header";
 import Footer from "./Footer";
 

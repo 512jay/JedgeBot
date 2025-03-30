@@ -8,7 +8,7 @@ import {
   MDBBtn,
 } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
-import { useAuth } from "@/context/useAuth";
+import { useAuth } from "@hooks/useAuth";
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);

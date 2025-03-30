@@ -1,17 +1,18 @@
 // /frontend/src/components/layouts/Header.jsx
-import React from "react";
-import { Link } from "react-router-dom";
+import { useAuth } from "@hooks/useAuth";
 import {
+  MDBContainer,
   MDBNavbar,
   MDBNavbarBrand,
-  MDBNavbarNav,
   MDBNavbarItem,
-  MDBContainer,
+  MDBNavbarNav,
 } from "mdb-react-ui-kit";
-import { useAuth } from "@/context/useAuth";
+import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Header() {
-  const { user } = useAuth?.() || {};
+  const { user, loading } = useAuth?.() || {};
+
 
   return (
     <MDBNavbar expand="lg" light bgColor="light" className="shadow-sm">
@@ -25,33 +26,44 @@ export default function Header() {
           Fordis Ludus
         </MDBNavbarBrand>
 
-        <MDBNavbarNav right fullWidth={false} className="d-flex flex-row gap-3">
+        <MDBNavbarNav
+  right
+  fullWidth={false}
+  className="d-flex flex-row gap-3"
+  aria-label="Primary navigation"
+>
+
           <MDBNavbarItem>
-            <Link className="nav-link" to="/about">About</Link>
+            <Link className="nav-link" to="/about" aria-label="About page">About</Link>
           </MDBNavbarItem>
           <MDBNavbarItem>
-            <Link className="nav-link" to="/pricing">Pricing</Link>
+            <Link className="nav-link" to="/pricing" aria-label="Pricing page">Pricing</Link>
           </MDBNavbarItem>
           <MDBNavbarItem>
-            <Link className="nav-link" to="/contact">Contact</Link>
+            <Link className="nav-link" to="/contact" aria-label="Contact page">Contact</Link>
           </MDBNavbarItem>
 
-          {user ? (
+          {loading ? (
             <MDBNavbarItem>
-              <Link className="nav-link fw-semibold text-primary" to="/dashboard">
-                Back to Dashboard
-              </Link>
+              <span className="nav-link text-muted">Checking login...</span>
+            </MDBNavbarItem>
+          ) : user ? (
+            <MDBNavbarItem>
+              <Link className="nav-link fw-semibold text-primary" to="/dashboard" aria-label="Go to dashboard">
+  Back to Dashboard
+</Link>
             </MDBNavbarItem>
           ) : (
             <>
               <MDBNavbarItem>
-                <Link className="nav-link" to="/login">Login</Link>
+                <Link className="nav-link" to="/login" aria-label="Login page">Login</Link>
               </MDBNavbarItem>
               <MDBNavbarItem>
-                <Link className="nav-link" to="/register">Register</Link>
+                <Link className="nav-link" to="/register" aria-label="Register page">Register</Link>
               </MDBNavbarItem>
             </>
           )}
+
         </MDBNavbarNav>
       </MDBContainer>
     </MDBNavbar>

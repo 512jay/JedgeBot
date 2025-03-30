@@ -1,7 +1,7 @@
 // /frontend/src/features/profile/Profile.jsx
 
 import React from "react";
-import { useAuth } from "@/context/useAuth";
+import { useAuth } from "@hooks/useAuth";
 import {
   MDBContainer,
   MDBCard,

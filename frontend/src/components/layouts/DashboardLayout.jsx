@@ -2,7 +2,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "@/components/layouts/Sidebar";
-import { useAuth } from "@/context/useAuth";
+import { useAuth } from "@hooks/useAuth";
 
 export default function DashboardLayout({ children }) {
   const { user } = useAuth?.() || {};

@@ -351,7 +351,6 @@ JedgeBot/
 │   │   │   ├── context
 │   │   │   │   ├── AuthProvider.jsx
 │   │   │   │   ├── auth-context.js
-│   │   │   │   ├── useAuth.js
 │   │   │   ├── features
 │   │   │   │   ├── app
 │   │   │   │   │   ├── App.jsx
@@ -391,6 +390,8 @@ JedgeBot/
 │   │   │   │   ├── profile
 │   │   │   │   │   ├── Profile.jsx
 │   │   │   │   ├── settings
+│   │   │   ├── hooks
+│   │   │   │   ├── useAuth.js
 │   │   │   ├── images
 │   │   │   │   ├── 404.png
 │   │   │   │   ├── about.jpg
@@ -399,8 +400,7 @@ JedgeBot/
 │   │   │   │   │   ├── contact.jpg
 │   │   │   │   │   ├── forgot.jpg
 │   │   │   │   │   ├── landing.jpg
-│   │   │   │   │   ├── leftlogin.jpg
-│   │   │   │   │   ├── login.webp
+│   │   │   │   │   ├── login.jpg
 │   │   │   │   │   ├── register.jpg
 │   │   │   │   │   ├── welcomejedgebot.jpg
 │   │   │   │   │   ├── welcomejedgebot.webp
@@ -441,6 +441,7 @@ JedgeBot/
 │   │   │   │   ├── __tests__
 │   │   │   │   ├── apiClient.js
 │   │   │   │   ├── authHelpers.js
+│   │   │   │   ├── fetchwithRefresh.js
 │   │   │   │   ├── setupTestUser.js
 │   │   ├── tailwind.config.js
 │   │   ├── vite.config.js

@@ -24,6 +24,7 @@ export default defineConfig(({ mode }) => {
         "@styles": path.resolve(__dirname, "src/styles"),
         "@pages": path.resolve(__dirname, "src/pages"),
         "@useAuth": path.resolve(__dirname, "src/context/useAuth"),
+        "@hooks": path.resolve(__dirname, "src/hooks"),
       },
     },
       server: {

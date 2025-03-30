@@ -52,11 +52,19 @@ export async function login(email, password) {
  * Logs out the current user
  * @returns {Promise<Response>}
  */
-export async function logout() {
-  return fetchWithCredentials(`${API_URL}/auth/logout`, {
+export async function logoutApi() {
+  console.log("Calling /auth/logout...");
+  const res = await fetch("/auth/logout", {
     method: "POST",
+    credentials: "include",
   });
+  console.log("Response status:", res.status);
+
+  if (!res.ok) {
+    throw new Error("Logout failed");
+  }
 }
+
 
 /**
  * Checks if the user is currently authenticated

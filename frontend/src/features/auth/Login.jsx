@@ -1,21 +1,27 @@
 // /frontend/src/features/auth/Login.jsx
-import React, { useState } from "react";
+import { useState } from "react";
 import {
-  MDBBtn,
-  MDBCardBody,
-  MDBCol,
   MDBInput,
+  MDBBtn,
+  MDBValidation,
+  MDBValidationItem,
+  MDBContainer,
   MDBRow,
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
 } from "mdb-react-ui-kit";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "@auth/auth_api";
-import loginImage from "@images/hero/leftlogin.jpg"; // matching Register layout
+import { useAuth } from "@hooks/useAuth";
+import loginImage from "@/images/hero/login.jpg";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
+  const { checkAuth } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,6 +29,7 @@ export default function Login() {
 
     try {
       await login(email, password);
+      await checkAuth();
       navigate("/dashboard");
     } catch (error) {
       console.error("Login failed", error);
@@ -31,107 +38,85 @@ export default function Login() {
   };
 
   return (
-    <div
-      className="card-hover shadow-lg rounded-5 overflow-hidden bg-white mx-auto"
-      style={{ maxWidth: "960px", width: "100%" }}
-    >
-      <MDBRow className="g-0 flex-column flex-md-row-reverse">
-        {/* Form Column — first on mobile */}
-        <MDBCol md="6">
-          <MDBCardBody
-            className="d-flex flex-column justify-content-center p-5"
-            aria-labelledby="login-title"
-          >
-            <h3 id="login-title" className="text-center mb-4">
-              Sign into your account
-            </h3>
+    <MDBContainer className="my-5">
+      <MDBCard>
+        <MDBRow className="g-0">
+          <MDBCol md="6" className="d-none d-md-block">
+            <img
+              src={loginImage}
+              alt="Login visual"
+              className="img-fluid h-100 w-100"
+              style={{ objectFit: "cover", borderRadius: "0.5rem 0 0 0.5rem" }}
+            />
+          </MDBCol>
 
-            <form onSubmit={handleLogin} noValidate>
-              <label htmlFor="email" className="visually-hidden">
-                Email address
-              </label>
-              <MDBInput
-                id="email"
-                label="Email address"
-                type="email"
-                className="mb-3"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                aria-required="true"
-                autoComplete="email"
-              />
-
-              <label htmlFor="password" className="visually-hidden">
-                Password
-              </label>
-              <MDBInput
-                id="password"
-                label="Password"
-                type="password"
-                className="mb-3"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                aria-required="true"
-                autoComplete="current-password"
-              />
+          <MDBCol md="6">
+            <MDBCardBody className="d-flex flex-column justify-content-center">
+              <h4 className="mb-4 text-center fw-bold">Welcome Back</h4>
+              <p className="text-muted text-center mb-4">
+                Sign in to continue to Fordis Ludus
+              </p>
 
               {errorMsg && (
-                <div
-                  className="text-danger small mb-3"
-                  role="alert"
-                  aria-live="polite"
-                >
+                <div className="alert alert-danger text-center" role="alert">
                   {errorMsg}
                 </div>
               )}
 
-              <div className="text-end mb-3">
-                <a href="/forgot-password" className="small text-primary">
-                  Forgot your password?
-                </a>
-              </div>
+              <MDBValidation onSubmit={handleLogin} noValidate>
+                <MDBValidationItem feedback="Email is required" invalid>
+                  <MDBInput
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    label="Email"
+                    id="login-email"
+                    name="email"
+                    required
+                    className="mb-3"
+                    aria-label="Email address"
+                  />
+                </MDBValidationItem>
 
-              <MDBBtn
-                type="submit"
-                className="w-100 bg-primary"
-                aria-label="Submit login"
-              >
-                LOGIN
-              </MDBBtn>
-            </form>
+                <MDBValidationItem feedback="Password is required" invalid>
+                  <MDBInput
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    label="Password"
+                    id="login-password"
+                    name="password"
+                    required
+                    className="mb-3"
+                    aria-label="Password"
+                  />
+                </MDBValidationItem>
 
-            <p className="mt-4 text-center">
-              Don’t have an account?{" "}
-              <a href="/register" className="text-primary">
-                Register here
-              </a>
-            </p>
-          </MDBCardBody>
-        </MDBCol>
+                <div className="d-flex justify-content-between mb-4">
+                  <Link
+                    to="/forgot-password"
+                    className="small text-primary"
+                    aria-label="Reset your password"
+                  >
+                    Forgot password?
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="small text-primary"
+                    aria-label="Create a new account"
+                  >
+                    Register
+                  </Link>
+                </div>
 
-        {/* Image Column — shown second on mobile */}
-<MDBCol
-  md="6"
-  className="d-flex align-items-stretch"
-  style={{
-    minHeight: "250px", // ensures height on mobile
-    height: "100%",     // match form height on desktop
-  }}
->
-  <img
-    src={loginImage}
-    alt="Secure login to trading platform"
-    className="w-100 h-100 object-fit-cover"
-    style={{
-      objectFit: "cover",
-      objectPosition: "center",
-    }}
-  />
-</MDBCol>
-
-      </MDBRow>
-    </div>
+                <MDBBtn type="submit" className="w-100 fw-bold mb-4">
+                  Login
+                </MDBBtn>
+              </MDBValidation>
+            </MDBCardBody>
+          </MDBCol>
+        </MDBRow>
+      </MDBCard>
+    </MDBContainer>
   );
 }
