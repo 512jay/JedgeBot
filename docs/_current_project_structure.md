@@ -211,6 +211,7 @@ JedgeBot/
 │   │   ├── password_reset.md
 │   │   ├── password_reset_index.md
 │   │   ├── poetry_workflow.md
+│   │   ├── render_deployment.md
 │   │   ├── roadmap.md
 │   │   ├── test_password_reset_coverage.md
 │   │   ├── testing_guide.md
