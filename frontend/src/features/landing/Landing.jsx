@@ -1,0 +1,164 @@
+// /frontend/src/features/landing/Landing.jsx
+import { useState } from "react";
+import {
+  MDBInput,
+  MDBBtn,
+  MDBValidation,
+  MDBValidationItem,
+  MDBTextArea,
+} from "mdb-react-ui-kit";
+import heroImage from "@/images/hero/landing.jpg";
+
+export default function Landing() {
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setFormSubmitted(true);
+  };
+
+  return (
+    <>
+      {/* 🔹 Desktop version with full-width hero and border effect */}
+      <div className="d-none d-md-block">
+        <div
+          style={{
+            padding: "1.5rem",
+            backgroundColor: "#9A616D",
+            margin: 0,
+            width: "100vw",
+            position: "relative",
+            left: "50%",
+            right: "50%",
+            marginLeft: "-50vw",
+            marginRight: "-50vw",
+          }}
+        >
+          <div
+            className="position-relative overflow-hidden"
+            style={{
+              backgroundImage: `url(${heroImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              width: "100%",
+              height: "85vh",
+              borderRadius: "0.75rem",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              maxWidth: "1400px",
+              margin: "0 auto",
+              boxShadow: "0 8px 24px rgba(0, 0, 0, 0.15)",
+            }}
+          >
+            <WaitlistCard
+              formSubmitted={formSubmitted}
+              handleSubmit={handleSubmit}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* 🔹 Mobile version (full-bleed) */}
+      <div className="d-block d-md-none">
+        <section
+          className="d-flex align-items-center justify-content-center"
+          style={{
+            backgroundImage: `url(${heroImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            width: "100vw",
+            height: "100vh",
+            marginLeft: "calc(-50vw + 50%)",
+          }}
+        >
+          <WaitlistCard
+            formSubmitted={formSubmitted}
+            handleSubmit={handleSubmit}
+          />
+        </section>
+      </div>
+    </>
+  );
+}
+
+function WaitlistCard({ formSubmitted, handleSubmit }) {
+  return (
+    <div
+      className="bg-white bg-opacity-75 p-4 p-md-5 rounded shadow"
+      style={{ maxWidth: "500px", width: "90%", backdropFilter: "blur(5px)" }}
+    >
+      <h2 className="fw-bold mb-2 text-center">Fordis Ludus</h2>
+      <p className="text-muted text-center mb-3">
+        Multi-Broker Trading. Automated. Intelligent.
+      </p>
+      <p className="text-center text-muted mb-4">
+        Be the first to test our multi-account trading platform, get early access
+        perks, and shape the future of Fordis Ludus.
+      </p>
+
+      {formSubmitted ? (
+        <div className="alert alert-success text-center" role="alert">
+          🎉 Thanks! You're on the waitlist.
+        </div>
+      ) : (
+        <MDBValidation tag="form" onSubmit={handleSubmit} noValidate>
+          <fieldset>
+            <legend className="visually-hidden">Waitlist Signup</legend>
+
+            <MDBValidationItem feedback="Email is required" invalid>
+              <MDBInput
+                label="Email"
+                id="waitlist-email"
+                name="email"
+                required
+                aria-label="Email address"
+                className="mb-3"
+              />
+            </MDBValidationItem>
+
+            <MDBInput
+              label="Name (optional)"
+              id="waitlist-name"
+              name="name"
+              aria-label="Your name"
+              className="mb-3"
+            />
+
+            <div className="mb-3">
+              <label htmlFor="waitlist-role" className="form-label">
+                Select Role
+              </label>
+              <select
+                id="waitlist-role"
+                name="role"
+                required
+                className="form-select"
+                aria-label="Select your role"
+              >
+                <option value="">Choose...</option>
+                <option value="client">Client</option>
+                <option value="manager">Manager</option>
+                <option value="enterprise">Enterprise</option>
+              </select>
+            </div>
+
+            <MDBTextArea
+              label="What would you like to see from Fordis Ludus?"
+              rows={3}
+              id="waitlist-feedback"
+              className="mb-4"
+              aria-label="Suggestions or feedback"
+            />
+
+            <MDBBtn type="submit" className="w-100 fw-bold">
+              Join the Waitlist
+            </MDBBtn>
+          </fieldset>
+        </MDBValidation>
+      )}
+    </div>
+  );
+}

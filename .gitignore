@@ -194,3 +194,5 @@ config.toml
 chatgpt_output/
 # Ignore Vitest coverage reports
 coverage/
+
+*.bak

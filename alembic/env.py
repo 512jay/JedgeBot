@@ -16,7 +16,8 @@ load_dotenv(dotenv_path=env_path)
 # ---------------------------------------------------------------------
 # Import your models' Base class
 # ---------------------------------------------------------------------
-from backend.data.database.auth.models import AuthBase
+from backend.data.database.models import Base
+
 
 # Alembic Config
 config = context.config
@@ -31,7 +32,7 @@ DATABASE_URL = (
 config.set_main_option("sqlalchemy.url", DATABASE_URL)
 
 # Assign metadata for autogenerate
-target_metadata = AuthBase.metadata
+target_metadata = Base.metadata
 
 
 def run_migrations_offline():

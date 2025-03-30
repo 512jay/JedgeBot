@@ -1,3 +1,4 @@
+// /frontend/src/components/ui/Table.jsx
 // components/ui/table.jsx
 import React from "react";
 

@@ -1,125 +1,95 @@
-/* /frontend/src/styles/Landing.css */
+/* Landing.css - Layout inspired by Login page */
 
-.landing-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    width: 100vw;
-    background-color: #9A616D;
-    /* Matches Login & Register pages */
-    color: white;
-    text-align: center;
-}
-
-/* Navigation Bar */
-.navbar {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    padding: 1rem 2rem;
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 100;
-}
-
-.brand {
-    font-size: 1.8rem;
-    font-weight: bold;
-}
-
-.nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 1.5rem;
+body {
+    overflow-x: hidden;
     margin: 0;
-    padding: 0;
 }
 
-.nav-links li {
-    display: inline;
+html,
+body {
+    max-width: 100vw;
 }
 
-.nav-links a {
-    text-decoration: none;
-    color: white;
-    font-size: 1rem;
-    transition: 0.3s ease-in-out;
-}
-
-.nav-links a:hover {
-    text-decoration: underline;
-    color: #ffcc00;
-}
-
-/* Hero Section as a Card */
-.hero-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 90vh;
-    width: 100%;
-    text-align: center;
-    margin-top: 4rem;
-    padding: 2rem;
-}
-
-.hero-card {
-    background: white;
-    color: black;
-    border-radius: 12px;
-    padding: 2rem;
-    max-width: 600px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.hero-image {
+img {
     max-width: 100%;
     height: auto;
-    border-radius: 10px;
-    margin-bottom: 1.5rem;
+    display: block;
 }
 
-.hero-buttons {
-    margin-top: 1.5rem;
+/* Toast style */
+.custom-toast {
+    animation: fade-in-out 3.5s ease-in-out;
 }
 
-.hero-buttons .btn {
-    padding: 0.75rem 1.5rem;
-    font-size: 1.1rem;
-    border-radius: 5px;
-    margin: 0 0.5rem;
-    text-decoration: none;
-    transition: 0.3s ease-in-out;
+@keyframes fade-in-out {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    10%,
+    90% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
 }
 
-.btn-primary {
-    background-color: #007bff;
-    color: white;
+.landing-split {
+    padding: 2rem;
+    width: 100%;
 }
 
-.btn-primary:hover {
-    background-color: #0056b3;
+.landing-card {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 960px;
+    background-color: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    margin: auto;
 }
 
-.btn-secondary {
-    background-color: #ffcc00;
-    color: black;
+@media (max-width: 767px) {
+    .landing-card {
+        flex-direction: column;
+    }
 }
 
-.btn-secondary:hover {
-    background-color: #e6b800;
+.landing-split {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 992px) {
+    .landing-split {
+        flex-direction: row;
+    }
+}
+
+.image-section {
+    flex: 1;
+    max-width: 50%;
+    overflow: hidden;
+}
+
+.form-section {
+    flex: 1;
+    padding: 2rem;
+    max-width: 50%;
+}
+
+@media (min-width: 768px) {
+    .image-section {
+        display: block;
+    }
+
+    .form-section {
+        width: 50%;
+    }
 }
