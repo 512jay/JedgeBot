@@ -1,22 +1,49 @@
+/* Ensure full-page white background and centering */
+html,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    /* Enables flexbox */
+    justify-content: center;
+    /* Centers horizontally */
+    align-items: center;
+    /* Centers vertically */
+    background-color: white;
+}
+
+/* Ensure home-container stays centered */
 .home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    padding: 50px;
+    width: 100%;
+    max-width: 800px;
+    /* Prevents stretching too wide */
 }
 
-.buttons {
-    margin-top: 20px;
-}
-
+/* Style for the button */
 .btn {
     display: inline-block;
-    margin: 10px;
-    padding: 10px 20px;
+    margin-top: 20px;
+    padding: 12px 24px;
     background: #007bff;
     color: white;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    border: none;
+    cursor: pointer;
 }
 
 .btn:hover {
     background: #0056b3;
+    transform: scale(1.05);
 }

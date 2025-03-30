@@ -129,6 +129,7 @@ celerybeat.pid
 
 # Environments
 .env
+.env.*
 .venv
 env/
 venv/
@@ -189,3 +190,7 @@ config.toml
 
 # Ignore log files
 *.log
+
+chatgpt_output/
+# Ignore Vitest coverage reports
+coverage/

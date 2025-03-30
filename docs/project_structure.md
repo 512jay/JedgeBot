@@ -6,16 +6,27 @@ JedgeBot/
 │   ├── LICENSE
 │   ├── README.md
 │   ├── __init__.py
+│   ├── alembic
+│   │   ├── README
+│   │   ├── env.py
+│   │   ├── script.py.mako
+│   │   ├── versions
+│   │   │   ├── 73c2de2ee829_fix_password_reset_table_base.py
+│   │   │   ├── ac6a215aa1f4_include_password_reset_token_table.py
+│   │   │   ├── ef329bc9120d_initial_auth_schema_with_role_column.py
+│   │   │   ├── f6df294f76d5_add_cascade_delete_to_password_reset_.py
+│   ├── alembic.ini
 │   ├── backend
 │   │   ├── __init__.py
 │   │   ├── api
 │   │   │   ├── __init__.py
-│   │   │   ├── auth.py
-│   │   │   ├── main.py
-│   │   │   ├── request_utils.py
+│   │   │   ├── auth_routes.py
+│   │   │   ├── clients_routes.py
+│   │   │   ├── http_utils.py
+│   │   │   ├── password_reset_routes.py
 │   │   ├── broker
 │   │   │   ├── __init__.py
-│   │   │   ├── broker_api.py
+│   │   │   ├── base_broker.py
 │   │   │   ├── tastytrade
 │   │   │   │   ├── __init__.py
 │   │   │   │   ├── data_handler.py
@@ -33,34 +44,98 @@ JedgeBot/
 │   │   ├── common
 │   │   │   ├── __init__.py
 │   │   │   ├── enums.py
+│   │   ├── core
+│   │   │   ├── rate_limit.py
+│   │   │   ├── settings.py
 │   │   ├── data
 │   │   │   ├── __init__.py
-│   │   │   ├── auth.db
-│   │   │   ├── data_fetcher.py
-│   │   │   ├── data_processor.py
-│   │   ├── execution
-│   │   │   ├── __init__.py
-│   │   │   ├── orders.py
-│   │   ├── strategies
-│   │   │   ├── __init__.py
-│   │   │   ├── arbitrage.py
-│   │   │   ├── mean_reversion.py
-│   │   │   ├── trend_follow.py
-│   │   │   ├── wheel_strategy.py
+│   │   │   ├── database
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── auth
+│   │   │   │   │   ├── __init__.py
+│   │   │   │   │   ├── auth_db.py
+│   │   │   │   │   ├── auth_queries.py
+│   │   │   │   │   ├── auth_services.py
+│   │   │   │   │   ├── models.py
+│   │   │   │   │   ├── password_reset_models.py
+│   │   │   │   │   ├── password_reset_service.py
+│   │   │   │   ├── business
+│   │   │   │   │   ├── __init__.py
+│   │   │   │   │   ├── initialize_business_db.py
+│   │   │   │   ├── market
+│   │   │   │   │   ├── __init__.py
+│   │   │   │   │   ├── trading_base.py
+│   │   │   │   │   ├── trading_database.py
+│   │   │   │   │   ├── trading_models.py
+│   │   ├── main.py
 │   │   ├── utils
 │   │   │   ├── __init__.py
 │   │   │   ├── logging.py
-│   ├── data
-│   │   ├── auth.db
+│   │   │   ├── security_utils.py
+│   ├── check_db_env.py
+│   ├── coverage
+│   │   ├── base.css
+│   │   ├── block-navigation.js
+│   │   ├── clover.xml
+│   │   ├── coverage-final.json
+│   │   ├── favicon.png
+│   │   ├── index.html
+│   │   ├── prettify.css
+│   │   ├── prettify.js
+│   │   ├── sort-arrow-sprite.png
+│   │   ├── sorter.js
+│   │   ├── src
+│   │   │   ├── App.jsx.html
+│   │   │   ├── api
+│   │   │   │   ├── api_client.js.html
+│   │   │   │   ├── auth_api.js.html
+│   │   │   │   ├── index.html
+│   │   │   ├── components
+│   │   │   │   ├── DashboardCards.jsx.html
+│   │   │   │   ├── Navbar.jsx.html
+│   │   │   │   ├── Sidebar.jsx.html
+│   │   │   │   ├── TitleManager.jsx.html
+│   │   │   │   ├── index.html
+│   │   │   │   ├── ui
+│   │   │   │   │   ├── Button.jsx.html
+│   │   │   │   │   ├── Card.jsx.html
+│   │   │   │   │   ├── PieChart.jsx.html
+│   │   │   │   │   ├── Table.jsx.html
+│   │   │   │   │   ├── index.html
+│   │   │   ├── index.html
+│   │   │   ├── main.jsx.html
+│   │   │   ├── pages
+│   │   │   │   ├── AccountLevelView.jsx.html
+│   │   │   │   ├── ClientPortfolioView.jsx.html
+│   │   │   │   ├── Clients.jsx.html
+│   │   │   │   ├── Dashboard.jsx.html
+│   │   │   │   ├── ForgotPassword.jsx.html
+│   │   │   │   ├── Home.jsx.html
+│   │   │   │   ├── Landing.jsx.html
+│   │   │   │   ├── Login.jsx.html
+│   │   │   │   ├── PortfolioManagerOverview.jsx.html
+│   │   │   │   ├── Profile.jsx.html
+│   │   │   │   ├── Register.jsx.html
+│   │   │   │   ├── ResetPassword.jsx.html
+│   │   │   │   ├── Settings.jsx.html
+│   │   │   │   ├── index.html
+│   ├── docker-compose.yml
+│   ├── docker-entrypoint-initdb.d
+│   │   ├── create_auth_db.sql
 │   ├── docs
+│   │   ├── api_password_reset_endpoints.md
 │   │   ├── business_plan.md
+│   │   ├── database_schema.md
 │   │   ├── development_enviroment.md
 │   │   ├── github_workflow.md
 │   │   ├── legal_strategy.md
 │   │   ├── marketing_plan.md
+│   │   ├── password_reset.md
+│   │   ├── password_reset_index.md
 │   │   ├── poetry_workflow.md
 │   │   ├── project_structure.md
 │   │   ├── roadmap.md
+│   │   ├── test_password_reset_coverage.md
 │   │   ├── testing_strategy.md
 │   ├── frontend
 │   │   ├── .vite
@@ -70,19 +145,40 @@ JedgeBot/
 │   │   ├── README.md
 │   │   ├── eslint.config.js
 │   │   ├── index.html
-│   │   ├── package-lock.json
 │   │   ├── package.json
 │   │   ├── public
+│   │   │   ├── images
+│   │   │   │   ├── leftlogin.jpg
+│   │   │   │   ├── registrationleft.jpg
+│   │   │   │   ├── registrationleft.webp
+│   │   │   │   ├── welcomejedgebot.jpg
+│   │   │   │   ├── welcomejedgebot.webp
+│   │   │   ├── logo.webp
 │   │   │   ├── vite.svg
 │   │   ├── src
 │   │   │   ├── App.css
 │   │   │   ├── App.jsx
+│   │   │   ├── __tests__
+│   │   │   │   ├── Button.test.jsx
+│   │   │   │   ├── Card.test.jsx
+│   │   │   │   ├── DashboardCards.test.jsx
+│   │   │   │   ├── ForgotPassword.test.jsx
+│   │   │   │   ├── Landing.test.jsx
+│   │   │   │   ├── Login.test.jsx
+│   │   │   │   ├── Register.test.jsx
+│   │   │   │   ├── ResetPassword.test.jsx
+│   │   │   │   ├── Sidebar.test.jsx
+│   │   │   │   ├── Table.test.jsx
+│   │   │   │   ├── TitleManager.test.jsx
+│   │   │   │   ├── api_client.test.js
+│   │   │   │   ├── auth_api.test.js
 │   │   │   ├── api
-│   │   │   │   ├── auth.js
-│   │   │   ├── api.jsx
+│   │   │   │   ├── api_client.js
+│   │   │   │   ├── auth_api.js
 │   │   │   ├── assets
 │   │   │   │   ├── react.svg
 │   │   │   ├── components
+│   │   │   │   ├── DashboardCards.jsx
 │   │   │   │   ├── Navbar.jsx
 │   │   │   │   ├── Sidebar.jsx
 │   │   │   │   ├── TitleManager.jsx
@@ -96,18 +192,26 @@ JedgeBot/
 │   │   │   ├── pages
 │   │   │   │   ├── AccountLevelView.jsx
 │   │   │   │   ├── ClientPortfolioView.jsx
-│   │   │   │   ├── Home.jsx
+│   │   │   │   ├── Clients.jsx
+│   │   │   │   ├── Dashboard.jsx
+│   │   │   │   ├── ForgotPassword.jsx
+│   │   │   │   ├── Landing.jsx
 │   │   │   │   ├── Login.jsx
-│   │   │   │   ├── LoginRegister.jsx
 │   │   │   │   ├── PortfolioManagerOverview.jsx
+│   │   │   │   ├── Profile.jsx
 │   │   │   │   ├── Register.jsx
 │   │   │   │   ├── ResetPassword.jsx
+│   │   │   │   ├── Settings.jsx
 │   │   │   ├── styles
 │   │   │   │   ├── AccountLevelView.css
 │   │   │   │   ├── ClientPortfolioView.css
 │   │   │   │   ├── Home.css
+│   │   │   │   ├── Landing.css
 │   │   │   │   ├── PortfolioManagerOverview.css
 │   │   │   │   ├── Sidebar.css
+│   │   │   │   ├── global.css
+│   │   ├── test-utils
+│   │   │   ├── setup.js
 │   │   ├── vite.config.js
 │   ├── generate_structure.py
 │   ├── jedgebot
@@ -115,6 +219,7 @@ JedgeBot/
 │   │   ├── common
 │   │   ├── execution
 │   │   ├── utils
+│   ├── launch_app.py
 │   ├── logs
 │   ├── notes
 │   │   ├── PortfolioManagmentRoadMap.md
@@ -136,12 +241,22 @@ JedgeBot/
 │   │   │   ├── market_data_streaming_script.py
 │   │   │   ├── start_streaming.py
 │   │   ├── btc_stream.py
+│   │   ├── run_rate_limit_manual.py
 │   │   ├── start_market_data_stream.py
-│   ├── start_jedgebot.py
+│   │   ├── validate_output.py
 │   ├── tests
+│   │   ├── conftest.py
+│   │   ├── integration
+│   │   │   ├── __init__.py
+│   │   │   ├── auth
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── test_auth_services.py
+│   │   │   │   ├── test_password_reset_flow.py
+│   │   │   │   ├── test_password_reset_token_validation.py
 │   │   ├── unit
 │   │   │   ├── __init__.py
-│   │   │   ├── execution
-│   │   │   │   ├── test_orders.py
+│   │   │   ├── auth
+│   │   │   │   ├── test_auth_routes.py
 │   │   │   ├── test_base_broker.py
+│   ├── vitest.config.js
 ```

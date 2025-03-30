@@ -1,31 +1,70 @@
+/* Sidebar default styles */
 .sidebar {
-    width: 250px;
-    height: 100vh;
-    background-color: #f8f9fa;
+    width: 16rem;
+    /* Default expanded width */
     position: fixed;
     left: 0;
     top: 0;
-    padding: 20px;
-    z-index: 100;
-    /* Adjust if necessary */
+    height: 100vh;
+    background-color: #1f2937;
+    /* Dark gray */
+    color: white;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     transition: width 0.3s ease-in-out;
+    /* ✅ Smooth transition */
 }
 
-/* Ensure the main content is not obstructed */
-.main-content {
-    margin-left: 250px;
-    /* Same as sidebar width */
-    padding: 20px;
-    transition: margin-left 0.3s ease-in-out;
-}
-
-/* Collapsed sidebar adjustments */
+/* Collapsed sidebar styles */
 .sidebar.collapsed {
-    width: 80px;
-    /* Smaller width for collapsed state */
+    width: 4rem;
+    /* ✅ Smaller width */
+    padding: 0.5rem;
+    /* Reduce padding */
 }
 
-.sidebar.collapsed+.main-content {
-    margin-left: 80px;
-    /* Adjust margin for collapsed sidebar */
+/* Ensure list items and icons remain visible */
+.sidebar .list-group-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    /* Align text */
+    padding: 10px 15px;
+    transition: padding 0.3s ease-in-out;
+}
+
+.sidebar.collapsed .list-group-item {
+    justify-content: center;
+    /* ✅ Center icons when collapsed */
+    padding: 10px;
+    /* Reduce padding */
+}
+
+/* Hide text when collapsed */
+.sidebar.collapsed .list-group-item span {
+    display: none;
+}
+
+/* Ensure the buttons for "New Client" and "Logout" are centered */
+.sidebar .p-2 {
+    width: 100%;
+    text-align: center;
+}
+
+.sidebar.collapsed .p-2 {
+    display: flex;
+    justify-content: center;
+}
+
+/* Ensure the collapse button is visible */
+.sidebar .toggle-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.sidebar.collapsed .toggle-btn {
+    width: 100%;
 }

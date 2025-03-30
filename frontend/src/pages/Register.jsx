@@ -1,83 +1,107 @@
-// src/pages/Register.jsx
+// /frontend/src/pages/Register.jsx
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
+import { register } from "../api/auth_api";
+import "../styles/global.css";
 
 const Register = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState("free");
   const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleRegister = async (event) => {
+    event.preventDefault();
     if (password !== confirmPassword) {
-      setError("Passwords do not match!");
+      setError("Passwords do not match");
       return;
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Registration failed!");
-      }
-
-      const data = await response.json();
-      setSuccess("Registration successful! You can now log in.");
-      setError(null);
-      console.log("Success:", data);
+      await register({ email, password, role });
+      alert("Registration successful! Please log in.");
+      navigate("/login");
     } catch (err) {
-      setError(err.message);
-      setSuccess(null);
+      console.error("Registration error:", err);
+      setError("Registration failed. Please try again.");
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900">
-      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-white text-2xl font-bold text-center mb-6">Register</h2>
-        {error && <p className="text-red-500 text-center">{error}</p>}
-        {success && <p className="text-green-500 text-center">{success}</p>}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+    <div className="auth-page">
+      <div className="auth-container">
+        <div className="auth-image">
+          <img
+            src="/images/registrationleft.jpg"
+            alt="Confident Black woman in an upscale workspace"
           />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-          />
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-          />
-          <button
-            type="submit"
-            className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200"
-          >
-            Register
-          </button>
-        </form>
-        <p className="text-gray-400 text-center mt-4">
-          Already have an account?{" "}
-          <a href="/login" className="text-green-400 hover:underline">
-            Login
-          </a>
-        </p>
+        </div>
+
+        <div className="auth-box">
+          <h2 className="text-center mb-4">Register</h2>
+          {error && <p className="text-danger text-center">{error}</p>}
+
+          <form onSubmit={handleRegister} className="w-100 px-4">
+            <label htmlFor="role">Select Role</label>
+            <select
+              id="role"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="mb-3 form-select"
+            >
+              <option value="free">Free – Manage 1 Brokerage Account</option>
+              <option value="client">Client – $30/mo for 10 Brokerage Accounts</option>
+              <option value="manager">Manager – $200/mo for 100 Brokerage Accounts</option>
+            </select>
+
+            <label htmlFor="email">Email Address</label>
+            <MDBInput
+              id="email"
+              type="email"
+              required
+              value={email}
+              autoComplete="email"
+              onChange={(e) => setEmail(e.target.value)}
+              className="mb-3"
+            />
+
+            <label htmlFor="password">Password</label>
+            <MDBInput
+              id="password"
+              type="password"
+              required
+              value={password}
+              autoComplete="new-password"
+              onChange={(e) => setPassword(e.target.value)}
+              className="mb-3"
+            />
+
+            <label htmlFor="confirm-password">Confirm Password</label>
+            <MDBInput
+              id="confirm-password"
+              type="password"
+              required
+              value={confirmPassword}
+              autoComplete="new-password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="mb-3"
+            />
+
+            <MDBBtn className="w-100" type="submit">
+              Register
+            </MDBBtn>
+          </form>
+
+          <p className="text-center mt-3">
+            Already have an account?{" "}
+            <a href="/login" className="text-primary">
+              Login
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );
