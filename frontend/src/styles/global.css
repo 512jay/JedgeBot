@@ -1,128 +1,125 @@
-/* frontend/src/styles/global.css */
+/* /frontend/src/global.css */
 
-/* 🔹 General Page Styling */
-html,
+/* Theme Colors */
+:root {
+  --cornflowerblue: #6495ED;
+  --mutedrose: #9A616D;
+}
+
 body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Arial, sans-serif;
+  background-color: var(--mutedrose);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #212529;
 }
 
-/* 🔹 Home Page - White Background with Centered Box */
-.home-container {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #fff;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
 }
 
-.home-box {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    max-width: 600px;
-}
-
-/* 🔹 Login & Register Pages - Colored Background */
-.auth-page {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #9A616D;
-}
-
-/* 🔹 Login & Register Box */
-.auth-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 900px;
-    max-width: 90%;
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
-
-/* 🔹 Login/Register Left Image */
-.auth-image {
-    width: 50%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-}
-
-.auth-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* 🔹 Login/Register Form */
-.auth-box {
-    width: 50%;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-/* 🔹 Buttons */
+button,
 .btn {
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
+  border-radius: 0.3rem;
 }
 
 .btn-primary {
-    background-color: #007bff;
-    color: white;
-    width: 100%;
-    text-align: center;
+  background-color: var(--cornflowerblue);
+  border-color: var(--cornflowerblue);
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
+  background-color: #517fd4;
+  border-color: #517fd4;
 }
 
-/* 🔹 Form Inputs */
-.form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+a {
+  color: var(--cornflowerblue);
+  text-decoration: none;
 }
 
-/* 🔹 Ensure input text is visible */
-.form-control {
-    color: black !important;
-    background-color: white !important;
+a:hover {
+  text-decoration: underline;
 }
 
-/* 🔹 Ensure autofilled input text is always visible */
-input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
-    -webkit-text-fill-color: black !important;
-    transition: background-color 5000s ease-in-out 0s;
+.card,
+.hover-grow {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-input {
-    color: black !important;
-    background-color: white !important;
+.card:hover,
+.hover-grow:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(100, 149, 237, 0.1);
+  /* soft cornflowerblue */
+}
+
+th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+/* Utility class for accessibility outlines */
+:focus-visible {
+  outline: 2px dashed var(--cornflowerblue);
+  outline-offset: 3px;
+}
+
+/* Remove Bootstrap's default focus ring */
+:focus {
+  box-shadow: none !important;
+}
+
+/* Custom checkbox/X colors */
+.text-check {
+  color: var(--cornflowerblue);
+  font-weight: bold;
+}
+
+.text-x {
+  color: var(--mutedrose);
+  font-weight: bold;
+}
+
+/* Responsive Image Styling */
+img.img-fluid {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Accessibility: High contrast for screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Automatically apply hover-grow effect to all MDB cards */
+.card:hover .card-body {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform: scale(1.02);
+  z-index: 1;
+  position: relative;
+}
+
+.card-body {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }

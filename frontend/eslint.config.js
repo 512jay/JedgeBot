@@ -1,3 +1,4 @@
+// eslint.config.js
 import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
@@ -5,6 +6,8 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 
 export default [
   { ignores: ['dist'] },
+
+  // Main React config
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
@@ -28,6 +31,24 @@ export default [
         'warn',
         { allowConstantExport: true },
       ],
+    },
+  },
+
+  // ✅ Vitest globals for test files
+  {
+    files: ['**/*.test.{js,jsx,ts,tsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        vi: true,
+        test: true,
+        expect: true,
+        describe: true,
+        beforeAll: true,
+        beforeEach: true,
+        afterAll: true,
+        afterEach: true,
+      },
     },
   },
 ]

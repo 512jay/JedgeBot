@@ -8,8 +8,11 @@ from slowapi.errors import RateLimitExceeded
 
 from backend.core.settings import settings
 from backend.core.rate_limit import limiter
-from backend.api.auth_routes import router as auth_router
-from backend.api.password_reset_routes import router as password_reset_router
+from backend.auth.auth_routes import router as auth_router
+from backend.user.user_routes import router as user_router
+from backend.auth.password.routes import router as password_reset_router
+from backend.core.settings import settings
+
 
 # Optional safety net
 if settings.ENVIRONMENT == "production" and settings.TESTING:
@@ -18,6 +21,10 @@ if settings.ENVIRONMENT == "production" and settings.TESTING:
 # Initialize FastAPI app
 app = FastAPI()
 
+if settings.TESTING:
+    from backend.dev import routes
+
+    app.include_router(routes.router)    
 # Only enable rate limiting if not in test mode
 if not settings.TESTING:
     app.state.limiter = limiter
@@ -39,7 +46,9 @@ app.add_middleware(
     allow_headers=["*"],
     expose_headers=["Set-Cookie"],
 )
+print("🌐 CORS allowed origins:", settings.FRONTEND_URL)
 
 # Include routers
 app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 app.include_router(password_reset_router, prefix="/auth", tags=["Password Reset"])
+app.include_router(user_router, prefix="/users", tags=["User Profiles"])

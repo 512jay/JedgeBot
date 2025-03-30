@@ -3,23 +3,33 @@
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-// General function to handle API requests with authentication cookies
 export async function fetchWithCredentials(url, options = {}) {
-    const response = await fetch(url, {
-        ...options,
-        credentials: "include", // Ensures cookies (access & refresh tokens) are included
-        headers: {
-            "Content-Type": "application/json",
-            ...options.headers, // Allow passing additional headers
-        },
-    });
+  const res = await fetch(url, {
+    ...options,
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      ...(options.headers || {}),
+    },
+  });
 
-    if (!response.ok) {
-        throw new Error(`HTTP Error: ${response.status}`);
+  if (!res.ok) {
+    let error = new Error(`HTTP Error: ${res.status}`);
+    error.status = res.status;
+
+    try {
+      const data = await res.json();
+      error.detail = data.detail || null;
+    } catch {
+      // non-JSON error, ignore
     }
 
-    return response.json();
+    throw error;
+  }
+
+  return res;
 }
+
 
 // Example: Fetch a message from the backend (general API call)
 export const fetchMessage = async () => {
