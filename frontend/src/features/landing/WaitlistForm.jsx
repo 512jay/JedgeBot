@@ -159,7 +159,7 @@ export default function WaitlistForm() {
       </div>
 
       <MDBBtn type="submit" block>
-        Join the Waitlist
+        Request Early Access
       </MDBBtn>
     </form>
   );

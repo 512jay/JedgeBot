@@ -398,6 +398,7 @@ JedgeBot/
 │   │   │   │   │   ├── Pricing.jsx
 │   │   │   │   │   ├── WaitlistForm.jsx
 │   │   │   │   │   ├── __tests__
+│   │   │   │   │   │   ├── WaitlistForm.test.jsx
 │   │   │   │   ├── profile
 │   │   │   │   │   ├── Profile.jsx
 │   │   │   │   ├── settings
