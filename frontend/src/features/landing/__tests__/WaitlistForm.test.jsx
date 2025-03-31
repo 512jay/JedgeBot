@@ -29,9 +29,9 @@ describe("WaitlistForm", () => {
     render(<WaitlistForm />);
     fireEvent.click(screen.getByRole("button", { name: /request early access/i }));
 
-    expect(await screen.findByText(/valid email/i)).toBeInTheDocument();
-    expect(await screen.findByText(/select a role/i)).toBeInTheDocument();
-    expect(await screen.findByText(/at least 10 characters/i)).toBeInTheDocument();
+    expect(await screen.findByText(/invalid email address/i)).toBeInTheDocument();
+    expect(await screen.findByText(/please select a role/i)).toBeInTheDocument();
+    expect(await screen.findByText(/at least 10 characters required/i)).toBeInTheDocument();
   });
 
   it("prevents submission if honeypot field is filled (bot detection)", async () => {
