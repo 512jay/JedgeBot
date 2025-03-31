@@ -34,33 +34,56 @@ export default function WaitlistForm() {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    // Honeypot bot check
-    if (homepage || phone || linkedin) {
-      console.warn('🤖 Bot submission blocked (honeypot triggered)');
-      return;
-    }
+  // Honeypot bot check
+  if (homepage || phone || linkedin) {
+    console.warn('🤖 Bot submission blocked (honeypot triggered)');
+    return;
+  }
 
-    const formErrors = validate();
-    if (Object.keys(formErrors).length > 0) {
-      setErrors(formErrors);
-      return;
-    }
+  const formErrors = validate();
+  if (Object.keys(formErrors).length > 0) {
+    setErrors(formErrors);
+    return;
+  }
 
-    setErrors({});
+  setErrors({});
 
-    // ✅ Real user submission
-    console.log({
-      email,
-      name,
-      role,
-      feedback,
+  try {
+    const response = await fetch('/api/waitlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name,
+        email,
+        role,
+        feedback,
+      }),
     });
 
-    // TODO: submit to backend
-  };
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('❌ Submission failed:', errorData);
+      setErrors({ form: 'Submission failed. Please try again later.' });
+      return;
+    }
+
+    const data = await response.json();
+    console.log('✅ Waitlist submission successful:', data);
+
+    // Optionally reset the form
+    setName('');
+    setEmail('');
+    setRole('');
+    setFeedback('');
+  } catch (error) {
+    console.error('❌ Network error during submission:', error);
+    setErrors({ form: 'Network error. Please try again.' });
+  }
+};
+
 
   const visuallyHiddenInputStyle = {
     position: 'absolute',
