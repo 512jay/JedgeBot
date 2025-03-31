@@ -19,7 +19,8 @@ def submit_waitlist_entry(
             detail="This email is already on the waitlist.",
         )
 
-    entry = models.WaitlistEntry(**submission.dict())
+    entry = models.WaitlistEntry(**submission.model_dump())
+
     db.add(entry)
     db.commit()
     db.refresh(entry)

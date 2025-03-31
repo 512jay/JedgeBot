@@ -105,6 +105,8 @@ JedgeBot/
 │   │   │   ├── models.py
 │   │   │   ├── routes.py
 │   │   │   ├── schemas.py
+│   │   │   ├── tests
+│   │   │   │   ├── test_waitlist_route.py
 │   ├── check_db_env.py
 │   ├── conftest.py
 │   ├── coverage
