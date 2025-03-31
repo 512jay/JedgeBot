@@ -6,13 +6,7 @@ from datetime import datetime
 from sqlalchemy import Column, String, Text, Enum, DateTime
 from sqlalchemy.dialects.postgresql import UUID
 from backend.data.database.db import Base
-import enum
-
-
-class WaitlistRole(str, enum.Enum):
-    client = "client"
-    manager = "manager"
-    enterprise = "enterprise"
+from backend.common.enums import UserRole
 
 
 class WaitlistEntry(Base):
@@ -23,6 +17,6 @@ class WaitlistEntry(Base):
     )
     email = Column(String, nullable=False, unique=True)
     name = Column(String, nullable=True)
-    role = Column(Enum(WaitlistRole), nullable=False)
+    role = Column(Enum(UserRole), nullable=False)
     feedback = Column(Text, nullable=True)
     submitted_at = Column(DateTime, default=datetime.utcnow, nullable=False)
