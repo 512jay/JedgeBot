@@ -98,6 +98,8 @@ JedgeBot/
 │   │   │   ├── __init__.py
 │   │   │   ├── logging.py
 │   │   │   ├── security_utils.py
+│   │   ├── waitlist
+│   │   │   ├── models.py
 │   ├── check_db_env.py
 │   ├── conftest.py
 │   ├── coverage
