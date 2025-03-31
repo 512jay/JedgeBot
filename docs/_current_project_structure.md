@@ -452,7 +452,7 @@ JedgeBot/
 │   │   │   │   ├── __tests__
 │   │   │   │   ├── apiClient.js
 │   │   │   │   ├── authHelpers.js
-│   │   │   │   ├── fetchwithRefresh.js
+│   │   │   │   ├── fetchWithRefresh.js
 │   │   │   │   ├── setupTestUser.js
 │   │   ├── tailwind.config.js
 │   │   ├── vite.config.js
