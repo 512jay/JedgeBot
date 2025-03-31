@@ -13,14 +13,43 @@ export default function WaitlistForm() {
   const [phone, setPhone] = useState('');
   const [linkedin, setLinkedin] = useState('');
 
+  // Error states
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = 'Please enter a valid email address.';
+    }
+
+    if (!role) {
+      newErrors.role = 'Please select a role.';
+    }
+
+    if (feedback.trim().length < 10) {
+      newErrors.feedback = 'Please provide at least 10 characters of feedback.';
+    }
+
+    return newErrors;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // 🚫 Bot trap: if any honeypot field is filled, reject
+    // Honeypot bot check
     if (homepage || phone || linkedin) {
       console.warn('🤖 Bot submission blocked (honeypot triggered)');
       return;
     }
+
+    const formErrors = validate();
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      return;
+    }
+
+    setErrors({});
 
     // ✅ Real user submission
     console.log({
@@ -30,10 +59,9 @@ export default function WaitlistForm() {
       feedback,
     });
 
-    // TODO: send this to your backend API
+    // TODO: submit to backend
   };
 
-  // Accessible, invisible styles
   const visuallyHiddenInputStyle = {
     position: 'absolute',
     left: '-9999px',
@@ -54,6 +82,8 @@ export default function WaitlistForm() {
         className="mb-3"
         aria-label="Email"
       />
+      {errors.email && <div className="text-danger small mb-2">{errors.email}</div>}
+
       <MDBInput
         label="Name (optional)"
         type="text"
@@ -62,6 +92,7 @@ export default function WaitlistForm() {
         className="mb-3"
         aria-label="Name"
       />
+
       <select
         value={role}
         onChange={(e) => setRole(e.target.value)}
@@ -75,6 +106,8 @@ export default function WaitlistForm() {
         <option value="enterprise">Enterprise</option>
         <option value="client">Client</option>
       </select>
+      {errors.role && <div className="text-danger small mb-2">{errors.role}</div>}
+
       <MDBInput
         label="What would you like to see in Fordis Ludus?"
         type="textarea"
@@ -84,8 +117,9 @@ export default function WaitlistForm() {
         className="mb-3"
         aria-label="Feedback"
       />
+      {errors.feedback && <div className="text-danger small mb-2">{errors.feedback}</div>}
 
-      {/* 🕵️‍♀️ Honeypot fields — visible to bots only */}
+      {/* 🕵️‍♀️ Honeypot fields — hidden from humans */}
       <div className="extra-fields" aria-hidden="true">
         <label htmlFor="homepage" className="sr-only">Company Website</label>
         <input
