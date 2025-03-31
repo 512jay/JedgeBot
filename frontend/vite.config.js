@@ -14,6 +14,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
   return {
+    base: mode === "production" ? "/" : undefined,
     plugins: [react()],
     resolve: {
       alias: {
@@ -27,24 +28,25 @@ export default defineConfig(({ mode }) => {
         "@hooks": path.resolve(__dirname, "src/hooks"),
       },
     },
-      server: {
-        host: '0.0.0.0',
-        port: 5173,
-        proxy: {
-          "/auth": {
-            target: env.VITE_API_URL || "http://localhost:8000",
-            changeOrigin: true,
-            secure: false,
-          },
-          "/api": {
-            target: env.VITE_API_URL || "http://localhost:8000",
-            changeOrigin: true,
-            secure: false,
-          },
+    server: {
+      host: '0.0.0.0',
+      port: 5173,
+      proxy: {
+        "/auth": {
+          target: env.VITE_API_URL || "http://localhost:8000",
+          changeOrigin: true,
+          secure: false,
+        },
+        "/api": {
+          target: env.VITE_API_URL || "http://localhost:8000",
+          changeOrigin: true,
+          secure: false,
         },
       },
+    },
     define: {
       "import.meta.env.VITE_API_URL": JSON.stringify(env.VITE_API_URL || "http://localhost:8000"),
     },
   };
 });
+
