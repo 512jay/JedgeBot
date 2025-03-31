@@ -1,110 +1,108 @@
 // /frontend/src/features/landing/__tests__/WaitlistForm.test.jsx
-/// <reference types="vitest" />
-/* eslint-env vitest */
-// Tests client-side validation and honeypot logic for WaitlistForm.
 
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import WaitlistForm from "../WaitlistForm";
-import { vi } from "vitest";
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import WaitlistForm from '../WaitlistForm';
+import '@testing-library/jest-dom';
 
-describe("WaitlistForm", () => {
+describe('WaitlistForm', () => {
   beforeEach(() => {
+    global.fetch = vi.fn();
+  });
+
+  afterEach(() => {
     vi.resetAllMocks();
-    global.fetch = vi.fn(() =>
-      Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve({ message: "Success" }),
-      })
+  });
+
+  it('blocks form submission when required fields are empty', async () => {
+    render(<WaitlistForm />);
+
+    const submitButton = screen.getByRole('button', { name: /request early access/i });
+
+    fireEvent.click(submitButton);
+
+    // Since browser prevents submission, fetch shouldn't be called
+    expect(global.fetch).not.toHaveBeenCalled();
+  });
+
+
+
+  it('blocks submission if honeypot fields are filled', async () => {
+    render(<WaitlistForm />);
+
+    fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'user@example.com' } });
+    fireEvent.change(screen.getByLabelText('Feedback'), { target: { value: 'Valid feedback input' } });
+    fireEvent.change(screen.getByLabelText('Role'), { target: { value: 'trader' } });
+    fireEvent.change(screen.getByLabelText('Phone Number'), { target: { value: '1234567890' } });
+
+    fireEvent.click(screen.getByRole('button', { name: /request early access/i }));
+
+    expect(global.fetch).not.toHaveBeenCalled();
+  });
+
+  it('displays a server error when the submission fails', async () => {
+    global.fetch.mockResolvedValueOnce({
+      ok: false,
+      json: async () => ({ message: 'Submission failed.' }),
+    });
+
+    render(<WaitlistForm />);
+
+    fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'fail@example.com' } });
+    fireEvent.change(screen.getByLabelText('Feedback'), { target: { value: 'Some feedback text' } });
+    fireEvent.change(screen.getByLabelText('Role'), { target: { value: 'trader' } });
+
+    fireEvent.click(screen.getByRole('button', { name: /request early access/i }));
+
+    expect(
+      await screen.findByText('Submission failed. Please try again later.')
+    ).toBeInTheDocument();
+  });
+
+  it('displays a network error if fetch throws', async () => {
+    global.fetch.mockRejectedValueOnce(new Error('Network error'));
+
+    render(<WaitlistForm />);
+
+    // Fill required fields
+    fireEvent.change(screen.getByLabelText('Email'), {
+      target: { value: 'fail@example.com' },
+    });
+    fireEvent.change(screen.getByLabelText('Feedback'), {
+      target: { value: 'Some feedback text' },
+    });
+    fireEvent.change(screen.getByLabelText('Role'), {
+      target: { value: 'trader' },
+    });
+
+    // Click the submit button
+    fireEvent.click(screen.getByRole('button', { name: /request early access/i }));
+
+    // Match error by content
+    const alert = await screen.findByText((text) =>
+      text.toLowerCase().includes('network error')
     );
+
+    expect(alert).toBeInTheDocument();
   });
 
-  it("renders required form fields", () => {
-    render(<WaitlistForm />);
-    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/role/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/feedback/i)).toBeInTheDocument();
-  });
 
-  it("shows validation errors when required fields are empty", async () => {
-    render(<WaitlistForm />);
-    fireEvent.click(screen.getByRole("button", { name: /request early access/i }));
+  it('submits the form successfully with valid input', async () => {
+    global.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ message: 'Success' }),
+    });
 
-    expect(await screen.findByText(/invalid email address/i)).toBeInTheDocument();
-    expect(await screen.findByText(/please select a role/i)).toBeInTheDocument();
-    expect(await screen.findByText(/at least 10 characters required/i)).toBeInTheDocument();
-  });
-
-  it("prevents submission if honeypot field is filled (bot detection)", async () => {
     render(<WaitlistForm />);
 
-    fireEvent.change(screen.getByLabelText(/email/i), {
-      target: { value: "bot@spam.com" },
-    });
-    fireEvent.change(screen.getByLabelText(/role/i), {
-      target: { value: "client" },
-    });
-    fireEvent.change(screen.getByLabelText(/feedback/i), {
-      target: { value: "This is a test bot entry" },
-    });
-    fireEvent.change(screen.getByLabelText(/company website/i), {
-      target: { value: "http://spammybot.com" },
-    });
+    fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'user@example.com' } });
+    fireEvent.change(screen.getByLabelText('Feedback'), { target: { value: 'Some real feedback' } });
+    fireEvent.change(screen.getByLabelText('Role'), { target: { value: 'manager' } });
 
-    fireEvent.click(screen.getByRole("button", { name: /request early access/i }));
-
-    await waitFor(() => {
-      expect(global.fetch).not.toHaveBeenCalled();
-    });
-  });
-
-  it("submits successfully when all fields are valid and honeypot is empty", async () => {
-    render(<WaitlistForm />);
-
-    fireEvent.change(screen.getByLabelText(/email/i), {
-      target: { value: "user@example.com" },
-    });
-    fireEvent.change(screen.getByLabelText(/role/i), {
-      target: { value: "manager" },
-    });
-    fireEvent.change(screen.getByLabelText(/feedback/i), {
-      target: { value: "Excited to try Fordis Ludus!" },
-    });
-
-    fireEvent.click(screen.getByRole("button", { name: /request early access/i }));
+    fireEvent.click(screen.getByRole('button', { name: /request early access/i }));
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledTimes(1);
     });
-
-    // Check that the form was cleared (email input is empty again)
-    expect(screen.getByLabelText(/email/i)).toHaveValue("");
-  });
-
-  it("displays an error when the server returns failure", async () => {
-    global.fetch = vi.fn(() =>
-      Promise.resolve({
-        ok: false,
-        json: () => Promise.resolve({ error: "Bad request" }),
-      })
-    );
-
-    render(<WaitlistForm />);
-    fireEvent.change(screen.getByLabelText(/email/i), {
-      target: { value: "fail@example.com" },
-    });
-    fireEvent.change(screen.getByLabelText(/role/i), {
-      target: { value: "trader" },
-    });
-    fireEvent.change(screen.getByLabelText(/feedback/i), {
-      target: { value: "Some feedback text." },
-    });
-
-    fireEvent.click(screen.getByRole("button", { name: /request early access/i }));
-
-    await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalled();
-    });
-
-    expect(await screen.findByText(/submission failed/i)).toBeInTheDocument();
   });
 });

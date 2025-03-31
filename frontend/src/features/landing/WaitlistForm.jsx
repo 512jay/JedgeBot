@@ -180,10 +180,11 @@ const handleSubmit = async (e) => {
           style={visuallyHiddenInputStyle}
         />
       </div>
+        <MDBBtn type="submit" block>
+          Request Early Access
+        </MDBBtn>
 
-      <MDBBtn type="submit" block>
-        Request Early Access
-      </MDBBtn>
+        {errors.form && <div className="text-danger small mb-2">{errors.form}</div>}      
     </form>
   );
 }
