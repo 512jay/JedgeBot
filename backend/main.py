@@ -12,6 +12,8 @@ from backend.auth.auth_routes import router as auth_router
 from backend.user.user_routes import router as user_router
 from backend.auth.password.routes import router as password_reset_router
 from backend.core.settings import settings
+# /backend/main.py
+from backend.waitlist.models import WaitlistEntry  # Ensure model is discoverable
 
 
 # Optional safety net

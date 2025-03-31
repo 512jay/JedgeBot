@@ -90,14 +90,15 @@ function WaitlistCard({ formSubmitted, handleSubmit }) {
       className="bg-white bg-opacity-75 p-4 p-md-5 rounded shadow"
       style={{ maxWidth: "500px", width: "90%", backdropFilter: "blur(5px)" }}
     >
-      <h2 className="fw-bold mb-2 text-center">Fordis Ludus</h2>
+      <h2 className="fw-bold mb-2 text-center">Get Early Access to Fordis Ludus</h2>
       <p className="text-muted text-center mb-3">
-        Multi-Broker Trading. Automated. Intelligent.
+        Trade smarter. Manage more. Stress less.
       </p>
       <p className="text-center text-muted mb-4">
-        Be the first to test our multi-account trading platform, get early access
-        perks, and shape the future of Fordis Ludus.
+        Join the waitlist to try our intelligent, multi-account trading platform before anyone else.
+        Be the first to shape the future of automated portfolio management.
       </p>
+
 
       {formSubmitted ? (
         <div className="alert alert-success text-center" role="alert">
@@ -129,21 +130,23 @@ function WaitlistCard({ formSubmitted, handleSubmit }) {
 
             <div className="mb-3">
               <label htmlFor="waitlist-role" className="form-label">
-                Select Role
+                What best describes your interest?
               </label>
               <select
                 id="waitlist-role"
                 name="role"
                 required
                 className="form-select"
-                aria-label="Select your role"
+                aria-label="Select your intent"
               >
                 <option value="">Choose...</option>
-                <option value="client">Client</option>
-                <option value="manager">Manager</option>
-                <option value="enterprise">Enterprise</option>
+                <option value="trader">I'm just trying it out</option>
+                <option value="manager">I manage other people's accounts</option>
+                <option value="enterprise">I represent a larger firm or institution</option>
               </select>
             </div>
+
+
 
             <MDBTextArea
               label="What would you like to see from Fordis Ludus?"
@@ -153,9 +156,10 @@ function WaitlistCard({ formSubmitted, handleSubmit }) {
               aria-label="Suggestions or feedback"
             />
 
-            <MDBBtn type="submit" className="w-100 fw-bold">
-              Join the Waitlist
-            </MDBBtn>
+          <MDBBtn type="submit" className="w-100 fw-bold">
+            Request Early Access
+          </MDBBtn>
+
           </fieldset>
         </MDBValidation>
       )}

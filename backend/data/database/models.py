@@ -4,8 +4,9 @@
 from backend.auth.auth_models import User
 from backend.user.user_models import UserProfile
 from backend.auth.password.models import PasswordResetToken
+from backend.waitlist.models import WaitlistEntry
 
 from backend.data.database.base import Base
 
 # This ensures Base.metadata reflects all models
-__all__ = ["Base", "User", "UserProfile", "PasswordResetToken"]
+__all__ = ["Base", "User", "UserProfile", "PasswordResetToken", "WaitlistEntry"]

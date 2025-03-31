@@ -67,12 +67,13 @@ export default function WaitlistForm() {
         onChange={(e) => setRole(e.target.value)}
         className="form-select mb-3"
         aria-label="Role"
+        required
       >
         <option value="">Select Role</option>
-        <option value="Trader">Trader</option>
-        <option value="Manager">Manager</option>
-        <option value="Enterprise">Enterprise</option>
-        <option value="Other">Other</option>
+        <option value="trader">Trader</option>
+        <option value="manager">Manager</option>
+        <option value="enterprise">Enterprise</option>
+        <option value="client">Client</option>
       </select>
       <MDBInput
         label="What would you like to see in Fordis Ludus?"
