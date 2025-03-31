@@ -102,6 +102,7 @@ JedgeBot/
 │   │   │   ├── logging.py
 │   │   │   ├── security_utils.py
 │   │   ├── waitlist
+│   │   │   ├── __init__.py
 │   │   │   ├── models.py
 │   │   │   ├── routes.py
 │   │   │   ├── schemas.py
