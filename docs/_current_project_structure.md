@@ -368,7 +368,6 @@ JedgeBot/
 │   │   │   │   ├── app
 │   │   │   │   │   ├── App.jsx
 │   │   │   │   │   ├── __tests__
-│   │   │   │   │   │   ├── App.test.jsx
 │   │   │   │   │   ├── pages
 │   │   │   │   │   │   ├── NotFound.jsx
 │   │   │   │   ├── auth
@@ -378,8 +377,6 @@ JedgeBot/
 │   │   │   │   │   ├── ResetPassword.jsx
 │   │   │   │   │   ├── VerifyEmail.jsx
 │   │   │   │   │   ├── __tests__
-│   │   │   │   │   │   ├── ForgotPassword.test.jsx
-│   │   │   │   │   │   ├── auth_api.test.js
 │   │   │   │   │   ├── auth_api.js
 │   │   │   │   ├── clients
 │   │   │   │   ├── dashboard
@@ -399,7 +396,6 @@ JedgeBot/
 │   │   │   │   │   ├── Pricing.jsx
 │   │   │   │   │   ├── WaitlistForm.jsx
 │   │   │   │   │   ├── __tests__
-│   │   │   │   │   │   ├── Landing.test.jsx
 │   │   │   │   ├── profile
 │   │   │   │   │   ├── Profile.jsx
 │   │   │   │   ├── settings
@@ -460,6 +456,7 @@ JedgeBot/
 │   │   │   │   ├── setupTestUser.js
 │   │   ├── tailwind.config.js
 │   │   ├── vite.config.js
+│   │   ├── vitest.config.js
 │   ├── jedgebot
 │   │   ├── broker
 │   │   ├── common
@@ -470,8 +467,6 @@ JedgeBot/
 │   ├── notes
 │   │   ├── Landing-Waitlist-Roadmap.md
 │   │   ├── PortfolioManagmentRoadMap.md
-│   ├── package-lock.json
-│   ├── package.json
 │   ├── poetry.lock
 │   ├── psql_connect.sh
 │   ├── pyproject.toml
@@ -508,7 +503,6 @@ JedgeBot/
 │   │   ├── utils
 │   │   │   ├── __init__.py
 │   │   │   ├── user_factory.py
-│   ├── vitest.config.js
 │   ├── x_generate_structure.py
 │   ├── zscript.sh
 ```
