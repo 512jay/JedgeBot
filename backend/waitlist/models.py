@@ -17,6 +17,6 @@ class WaitlistEntry(Base):
     )
     email = Column(String, nullable=False, unique=True)
     name = Column(String, nullable=True)
-    role = Column(Enum(UserRole), nullable=False)
+    role = Column(Enum(UserRole, name="userrole", create_type=False), nullable=False)
     feedback = Column(Text, nullable=True)
     submitted_at = Column(DateTime, default=datetime.utcnow, nullable=False)
