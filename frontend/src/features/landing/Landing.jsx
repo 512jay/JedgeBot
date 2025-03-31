@@ -8,14 +8,50 @@ import {
   MDBTextArea,
 } from "mdb-react-ui-kit";
 import heroImage from "@/images/hero/landing.jpg";
+import { fetchWithCredentials } from "@/api/api_client";
+import { toast } from "react-toastify";
+
 
 export default function Landing() {
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setFormSubmitted(true);
+
+    const form = e.target;
+    const email = form.email.value.trim();
+    const name = form.name.value.trim();
+    const role = form.role.value;
+    const feedback = form["waitlist-feedback"].value.trim();
+
+    const payload = {
+      email,
+      name: name || null,
+      role,
+      feedback: feedback || null,
+    };
+
+    try {
+      const response = await fetchWithCredentials("/api/waitlist", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        toast.error(error.detail || "Something went wrong.");
+        return;
+      }
+
+      toast.success("You're on the waitlist! 🎉");
+      setFormSubmitted(true);
+    } catch (err) {
+      console.error("Waitlist submission error:", err);
+      toast.error("Network error. Please try again later.");
+    }
   };
+
+
 
   return (
     <>

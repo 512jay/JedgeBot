@@ -103,6 +103,8 @@ JedgeBot/
 │   │   │   ├── security_utils.py
 │   │   ├── waitlist
 │   │   │   ├── models.py
+│   │   │   ├── routes.py
+│   │   │   ├── schemas.py
 │   ├── check_db_env.py
 │   ├── conftest.py
 │   ├── coverage
