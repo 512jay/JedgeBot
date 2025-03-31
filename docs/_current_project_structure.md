@@ -334,6 +334,7 @@ JedgeBot/
 │   │   ├── package-lock.json
 │   │   ├── package.json
 │   │   ├── public
+│   │   │   ├── _redirects
 │   │   │   ├── vite.svg
 │   │   ├── src
 │   │   │   ├── __tests__
