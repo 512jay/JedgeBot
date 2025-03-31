@@ -31,7 +31,7 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 
 def create_user(
-    db: Session, email: str, password_hash: str, role: UserRole = UserRole.free
+    db: Session, email: str, password_hash: str, role: UserRole = UserRole.trader
 ) -> User:
     """
     Creates a new user in the database if the email is not already taken.
@@ -124,7 +124,7 @@ def change_user_role(db: Session, user: User, new_role: UserRole) -> User:
 
 
 def get_or_create_user(
-    db: Session, email: str, password_hash: str, role: UserRole = UserRole.free
+    db: Session, email: str, password_hash: str, role: UserRole = UserRole.trader
 ) -> User:
     """
     Retrieves a user by email or creates a new one if not found.

@@ -63,7 +63,7 @@ def create_test_user(db: Session, role: UserRole) -> dict:
 @pytest.fixture(scope="function")
 def free_user(get_db_session: Session) -> Generator[dict, None, None]:
     """Creates and cleans up a test user with 'free' role."""
-    user = create_test_user(get_db_session, UserRole.free)
+    user = create_test_user(get_db_session, UserRole.trader)
     yield user
     get_db_session.query(User).filter(User.id == user["id"]).delete()
     get_db_session.commit()

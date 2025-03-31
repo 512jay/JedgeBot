@@ -39,7 +39,7 @@ class User(Base):
             UserRole, native_enum=False, values_callable=lambda x: [e.value for e in x]
         ),
         nullable=False,
-        default=UserRole.free,
+        default=UserRole.trader,
         comment="Role of the user",
     )
 
