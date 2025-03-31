@@ -405,6 +405,7 @@ JedgeBot/
 │   │   │   │   │   ├── forgot.jpg
 │   │   │   │   │   ├── landing.jpg
 │   │   │   │   │   ├── login.jpg
+│   │   │   │   │   ├── pageNotFound.webp
 │   │   │   │   │   ├── register.jpg
 │   │   │   │   │   ├── welcomejedgebot.jpg
 │   │   │   │   │   ├── welcomejedgebot.webp
@@ -416,6 +417,7 @@ JedgeBot/
 │   │   │   │   │   ├── DALL·E 2025-03-28 11.13.35 - A modern, wordless illustration representing resetting a password, designed for a SaaS trading platform. The scene features a relieved character succe.webp
 │   │   │   │   │   ├── DALL·E 2025-03-28 12.34.54 - A sleek, wordless illustration representing a login page for a SaaS trading platform. The scene features a confident character entering a secure porta.webp
 │   │   │   │   │   ├── DALL·E 2025-03-28 21.05.34 - A modern and minimalistic illustration representing the concept of registration. The image features a clipboard with a checklist being filled out, a d.webp
+│   │   │   │   │   ├── DALL·E 2025-03-30 19.35.37 - A modern, wordless illustration representing a 'Page Not Found' error. The scene features a confused character standing at a broken or disconnected pa.webp
 │   │   │   │   │   ├── leftlogin.jpg
 │   │   │   │   │   ├── pexels-alesiakozik-6771426.jpg
 │   │   │   │   │   ├── pexels-fauxels-3184416.jpg
