@@ -8,24 +8,7 @@ from datetime import datetime
 import uuid
 import enum
 from backend.data.database.base import Base
-
-
-# -------------------------------------------------------------------
-# Enum: Defines valid user roles
-# -------------------------------------------------------------------
-class UserRole(enum.Enum):
-    free = "free"
-    client = "client"
-    manager = "manager"
-    enterprise = "enterprise"
-
-
-class UserStatus(enum.Enum):
-    active = "active"
-    grace = "grace"
-    downgraded = "downgraded"
-    banned = "banned"
-    deactivated = "deactivated"
+from backend.common.enums import UserRole, UserStatus
 
 
 # -------------------------------------------------------------------
