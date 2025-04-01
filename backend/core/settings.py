@@ -1,10 +1,13 @@
 # /backend/core/settings.py
 # Pydantic settings model for the FastAPI application.
+
 import os
 from dotenv import load_dotenv
 
-# Load .env from the backend folder explicitly
-dotenv_path = os.path.join(os.path.dirname(__file__), "..", ".env")
+# Choose the correct .env file based on environment
+base_dir = os.path.dirname(__file__)
+env_file = ".env.production" if os.getenv("RENDER") == "true" else ".env"
+dotenv_path = os.path.join(base_dir, "..", env_file)
 load_dotenv(dotenv_path)
 
 from pydantic import Field
@@ -41,9 +44,10 @@ class Settings(BaseSettings):
     EMAIL_FROM: str
     EMAIL_VERIFICATION_ALGORITHM: str
     ALLOW_REGISTRATION: bool = Field(default=True)
+    RENDER: bool
 
     @property
-    def is_production(self):
+    def is_production(self) -> bool:
         return self.ENVIRONMENT == "production"
 
 
