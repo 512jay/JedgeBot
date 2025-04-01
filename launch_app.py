@@ -171,7 +171,9 @@ def wait_for_db():
 def stream_logs(process, prefix, color):
     try:
         for line in iter(process.stdout.readline, ""):
-            print(f"{color}[{prefix}] {line.strip()}")
+            print(
+                f"{color}[{prefix}] {line.strip().decode(errors='ignore') if isinstance(line, bytes) else line.strip()}"
+            )
     except Exception as e:
         print(f"{color}[{prefix}] Log stream error: {e}")
     finally:
