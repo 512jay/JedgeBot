@@ -24,7 +24,6 @@ JedgeBot/
 │   │   ├── __init__.py
 │   │   ├── api
 │   │   │   ├── __init__.py
-│   │   │   ├── clients_routes.py
 │   │   │   ├── http_utils.py
 │   │   ├── auth
 │   │   │   ├── __init__.py
@@ -77,7 +76,6 @@ JedgeBot/
 │   │   │   │   ├── __init__.py
 │   │   │   │   ├── auth
 │   │   │   │   ├── base.py
-│   │   │   │   ├── business
 │   │   │   │   ├── db.py
 │   │   │   │   ├── models.py
 │   │   ├── dev
@@ -92,6 +90,7 @@ JedgeBot/
 │   │   ├── main.py
 │   │   ├── notifications
 │   │   │   ├── email_service.py
+│   │   ├── render.yaml
 │   │   ├── user
 │   │   │   ├── __init__.py
 │   │   │   ├── user_models.py
@@ -465,6 +464,7 @@ JedgeBot/
 │   │   │   │   ├── renderWithProviders.jsx
 │   │   │   │   ├── setup.js
 │   │   │   │   ├── setupTestUser.js
+│   │   │   │   ├── vitest.setup.js
 │   │   │   ├── utils
 │   │   │   │   ├── __tests__
 │   │   │   │   ├── apiClient.js
