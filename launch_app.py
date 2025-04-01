@@ -22,19 +22,27 @@ from urllib.parse import urlparse
 # ------------------------------------- #
 parser = argparse.ArgumentParser(description="Launch JedgeBot App Locally")
 parser.add_argument(
-    "--use-remote-db", action="store_true", help="Use Render production database"
+    "--use-remote-db",
+    action="store_true",
+    help="(Deprecated) Use Render production database",
 )
 parser.add_argument(
     "--public-api",
     action="store_true",
     help="Point frontend at https://api.fordisludus.com",
 )
+parser.add_argument(
+    "--mode",
+    choices=["local", "remote", "public"],
+    default="local",
+    help="Launch mode: local (default), remote (Render DB), or public (API at fordisludus.com)",
+)
 args = parser.parse_args()
 
 # ------------------------------------- #
 # ⚙️ Load the Correct .env
 # ------------------------------------- #
-env_file = ".env.production" if args.use_remote_db else ".env"
+env_file = ".env.production" if args.mode in ["remote", "public"] else ".env"
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), env_file))
 print(Fore.YELLOW + f"🔧 Loaded: {env_file}")
 
@@ -83,7 +91,7 @@ def show_qr_codes_for_lan(port: str = "5173"):
 
 
 # ------------------------------------- #
-# 📍 Environment
+# 📍 Environment Setup
 # ------------------------------------- #
 init(autoreset=True)
 project_root = os.path.abspath(os.path.dirname(__file__))
@@ -91,22 +99,25 @@ backend_path = os.path.join(project_root, "backend")
 frontend_path = os.path.join(project_root, "frontend")
 npm_path = os.getenv("NPM_PATH", "C:\\Program Files\\nodejs\\npm.cmd")
 
-# Configure frontend API target
+# Determine API target for frontend
 local_ip = socket.gethostbyname(socket.gethostname())
-VITE_API_URL = (
-    "https://api.fordisludus.com"
-    if args.public_api
-    else os.getenv("VITE_API_URL", f"http://{local_ip}:8000")
-)
+if args.mode == "public":
+    VITE_API_URL = "https://api.fordisludus.com"
+else:
+    VITE_API_URL = os.getenv("VITE_API_URL", f"http://{local_ip}:8000")
+
 FRONTEND_URL = os.getenv("FRONTEND_URL", f"http://localhost:5173")
 
 # Parse DB connection from DATABASE_URL
 DATABASE_URL = os.getenv("DATABASE_URL")
 parsed_db = urlparse(DATABASE_URL)
-print(
-    Fore.BLUE
-    + f"📦 Connected to: {parsed_db.hostname} ({'RENDER DB' if args.use_remote_db else 'LOCAL DB'})"
-)
+env_source = {
+    "local": "LOCAL DB",
+    "remote": "RENDER DB",
+    "public": "RENDER DB (public API)",
+}.get(args.mode, "UNKNOWN")
+
+print(Fore.BLUE + f"📦 Connected to: {parsed_db.hostname} ({env_source})")
 
 
 # ------------------------------------- #
@@ -171,9 +182,10 @@ def wait_for_db():
 def stream_logs(process, prefix, color):
     try:
         for line in iter(process.stdout.readline, ""):
-            print(
-                f"{color}[{prefix}] {line.strip().decode(errors='ignore') if isinstance(line, bytes) else line.strip()}"
-            )
+            output = line.strip()
+            if isinstance(output, bytes):
+                output = output.decode("utf-8", errors="ignore")
+            print(f"{color}[{prefix}] {output}")
     except Exception as e:
         print(f"{color}[{prefix}] Log stream error: {e}")
     finally:
@@ -233,7 +245,6 @@ threading.Thread(
 ).start()
 
 
-# Wait for backend readiness
 def wait_for_backend(url=f"{VITE_API_URL}/auth/me", timeout=15):
     print(f"{Fore.YELLOW}⏳ Waiting for backend to start...")
     for i in range(timeout):
@@ -252,7 +263,6 @@ def wait_for_backend(url=f"{VITE_API_URL}/auth/me", timeout=15):
 
 wait_for_backend()
 
-# Launch frontend
 frontend_process = subprocess.Popen(
     [npm_path, "run", "dev", "--", "--host", "0.0.0.0"],
     cwd=frontend_path,
