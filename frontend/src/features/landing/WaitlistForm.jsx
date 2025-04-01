@@ -1,3 +1,4 @@
+const API_URL = import.meta.env.VITE_API_URL;
 // /frontend/src/features/landing/WaitlistForm.jsx
 import React, { useState } from 'react';
 import { MDBInput, MDBBtn } from 'mdb-react-ui-kit';
@@ -52,7 +53,7 @@ const handleSubmit = async (e) => {
   setErrors({});
 
   try {
-    const response = await fetch('/api/waitlist', {
+    const response = await fetch(`${API_URL}/api/waitlist`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

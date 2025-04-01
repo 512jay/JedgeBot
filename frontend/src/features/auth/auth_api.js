@@ -54,7 +54,7 @@ export async function login(email, password) {
  */
 export async function logoutApi() {
   console.log("Calling /auth/logout...");
-  const res = await fetch("/auth/logout", {
+  const res = await fetch(`${API_URL}/auth/logout`, {
     method: "POST",
     credentials: "include",
   });
