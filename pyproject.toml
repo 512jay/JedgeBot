@@ -57,6 +57,9 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 bot = "run:main"
+migrate-local = "scripts.alembic_helpers:run_local_migration"
+migrate-prod = "scripts.alembic_helpers:run_remote_migration"
+
 
 [tool.mypy]
 plugins = ["pydantic.mypy"]
