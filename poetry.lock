@@ -1076,7 +1076,7 @@ version = "11.1.0"
 description = "Python Imaging Library (Fork)"
 optional = false
 python-versions = ">=3.9"
-groups = ["main"]
+groups = ["main", "dev"]
 files = [
     {file = "pillow-11.1.0-cp310-cp310-macosx_10_10_x86_64.whl", hash = "sha256:e1abe69aca89514737465752b4bcaf8016de61b3be1397a8fc260ba33321b3a8"},
     {file = "pillow-11.1.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:c640e5a06869c75994624551f45e5506e4256562ead981cce820d5ab39ae2192"},
@@ -1880,6 +1880,18 @@ files = [
 ]
 
 [[package]]
+name = "types-netifaces"
+version = "0.11.0.20241025"
+description = "Typing stubs for netifaces"
+optional = false
+python-versions = ">=3.8"
+groups = ["dev"]
+files = [
+    {file = "types-netifaces-0.11.0.20241025.tar.gz", hash = "sha256:0877b98a80e53e08dcb0e2d562772f6d0c4eee8bd0e1101a1ee78d17a88c3c8d"},
+    {file = "types_netifaces-0.11.0.20241025-py3-none-any.whl", hash = "sha256:b760315d043acbb1f96232094ab05751f1cec9863df09cd95f533bd1aaee6da8"},
+]
+
+[[package]]
 name = "types-passlib"
 version = "1.7.7.20241221"
 description = "Typing stubs for passlib"
@@ -1929,6 +1941,21 @@ files = [
 
 [package.dependencies]
 types-pyasn1 = "*"
+
+[[package]]
+name = "types-qrcode"
+version = "8.0.0.20241004"
+description = "Typing stubs for qrcode"
+optional = false
+python-versions = ">=3.8"
+groups = ["dev"]
+files = [
+    {file = "types-qrcode-8.0.0.20241004.tar.gz", hash = "sha256:a64761d332025df0a6009e39a2f3f8fd6a3c08bbe98e13420708b918486f0600"},
+    {file = "types_qrcode-8.0.0.20241004-py3-none-any.whl", hash = "sha256:24455a0fbffaaac5be473b4ffcfdfa7149b0474f0aa39ba983fe86bdbd978101"},
+]
+
+[package.dependencies]
+Pillow = ">=10.3.0"
 
 [[package]]
 name = "types-requests"
@@ -2223,4 +2250,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9,<4.0"
-content-hash = "78eca97da4449f6d12396f53fee843d5d3dce13f0d6ee52388d010faa92af457"
+content-hash = "cf034817a0aafa51bc8cbb4dfd157318bdc443256ed1af6e1e324896f0e1c7ef"
