@@ -117,7 +117,10 @@ env_source = {
     "public": "RENDER DB (public API)",
 }.get(args.mode, "UNKNOWN")
 
-print(Fore.BLUE + f"📦 Connected to: {parsed_db.hostname} ({env_source})")
+print(
+    Fore.BLUE
+    + f"📦 Connected to: {parsed_db.hostname.decode('utf-8') if isinstance(parsed_db.hostname, bytes) else parsed_db.hostname} ({env_source})"
+)
 
 
 # ------------------------------------- #
