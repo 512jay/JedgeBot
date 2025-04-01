@@ -1,21 +1,29 @@
 // /frontend/vitest.config.js
-import { defineConfig } from 'vitest/config';
-import viteConfigFn from './vite.config.js';
-
-const viteConfig = await viteConfigFn({ mode: 'test' });
+import { defineConfig } from "vitest/config";
+import react from "@vitejs/plugin-react";
+import { alias } from "./alias.config.js";
 
 export default defineConfig({
-  ...viteConfig,
+  plugins: [react()],
   test: {
     globals: true,
-    environment: 'jsdom',
-    setupFiles: ['./src/test-utils/setup.js'],
-    include: [
-      'src/**/*.{test,spec}.{js,jsx}',
-      'test-utils/**/*.{test,spec}.{js,jsx}',
+    environment: "jsdom",
+    setupFiles: './src/test-utils/vitest.setup.js',
+    include: ["src/**/*.{test,spec}.{js,jsx,ts,tsx}"],
+    exclude: [
+      "node_modules",
+      "dist",
+      ".next",
+      "build",
+      "scripts",
+      "test-utils",
+      "**/*.bak.{js,ts,jsx,tsx}",
     ],
+    coverage: {
+      reporter: ["text", "json", "html"],
+    },
   },
-  coverage: {
-    exclude: ['tailwind.config.js'],
+  resolve: {
+    alias,
   },
 });

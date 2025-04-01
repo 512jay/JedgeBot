@@ -1,8 +1,10 @@
 // /frontend/src/test-util/vitest.setup.js
 // Global setup for Vitest - mocks unsupported browser features in jsdom
 
+/* eslint-env node */
+
 global.IntersectionObserver = class IntersectionObserver {
-  constructor(callback, options) {}
+  constructor(_callback, _options) {}
   observe() {}
   unobserve() {}
   disconnect() {}

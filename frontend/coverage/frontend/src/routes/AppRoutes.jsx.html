@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/42</span>
+                <span class='fraction'>0/46</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/42</span>
+                <span class='fraction'>0/46</span>
             </div>
         
             
@@ -121,7 +121,17 @@
 <a name='L56'></a><a href='#L56'>56</a>
 <a name='L57'></a><a href='#L57'>57</a>
 <a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -144,12 +154,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -164,6 +183,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -184,7 +204,7 @@
 <span class="cstat-no" title="statement not covered" >import { ROUTES } from "@/routes/routes";</span>
 <span class="cstat-no" title="statement not covered" >import PublicLayout from "@/components/layouts/PublicLayout";</span>
 <span class="cstat-no" title="statement not covered" >import DashboardLayout from "@/components/layouts/DashboardLayout";</span>
-<span class="cstat-no" title="statement not covered" >import PrivateRoute from "@/components/routing/PrivateRoute";</span>
+<span class="cstat-no" title="statement not covered" >import PrivateRoute from "@/routes/PrivateRoute";</span>
 &nbsp;
 // Public pages
 <span class="cstat-no" title="statement not covered" >import Landing from "@/features/landing/Landing";</span>
@@ -202,12 +222,21 @@
 &nbsp;
 // Dashboard
 <span class="cstat-no" title="statement not covered" >import Dashboard from "@/features/dashboard/Dashboard";</span>
+<span class="cstat-no" title="statement not covered" >import Profile from "@feat/profile/Profile"</span>
+&nbsp;
+// Testing
+<span class="cstat-no" title="statement not covered" >import TestCentering from "../pages/TestCentering";</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default function AppRoutes() {</span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;Routes&gt;</span>
       {/* 🌐 Public-facing layout */}
 <span class="cstat-no" title="statement not covered" >      &lt;Route element={&lt;PublicLayout /&gt;}&gt;</span>
+        
+        {/* Testing */}
+<span class="cstat-no" title="statement not covered" >        &lt;Route path={ROUTES.TEST} element={&lt;TestCentering /&gt;} /&gt;</span>
+&nbsp;
+        {/* Landing page */}
 <span class="cstat-no" title="statement not covered" >        &lt;Route path={ROUTES.HOME} element={&lt;Landing /&gt;} /&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;Route path={ROUTES.ABOUT} element={&lt;About /&gt;} /&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;Route path={ROUTES.PRICING} element={&lt;Pricing /&gt;} /&gt;</span>
@@ -225,6 +254,7 @@
 <span class="cstat-no" title="statement not covered" >      &lt;Route element={&lt;PrivateRoute /&gt;}&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;Route element={&lt;DashboardLayout /&gt;}&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;Route path={ROUTES.DASHBOARD} element={&lt;Dashboard /&gt;} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;Route path={ROUTES.PROFILE} element={&lt;Profile /&gt;} /&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/Route&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/Route&gt;</span>
 &nbsp;
@@ -244,7 +274,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-28T16:33:26.456Z
+                at 2025-04-01T00:20:18.509Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -19,4 +19,5 @@ export const ROUTES = {
   PROFILE: "/profile",
 
   TEST: "/test-centering",
+  SMOKE: "/smoke",
 };
