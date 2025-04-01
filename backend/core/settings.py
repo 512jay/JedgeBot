@@ -42,4 +42,9 @@ class Settings(BaseSettings):
     EMAIL_VERIFICATION_ALGORITHM: str
     ALLOW_REGISTRATION: bool = Field(default=True)
 
+    @property
+    def is_production(self):
+        return self.ENVIRONMENT == "production"
+
+
 settings = Settings()

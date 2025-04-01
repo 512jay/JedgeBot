@@ -46,7 +46,11 @@ JedgeBot/
 │   │   │   ├── tests
 │   │   │   │   ├── test_auth_routes.py
 │   │   │   │   ├── test_auth_services.py
+│   │   │   │   ├── test_cookies.py
 │   │   │   │   ├── test_dependencies.py
+│   │   │   ├── utils
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── cookies.py
 │   │   ├── broker
 │   │   │   ├── __init__.py
 │   │   │   ├── base_broker.py
@@ -68,6 +72,7 @@ JedgeBot/
 │   │   │   ├── __init__.py
 │   │   │   ├── enums.py
 │   │   ├── core
+│   │   │   ├── __init__.py
 │   │   │   ├── rate_limit.py
 │   │   │   ├── settings.py
 │   │   ├── data
@@ -383,6 +388,7 @@ JedgeBot/
 │   │   │   │   │   ├── __tests__
 │   │   │   │   │   ├── pages
 │   │   │   │   │   │   ├── NotFound.jsx
+│   │   │   │   │   │   ├── SmokePing.jsx
 │   │   │   │   ├── auth
 │   │   │   │   │   ├── ForgotPassword.jsx
 │   │   │   │   │   ├── Login.jsx

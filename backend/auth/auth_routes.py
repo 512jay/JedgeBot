@@ -27,6 +27,7 @@ from backend.auth.dependencies import get_current_user
 from backend.auth.constants import RESERVED_USERNAMES
 from backend.notifications import email_service
 from backend.core.settings import settings
+from backend.auth.utils.cookies import set_auth_cookies, clear_auth_cookies
 
 
 # -----------------------------------------------------------------------------
@@ -162,37 +163,17 @@ def login(
     user = get_user_by_email(db, login_data.email)
     if not user or not verify_password(login_data.password, user.password_hash):
         raise HTTPException(status_code=400, detail="Invalid email or password")
-    
+
     if not user.is_email_verified:
         raise HTTPException(
             status_code=403,
             detail="Email not verified. Please check your email to verify your account.",
         )
 
-
     access_token = create_access_token(data={"sub": user.email})
     refresh_token = create_refresh_token(user.email)
 
-    # Set tokens as cookies
-    response.set_cookie(
-        "access_token",
-        access_token,
-        httponly=True,
-        secure=False,
-        samesite="Lax",
-        max_age=900,
-    )
-    response.set_cookie(
-        "refresh_token",
-        refresh_token,
-        httponly=True,
-        secure=False,
-        samesite="Lax",
-        max_age=604800,
-    )
-    response.set_cookie(
-        "has_session", "1", httponly=False, secure=False, samesite="Lax", max_age=604800
-    )
+    set_auth_cookies(response, access_token, refresh_token)
 
     return {
         "message": "Login successful",
@@ -212,28 +193,18 @@ def refresh_token(request: Request, response: Response):
     try:
         payload = jwt.decode(refresh_token, SECRET_KEY, algorithms=[ALGORITHM])
         new_access_token = create_access_token(data={"sub": payload["sub"]})
-        response.set_cookie(
-            key="access_token",
-            value=new_access_token,
-            httponly=True,
-            secure=False,
-            samesite="Lax",
-            max_age=900,
-        )
+
+        set_auth_cookies(response, new_access_token, refresh_token)
+
         return {"message": "Token refreshed"}
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid or expired refresh token")
 
 
 @router.post("/logout")
-def logout(response: Response):
-    """
-    Clear access and refresh tokens from cookies to log the user out.
-    """
-    response.delete_cookie("access_token")
-    response.delete_cookie("refresh_token")
-    response.delete_cookie("has_session")
-    return {"message": "Logged out successfully"}
+def logout_user(response: Response):
+    clear_auth_cookies(response)
+    return {"message": "Successfully logged out"}
 
 
 @router.get("/me", response_model=UserRead)

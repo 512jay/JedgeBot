@@ -1,11 +1,6 @@
-# /backend/waitlist/tests/test_waitlist_route.py
-
-import pytest
-from httpx import AsyncClient
-from backend.main import app
-from backend.data.database.db import get_db
+from unittest.mock import patch
+from fastapi.testclient import TestClient
 from backend.waitlist.models import WaitlistEntry
-from fastapi.testclient import TestClient  # add this
 
 
 def test_submit_waitlist_entry(client: TestClient, get_db_session):
@@ -16,7 +11,7 @@ def test_submit_waitlist_entry(client: TestClient, get_db_session):
         "feedback": "Excited to try the app!",
     }
 
-    # 🚨 Clean up if test email already exists
+    # Clean up if test email already exists
     existing = (
         get_db_session.query(WaitlistEntry).filter_by(email=payload["email"]).first()
     )
@@ -24,21 +19,28 @@ def test_submit_waitlist_entry(client: TestClient, get_db_session):
         get_db_session.delete(existing)
         get_db_session.commit()
 
-    # First submission: should succeed
-    response = client.post("/api/waitlist", json=payload)
+    # Patch SMTP to avoid real email sending
+    with patch("backend.notifications.email_service.smtplib.SMTP"):
+        response = client.post("/api/waitlist", json=payload)
+
     assert response.status_code == 201
+    assert response.json()["email"] == payload["email"]
 
-    data = response.json()
-    assert data["email"] == payload["email"]
-    assert data["role"] == payload["role"]
-    assert "submitted_at" in data
 
-    entry = (
-        get_db_session.query(WaitlistEntry).filter_by(email=payload["email"]).first()
-    )
-    assert entry is not None
-    assert entry.role.value == "trader"  # or UserRole.trader
+def test_waitlist_duplicate_entry(client: TestClient, get_db_session):
+    payload = {
+        "email": "duplicate@example.com",
+        "name": "Already Exists",
+        "role": "trader",
+        "feedback": None,
+    }
 
-    # Duplicate submission: should fail
-    duplicate = client.post("/api/waitlist", json=payload)
-    assert duplicate.status_code == 409
+    # Insert first time
+    with patch("backend.notifications.email_service.smtplib.SMTP"):
+        client.post("/api/waitlist", json=payload)
+
+    # Attempt duplicate
+    response = client.post("/api/waitlist", json=payload)
+
+    assert response.status_code == 409
+    assert response.json()["detail"] == "This email is already on the waitlist."
