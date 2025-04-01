@@ -1,21 +1,37 @@
-// /frontend/vitest.config.js
+// /frontend/vitest.config.ts
 import { defineConfig } from 'vitest/config';
-import viteConfigFn from './vite.config.js';
-
-const viteConfig = await viteConfigFn({ mode: 'test' });
+import react from '@vitejs/plugin-react';
+import path from 'path';
 
 export default defineConfig({
-  ...viteConfig,
+  plugins: [react()],
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: ['./src/test-utils/setup.js'],
-    include: [
-      'src/**/*.{test,spec}.{js,jsx}',
-      'test-utils/**/*.{test,spec}.{js,jsx}',
+    include: ['src/**/*.{test,spec}.{js,jsx,ts,tsx}'],
+    exclude: [
+      'node_modules',
+      'dist',
+      '.next',
+      'build',
+      'scripts',
+      'test-utils',
+      '**/*.bak.{js,ts,jsx,tsx}',
     ],
+    coverage: {
+      reporter: ['text', 'json', 'html'],
+    },
   },
-  coverage: {
-    exclude: ['tailwind.config.js'],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '@feat': path.resolve(__dirname, './src/features'),
+      '@auth': path.resolve(__dirname, './src/features/auth'),
+      '@images': path.resolve(__dirname, './src/images'),
+      '@styles': path.resolve(__dirname, './src/styles'),
+      '@pages': path.resolve(__dirname, './src/pages'),
+      '@useAuth': path.resolve(__dirname, './src/context/useAuth'),
+      '@hooks': path.resolve(__dirname, './src/hooks'),
+    },
   },
 });
