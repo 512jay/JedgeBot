@@ -25,6 +25,7 @@ import Profile from "@feat/profile/Profile"
 
 // Testing
 import TestCentering from "../pages/TestCentering";
+import SmokePing from "../features/app/pages/SmokePing";
 
 export default function AppRoutes() {
   return (
@@ -34,6 +35,7 @@ export default function AppRoutes() {
         
         {/* Testing */}
         <Route path={ROUTES.TEST} element={<TestCentering />} />
+        <Route path={ROUTES.SMOKE} element={<SmokePing />} />
 
         {/* Landing page */}
         <Route path={ROUTES.HOME} element={<Landing />} />

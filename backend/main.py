@@ -38,16 +38,26 @@ if not settings.TESTING:
         )
 
 
+origins = [
+    "http://localhost:5173",    # local dev
+    "https://fordisludus.com",  # production
+    "https://www.fordisludus.com",
+]
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.FRONTEND_URL],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
     expose_headers=["Set-Cookie"],
 )
-print("🌐 CORS allowed origins:", settings.FRONTEND_URL)
+
+
+@app.get("/ping")
+def ping():
+    return {"message": "pong"}
+
 
 # Include routers
 app.include_router(auth_router, prefix="/auth", tags=["Authentication"])

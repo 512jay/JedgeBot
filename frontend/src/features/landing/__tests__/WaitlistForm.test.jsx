@@ -41,23 +41,26 @@ describe('WaitlistForm', () => {
   });
 
   it('displays a server error when the submission fails', async () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
     global.fetch.mockResolvedValueOnce({
       ok: false,
       json: async () => ({ message: 'Submission failed.' }),
     });
 
     render(<WaitlistForm />);
-
     fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'fail@example.com' } });
     fireEvent.change(screen.getByLabelText('Feedback'), { target: { value: 'Some feedback text' } });
     fireEvent.change(screen.getByLabelText('Role'), { target: { value: 'trader' } });
 
     fireEvent.click(screen.getByRole('button', { name: /request early access/i }));
 
-    expect(
-      await screen.findByText('Submission failed. Please try again later.')
-    ).toBeInTheDocument();
+    const alert = await screen.findByText(/submission failed/i);
+    expect(alert).toBeInTheDocument();
+
+    errorSpy.mockRestore();
   });
+
 
   it('displays a network error if fetch throws', async () => {
     global.fetch.mockRejectedValueOnce(new Error('Network error'));

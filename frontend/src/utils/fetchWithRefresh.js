@@ -1,3 +1,4 @@
+const API_URL = import.meta.env.VITE_API_URL;
 // /frontend/src/utils/fetchWithRefresh.js
 // Wrapper for fetch that optionally retries once if session is expired
 
@@ -7,7 +8,7 @@ export async function fetchWithRefresh(url, options = {}) {
   // If session expired, attempt to refresh and retry once
   if (response.status === 401) {
     try {
-      const refresh = await fetch("/auth/refresh", {
+      const refresh = await fetch(`${API_URL}/auth/refresh`, {
         method: "POST",
         credentials: "include",
       });

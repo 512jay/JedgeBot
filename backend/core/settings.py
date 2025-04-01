@@ -3,11 +3,13 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv()  # ✅ loads .env before Pydantic tries to validate
+# Load .env from the backend folder explicitly
+dotenv_path = os.path.join(os.path.dirname(__file__), "..", ".env")
+load_dotenv(dotenv_path)
 
 from pydantic import Field
-from pydantic_settings import BaseSettings, SettingsConfigDict
-import os
+from pydantic_settings import BaseSettings
+
 
 class Settings(BaseSettings):
     ENVIRONMENT: str = Field(default="development")
@@ -39,5 +41,10 @@ class Settings(BaseSettings):
     EMAIL_FROM: str
     EMAIL_VERIFICATION_ALGORITHM: str
     ALLOW_REGISTRATION: bool = Field(default=True)
+
+    @property
+    def is_production(self):
+        return self.ENVIRONMENT == "production"
+
 
 settings = Settings()

@@ -24,7 +24,6 @@ JedgeBot/
 │   │   ├── __init__.py
 │   │   ├── api
 │   │   │   ├── __init__.py
-│   │   │   ├── clients_routes.py
 │   │   │   ├── http_utils.py
 │   │   ├── auth
 │   │   │   ├── __init__.py
@@ -47,7 +46,11 @@ JedgeBot/
 │   │   │   ├── tests
 │   │   │   │   ├── test_auth_routes.py
 │   │   │   │   ├── test_auth_services.py
+│   │   │   │   ├── test_cookies.py
 │   │   │   │   ├── test_dependencies.py
+│   │   │   ├── utils
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── cookies.py
 │   │   ├── broker
 │   │   │   ├── __init__.py
 │   │   │   ├── base_broker.py
@@ -69,6 +72,7 @@ JedgeBot/
 │   │   │   ├── __init__.py
 │   │   │   ├── enums.py
 │   │   ├── core
+│   │   │   ├── __init__.py
 │   │   │   ├── rate_limit.py
 │   │   │   ├── settings.py
 │   │   ├── data
@@ -77,7 +81,6 @@ JedgeBot/
 │   │   │   │   ├── __init__.py
 │   │   │   │   ├── auth
 │   │   │   │   ├── base.py
-│   │   │   │   ├── business
 │   │   │   │   ├── db.py
 │   │   │   │   ├── models.py
 │   │   ├── dev
@@ -92,6 +95,7 @@ JedgeBot/
 │   │   ├── main.py
 │   │   ├── notifications
 │   │   │   ├── email_service.py
+│   │   ├── render.yaml
 │   │   ├── user
 │   │   │   ├── __init__.py
 │   │   │   ├── user_models.py
@@ -232,6 +236,7 @@ JedgeBot/
 │   │   │   │   ├── _metadata.json
 │   │   │   │   ├── package.json
 │   │   ├── README.md
+│   │   ├── alias.config.js
 │   │   ├── coverage
 │   │   │   ├── base.css
 │   │   │   ├── block-navigation.js
@@ -240,6 +245,9 @@ JedgeBot/
 │   │   │   ├── favicon.png
 │   │   │   ├── frontend
 │   │   │   │   ├── index.html
+│   │   │   │   ├── scripts
+│   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── scanForHardcodedApi.js.html
 │   │   │   │   ├── src
 │   │   │   │   │   ├── api
 │   │   │   │   │   │   ├── api_client.js.html
@@ -248,16 +256,13 @@ JedgeBot/
 │   │   │   │   │   │   ├── common
 │   │   │   │   │   │   │   ├── ToastMessage.jsx.html
 │   │   │   │   │   │   │   ├── index.html
-│   │   │   │   │   │   ├── layout
-│   │   │   │   │   │   │   ├── LoadingScreen.jsx.html
-│   │   │   │   │   │   │   ├── Sidebar.jsx.html
-│   │   │   │   │   │   │   ├── index.html
 │   │   │   │   │   │   ├── layouts
 │   │   │   │   │   │   │   ├── DashboardLayout.jsx.html
+│   │   │   │   │   │   │   ├── Footer.jsx.html
+│   │   │   │   │   │   │   ├── Header.jsx.html
+│   │   │   │   │   │   │   ├── LoadingScreen.jsx.html
 │   │   │   │   │   │   │   ├── PublicLayout.jsx.html
-│   │   │   │   │   │   │   ├── index.html
-│   │   │   │   │   │   ├── routing
-│   │   │   │   │   │   │   ├── PrivateRoute.jsx.html
+│   │   │   │   │   │   │   ├── Sidebar.jsx.html
 │   │   │   │   │   │   │   ├── index.html
 │   │   │   │   │   │   ├── ui
 │   │   │   │   │   │   │   ├── Button.jsx.html
@@ -269,7 +274,6 @@ JedgeBot/
 │   │   │   │   │   │   ├── AuthProvider.jsx.html
 │   │   │   │   │   │   ├── auth-context.js.html
 │   │   │   │   │   │   ├── index.html
-│   │   │   │   │   │   ├── useAuth.js.html
 │   │   │   │   │   ├── features
 │   │   │   │   │   │   ├── app
 │   │   │   │   │   │   │   ├── App.jsx.html
@@ -302,21 +306,31 @@ JedgeBot/
 │   │   │   │   │   │   │   ├── Pricing.jsx.html
 │   │   │   │   │   │   │   ├── WaitlistForm.jsx.html
 │   │   │   │   │   │   │   ├── index.html
+│   │   │   │   │   │   ├── profile
+│   │   │   │   │   │   │   ├── Profile.jsx.html
+│   │   │   │   │   │   │   ├── index.html
+│   │   │   │   │   ├── hooks
+│   │   │   │   │   │   ├── index.html
+│   │   │   │   │   │   ├── useAuth.js.html
 │   │   │   │   │   ├── index.html
 │   │   │   │   │   ├── main.jsx.html
+│   │   │   │   │   ├── pages
+│   │   │   │   │   │   ├── TestCentering.jsx.html
+│   │   │   │   │   │   ├── index.html
 │   │   │   │   │   ├── routes
 │   │   │   │   │   │   ├── AppRoutes.jsx.html
+│   │   │   │   │   │   ├── PrivateRoute.jsx.html
 │   │   │   │   │   │   ├── index.html
 │   │   │   │   │   │   ├── routes.js.html
 │   │   │   │   │   ├── test-utils
 │   │   │   │   │   │   ├── index.html
 │   │   │   │   │   │   ├── renderWithProviders.jsx.html
-│   │   │   │   │   │   ├── setup.js.html
+│   │   │   │   │   │   ├── setupTestUser.js.html
 │   │   │   │   │   ├── utils
 │   │   │   │   │   │   ├── apiClient.js.html
 │   │   │   │   │   │   ├── authHelpers.js.html
+│   │   │   │   │   │   ├── fetchWithRefresh.js.html
 │   │   │   │   │   │   ├── index.html
-│   │   │   │   │   │   ├── setupTestUser.js.html
 │   │   │   │   ├── tailwind.config.js.html
 │   │   │   ├── index.html
 │   │   │   ├── prettify.css
@@ -336,6 +350,8 @@ JedgeBot/
 │   │   ├── public
 │   │   │   ├── _redirects
 │   │   │   ├── vite.svg
+│   │   ├── scripts
+│   │   │   ├── scanForHardcodedApi.js
 │   │   ├── src
 │   │   │   ├── __tests__
 │   │   │   │   ├── main.text.jsx
@@ -372,6 +388,7 @@ JedgeBot/
 │   │   │   │   │   ├── __tests__
 │   │   │   │   │   ├── pages
 │   │   │   │   │   │   ├── NotFound.jsx
+│   │   │   │   │   │   ├── SmokePing.jsx
 │   │   │   │   ├── auth
 │   │   │   │   │   ├── ForgotPassword.jsx
 │   │   │   │   │   ├── Login.jsx
@@ -426,6 +443,7 @@ JedgeBot/
 │   │   │   │   │   ├── DALL·E 2025-03-28 12.34.54 - A sleek, wordless illustration representing a login page for a SaaS trading platform. The scene features a confident character entering a secure porta.webp
 │   │   │   │   │   ├── DALL·E 2025-03-28 21.05.34 - A modern and minimalistic illustration representing the concept of registration. The image features a clipboard with a checklist being filled out, a d.webp
 │   │   │   │   │   ├── DALL·E 2025-03-30 19.35.37 - A modern, wordless illustration representing a 'Page Not Found' error. The scene features a confused character standing at a broken or disconnected pa.webp
+│   │   │   │   │   ├── DALL·E 2025-03-31 20.04.50 - A sleek and modern logo for 'Fordis Ludus,' a SaaS application that enables users to trade with multiple brokers. The logo prominently incorporates th.webp
 │   │   │   │   │   ├── leftlogin.jpg
 │   │   │   │   │   ├── pexels-alesiakozik-6771426.jpg
 │   │   │   │   │   ├── pexels-fauxels-3184416.jpg
@@ -451,13 +469,13 @@ JedgeBot/
 │   │   │   ├── test-utils
 │   │   │   │   ├── renderWithProviders.jsx
 │   │   │   │   ├── setup.js
+│   │   │   │   ├── setupTestUser.js
+│   │   │   │   ├── vitest.setup.js
 │   │   │   ├── utils
 │   │   │   │   ├── __tests__
 │   │   │   │   ├── apiClient.js
 │   │   │   │   ├── authHelpers.js
 │   │   │   │   ├── fetchWithRefresh.js
-│   │   │   │   ├── setupTestUser.js
-│   │   ├── tailwind.config.js
 │   │   ├── vite.config.js
 │   │   ├── vitest.config.js
 │   ├── jedgebot
@@ -468,6 +486,7 @@ JedgeBot/
 │   ├── launch_app.py
 │   ├── logs
 │   ├── notes
+│   │   ├── Backend Connection Verification Checklist.md
 │   │   ├── Landing-Waitlist-Roadmap.md
 │   │   ├── PortfolioManagmentRoadMap.md
 │   ├── poetry.lock
@@ -491,6 +510,7 @@ JedgeBot/
 │   │   ├── btc_stream.py
 │   │   ├── cleanup_test_users.py
 │   │   ├── convert-public-image-refs.js
+│   │   ├── fix_api_urls.py
 │   │   ├── run_rate_limit_manual.py
 │   │   ├── start_market_data_stream.py
 │   │   ├── validate_output.py
