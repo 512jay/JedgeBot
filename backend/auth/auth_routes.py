@@ -69,8 +69,11 @@ def check_authentication(request: Request, db: Session = Depends(get_db)):
             "role": user.role.value,
         }
     except JWTError:
-        return Response(status_code=401)
-
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid or expired access token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
 @router.post("/register")
 def register(request: RegisterRequest, db: Session = Depends(get_db)):
