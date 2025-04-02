@@ -3,6 +3,7 @@
 from fastapi import APIRouter, Depends, status
 from pydantic import BaseModel, EmailStr
 from backend.notifications.smtp_service import send_email
+from backend.core.rate_limit import limiter
 
 router = APIRouter()
 

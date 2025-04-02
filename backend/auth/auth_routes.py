@@ -18,7 +18,6 @@ from sqlalchemy.orm import Session
 from backend.data.database.db import get_db
 from backend.auth.auth_queries import get_user_by_email
 from backend.auth.auth_services import create_access_token, create_refresh_token, create_user, hash_password, verify_password, create_email_verification_token
-from backend.auth.auth_models import UserRole
 from backend.core.rate_limit import limiter
 from backend.auth.auth_schemas import UserRead, RegisterRequest, LoginRequest, EmailRequest
 from backend.user.user_models import UserProfile
