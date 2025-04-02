@@ -1,6 +1,16 @@
-# /conftest.pyMonday. Monday. 
+# /conftest.pyMonday. Monday.
 # Shared test fixtures for FastAPI app, database session, and test user creation.
 
+
+import os
+from dotenv import load_dotenv, find_dotenv
+
+# Ensure env vars load correctly during tests
+env_file = ".env"  # or ".env.test" if you want a dedicated test config
+backend_env_path = os.path.join(os.path.dirname(__file__), "backend", env_file)
+
+loaded = load_dotenv(find_dotenv(backend_env_path), override=True)
+print(f"✅ Loaded .env for testing: {loaded}")
 import uuid
 from collections.abc import Generator
 
@@ -14,7 +24,6 @@ from backend.auth.auth_models import User, UserRole
 from backend.data.database.db import get_db
 from tests.utils.user_factory import random_email, random_password
 from backend.notifications import email_service
-
 
 @pytest.fixture(autouse=True)
 def patch_send_email(monkeypatch):

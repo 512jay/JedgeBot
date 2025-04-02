@@ -4,6 +4,7 @@
 
 import os
 from dotenv import load_dotenv
+from backend.core.settings import settings
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -15,17 +16,9 @@ from backend.data.database.base import Base  # Shared base for all models
 load_dotenv()
 
 # -----------------------------------------------------------------------------
-# Build the PostgreSQL connection string
-# -----------------------------------------------------------------------------
-DATABASE_URL = (
-    f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
-    f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
-)
-
-# -----------------------------------------------------------------------------
 # Create the SQLAlchemy engine and session factory
 # -----------------------------------------------------------------------------
-engine = create_engine(DATABASE_URL)
+engine = create_engine(settings.DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 

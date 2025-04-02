@@ -2,14 +2,6 @@
 # Pydantic settings model for the FastAPI application.
 
 import os
-from dotenv import load_dotenv
-
-# Choose the correct .env file based on environment
-base_dir = os.path.dirname(__file__)
-env_file = ".env.production" if os.getenv("RENDER") == "true" else ".env"
-dotenv_path = os.path.join(base_dir, "..", env_file)
-load_dotenv(dotenv_path)
-
 from pydantic import Field
 from pydantic_settings import BaseSettings
 
@@ -31,14 +23,6 @@ class Settings(BaseSettings):
     CHATGTP_API_KEY: str
     VITE_API_URL: str
     SECRET_KEY: str
-    POSTGRES_USER: str
-    POSTGRES_DB: str
-    POSTGRES_PASSWORD: str
-    DB_HOST: str
-    DB_PORT: int
-    DB_NAME: str
-    DB_USER: str
-    DB_PASSWORD: str
     EMAIL_HOST: str
     EMAIL_PORT: int
     EMAIL_FROM: str
@@ -49,6 +33,15 @@ class Settings(BaseSettings):
     @property
     def is_production(self) -> bool:
         return self.ENVIRONMENT == "production"
+
+    print(f"🌍 ENVIRONMENT: {os.getenv('ENVIRONMENT')}, RENDER: {os.getenv('RENDER')}")
+    if os.getenv("DATABASE_URL") == None:
+        print("🚫 DATABASE_URL is not set!")
+    else: 
+        db_url: str | None = os.getenv("DATABASE_URL")
+        if isinstance(db_url, str):
+            masked: str = db_url.split("@")[0].split("//")[0] + "@***"
+            print(f"🔐 DATABASE_URL loaded (masked): {masked}")
 
 
 settings = Settings()

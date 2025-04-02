@@ -8,17 +8,10 @@ JedgeBot/
 │   ├── __init__.py
 │   ├── alembic
 │   │   ├── README
+│   │   ├── __init__.py
 │   │   ├── env.py
 │   │   ├── script.py.mako
 │   │   ├── versions
-│   │   │   ├── 04553e1d9a84_add_is_email_verified_and_email_.py
-│   │   │   ├── 6b370aa8b30e_create_waitlist_entries_table2.py
-│   │   │   ├── 6f28cb8d274e_create_password_reset_tokens_table.py
-│   │   │   ├── a1e3e950dc21_create_user_profiles_table.py
-│   │   │   ├── a3f1add06d8a_add_is_email_verified.py
-│   │   │   ├── ce2eb894601a_upgrade_password_reset_tokens_table_to_.py
-│   │   │   ├── e0c1261f6e0f_create_waitlist_entries_table.py
-│   │   │   ├── e725e87d92b7_update_user_role_enum.py
 │   ├── alembic.ini
 │   ├── backend
 │   │   ├── __init__.py
@@ -511,7 +504,10 @@ JedgeBot/
 │   │   ├── btc_stream.py
 │   │   ├── cleanup_test_users.py
 │   │   ├── convert-public-image-refs.js
+│   │   ├── db_connnection_working.py
 │   │   ├── fix_api_urls.py
+│   │   ├── manage_db.py
+│   │   ├── migrate_remote.py
 │   │   ├── run_rate_limit_manual.py
 │   │   ├── start_market_data_stream.py
 │   │   ├── validate_output.py
