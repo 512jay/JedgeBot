@@ -25,17 +25,14 @@ from backend.user.user_models import UserProfile
 from backend.auth.dependencies import get_current_user
 from backend.auth.constants import RESERVED_USERNAMES
 from backend.notifications import smtp_service
-from backend.core.settings import settings
 from backend.auth.utils.cookies import set_auth_cookies, clear_auth_cookies
+from backend.core.config import (
+    FRONTEND_URL,
+    SECRET_KEY,
+    JWT_ALGORITHM,
+    ALLOW_REGISTRATION,
+)
 
-
-# -----------------------------------------------------------------------------
-# Configuration
-# -----------------------------------------------------------------------------
-SECRET_KEY = settings.SECRET_KEY
-ALGORITHM = settings.JWT_ALGORITHM
-ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
-REFRESH_TOKEN_EXPIRE_DAYS = settings.REFRESH_TOKEN_EXPIRE_DAYS
 
 # -----------------------------------------------------------------------------
 # Dependencies
@@ -56,10 +53,14 @@ def check_authentication(request: Request, db: Session = Depends(get_db)):
     """
     token = request.cookies.get("access_token")
     if not token:
-        return Response(status_code=401)
+        raise HTTPException(
+            status_code=401,
+            detail="Missing access token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[JWT_ALGORITHM])
         email = payload["sub"]
         user = get_user_by_email(db, email)
         return {
@@ -77,7 +78,7 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
     Register a new user, hash password, and create linked UserProfile with username.
     Usernames are compared in lowercase against a reserved list.
     """
-    if not settings.ALLOW_REGISTRATION:
+    if not ALLOW_REGISTRATION:
         raise HTTPException(
             status_code=403, detail="Registration is temporarily disabled."
         )
@@ -112,7 +113,7 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
         db.refresh(profile)
         # Send email verification link
         token = create_email_verification_token(user.email)
-        verify_url = f"{settings.FRONTEND_URL}/verify-email?token={token}"  # Update for prod later
+        verify_url = f"{FRONTEND_URL}/verify-email?token={token}"  # Update for prod later
 
         smtp_service.send_email(
             to=user.email,
@@ -171,7 +172,7 @@ def refresh_token(request: Request, response: Response):
         raise HTTPException(status_code=401, detail="No refresh token found")
 
     try:
-        payload = jwt.decode(refresh_token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(refresh_token, SECRET_KEY, algorithms=[JWT_ALGORITHM])
         new_access_token = create_access_token(data={"sub": payload["sub"]})
 
         set_auth_cookies(response, new_access_token, refresh_token)
@@ -213,8 +214,8 @@ def verify_email(token: str, db: Session = Depends(get_db)):
     try:
         payload = jwt.decode(
             token,
-            settings.SECRET_KEY,
-            algorithms=[settings.JWT_ALGORITHM],
+            SECRET_KEY,
+            algorithms=[JWT_ALGORITHM],
         )
         if payload.get("type") != "verify":
             raise HTTPException(status_code=400, detail="Invalid token type")
@@ -243,6 +244,7 @@ def verify_email(token: str, db: Session = Depends(get_db)):
 
 
 @router.post("/resend-verification")
+@limiter.limit("2/minute")
 def resend_verification(request: EmailRequest, db: Session = Depends(get_db)):
     user = get_user_by_email(db, request.email)
 
@@ -257,7 +259,7 @@ def resend_verification(request: EmailRequest, db: Session = Depends(get_db)):
 
     # Reuse token + email logic
     token = create_email_verification_token(user.email)
-    verify_url = f"{settings.FRONTEND_URL}/verify-email?token={token}"
+    verify_url = f"{FRONTEND_URL}/verify-email?token={token}"
 
     smtp_service.send_email(
         to=user.email,
