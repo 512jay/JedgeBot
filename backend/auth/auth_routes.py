@@ -4,7 +4,6 @@
 
 import os
 from datetime import datetime, timedelta
-from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status, Response, Request
 from fastapi.security import OAuth2PasswordBearer
@@ -18,7 +17,7 @@ from sqlalchemy.orm import Session
 
 from backend.data.database.db import get_db
 from backend.auth.auth_queries import get_user_by_email
-from backend.auth.auth_services import create_user, hash_password, verify_password, create_email_verification_token
+from backend.auth.auth_services import create_access_token, create_refresh_token, create_user, hash_password, verify_password, create_email_verification_token
 from backend.auth.auth_models import UserRole
 from backend.core.rate_limit import limiter
 from backend.auth.auth_schemas import UserRead, RegisterRequest, LoginRequest, EmailRequest
@@ -33,10 +32,10 @@ from backend.auth.utils.cookies import set_auth_cookies, clear_auth_cookies
 # -----------------------------------------------------------------------------
 # Configuration
 # -----------------------------------------------------------------------------
-SECRET_KEY = os.getenv("SECRET_KEY")
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 15
-REFRESH_TOKEN_EXPIRE_DAYS = 7
+SECRET_KEY = settings.SECRET_KEY
+ALGORITHM = settings.JWT_ALGORITHM
+ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
+REFRESH_TOKEN_EXPIRE_DAYS = settings.REFRESH_TOKEN_EXPIRE_DAYS
 
 # -----------------------------------------------------------------------------
 # Dependencies
@@ -44,25 +43,6 @@ REFRESH_TOKEN_EXPIRE_DAYS = 7
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 router = APIRouter()
-
-
-# -----------------------------------------------------------------------------
-# Utility Functions
-# -----------------------------------------------------------------------------
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
-    """Create a signed JWT access token."""
-    to_encode = data.copy()
-    expire = datetime.utcnow() + (
-        expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    )
-    to_encode.update({"exp": expire})
-    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-
-
-def create_refresh_token(user_id: str) -> str:
-    """Create a signed JWT refresh token."""
-    expire = datetime.utcnow() + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
-    return jwt.encode({"sub": user_id, "exp": expire}, SECRET_KEY, algorithm=ALGORITHM)
 
 
 # -----------------------------------------------------------------------------
@@ -234,7 +214,7 @@ def verify_email(token: str, db: Session = Depends(get_db)):
         payload = jwt.decode(
             token,
             settings.SECRET_KEY,
-            algorithms=[settings.EMAIL_VERIFICATION_ALGORITHM],
+            algorithms=[settings.JWT_ALGORITHM],
         )
         if payload.get("type") != "verify":
             raise HTTPException(status_code=400, detail="Invalid token type")

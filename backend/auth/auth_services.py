@@ -1,7 +1,7 @@
 # /backend/data/database/auth/auth_services.py
 # Business logic layer for authentication actions and workflows.
 
-
+from typing import Optional
 from datetime import datetime, timedelta
 from jose import jwt
 from sqlalchemy.orm import Session
@@ -9,15 +9,38 @@ from backend.auth.auth_models import User, UserRole
 from backend.auth.auth_queries import get_user_by_email
 from passlib.context import CryptContext
 from backend.auth.auth_models import UserStatus
-from backend.core.settings import settings
+from backend.core.config import (
+    SECRET_KEY,
+    JWT_ALGORITHM,
+    ACCESS_TOKEN_EXPIRE_MINUTES,
+    REFRESH_TOKEN_EXPIRE_DAYS,
+)
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
+    """Create a signed JWT access token."""
+    to_encode = data.copy()
+    expire = datetime.utcnow() + (
+        expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    )
+    to_encode.update({"exp": expire})
+    return jwt.encode(to_encode, SECRET_KEY, algorithm=JWT_ALGORITHM)
+
+
+def create_refresh_token(user_id: str) -> str:
+    """Create a signed JWT refresh token."""
+    expire = datetime.utcnow() + (
+        timedelta(minutes=REFRESH_TOKEN_EXPIRE_DAYS)
+    )
+    return jwt.encode({"sub": user_id, "exp": expire}, SECRET_KEY, algorithm=JWT_ALGORITHM)
 
 
 def create_email_verification_token(email: str) -> str:
     expire = datetime.utcnow() + timedelta(hours=24)
     payload = {"sub": email, "exp": expire, "type": "verify"}
-    return jwt.encode(payload, settings.SECRET_KEY, algorithm=settings.EMAIL_VERIFICATION_ALGORITHM)
+    return jwt.encode(payload, SECRET_KEY, algorithm=JWT_ALGORITHM)
 
 
 def hash_password(password: str) -> str:

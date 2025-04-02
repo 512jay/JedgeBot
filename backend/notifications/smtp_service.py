@@ -19,7 +19,7 @@ def send_email(*, subject: str, to: str, body: str) -> None:
     try:
         with smtplib.SMTP(settings.EMAIL_HOST, settings.EMAIL_PORT) as server:
             server.starttls()
-            server.login(settings.EMAIL_FROM, settings.MAIL_PASSWORD)
+            server.login(settings.EMAIL_FROM, settings.EMAIL_PASSWORD)
             server.sendmail(settings.EMAIL_FROM, to, msg.as_string())
             print(f"✅ Email sent to {to}")
     except Exception as e:

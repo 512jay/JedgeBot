@@ -28,11 +28,13 @@ class Settings(BaseSettings):
     EMAIL_PORT: int
     EMAIL_FROM: str
     EMAIL_PASSWORD: str
-    EMAIL_SERVER: str
-    EMAIL_VERIFICATION_ALGORITHM: str
-    
     ALLOW_REGISTRATION: bool = Field(default=True)
     RENDER: bool
+    
+    # token stuff
+    JWT_ALGORITHM: str = Field(default="HS256")
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 15
+    REFRESH_TOKEN_EXPIRE_DAYS: int = 7
 
     @property
     def is_production(self) -> bool:

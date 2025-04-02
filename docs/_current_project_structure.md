@@ -66,6 +66,7 @@ JedgeBot/
 │   │   │   ├── enums.py
 │   │   ├── core
 │   │   │   ├── __init__.py
+│   │   │   ├── config.py
 │   │   │   ├── rate_limit.py
 │   │   │   ├── settings.py
 │   │   ├── data
