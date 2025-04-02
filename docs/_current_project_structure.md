@@ -67,6 +67,9 @@ JedgeBot/
 │   │   ├── contact
 │   │   │   ├── __init__.py
 │   │   │   ├── routes.py
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── test_contact_route.py
 │   │   ├── core
 │   │   │   ├── __init__.py
 │   │   │   ├── config.py
