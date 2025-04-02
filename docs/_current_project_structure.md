@@ -82,13 +82,14 @@ JedgeBot/
 │   │   │   ├── roadmaps
 │   │   │   │   ├── auth_roadmap.md
 │   │   │   │   ├── completed
-│   │   │   │   │   ├── email_verification_roadmap.md
 │   │   │   ├── routes.py
 │   │   ├── execution
 │   │   ├── main.py
 │   │   ├── notifications
-│   │   │   ├── email_service.py
+│   │   │   ├── smtp_service.py
 │   │   ├── render.yaml
+│   │   ├── scripts
+│   │   │   ├── smtp_works.py
 │   │   ├── user
 │   │   │   ├── __init__.py
 │   │   │   ├── user_models.py

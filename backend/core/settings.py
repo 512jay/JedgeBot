@@ -23,10 +23,14 @@ class Settings(BaseSettings):
     CHATGTP_API_KEY: str
     VITE_API_URL: str
     SECRET_KEY: str
+    # email settings
     EMAIL_HOST: str
     EMAIL_PORT: int
     EMAIL_FROM: str
+    EMAIL_PASSWORD: str
+    EMAIL_SERVER: str
     EMAIL_VERIFICATION_ALGORITHM: str
+    
     ALLOW_REGISTRATION: bool = Field(default=True)
     RENDER: bool
 

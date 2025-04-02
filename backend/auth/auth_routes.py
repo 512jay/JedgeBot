@@ -25,7 +25,7 @@ from backend.auth.auth_schemas import UserRead, RegisterRequest, LoginRequest, E
 from backend.user.user_models import UserProfile
 from backend.auth.dependencies import get_current_user
 from backend.auth.constants import RESERVED_USERNAMES
-from backend.notifications import email_service
+from backend.notifications import smtp_service
 from backend.core.settings import settings
 from backend.auth.utils.cookies import set_auth_cookies, clear_auth_cookies
 
@@ -134,7 +134,7 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
         token = create_email_verification_token(user.email)
         verify_url = f"{settings.FRONTEND_URL}/verify-email?token={token}"  # Update for prod later
 
-        email_service.send_email(
+        smtp_service.send_email(
             to=user.email,
             subject="Verify your email for Fordis Ludus",
             body=f"Thanks for registering with Fordis Ludus! Please verify your email by clicking the link below:\n\n{verify_url}\n\nIf you didn’t register, you can ignore this email."
@@ -279,7 +279,7 @@ def resend_verification(request: EmailRequest, db: Session = Depends(get_db)):
     token = create_email_verification_token(user.email)
     verify_url = f"{settings.FRONTEND_URL}/verify-email?token={token}"
 
-    email_service.send_email(
+    smtp_service.send_email(
         to=user.email,
         subject="Verify your email for JedgeBot",
         body=f"Click to verify your email:\n\n{verify_url}",

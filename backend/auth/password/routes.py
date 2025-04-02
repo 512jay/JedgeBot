@@ -30,10 +30,10 @@ def forgot_password(request: ForgotPasswordRequest, db: Session = Depends(get_db
 
         # ✅ Actually send the email
         from backend.notifications import (
-            email_service,
+            smtp_service,
         )  # import here to avoid circular deps
 
-        email_service.send_email(
+        smtp_service.send_email(
             to=user.email,
             subject="Reset your password for JedgeBot",
             body=(

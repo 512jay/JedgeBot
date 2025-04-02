@@ -1,15 +1,13 @@
 # /conftest.pyMonday. Monday.
 # Shared test fixtures for FastAPI app, database session, and test user creation.
-
-
 import os
 from dotenv import load_dotenv, find_dotenv
 
 # Ensure env vars load correctly during tests
-env_file = ".env"  # or ".env.test" if you want a dedicated test config
-backend_env_path = os.path.join(os.path.dirname(__file__), "backend", env_file)
+env_file = os.path.join(os.path.dirname(__file__), "backend", ".env")
+loaded = load_dotenv(env_file, override=True)
 
-loaded = load_dotenv(find_dotenv(backend_env_path), override=True)
+
 print(f"✅ Loaded .env for testing: {loaded}")
 import uuid
 from collections.abc import Generator
@@ -23,14 +21,14 @@ from backend.auth.auth_services import create_user, hash_password
 from backend.auth.auth_models import User, UserRole
 from backend.data.database.db import get_db
 from tests.utils.user_factory import random_email, random_password
-from backend.notifications import email_service
+from backend.notifications import smtp_service
 
 @pytest.fixture(autouse=True)
 def patch_send_email(monkeypatch):
     def dummy_send_email(to, subject, body):
         print(f"[MOCK EMAIL] To: {to} | Subject: {subject} | Body: {body[:60]}...")
 
-    monkeypatch.setattr(email_service, "send_email", dummy_send_email)
+    monkeypatch.setattr(smtp_service, "send_email", dummy_send_email)
 
 
 @pytest.fixture(scope="module")
@@ -106,5 +104,5 @@ def captured_email(monkeypatch):
         sent_email["body"] = body
         print(f"[MOCK EMAIL] To: {to} | Subject: {subject} | Body: {body[:60]}...")
 
-    monkeypatch.setattr(email_service, "send_email", mock_send_email)
+    monkeypatch.setattr(smtp_service, "send_email", mock_send_email)
     return sent_email
