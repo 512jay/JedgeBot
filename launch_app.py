@@ -135,7 +135,6 @@ def stream_logs(process, prefix, color):
 # ------------------------------------- #
 def terminate_processes():
     for proc, label in [
-        (mailhog_process, "MAILHOG"),
         (backend_process, "BACKEND"),
         (frontend_process, "FRONTEND"),
     ]:
