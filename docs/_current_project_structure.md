@@ -389,6 +389,7 @@ JedgeBot/
 │   │   │   │   │   ├── ResetPassword.jsx
 │   │   │   │   │   ├── VerifyEmail.jsx
 │   │   │   │   │   ├── __tests__
+│   │   │   │   │   │   ├── Register.text.jsx
 │   │   │   │   │   ├── auth_api.js
 │   │   │   │   ├── clients
 │   │   │   │   ├── dashboard

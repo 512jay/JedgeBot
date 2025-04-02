@@ -1,5 +1,6 @@
 // /frontend/src/features/auth/Register.jsx
 import registrationImage from "@/images/hero/register.jpg";
+import { register } from './auth_api';
 
 import React, { useState } from 'react';
 import {
@@ -18,6 +19,53 @@ import {
 
 export default function Register() {
   const [role, setRole] = useState('Choose a role');
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    setError('');
+    if (password !== confirmPassword) {
+      return setError('Passwords do not match');
+    }
+
+    if (role === 'Choose a role') {
+      return setError('Please select a role');
+    }
+
+    try {
+      setLoading(true);
+      const response = await register({
+        username, 
+        email,
+        password,
+        role: role.toLowerCase()
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.detail || 'Registration failed');
+      }
+
+      setError(''); // clear any previous error
+      alert('Registration successful! Please check your email to verify your account.');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+      setUsername('');
+      setRole('Choose a role');
+
+    } catch (err) {
+      console.error('Registration error:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <MDBContainer fluid className="d-flex justify-content-center align-items-center" style={{ minHeight: 'calc(100vh - 120px)' }}>
@@ -32,30 +80,37 @@ export default function Register() {
         </MDBCol>
         <MDBCardBody className="p-5 d-flex flex-column justify-content-center" style={{ flex: 1 }}>
           <h4 className="mb-4 text-center">Create your account</h4>
+          <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+            {error && <div className="text-danger text-center mb-3">{error}</div>}
+            <MDBInput id="registerUsername" label="Username" type="text" size="sm" className="mb-3" required value={username} onChange={(e) => setUsername(e.target.value)} />
+            <MDBInput id="registerEmail" label="Email address" type="email" size="sm" className="mb-3" required value={email} onChange={(e) => setEmail(e.target.value)} />
+            <MDBInput id="registerPassword" label="Password" type="password" size="sm" className="mb-3" required value={password} onChange={(e) => setPassword(e.target.value)} />
+            <MDBInput id="registerConfirm" label="Confirm Password" type="password" size="sm" className="mb-3" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
 
-          <label htmlFor="registerEmail" className="sr-only">Email address</label>
-          <MDBInput id="registerEmail" label="Email address" type="email" className="mb-4" required />
+<div className="mb-3">
+  <label className="form-label d-block">Select a Role</label>
+  {['Trader', 'Client', 'Manager', 'Enterprise'].map((option) => (
+    <div className="form-check form-check-inline" key={option}>
+      <input
+        className="form-check-input"
+        type="radio"
+        name="roleOptions"
+        id={`role-${option}`}
+        value={option}
+        checked={role === option}
+        onChange={() => setRole(option)}
+      />
+      <label className="form-check-label" htmlFor={`role-${option}`}>
+        {option}
+      </label>
+    </div>
+  ))}
+</div>
 
-          <label htmlFor="registerPassword" className="sr-only">Password</label>
-          <MDBInput id="registerPassword" label="Password" type="password" className="mb-4" required />
-
-          <label htmlFor="registerConfirm" className="sr-only">Confirm Password</label>
-          <MDBInput id="registerConfirm" label="Confirm Password" type="password" className="mb-4" required />
-
-          <label htmlFor="roleDropdown" className="sr-only">Select Role</label>
-          <MDBDropdown className="mb-4">
-            <MDBDropdownToggle color="light" id="roleDropdown">{role}</MDBDropdownToggle>
-            <MDBDropdownMenu>
-              {['Free', 'Client', 'Manager', 'Enterprise'].map((option) => (
-                <MDBDropdownItem key={option} onClick={() => setRole(option)}>
-                  {option}
-                </MDBDropdownItem>
-              ))}
-            </MDBDropdownMenu>
-          </MDBDropdown>
-
-          <MDBBtn className="btn-primary w-100 mb-3">Register</MDBBtn>
-
+            <MDBBtn className="btn-primary w-100 mb-2" type="submit" disabled={loading}>
+              {loading ? 'Registering...' : 'Register'}
+            </MDBBtn>
+          </form>
           <div className="text-center">
             <small>Already have an account? <a href="/login">Login</a></small>
           </div>
