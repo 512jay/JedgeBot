@@ -1,7 +1,6 @@
 // /frontend/src/features/auth/Register.jsx
 import registrationImage from "@/images/hero/register.jpg";
 import { register } from './auth_api';
-import { useNavigate } from 'react-router-dom';
 
 import React, { useState } from 'react';
 import {
@@ -26,7 +25,6 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     setError('');
@@ -53,7 +51,14 @@ export default function Register() {
         throw new Error(data?.detail || 'Registration failed');
       }
 
-      navigate('/login');
+      setError(''); // clear any previous error
+      alert('Registration successful! Please check your email to verify your account.');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+      setUsername('');
+      setRole('Choose a role');
+
     } catch (err) {
       console.error('Registration error:', err);
       setError(err.message);
@@ -76,6 +81,7 @@ export default function Register() {
         <MDBCardBody className="p-5 d-flex flex-column justify-content-center" style={{ flex: 1 }}>
           <h4 className="mb-4 text-center">Create your account</h4>
           <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+            {error && <div className="text-danger text-center mb-3">{error}</div>}
             <MDBInput id="registerUsername" label="Username" type="text" size="sm" className="mb-3" required value={username} onChange={(e) => setUsername(e.target.value)} />
             <MDBInput id="registerEmail" label="Email address" type="email" size="sm" className="mb-3" required value={email} onChange={(e) => setEmail(e.target.value)} />
             <MDBInput id="registerPassword" label="Password" type="password" size="sm" className="mb-3" required value={password} onChange={(e) => setPassword(e.target.value)} />
@@ -85,18 +91,14 @@ export default function Register() {
               <MDBDropdownToggle color="light" id="roleDropdown">{role}</MDBDropdownToggle>
               <MDBDropdownMenu>
                 {['Trader', 'Client', 'Manager', 'Enterprise'].map((option) => (
-                  <MDBDropdownItem key={option} onClick={() => setRole(option)}>{option}</MDBDropdownItem>
+                  <MDBDropdownItem key={option} onClick={(e) => { e.preventDefault(); setRole(option); }}>{option}</MDBDropdownItem>
                 ))}
               </MDBDropdownMenu>
             </MDBDropdown>
-
-            {error && <div className="text-danger text-center mb-3">{error}</div>}
-
             <MDBBtn className="btn-primary w-100 mb-2" type="submit" disabled={loading}>
               {loading ? 'Registering...' : 'Register'}
             </MDBBtn>
           </form>
-          {error && <div className="text-danger text-center mb-3">{error}</div>}
           <div className="text-center">
             <small>Already have an account? <a href="/login">Login</a></small>
           </div>
