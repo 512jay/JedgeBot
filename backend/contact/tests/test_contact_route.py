@@ -23,3 +23,29 @@ def test_send_contact_message(client: TestClient):
         subject="Contact Form Submission from contacttest@example.com",
         body="This is a test message from the contact form.",
     )
+
+
+def test_contact_missing_email(client: TestClient):
+    payload = {"message": "Missing email field."}
+
+    response = client.post("/api/contact", json=payload)
+    assert (
+        response.status_code == 422
+    )  # Unprocessable Entity (Pydantic validation error)
+    assert "email" in response.text
+
+
+def test_contact_invalid_email_format(client: TestClient):
+    payload = {"email": "not-an-email", "message": "Still trying to send something..."}
+
+    response = client.post("/api/contact", json=payload)
+    assert response.status_code == 422
+    assert "value is not a valid email address" in response.text
+
+
+def test_contact_missing_message(client: TestClient):
+    payload = {"email": "someone@example.com"}
+
+    response = client.post("/api/contact", json=payload)
+    assert response.status_code == 422
+    assert "message" in response.text
