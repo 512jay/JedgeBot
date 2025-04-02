@@ -2,25 +2,6 @@
 # Pydantic settings model for the FastAPI application.
 
 import os
-from dotenv import load_dotenv
-from pathlib import Path
-
-# Choose the correct .env file based on environment
-# Always base everything from the root folder of your project
-root_dir = (
-    Path(__file__).resolve().parent.parent
-)  # points to /backend's parent (i.e., project root)
-backend_dir = root_dir / "backend"
-
-env_file = backend_dir / (
-    ".env.production" if os.getenv("RENDER") == "true" else ".env"
-)
-load_dotenv(dotenv_path=env_file, override=True)
-
-# Optional debugging
-print(f"🔧 Loaded: {env_file.name}")
-
-
 from pydantic import Field
 from pydantic_settings import BaseSettings
 

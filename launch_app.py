@@ -17,44 +17,29 @@ from urllib.parse import urlparse
 from colorama import init, Fore
 from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
+import os
 
-# Load correct .env BEFORE any settings import
-env_file = (
-    ".env.production"
-    if "--mode=remote" in sys.argv or "--mode=public" in sys.argv
-    else ".env"
-)
-load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), env_file))
-print(Fore.YELLOW + f"🔧 Loaded: {env_file}")
-
-# ------------------------------------- #
-# 🔍 Handle CLI Flags
-# ------------------------------------- #
-parser = argparse.ArgumentParser(description="Launch JedgeBot App Locally")
+# Parse command-line args
+parser = argparse.ArgumentParser()
 parser.add_argument(
-    "--use-remote-db",
+    "--use-production-db",
     action="store_true",
-    help="(Deprecated) Use Render production database",
-)
-parser.add_argument(
-    "--public-api",
-    action="store_true",
-    help="Point frontend at https://api.fordisludus.com",
-)
-parser.add_argument(
-    "--mode",
-    choices=["local", "remote", "public"],
-    default="local",
-    help="Launch mode: local (default), remote (Render DB), or public (API at fordisludus.com)",
+    help="Use the production database (.env.production)",
 )
 args = parser.parse_args()
+# --------------------- #
+# 📁 Load Env File
+# --------------------- #
+env_filename = ".env.production" if args.use_production_db else ".env"
+env_path = os.path.join("backend", env_filename)
+loaded = load_dotenv(env_path, override=True)
+print(f"✅ Loaded env file: {env_path} -> {loaded}")
 
-# ------------------------------------- #
-# ⚙️ Load the Correct .env
-# ------------------------------------- #
-env_file = ".env.production" if args.mode in ["remote", "public"] else ".env"
-load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), env_file))
-print(Fore.YELLOW + f"🔧 Loaded: {env_file}")
+
+project_root = os.path.abspath(os.path.dirname(__file__))
+backend_path = os.path.join(project_root, "backend")
+
 
 
 # ------------------------------------- #
@@ -73,33 +58,6 @@ def get_lan_ips():
     return lan_ips
 
 
-def print_qr_in_terminal(data: str):
-    qr_code = qrcode.QRCode(
-        version=2,
-        error_correction=qrcode.constants.ERROR_CORRECT_L,
-        box_size=1,
-        border=1,
-    )
-    qr_code.add_data(data)
-    qr_code.make(fit=True)
-    for row in qr_code.get_matrix():
-        print("".join("██" if cell else "  " for cell in row))
-
-
-def show_qr_codes_for_lan(port: str = "5173"):
-    lan_ips = get_lan_ips()
-    if not lan_ips:
-        print(f"{Fore.RED}No LAN IPs found.")
-        return
-    print(f"{Fore.CYAN}🌐 Access your app from any of these on your network:")
-    for ip in lan_ips:
-        url = f"http://{ip}:{port}"
-        print(f"{Fore.GREEN}→ {url}")
-        print(f"{Fore.MAGENTA}📱 QR code for {ip}:")
-        print_qr_in_terminal(url)
-        print()
-
-
 # ------------------------------------- #
 # 📍 Environment Setup
 # ------------------------------------- #
@@ -109,37 +67,22 @@ backend_path = os.path.join(project_root, "backend")
 frontend_path = os.path.join(project_root, "frontend")
 npm_path = os.getenv("NPM_PATH", "C:\\Program Files\\nodejs\\npm.cmd")
 
-# Determine API target for frontend
 local_ip = socket.gethostbyname(socket.gethostname())
-if args.mode == "public":
-    VITE_API_URL = "https://api.fordisludus.com"
-else:
-    VITE_API_URL = os.getenv("VITE_API_URL", f"http://{local_ip}:8000")
-
+VITE_API_URL = os.getenv("VITE_API_URL", f"http://{local_ip}:8000")
 FRONTEND_URL = os.getenv("FRONTEND_URL", f"http://localhost:5173")
 
-# Parse DB connection from DATABASE_URL
-DATABASE_URL = os.getenv("DATABASE_URL")
-parsed_db = urlparse(DATABASE_URL)
-env_source = {
-    "local": "LOCAL DB",
-    "remote": "RENDER DB",
-    "public": "RENDER DB (public API)",
-}.get(args.mode, "UNKNOWN")
-
-
-from backend.core.settings import Settings
-
-# Let pydantic load the settings using the env file
-settings = Settings(_env_file=os.path.join(os.path.dirname(__file__), env_file))
-
-if not settings.DATABASE_URL:
-    print(f"{Fore.RED}🚫 DATABASE_URL is not set!")
+from backend.core.settings import settings
+DATABASE_URL = settings.DATABASE_URL
+parsed_db = urlparse(os.getenv("DATABASE_URL", ""))
+if not parsed_db.hostname:
+    print(f"{Fore.RED}🚫 DATABASE_URL is not set or malformed!")
     sys.exit(1)
 
-parsed_db = urlparse(settings.DATABASE_URL)
-print(Fore.BLUE + f"📡 Effective DB URL: {parsed_db.hostname} ({env_source})")
-
+masked = f"{parsed_db.scheme}://{parsed_db.username}@***:{parsed_db.port}/{parsed_db.path.lstrip('/')}"
+print(
+    Fore.BLUE
+    + f"📦 Connected to DB: {parsed_db.hostname} ({'RENDER' if parsed_db.hostname != 'localhost' else 'LOCAL'})"
+)
 
 # ------------------------------------- #
 # 🐷 MailHog
@@ -177,6 +120,10 @@ def start_mailhog():
 # 🐘 PostgreSQL Check (from DATABASE_URL)
 # ------------------------------------- #
 def wait_for_db():
+    if not parsed_db.hostname:
+        print(f"{Fore.RED}🚫 DATABASE_URL is empty or malformed.")
+        sys.exit(1)
+
     max_retries = 10
     for i in range(max_retries):
         try:
@@ -190,10 +137,10 @@ def wait_for_db():
             ).close()
             print(f"{Fore.GREEN}✅ Database is ready!")
             return
-        except psycopg2.OperationalError:
+        except psycopg2.OperationalError as e:
             print(f"{Fore.YELLOW}Waiting for DB... ({i + 1}/{max_retries})")
             time.sleep(5)
-    print(f"{Fore.RED}❌ DB connection failed after {max_retries} retries.")
+    print(f"{Fore.RED}❌ Could not connect to DB after {max_retries} retries.")
     sys.exit(1)
 
 
@@ -296,7 +243,6 @@ threading.Thread(
     target=stream_logs, args=(frontend_process, "FRONTEND", Fore.CYAN)
 ).start()
 
-show_qr_codes_for_lan()
 
 try:
     frontend_process.wait()
