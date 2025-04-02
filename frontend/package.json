@@ -11,7 +11,8 @@
     "test": "vitest run",
     "tests": "vitest run",
     "test:coverage:watch": "vitest run --watch --coverage",
-    "coverage:open": "npx vitest --coverage && npx open-cli coverage/index.html"
+    "coverage:open": "npx vitest --coverage && npx open-cli coverage/index.html",
+    "test:watch": "vitest watch"
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
@@ -33,6 +34,7 @@
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/ui": "^3.1.1",
     "eslint": "^9.23.0",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.1.0",

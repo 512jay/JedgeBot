@@ -241,10 +241,10 @@ JedgeBot/
 │   │   ├── coverage
 │   │   │   ├── base.css
 │   │   │   ├── block-navigation.js
-│   │   │   ├── clover.xml
 │   │   │   ├── coverage-final.json
 │   │   │   ├── favicon.png
 │   │   │   ├── frontend
+│   │   │   │   ├── alias.config.js.html
 │   │   │   │   ├── index.html
 │   │   │   │   ├── scripts
 │   │   │   │   │   ├── index.html
@@ -281,6 +281,7 @@ JedgeBot/
 │   │   │   │   │   │   │   ├── index.html
 │   │   │   │   │   │   │   ├── pages
 │   │   │   │   │   │   │   │   ├── NotFound.jsx.html
+│   │   │   │   │   │   │   │   ├── SmokePing.jsx.html
 │   │   │   │   │   │   │   │   ├── index.html
 │   │   │   │   │   │   ├── auth
 │   │   │   │   │   │   │   ├── ForgotPassword.jsx.html
@@ -326,13 +327,13 @@ JedgeBot/
 │   │   │   │   │   ├── test-utils
 │   │   │   │   │   │   ├── index.html
 │   │   │   │   │   │   ├── renderWithProviders.jsx.html
+│   │   │   │   │   │   ├── setup.js.html
 │   │   │   │   │   │   ├── setupTestUser.js.html
 │   │   │   │   │   ├── utils
 │   │   │   │   │   │   ├── apiClient.js.html
 │   │   │   │   │   │   ├── authHelpers.js.html
 │   │   │   │   │   │   ├── fetchWithRefresh.js.html
 │   │   │   │   │   │   ├── index.html
-│   │   │   │   ├── tailwind.config.js.html
 │   │   │   ├── index.html
 │   │   │   ├── prettify.css
 │   │   │   ├── prettify.js
