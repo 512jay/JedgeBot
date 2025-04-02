@@ -8,6 +8,7 @@ JedgeBot/
 │   ├── __init__.py
 │   ├── alembic
 │   │   ├── README
+│   │   ├── __init__.py
 │   │   ├── env.py
 │   │   ├── script.py.mako
 │   │   ├── versions

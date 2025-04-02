@@ -13,9 +13,19 @@ import requests
 import netifaces
 import qrcode
 import argparse
+from urllib.parse import urlparse
 from colorama import init, Fore
 from dotenv import load_dotenv
-from urllib.parse import urlparse
+import os
+
+# Load correct .env BEFORE any settings import
+env_file = (
+    ".env.production"
+    if "--mode=remote" in sys.argv or "--mode=public" in sys.argv
+    else ".env"
+)
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), env_file))
+print(Fore.YELLOW + f"🔧 Loaded: {env_file}")
 
 # ------------------------------------- #
 # 🔍 Handle CLI Flags
@@ -117,10 +127,18 @@ env_source = {
     "public": "RENDER DB (public API)",
 }.get(args.mode, "UNKNOWN")
 
-print(
-    Fore.BLUE
-    + f"📦 Connected to: {parsed_db.hostname.decode('utf-8') if isinstance(parsed_db.hostname, bytes) else parsed_db.hostname} ({env_source})"
-)
+
+from backend.core.settings import Settings
+
+# Let pydantic load the settings using the env file
+settings = Settings(_env_file=os.path.join(os.path.dirname(__file__), env_file))
+
+if not settings.DATABASE_URL:
+    print(f"{Fore.RED}🚫 DATABASE_URL is not set!")
+    sys.exit(1)
+
+parsed_db = urlparse(settings.DATABASE_URL)
+print(Fore.BLUE + f"📡 Effective DB URL: {parsed_db.hostname} ({env_source})")
 
 
 # ------------------------------------- #

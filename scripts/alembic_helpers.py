@@ -13,8 +13,16 @@ def run_local_migration() -> None:
     if not env_path.exists():
         print("❌ .env file not found.")
         return
+
     os.environ["DOTENV_FILE"] = str(env_path)
-    subprocess.run(["alembic", "upgrade", "head"], check=True)
+    result = subprocess.run(
+        ["alembic", "upgrade", "head"], capture_output=True, text=True
+    )
+
+    print(result.stdout)
+    if result.stderr:
+        print("⚠️ STDERR:")
+        print(result.stderr)
 
 
 def run_remote_migration() -> None:
@@ -24,5 +32,13 @@ def run_remote_migration() -> None:
     if not env_path.exists():
         print("❌ .env.production file not found.")
         return
+
     os.environ["DOTENV_FILE"] = str(env_path)
-    subprocess.run(["alembic", "upgrade", "head"], check=True)
+    result = subprocess.run(
+        ["alembic", "upgrade", "head"], capture_output=True, text=True
+    )
+
+    print(result.stdout)
+    if result.stderr:
+        print("⚠️ STDERR:")
+        print(result.stderr)
