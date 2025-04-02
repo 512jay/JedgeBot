@@ -2,6 +2,7 @@
 // Global setup for Vitest - mocks unsupported browser features in jsdom
 
 /* eslint-env node */
+import '@testing-library/jest-dom';
 
 global.IntersectionObserver = class IntersectionObserver {
   constructor(_callback, _options) {}

@@ -417,6 +417,7 @@ JedgeBot/
 │   │   │   │   │   ├── Pricing.jsx
 │   │   │   │   │   ├── WaitlistForm.jsx
 │   │   │   │   │   ├── __tests__
+│   │   │   │   │   │   ├── Contact.test.jsx
 │   │   │   │   │   │   ├── WaitlistForm.test.jsx
 │   │   │   │   ├── profile
 │   │   │   │   │   ├── Profile.jsx
