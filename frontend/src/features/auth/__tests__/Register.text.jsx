@@ -1,7 +1,7 @@
 // /frontend/src/features/auth/__tests__/Register.test.jsx
 import React from 'react';
-import { describe, it, vi, beforeEach } from 'vitest';
-import { screen, render, fireEvent, waitFor } from '@testing-library/react';
+import { describe, it, vi, beforeEach, expect } from 'vitest';
+import { screen, fireEvent, waitFor } from '@testing-library/react';
 import Register from '../Register';
 import * as api from '../auth_api';
 import renderWithProviders from '@/test-utils/renderWithProviders';
