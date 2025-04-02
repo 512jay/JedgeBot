@@ -87,14 +87,26 @@ export default function Register() {
             <MDBInput id="registerPassword" label="Password" type="password" size="sm" className="mb-3" required value={password} onChange={(e) => setPassword(e.target.value)} />
             <MDBInput id="registerConfirm" label="Confirm Password" type="password" size="sm" className="mb-3" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
 
-            <MDBDropdown className="mb-3">
-              <MDBDropdownToggle color="light" id="roleDropdown">{role}</MDBDropdownToggle>
-              <MDBDropdownMenu>
-                {['Trader', 'Client', 'Manager', 'Enterprise'].map((option) => (
-                  <MDBDropdownItem key={option} onClick={(e) => { e.preventDefault(); setRole(option); }}>{option}</MDBDropdownItem>
-                ))}
-              </MDBDropdownMenu>
-            </MDBDropdown>
+<div className="mb-3">
+  <label className="form-label d-block">Select a Role</label>
+  {['Trader', 'Client', 'Manager', 'Enterprise'].map((option) => (
+    <div className="form-check form-check-inline" key={option}>
+      <input
+        className="form-check-input"
+        type="radio"
+        name="roleOptions"
+        id={`role-${option}`}
+        value={option}
+        checked={role === option}
+        onChange={() => setRole(option)}
+      />
+      <label className="form-check-label" htmlFor={`role-${option}`}>
+        {option}
+      </label>
+    </div>
+  ))}
+</div>
+
             <MDBBtn className="btn-primary w-100 mb-2" type="submit" disabled={loading}>
               {loading ? 'Registering...' : 'Register'}
             </MDBBtn>
