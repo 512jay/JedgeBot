@@ -9,15 +9,11 @@ import {
   MDBCardBody,
   MDBInput,
   MDBBtn,
-  MDBRow,
   MDBCol,
-  MDBDropdown,
-  MDBDropdownToggle,
-  MDBDropdownMenu,
-  MDBDropdownItem,
 } from 'mdb-react-ui-kit';
 
 export default function Register() {
+  const [showToast, setShowToast] = useState(false);
   const [role, setRole] = useState('Choose a role');
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
@@ -52,7 +48,7 @@ export default function Register() {
       }
 
       setError(''); // clear any previous error
-      alert('Registration successful! Please check your email to verify your account.');
+      setShowToast(true);
       setEmail('');
       setPassword('');
       setConfirmPassword('');
@@ -86,27 +82,25 @@ export default function Register() {
             <MDBInput id="registerEmail" label="Email address" type="email" size="sm" className="mb-3" required value={email} onChange={(e) => setEmail(e.target.value)} />
             <MDBInput id="registerPassword" label="Password" type="password" size="sm" className="mb-3" required value={password} onChange={(e) => setPassword(e.target.value)} />
             <MDBInput id="registerConfirm" label="Confirm Password" type="password" size="sm" className="mb-3" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-
-<div className="mb-3">
-  <label className="form-label d-block">Select a Role</label>
-  {['Trader', 'Client', 'Manager', 'Enterprise'].map((option) => (
-    <div className="form-check form-check-inline" key={option}>
-      <input
-        className="form-check-input"
-        type="radio"
-        name="roleOptions"
-        id={`role-${option}`}
-        value={option}
-        checked={role === option}
-        onChange={() => setRole(option)}
-      />
-      <label className="form-check-label" htmlFor={`role-${option}`}>
-        {option}
-      </label>
-    </div>
-  ))}
-</div>
-
+            <div className="mb-3">
+              <label className="form-label d-block">Select a Role</label>
+              {['Trader', 'Client', 'Manager', 'Enterprise'].map((option) => (
+                <div className="form-check form-check-inline" key={option}>
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="roleOptions"
+                    id={`role-${option}`}
+                    value={option}
+                    checked={role === option}
+                    onChange={() => setRole(option)}
+                  />
+                  <label className="form-check-label" htmlFor={`role-${option}`}>
+                    {option}
+                  </label>
+                </div>
+              ))}
+            </div>
             <MDBBtn className="btn-primary w-100 mb-2" type="submit" disabled={loading}>
               {loading ? 'Registering...' : 'Register'}
             </MDBBtn>
@@ -116,6 +110,25 @@ export default function Register() {
           </div>
         </MDBCardBody>
       </MDBCard>
+        {showToast && (
+          <div
+            className="toast show position-fixed bottom-0 end-0 m-3"
+            role="alert"
+            style={{ zIndex: 2000, minWidth: '280px' }}
+          >
+            <div className="toast-header">
+              <strong className="me-auto">Success</strong>
+              <button
+                type="button"
+                className="btn-close"
+                onClick={() => setShowToast(false)}
+              ></button>
+            </div>
+            <div className="toast-body">
+              Registration successful! Please check your email to verify your account.
+            </div>
+          </div>
+        )}
     </MDBContainer>
   );
 }
