@@ -11,6 +11,8 @@ import {
   MDBBtn,
   MDBCol,
 } from 'mdb-react-ui-kit';
+import ToastMessage from "@/components/common/ToastMessage";
+
 
 export default function Register() {
   const [showToast, setShowToast] = useState(false);
@@ -110,12 +112,7 @@ export default function Register() {
           </div>
         </MDBCardBody>
       </MDBCard>
-        {showToast && (
-          <div
-            className="toast show position-fixed bottom-0 end-0 m-3"
-            role="alert"
-            style={{ zIndex: 2000, minWidth: '280px' }}
-          >
+        {showToast && (<div className="toast show ...">
             <div className="toast-header">
               <strong className="me-auto">Success</strong>
               <button
@@ -124,9 +121,13 @@ export default function Register() {
                 onClick={() => setShowToast(false)}
               ></button>
             </div>
-            <div className="toast-body">
-              Registration successful! Please check your email to verify your account.
-            </div>
+            <ToastMessage
+              show={showToast}
+              message="Registration successful! Please check your email to verify your account."
+              type="success"
+              delay={8000}
+              onClose={() => setShowToast(false)}
+            />
           </div>
         )}
     </MDBContainer>
