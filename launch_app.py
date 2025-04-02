@@ -84,36 +84,6 @@ print(
     + f"📦 Connected to DB: {parsed_db.hostname} ({'RENDER' if parsed_db.hostname != 'localhost' else 'LOCAL'})"
 )
 
-# ------------------------------------- #
-# 🐷 MailHog
-# ------------------------------------- #
-def start_mailhog():
-    global mailhog_process
-    try:
-        mailhog_process = subprocess.Popen(
-            [
-                "docker",
-                "run",
-                "--rm",
-                "-p",
-                "1025:1025",
-                "-p",
-                "8025:8025",
-                "mailhog/mailhog",
-            ],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-            bufsize=1,
-        )
-        threading.Thread(
-            target=stream_logs,
-            args=(mailhog_process, "MAILHOG", Fore.MAGENTA),
-            daemon=True,
-        ).start()
-        print(f"{Fore.MAGENTA}MailHog started: http://localhost:8025")
-    except Exception as e:
-        print(f"{Fore.RED}Failed to start MailHog: {e}")
 
 
 # ------------------------------------- #
@@ -188,7 +158,6 @@ signal.signal(signal.SIGTERM, signal_handler)
 # 🚀 Startup
 # ------------------------------------- #
 wait_for_db()
-start_mailhog()
 
 backend_process = subprocess.Popen(
     [
