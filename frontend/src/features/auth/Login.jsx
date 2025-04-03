@@ -14,6 +14,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import loginImage from "@/images/hero/login.jpg";
 import { useAuthService } from "@auth/authService";
+import { wakeUpServer } from "@/utils/wakeUpServer";
+import { useEffect } from "react";
+
+useEffect(() => {
+  wakeUpServer(); // Ping backend when login page is loaded
+}, []);
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -27,6 +33,10 @@ export default function Login() {
     setErrorMsg("");
   
     try {
+      // 🟣 Wake up backend before login attempt
+      await wakeUpServer();
+      
+  
       await login(email, password);
       toast.success("Login successful!");
       navigate("/dashboard");
@@ -50,6 +60,7 @@ export default function Login() {
       toast.error("Login failed. Check credentials or verify your email.");
     }
   };
+  
 
   return (
     <MDBContainer className="my-5">

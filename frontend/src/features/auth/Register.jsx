@@ -1,6 +1,11 @@
 // /frontend/src/features/auth/Register.jsx
 import registrationImage from "@/images/hero/register.jpg";
 import { register } from './auth_api';
+import { useEffect } from "react";
+
+useEffect(() => {
+  wakeUpServer(); // Ping backend when register page is loaded
+}, []);
 
 import React, { useState } from 'react';
 import {
@@ -12,6 +17,7 @@ import {
   MDBCol,
 } from 'mdb-react-ui-kit';
 import { toast } from 'react-toastify';
+import { wakeUpServer } from "@/utils/wakeUpServer";
 
 
 export default function Register() {
@@ -25,6 +31,9 @@ export default function Register() {
 
   const handleSubmit = async () => {
     setError('');
+
+    await wakeUpServer(); // 🟣 Wake backend again before submit
+    
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       toast.error("Passwords do not match");
