@@ -29,6 +29,7 @@ export default function Login() {
 
     try {
       await login(email, password);
+      console.log("🔁 Calling checkAuth() in Login.jsx");
       await checkAuth();
       toast.success("Login successful!");
       navigate("/dashboard");
