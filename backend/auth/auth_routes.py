@@ -40,6 +40,31 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 router = APIRouter()
 
+# Clear stale state
+const [user, setUser] = useState(null);
+const [loading, setLoading] = useState(true);
+
+useEffect(() => {
+  const checkAuth = async () => {
+    try {
+      const res = await fetchWithCredentials('/auth/check');
+      if (!res.ok) throw new Error("Not authenticated");
+      const data = await res.json();
+      setUser(data);
+    } catch {
+      setUser(null); // <— this is crucial
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (hasSessionCookie()) {
+    checkAuth();
+  } else {
+    setLoading(false);
+  }
+}, []);
+
 
 # -----------------------------------------------------------------------------
 # Routes
