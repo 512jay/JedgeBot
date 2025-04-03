@@ -96,11 +96,3 @@ isort .
 We’re excited to have you contribute to JedgeBot! 🚀
 
 
-# Manual preflight
-poetry run pre-commit run --all-files
-
-# Only backend check
-poetry run python scripts/preflight.py
-
-# Frontend vite production build
-cd frontend && npm run check
