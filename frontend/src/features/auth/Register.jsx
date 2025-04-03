@@ -11,11 +11,10 @@ import {
   MDBBtn,
   MDBCol,
 } from 'mdb-react-ui-kit';
-import ToastMessage from "@/components/common/ToastMessage";
+import { toast } from 'react-toastify';
 
 
 export default function Register() {
-  const [showToast, setShowToast] = useState(false);
   const [role, setRole] = useState('Choose a role');
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
@@ -27,11 +26,15 @@ export default function Register() {
   const handleSubmit = async () => {
     setError('');
     if (password !== confirmPassword) {
-      return setError('Passwords do not match');
+      setError('Passwords do not match');
+      toast.error("Passwords do not match");
+      return
     }
 
     if (role === 'Choose a role') {
-      return setError('Please select a role');
+      setError('Please select a role');
+      toast.info("Please select a role.");
+      return
     }
 
     try {
@@ -50,7 +53,6 @@ export default function Register() {
       }
 
       setError(''); // clear any previous error
-      setShowToast(true);
       setEmail('');
       setPassword('');
       setConfirmPassword('');
@@ -60,6 +62,7 @@ export default function Register() {
     } catch (err) {
       console.error('Registration error:', err);
       setError(err.message);
+      toast.error('Registration error:', err);
     } finally {
       setLoading(false);
     }
@@ -163,14 +166,6 @@ return (
           </div>
         </MDBCardBody>
       </MDBCard>
-
-      <ToastMessage
-        show={showToast}
-        message="Registration successful! Please check your email to verify your account."
-        type="success"
-        delay={8000}
-        onClose={() => setShowToast(false)}
-      />
     </MDBContainer>
   );
 

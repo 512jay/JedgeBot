@@ -5,7 +5,7 @@ import registrationleftImage from "@/images/registrationleft.jpg";
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import { MDBInput, MDBBtn, MDBTypography } from "mdb-react-ui-kit";
-import ToastMessage from "@/components/common/ToastMessage";
+import { toast } from 'react-toastify';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -28,6 +28,7 @@ function ResetPassword({ handleSuccess }) {
   useEffect(() => {
     if (!token) {
       setError("Reset token missing.");
+      toast.error("Reset token missing.")
       setLoading(false);
       return;
     }
@@ -44,6 +45,7 @@ function ResetPassword({ handleSuccess }) {
       } catch (err) {
         console.error("Token validation error:", err);
         setError("Could not validate token.");
+        toast.error("Could not validate token.");
       } finally {
         setLoading(false);
       }
@@ -59,6 +61,7 @@ function ResetPassword({ handleSuccess }) {
 
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
+      toast.error("Passwords do not match.");
       return;
     }
 
@@ -76,10 +79,12 @@ function ResetPassword({ handleSuccess }) {
         handleSuccessFn(() => navigate("/login"));
       } else {
         setError(data.detail || "Reset failed.");
+        toast.error(data.detail || "Reset failed.");
       }
     } catch (err) {
       console.error("Reset error:", err);
       setError("Something went wrong.");
+      toast.error("Something went wrong.");
     }
   };
 
@@ -111,12 +116,6 @@ function ResetPassword({ handleSuccess }) {
               Reset Your Password
             </MDBTypography>
 
-            <ToastMessage
-              showToast={!!error}
-              setShowToast={() => setError(null)}
-              message={error}
-              color="danger"
-            />
 
             {/* Feedback area for screen readers */}
             <div aria-live="polite" className="w-100 text-center">
