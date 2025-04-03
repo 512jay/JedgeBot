@@ -122,4 +122,3 @@ password = os.getenv("TASTYTRADE_PASSWORD")
 - ✅ **Ignore `.venv/` in Git** (everyone can generate their own virtual environment).
 
 Now, you have a **fully functional Poetry workflow!** 🚀
-

@@ -40,7 +40,7 @@ export default function Register() {
     try {
       setLoading(true);
       const response = await register({
-        username, 
+        username,
         email,
         password,
         role: role.toLowerCase()

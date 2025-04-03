@@ -40,10 +40,10 @@ JedgeBot aims to become the **leading automated trading solution**, empowering t
 | MT5 Algorithmic Trading | Advanced forex automation | Steep learning curve          |
 
 **Competitive Edge:**
-✅ **Multi-Broker Support** (Unlike competitors tied to single platforms)  
-✅ **User-Friendly Setup** (No complex programming required)  
-✅ **Advanced Customization** (More flexibility than pre-set strategies)  
-✅ **Community-Driven Enhancements** (Continuous user feedback integration)  
+✅ **Multi-Broker Support** (Unlike competitors tied to single platforms)
+✅ **User-Friendly Setup** (No complex programming required)
+✅ **Advanced Customization** (More flexibility than pre-set strategies)
+✅ **Community-Driven Enhancements** (Continuous user feedback integration)
 
 ---
 
@@ -85,10 +85,10 @@ JedgeBot aims to become the **leading automated trading solution**, empowering t
 - **User Adoption** (Convincing traders to trust automated execution)
 
 ### **Mitigation Strategies**
-✅ Work with legal consultants to ensure compliance.  
-✅ Design API abstraction layers for seamless broker integration.  
-✅ Provide backtesting tools so users can refine strategies before live trading.  
-✅ Offer a free trial to build trust before paid plans.  
+✅ Work with legal consultants to ensure compliance.
+✅ Design API abstraction layers for seamless broker integration.
+✅ Provide backtesting tools so users can refine strategies before live trading.
+✅ Offer a free trial to build trust before paid plans.
 
 ---
 

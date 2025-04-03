@@ -23,11 +23,11 @@ export default function PublicLayout({
   }, [pageTitle]);
 
   return (
-    <div 
+    <div
       className={`d-flex flex-column min-vh-100 ${hero ? "hero-layout" : "bg-mutedRose"}`}
-      style={{ 
-        backgroundColor: '#9A616D', 
-        overflowX: 'hidden' 
+      style={{
+        backgroundColor: '#9A616D',
+        overflowX: 'hidden'
       }}
     >
       {!hideHeader && <Header />}

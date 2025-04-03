@@ -142,4 +142,3 @@ frontend/
 ---
 
 This structure sets up JedgeBot’s frontend for maintainability, testability, and seamless collaboration as you scale into multi-role dashboards, landing pages, and broker management.
-

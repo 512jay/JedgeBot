@@ -57,10 +57,10 @@ JedgeBot is a **powerful, accessible, and flexible** automated trading solution 
 | MT5 Algorithmic Trading | Advanced forex automation | Steep learning curve          |
 
 ### **JedgeBot’s Competitive Advantage:**
-✅ **Multi-Broker Support** – Unlike competitors tied to single platforms.  
-✅ **User-Friendly Setup** – No complex programming required.  
-✅ **Advanced Customization** – More flexibility than pre-set strategies.  
-✅ **Community-Driven Enhancements** – Continuous user feedback integration.  
+✅ **Multi-Broker Support** – Unlike competitors tied to single platforms.
+✅ **User-Friendly Setup** – No complex programming required.
+✅ **Advanced Customization** – More flexibility than pre-set strategies.
+✅ **Community-Driven Enhancements** – Continuous user feedback integration.
 
 ---
 

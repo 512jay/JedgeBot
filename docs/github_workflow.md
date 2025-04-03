@@ -51,12 +51,10 @@ git push origin main
 ---
 
 ## **Best Practices**
-✅ **Use Issues & Project Board** – Track features, bugs, and improvements.  
-✅ **Write Clear Commit Messages** – Describe changes concisely.  
-✅ **Pull Requests (PRs) for Merges** – Keep `main` and `dev` stable.  
-✅ **Use `.gitignore`** – Ignore `venv/`, `.env`, `__pycache__/`.  
-✅ **Automate with GitHub Actions** – For CI/CD pipelines (later).  
+✅ **Use Issues & Project Board** – Track features, bugs, and improvements.
+✅ **Write Clear Commit Messages** – Describe changes concisely.
+✅ **Pull Requests (PRs) for Merges** – Keep `main` and `dev` stable.
+✅ **Use `.gitignore`** – Ignore `venv/`, `.env`, `__pycache__/`.
+✅ **Automate with GitHub Actions** – For CI/CD pipelines (later).
 
 ---
-
-

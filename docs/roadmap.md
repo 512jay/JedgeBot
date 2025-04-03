@@ -111,4 +111,3 @@ As JedgeBot evolves, we may explore additional features to enhance market resear
 - **Long Term:** Implement an optional research module for users who wish to analyze markets before executing trades.
 
 This enhancement remains a **future consideration** and will not impact the current milestones for trade execution and broker integration.
-

@@ -75,4 +75,3 @@
 |  | action_type | e.g. `grant_view`, `upgrade_plan` |
 |  | target_id | account ID, user ID, or assignment ID |
 |  | timestamp | datetime |
-

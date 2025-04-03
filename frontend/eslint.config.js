@@ -44,7 +44,7 @@ export default [
         test: true,
         expect: true,
         describe: true,
-        it: true, 
+        it: true,
         beforeAll: true,
         beforeEach: true,
         afterAll: true,

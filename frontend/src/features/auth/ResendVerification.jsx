@@ -3,7 +3,7 @@ import { useState } from "react";
 import { MDBCardBody, MDBCol, MDBInput, MDBRow, MDBBtn } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
 import forgotImage from "@/images/hero/forgot.jpg";
-import fetchWithCredentials from "@/api/fetchWithCredentials";
+import { fetchWithCredentials } from "@/api/api_client";
 
 export default function ResendVerification() {
   const [email, setEmail] = useState("");

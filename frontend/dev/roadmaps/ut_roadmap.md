@@ -78,4 +78,3 @@ File location: `/frontend/dev/roadmap/ui_roadmap.md`
 ---
 
 **Note:** This roadmap is a living document for UI development. Check and update it regularly as features are implemented.
-

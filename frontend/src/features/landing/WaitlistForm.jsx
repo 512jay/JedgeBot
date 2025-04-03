@@ -195,7 +195,7 @@ const handleSubmit = async (e) => {
           "Request Early Access"
         )}
       </MDBBtn>
-        {errors.form && <div className="text-danger small mb-2">{errors.form}</div>}       
+        {errors.form && <div className="text-danger small mb-2">{errors.form}</div>}
     </form>
   );
 }

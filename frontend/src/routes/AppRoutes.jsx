@@ -32,7 +32,7 @@ export default function AppRoutes() {
     <Routes>
       {/* 🌐 Public-facing layout */}
       <Route element={<PublicLayout />}>
-        
+
         {/* Testing */}
         <Route path={ROUTES.TEST} element={<TestCentering />} />
         <Route path={ROUTES.SMOKE} element={<SmokePing />} />

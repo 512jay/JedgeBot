@@ -126,9 +126,9 @@ jobs:
 ---
 
 ## 🎯 Final Takeaway: Keep It Lean & Efficient
-✅ **Use `pytest` for core logic (TDD)** – orders, risk checks, and pricing.  
-✅ **Mock broker APIs** to avoid real trades during testing.  
-✅ **Use `pytest-bdd` for key workflows** (like trade execution).  
-✅ **Automate tests** with GitHub Actions (optional).  
+✅ **Use `pytest` for core logic (TDD)** – orders, risk checks, and pricing.
+✅ **Mock broker APIs** to avoid real trades during testing.
+✅ **Use `pytest-bdd` for key workflows** (like trade execution).
+✅ **Automate tests** with GitHub Actions (optional).
 
 This strategy keeps testing **lightweight** while ensuring JedgeBot is **robust and reliable**. 🚀

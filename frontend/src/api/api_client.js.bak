@@ -47,5 +47,4 @@ export const fetchUserProfile = async () => {
         console.error("Error fetching user profile:", error);
     }
 };
-// Example: Fetch user settings (general API call)  
-    
+// Example: Fetch user settings (general API call)

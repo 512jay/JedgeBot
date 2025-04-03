@@ -153,4 +153,3 @@ Once new dashboards are functional, `Dashboard.jsx` can be removed or converted 
 | Role-aware sidebar | ✅ Dynamic links in `Sidebar.jsx` |
 
 Use this roadmap to keep your dashboard system clean, scalable, and user-friendly as JedgeBot grows. 🚀
-

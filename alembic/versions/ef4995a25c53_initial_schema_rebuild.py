@@ -1,7 +1,7 @@
 """initial schema rebuild
 
 Revision ID: ef4995a25c53
-Revises: 
+Revises:
 Create Date: 2025-04-02 01:50:03.954472
 
 """

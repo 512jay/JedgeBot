@@ -78,4 +78,3 @@
 - ✅ **Ignore `.venv/` in Git** (everyone can generate their own virtual environment).
 
 This guide provides a **quick reference** for working with Poetry in JedgeBot! 🚀
-

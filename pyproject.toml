@@ -50,6 +50,7 @@ alembic = "^1.15.1"
 pydantic = "^2.10.6"
 types-netifaces = "^0.11.0.20241025"
 types-qrcode = "^8.0.0.20241004"
+pre-commit = "^4.2.0"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
@@ -59,7 +60,7 @@ build-backend = "poetry.core.masonry.api"
 bot = "run:main"
 migrate-local = "scripts.alembic_helpers:run_local_migration"
 migrate-prod = "scripts.alembic_helpers:run_remote_migration"
-
+check-backend = "backend.scripts.preflight:run_preflight"
 
 [tool.mypy]
 plugins = ["pydantic.mypy"]

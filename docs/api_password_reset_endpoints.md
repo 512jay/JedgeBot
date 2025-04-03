@@ -39,4 +39,3 @@ Reset password using a valid token.
 
 ### Error Responses
 - 400: Token is invalid, expired, or already used
-

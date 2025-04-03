@@ -146,4 +146,3 @@ This guide walks you through deploying the JedgeBot webapp on [Render.com](https
 ---
 
 Happy deploying! 🎉
-

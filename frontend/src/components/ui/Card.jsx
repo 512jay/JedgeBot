@@ -9,4 +9,3 @@ const CardContent = ({ children, className }) => {
 
 
 export { Card, CardContent };
-

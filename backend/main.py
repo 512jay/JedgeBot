@@ -26,7 +26,7 @@ app = FastAPI()
 if settings.TESTING:
     from backend.dev import routes
 
-    app.include_router(routes.router)    
+    app.include_router(routes.router)
 # Only enable rate limiting if not in test mode
 if not settings.TESTING:
     app.state.limiter = limiter

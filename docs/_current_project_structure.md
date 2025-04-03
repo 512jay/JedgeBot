@@ -95,6 +95,8 @@ JedgeBot/
 │   │   │   ├── smtp_service.py
 │   │   ├── render.yaml
 │   │   ├── scripts
+│   │   │   ├── __init__.py
+│   │   │   ├── preflight.py
 │   │   │   ├── smtp_works.py
 │   │   ├── user
 │   │   │   ├── __init__.py
@@ -518,6 +520,7 @@ JedgeBot/
 │   │   ├── manage_db.py
 │   │   ├── migrate_remote.py
 │   │   ├── run_rate_limit_manual.py
+│   │   ├── run_vite_check.sh
 │   │   ├── start_market_data_stream.py
 │   │   ├── validate_output.py
 │   ├── start-dev.sh

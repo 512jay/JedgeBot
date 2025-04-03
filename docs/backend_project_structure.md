@@ -102,4 +102,3 @@ This structure reflects a hybrid approach combining **domain-driven design**, **
 - Role-based dashboards
 - Multi-broker accounts
 - Long-term enterprise features
-

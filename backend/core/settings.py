@@ -30,7 +30,7 @@ class Settings(BaseSettings):
     EMAIL_PASSWORD: str
     ALLOW_REGISTRATION: bool = Field(default=True)
     RENDER: bool
-    
+
     # token stuff
     JWT_ALGORITHM: str = Field(default="HS256")
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 15
@@ -43,7 +43,7 @@ class Settings(BaseSettings):
     print(f"🌍 ENVIRONMENT: {os.getenv('ENVIRONMENT')}, RENDER: {os.getenv('RENDER')}")
     if os.getenv("DATABASE_URL") == None:
         print("🚫 DATABASE_URL is not set!")
-    else: 
+    else:
         db_url: str | None = os.getenv("DATABASE_URL")
         if isinstance(db_url, str):
             masked: str = db_url.split("@")[0].split("//")[0] + "@***"

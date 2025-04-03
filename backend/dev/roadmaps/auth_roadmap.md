@@ -15,7 +15,7 @@ This file tracks upcoming features, improvements, and security enhancements rela
 - [ ] Email verification on signup
   - Send verification link to user email
   - Confirm token to activate account
-  
+
 - [ ] Resend verification link
   - Rate-limited endpoint to request resend
 
@@ -76,4 +76,3 @@ This file tracks upcoming features, improvements, and security enhancements rela
 **Note:** This file is manually maintained and should be reviewed periodically as part of sprint planning or feature grooming.
 
 File location: `/backend/dev/roadmap/auth_roadmap.md`
-
