@@ -481,6 +481,7 @@ JedgeBot/
 │   │   │   │   ├── apiClient.js
 │   │   │   │   ├── authHelpers.js
 │   │   │   │   ├── fetchWithRefresh.js
+│   │   │   │   ├── wakeUpServer.js
 │   │   ├── vite.config.js
 │   │   ├── vitest.config.js
 │   ├── jedgebot
