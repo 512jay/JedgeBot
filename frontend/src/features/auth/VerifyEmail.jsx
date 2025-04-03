@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { wakeUpServer } from "@/utils/wakeUpServer";
 
 export default function VerifyEmail() {
   const [searchParams] = useSearchParams();
@@ -18,9 +17,7 @@ export default function VerifyEmail() {
         return;
       }
   
-      try {
-        await wakeUpServer(); // 🟣 Wake up the server first
-  
+      try { 
         const res = await fetch(`/auth/verify-email?token=${token}`, {
           method: "POST",
         });
