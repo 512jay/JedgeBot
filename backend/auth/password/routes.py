@@ -35,9 +35,9 @@ def forgot_password(request: ForgotPasswordRequest, db: Session = Depends(get_db
 
         smtp_service.send_email(
             to=user.email,
-            subject="Reset your password for JedgeBot",
+            subject="Reset your password for Fordis Ludus",
             body=(
-                f"You requested a password reset for your JedgeBot account.\n\n"
+                f"You requested a password reset for your Fordis Ludus account.\n\n"
                 f"Click the link below to set a new password:\n{reset_url}\n\n"
                 f"If you didn’t request this, you can ignore this email."
             ),

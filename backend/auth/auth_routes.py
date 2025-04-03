@@ -265,7 +265,7 @@ def resend_verification(request: EmailRequest, db: Session = Depends(get_db)):
 
     smtp_service.send_email(
         to=user.email,
-        subject="Verify your email for JedgeBot",
+        subject="Verify your email for Fordis Ludus",
         body=f"Click to verify your email:\n\n{verify_url}",
     )
 

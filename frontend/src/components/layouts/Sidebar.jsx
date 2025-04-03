@@ -51,7 +51,7 @@ const Sidebar = () => {
     </>
   ) : (
     <>
-      JedgeBot
+      Fordis Ludus
       <MDBIcon icon="angle-double-left" />
     </>
   )}

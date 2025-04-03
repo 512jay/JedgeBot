@@ -1,5 +1,5 @@
 # /backend/common/enums.py
-# Shared enums across the JedgeBot backend.
+# Shared enums across the Fordis Ludus backend.
 
 from enum import Enum  # only import this once
 
