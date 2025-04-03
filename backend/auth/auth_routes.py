@@ -245,28 +245,44 @@ def verify_email(token: str, db: Session = Depends(get_db)):
         )
 
 
+import logging
+
+logger = logging.getLogger(__name__)
+
+
 @router.post("/resend-verification")
 @limiter.limit("2/minute")
 def resend_verification(request: EmailRequest, db: Session = Depends(get_db)):
-    user = get_user_by_email(db, request.email)
+    try:
+        user = get_user_by_email(db, request.email)
 
-    if not user:
-        # Do not reveal user existence
+        if not user:
+            logger.info(
+                f"Resend verification requested for non-existent email: {request.email}"
+            )
+            return {
+                "message": "If your account exists, a verification email has been sent."
+            }
+
+        if user.is_email_verified:
+            logger.info(f"User already verified: {user.email}")
+            return {"message": "Email is already verified. Please log in."}
+
+        # Reuse token + email logic
+        token = create_email_verification_token(user.email)
+        verify_url = f"{FRONTEND_URL}/verify-email?token={token}"
+
+        smtp_service.send_email(
+            to=user.email,
+            subject="Verify your email for Fordis Ludus",
+            body=f"Click to verify your email:\n\n{verify_url}",
+        )
+
+        logger.info(f"Verification email resent to: {user.email}")
         return {
-            "message": "If your account exists, a verification email has been sent."
+            "message": "Verification email has been resent. Please check your inbox."
         }
 
-    if user.is_email_verified:
-        return {"message": "Email is already verified. Please log in."}
-
-    # Reuse token + email logic
-    token = create_email_verification_token(user.email)
-    verify_url = f"{FRONTEND_URL}/verify-email?token={token}"
-
-    smtp_service.send_email(
-        to=user.email,
-        subject="Verify your email for Fordis Ludus",
-        body=f"Click to verify your email:\n\n{verify_url}",
-    )
-
-    return {"message": "Verification email has been resent. Please check your inbox."}
+    except Exception as e:
+        logger.exception(f"Error resending verification for {request.email}: {str(e)}")
+        raise HTTPException(status_code=500, detail="Internal server error")

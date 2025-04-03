@@ -70,6 +70,11 @@ def root_head():
     return Response(status_code=200)
 
 
+@app.get("/dev/.git/config")
+def git_probe_blocker():
+    raise HTTPException(status_code=404, detail="Not Found")
+
+
 # Include routers
 app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 app.include_router(password_reset_router, prefix="/auth", tags=["Password Reset"])
