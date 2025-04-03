@@ -18,8 +18,12 @@ export default function ResendVerification() {
     try {
       const res = await fetchWithCredentials("/auth/resend-verification", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ email }),
       });
+      
 
       if (!res.ok) {
         throw new Error((await res.json()).detail || "Request failed");

@@ -19,7 +19,7 @@ export default function VerifyEmail() {
   
       try { 
         const res = await fetch(`/auth/verify-email?token=${token}`, {
-          method: "POST",
+          method: "GET",
         });
   
         if (res.ok) {
