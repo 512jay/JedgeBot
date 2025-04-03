@@ -15,7 +15,6 @@ import NotFound from "@/features/app/pages/NotFound";
 // Auth pages
 import Login from "@/features/auth/Login";
 import Register from "@/features/auth/Register";
-import ForgotPassword from "@/features/auth/ForgotPassword";
 import ResetPassword from "@/features/auth/ResetPassword";
 import VerifyEmail from "@/features/auth/VerifyEmail";
 import ResendVerification from "@/features/auth/ResendVerification";
