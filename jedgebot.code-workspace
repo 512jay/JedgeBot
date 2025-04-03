@@ -1,0 +1,34 @@
+{
+  "folders": [
+    {
+      "name": "Backend",
+      "path": "backend"
+    },
+    {
+      "name": "Frontend",
+      "path": "frontend"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/*.pyc": true
+    },
+    "files.watcherExclude": {
+      "**/.env": true,
+      "**/.env.*": true
+    },
+    "workbench.editor.enablePreview": false,
+    "editor.splitSizing": "distribute",
+    "editor.formatOnSave": true,
+    "python.formatting.provider": "black",
+
+    // 👇 Git Bash as the terminal
+    "terminal.integrated.defaultProfile.windows": "Git Bash",
+    "terminal.integrated.profiles.windows": {
+      "Git Bash": {
+        "path": "C:\\Program Files\\Git\\bin\\bash.exe"
+      }
+    }
+  }
+}

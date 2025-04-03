@@ -486,6 +486,7 @@ JedgeBot/
 │   │   ├── common
 │   │   ├── execution
 │   │   ├── utils
+│   ├── jedgebot.code-workspace
 │   ├── launch_app.py
 │   ├── logs
 │   ├── notes
@@ -521,6 +522,7 @@ JedgeBot/
 │   │   ├── run_rate_limit_manual.py
 │   │   ├── start_market_data_stream.py
 │   │   ├── validate_output.py
+│   ├── start-dev.sh
 │   ├── tests
 │   │   ├── __init__.py
 │   │   ├── integration
