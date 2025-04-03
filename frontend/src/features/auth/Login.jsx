@@ -12,31 +12,28 @@ import {
 } from "mdb-react-ui-kit";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { login } from "@auth/auth_api";
-import { useAuth } from "@hooks/useAuth";
 import loginImage from "@/images/hero/login.jpg";
+import { useAuthService } from "@auth/authService";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
-  const { checkAuth } = useAuth();
+  const { login } = useAuthService();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setErrorMsg("");
-
+  
     try {
       await login(email, password);
-      console.log("🔁 Calling checkAuth() in Login.jsx");
-      await checkAuth();
       toast.success("Login successful!");
       navigate("/dashboard");
     } catch (error) {
       console.error("Login failed", error);
       const detail = error?.response?.data?.detail;
-
+  
       if (detail === "Email not verified") {
         setErrorMsg(
           <>
@@ -49,7 +46,7 @@ export default function Login() {
       } else {
         setErrorMsg("Login failed. Please check your credentials.");
       }
-
+  
       toast.error("Login failed. Check credentials or verify your email.");
     }
   };

@@ -398,6 +398,8 @@ JedgeBot/
 │   │   │   │   │   ├── VerifyEmail.jsx
 │   │   │   │   │   ├── __tests__
 │   │   │   │   │   │   ├── Register.text.jsx
+│   │   │   │   │   │   ├── authService.test.jsx
+│   │   │   │   │   ├── authService.js
 │   │   │   │   │   ├── auth_api.js
 │   │   │   │   ├── clients
 │   │   │   │   ├── dashboard

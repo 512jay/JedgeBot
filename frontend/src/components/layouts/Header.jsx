@@ -50,8 +50,8 @@ export default function Header() {
           ) : user ? (
             <MDBNavbarItem>
               <Link className="nav-link fw-semibold text-primary" to="/dashboard" aria-label="Go to dashboard">
-  Back to Dashboard
-</Link>
+                Back to Dashboard
+              </Link>
             </MDBNavbarItem>
           ) : (
             <>

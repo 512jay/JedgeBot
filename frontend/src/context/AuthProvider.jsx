@@ -1,4 +1,6 @@
 // /frontend/src/context/AuthProvider.jsx
+// Provides the user context and session-checking logic for the app.
+
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchWithRefresh } from "@/utils/fetchWithRefresh";
@@ -13,49 +15,55 @@ export const AuthProvider = ({ children }) => {
 
   const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
-const checkAuth = useCallback(async () => {
-  const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
-  const hasSession = document.cookie.includes("has_session=1");
-  if (!hasSession) {
-    setUser(null);
-    setLoading(false);
-    return;
-  }
+  /**
+   * Loads the user from the backend using session cookies.
+   * If no session exists, clears the user.
+   */
+  const loadUserSession = useCallback(async () => {
+    try {
+      setLoading(true);
 
-  try {
-    setLoading(true);
-    const response = await fetchWithRefresh(`${BASE_URL}/auth/me`, {
-      method: "GET",
-      credentials: "include",
-    });
+      const response = await fetchWithRefresh(`${BASE_URL}/auth/me`, {
+        method: "GET",
+        credentials: "include",
+      });
 
-    const data = await response.json();
-    setUser(data);
-  } catch (err) {
-    console.error("AuthContext fetch error:", err);
-    setUser(null);
-    setError(err.message);
-  } finally {
-    setLoading(false);
-  }
-}, [setUser, setLoading, setError]);
+      if (!response.ok) {
+        console.warn("Session check failed:", response.status);
+        throw new Error("Session expired or invalid");
+      }
 
+      const userData = await response.json();
+      setUser(userData);
+    } catch (err) {
+      console.error("loadUserSession error:", err);
+      setUser(null);
+      setError(err.message || "Auth error");
+    } finally {
+      setLoading(false);
+    }
+  }, [BASE_URL]);
 
   useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
+    loadUserSession();
+  }, [loadUserSession]);
 
-const logout = async () => {
-  console.log("Logging out...");
-  await logoutApi(); // or await logout() if you're keeping the import name
-  console.log("Clearing user context...");
-  setUser(null);
-  navigate("/login");
-};
+  const logout = async () => {
+    await logoutApi();
+    setUser(null);
+    navigate("/login");
+  };
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, error, setUser, logout, checkAuth }}
+      value={{
+        user,
+        loading,
+        error,
+        setUser,
+        logout,
+        loadUserSession,
+      }}
     >
       {children}
     </AuthContext.Provider>
