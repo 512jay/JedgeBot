@@ -2,30 +2,32 @@
 
 import contactImage from "@/images/hero/contact.jpg";
 import React, { useState } from "react";
-import { Form, Button, Card, Container, Alert, Spinner } from "react-bootstrap";
+import { Form, Button, Card, Container, Spinner } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 export default function Contact() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [status, setStatus] = useState(null); // "success", "error"
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus(null);
     setLoading(true);
+
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, message }),
       });
+
       if (!res.ok) throw new Error("Failed to send");
-      setStatus("success");
+
+      toast.success("Your message has been sent successfully!");
       setEmail("");
       setMessage("");
     } catch {
-      setStatus("error");
+      toast.error("There was a problem sending your message. Try again later.");
     } finally {
       setLoading(false);
     }
@@ -47,13 +49,6 @@ export default function Contact() {
       <Card className="shadow-sm hover-grow" style={{ maxWidth: "600px", width: "100%" }}>
         <Card.Body className="p-5">
           <h2 className="text-center mb-4">Contact Us</h2>
-
-          {status === "success" && (
-            <Alert variant="success">Your message has been sent successfully!</Alert>
-          )}
-          {status === "error" && (
-            <Alert variant="danger">There was a problem sending your message. Try again later.</Alert>
-          )}
 
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3">

@@ -1,94 +1,57 @@
 // /frontend/src/features/landing/Pricing.jsx
-import pricingImage from "@/images/pricing.jpg";
-import React from 'react';
+import { MDBContainer } from "mdb-react-ui-kit";
+import { Link } from "react-router-dom";
 
 export default function Pricing() {
   return (
-    <div
-      className="d-flex flex-column align-items-center justify-content-center"
-      style={{ minHeight: 'calc(100vh - 120px)' }}
-    >
-      <div
-        className="d-flex rounded shadow overflow-hidden mb-4"
-        style={{ maxWidth: '900px', width: '100%', backgroundColor: 'white' }}
-        aria-labelledby="pricing-heading"
-      >
-        <div className="d-none d-md-block" style={{ flex: 1 }}>
-          <img
-            src={pricingImage}
-            alt="Close-up of a person holding cash in a wallet"
-            className="img-fluid h-100 w-100 object-fit-cover"
-            style={{ objectFit: 'cover' }}
-          />
-        </div>
-        <div className="p-4 d-flex flex-column justify-content-center" style={{ flex: 1 }}>
-          <h2 id="pricing-heading">Pricing</h2>
-          <ul>
-            <li><strong>Free:</strong> 1 brokerage account – perfect for testing the waters.</li>
-            <li><strong>Client ($30/month):</strong> Manage up to 10 accounts and access strategy automation with ease.</li>
-            <li><strong>Manager ($200/month):</strong> Control up to 100 accounts. Designed for professionals managing multiple clients.</li>
-            <li><strong>Enterprise:</strong> Need more? Get in touch to discuss pricing, compliance, and custom features.</li>
-          </ul>
-        </div>
-      </div>
+    <MDBContainer className="py-5 text-center">
+      <h2 className="fw-bold mb-4">Pricing</h2>
+      <p className="text-muted mb-5">Choose the plan that works best for you</p>
 
-      <div className="table-responsive" style={{ maxWidth: '960px', width: '100%' }}>
-        <table className="table table-hover text-center shadow-sm animated-table">
-          <thead className="table-light">
+      <div className="table-responsive">
+        <table className="table table-bordered table-striped align-middle text-start shadow-sm">
+          <thead className="table-dark">
             <tr>
-              <th>Feature</th>
-              <th>Free</th>
-              <th>Client ($30/mo)</th>
-              <th>Manager ($200/mo)</th>
-              <th>Enterprise</th>
+              <th scope="col">Plan</th>
+              <th scope="col">Price</th>
+              <th scope="col">Accounts</th>
+              <th scope="col">Support</th>
+              <th scope="col">Access</th>
             </tr>
           </thead>
           <tbody>
-            <tr className="pricing-row">
-              <td># of Brokerage Accounts</td>
-              <td>1</td>
-              <td>Up to 10</td>
-              <td>Up to 100</td>
-              <td>Unlimited</td>
+            <tr>
+              <td scope="row">Free</td>
+              <td>$0</td>
+              <td>1 brokerage account</td>
+              <td>Email only</td>
+              <td>Basic features</td>
             </tr>
-            <tr className="pricing-row">
-              <td>Strategy Support</td>
-              <td>Basic</td>
-              <td>Standard</td>
-              <td>Advanced</td>
-              <td>Custom</td>
+            <tr>
+              <td scope="row">Client</td>
+              <td>$30/month</td>
+              <td>Up to 10 accounts</td>
+              <td>Email + Chat</td>
+              <td>Full dashboard access</td>
             </tr>
-            <tr className="pricing-row">
-              <td>Priority Support</td>
-              <td><span className="pricing-x">✗</span></td>
-              <td><span className="pricing-check">✓</span></td>
-              <td><span className="pricing-check">✓</span></td>
-              <td>VIP</td>
-            </tr>
-            <tr className="pricing-row">
-              <td>Manage Clients</td>
-              <td><span className="pricing-x">✗</span></td>
-              <td><span className="pricing-x">✗</span></td>
-              <td><span className="pricing-check">✓</span></td>
-              <td><span className="pricing-check">✓</span></td>
-            </tr>
-            <tr className="pricing-row">
-              <td>Onboarding Assistance</td>
-              <td><span className="pricing-x">✗</span></td>
-              <td><span className="pricing-x">✗</span></td>
-              <td><span className="pricing-x">✗</span></td>
-              <td>Negotiable</td>
-            </tr>
-            <tr className="pricing-row">
-              <td>Custom Reporting</td>
-              <td><span className="pricing-x">✗</span></td>
-              <td><span className="pricing-x">✗</span></td>
-              <td><span className="pricing-x">✗</span></td>
-              <td><span className="pricing-check">✓</span></td>
+            <tr>
+              <td scope="row">Manager</td>
+              <td>$200/month</td>
+              <td>Unlimited clients + accounts</td>
+              <td>Priority support</td>
+              <td>Client management tools</td>
             </tr>
           </tbody>
         </table>
       </div>
-    </div>
+
+      <p className="mt-4">
+        Want early access?{" "}
+        <Link to="/waitlist" className="fw-bold text-decoration-underline">
+          Join the waitlist
+        </Link>
+      </p>
+    </MDBContainer>
   );
 }
+

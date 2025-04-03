@@ -11,7 +11,7 @@ export const ROUTES = {
 
   LOGIN: "/login",
   REGISTER: "/register",
-  FORGOT_PASSWORD: "/forgot-password",
+  RESEND_VERIFICATION: "/resend-verification",
   RESET_PASSWORD: "/reset-password",
   VERIFY_EMAIL: "/verify-email",
 

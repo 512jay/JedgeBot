@@ -1,4 +1,3 @@
-// /frontend/src/features/auth/Login.jsx
 import { useState } from "react";
 import {
   MDBInput,
@@ -12,6 +11,7 @@ import {
   MDBCardBody,
 } from "mdb-react-ui-kit";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { login } from "@auth/auth_api";
 import { useAuth } from "@hooks/useAuth";
 import loginImage from "@/images/hero/login.jpg";
@@ -30,10 +30,26 @@ export default function Login() {
     try {
       await login(email, password);
       await checkAuth();
+      toast.success("Login successful!");
       navigate("/dashboard");
     } catch (error) {
       console.error("Login failed", error);
-      setErrorMsg("Login failed. Please check your credentials.");
+      const detail = error?.response?.data?.detail;
+
+      if (detail === "Email not verified") {
+        setErrorMsg(
+          <>
+            Your email is not verified.{" "}
+            <Link to="/resend-verification" className="text-decoration-underline">
+              Resend verification email
+            </Link>
+          </>
+        );
+      } else {
+        setErrorMsg("Login failed. Please check your credentials.");
+      }
+
+      toast.error("Login failed. Check credentials or verify your email.");
     }
   };
 
@@ -94,11 +110,11 @@ export default function Login() {
 
                 <div className="d-flex justify-content-between mb-4">
                   <Link
-                    to="/forgot-password"
+                    to="/reset-password"
                     className="small text-primary"
                     aria-label="Reset your password"
                   >
-                    Forgot password?
+                    Reset password?
                   </Link>
                   <Link
                     to="/register"

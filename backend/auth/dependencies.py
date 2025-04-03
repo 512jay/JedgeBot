@@ -1,9 +1,6 @@
 from fastapi import Request, HTTPException, status
 from jose import jwt, JWTError
-import os
-
-SECRET_KEY = os.getenv("SECRET_KEY")
-ALGORITHM = "HS256"
+from backend.core.config import SECRET_KEY, JWT_ALGORITHM
 
 
 def get_current_user(request: Request) -> dict:
@@ -20,11 +17,7 @@ def get_current_user(request: Request) -> dict:
     token = token.replace("Bearer ", "")
 
     try:
-        SECRET_KEY = os.getenv("SECRET_KEY")
-        if not SECRET_KEY:
-            raise RuntimeError("SECRET_KEY environment variable is not set")
-
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[JWT_ALGORITHM])
         user_email = payload.get("sub")
         if user_email is None:
             raise HTTPException(status_code=401, detail="Invalid token")

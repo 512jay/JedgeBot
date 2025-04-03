@@ -18,6 +18,7 @@ import Register from "@/features/auth/Register";
 import ForgotPassword from "@/features/auth/ForgotPassword";
 import ResetPassword from "@/features/auth/ResetPassword";
 import VerifyEmail from "@/features/auth/VerifyEmail";
+import ResendVerification from "@/features/auth/ResendVerification";
 
 // Dashboard
 import Dashboard from "@/features/dashboard/Dashboard";
@@ -46,9 +47,9 @@ export default function AppRoutes() {
         {/* Auth-related */}
         <Route path={ROUTES.LOGIN} element={<Login />} />
         <Route path={ROUTES.REGISTER} element={<Register />} />
-        <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPassword />} />
         <Route path={ROUTES.RESET_PASSWORD} element={<ResetPassword />} />
         <Route path={ROUTES.VERIFY_EMAIL} element={<VerifyEmail />} />
+        <Route path={ROUTES.RESEND_VERIFICATION} element={<ResendVerification />} />
       </Route>
 
       {/* 🔒 Dashboard - protected + layout */}

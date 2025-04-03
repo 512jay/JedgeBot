@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { MDBInput, MDBBtn } from 'mdb-react-ui-kit';
 
 export default function WaitlistForm() {
+  const [submitting, setSubmitting] = useState(false);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [role, setRole] = useState('');
@@ -42,7 +43,7 @@ const handleSubmit = async (e) => {
 
   // Honeypot bot check
   if (homepage || phone || linkedin) {
-    console.warn('🤖 Bot submission blocked (honeypot triggered)');
+    console.warn("🤖 Bot submission blocked (honeypot triggered)");
     return;
   }
 
@@ -53,42 +54,40 @@ const handleSubmit = async (e) => {
   }
 
   setErrors({});
+  setSubmitting(true); // ⬅️ added
 
   try {
     const response = await fetch(`${API_URL}/api/waitlist`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name,
-        email,
-        role,
-        feedback,
-      }),
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, role, feedback }),
     });
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.error('❌ Submission failed:', errorData);
-      setErrors({ form: 'Submission failed. Please try again later.' });
+      console.error("❌ Submission failed:", errorData);
+      setErrors({ form: "Submission failed. Please try again later." });
       toast.error("Submission failed. Please try again later.");
       return;
     }
 
     const data = await response.json();
-    console.log('✅ Waitlist submission successful:', data);
+    console.log("✅ Waitlist submission successful:", data);
 
-    // Optionally reset the form
-    setName('');
-    setEmail('');
-    setRole('');
-    setFeedback('');
+    setName("");
+    setEmail("");
+    setRole("");
+    setFeedback("");
     toast.success("You're on the waitlist! 🎉");
   } catch (error) {
-    console.error('❌ Network error during submission:', error);
-    setErrors({ form: 'Network error. Please try again.' });
+    console.error("❌ Network error during submission:", error);
+    setErrors({ form: "Network error. Please try again." });
     toast.error("Network error. Please try again.");
+  } finally {
+    setSubmitting(false); // ⬅️ added
   }
 };
+
 
 
   const visuallyHiddenInputStyle = {
@@ -186,10 +185,16 @@ const handleSubmit = async (e) => {
           style={visuallyHiddenInputStyle}
         />
       </div>
-        <MDBBtn type="submit" block>
-          Request Early Access
-        </MDBBtn>
-
+      <MDBBtn type="submit" block disabled={submitting}>
+        {submitting ? (
+          <>
+            <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" />
+            Joining...
+          </>
+        ) : (
+          "Request Early Access"
+        )}
+      </MDBBtn>
         {errors.form && <div className="text-danger small mb-2">{errors.form}</div>}       
     </form>
   );

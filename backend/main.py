@@ -3,7 +3,7 @@
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 from slowapi.errors import RateLimitExceeded
 
 from backend.core.settings import settings

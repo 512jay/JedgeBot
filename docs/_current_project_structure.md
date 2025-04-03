@@ -389,9 +389,9 @@ JedgeBot/
 │   │   │   │   │   │   ├── NotFound.jsx
 │   │   │   │   │   │   ├── SmokePing.jsx
 │   │   │   │   ├── auth
-│   │   │   │   │   ├── ForgotPassword.jsx
 │   │   │   │   │   ├── Login.jsx
 │   │   │   │   │   ├── Register.jsx
+│   │   │   │   │   ├── ResendVerification.jsx
 │   │   │   │   │   ├── ResetPassword.jsx
 │   │   │   │   │   ├── VerifyEmail.jsx
 │   │   │   │   │   ├── __tests__
