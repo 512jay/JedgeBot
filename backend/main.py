@@ -60,6 +60,16 @@ def ping():
     return {"message": "pong"}
 
 
+@app.get("/")
+def root():
+    return {"message": "Fordis Ludus API is live 🎉"}
+
+
+@app.head("/")
+def root_head():
+    return Response(status_code=200)
+
+
 # Include routers
 app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 app.include_router(password_reset_router, prefix="/auth", tags=["Password Reset"])
