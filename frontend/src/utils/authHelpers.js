@@ -1,11 +1,10 @@
 // /frontend/src/utils/authHelpers.js
 // Utilities for handling token refresh and session restoration
-
-const BASE_URL = import.meta.env.VITE_API_URL;
+import { config } from "@/config";
 
 export const refreshToken = async () => {
   try {
-    const response = await fetch(`${BASE_URL}/auth/refresh`, {
+    const response = await fetch(`${config.API_URL}/auth/refresh`, {
       method: 'POST',
       credentials: 'include',
     });

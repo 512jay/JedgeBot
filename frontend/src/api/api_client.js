@@ -1,7 +1,6 @@
 // /frontend/src/api/api_client.js
 // Centralized API client to interact with the backend
-
-const API_URL = import.meta.env.VITE_API_URL;
+import { config } from "@/config";
 
 
 
@@ -9,7 +8,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 // Example: Fetch a message from the backend (general API call)
 export const fetchMessage = async () => {
     try {
-        return await fetchWithCredentials(`${API_URL}/`);
+        return await fetchWithCredentials(`${config.API_URL}/`);
     } catch (error) {
         console.error("Error fetching data:", error);
     }
@@ -17,7 +16,7 @@ export const fetchMessage = async () => {
 // Example: Fetch user profile (general API call)
 export const fetchUserProfile = async () => {
     try {
-        return await fetchWithCredentials(`${API_URL}/profile`);
+        return await fetchWithCredentials(`${config.API_URL}/profile`);
     } catch (error) {
         console.error("Error fetching user profile:", error);
     }

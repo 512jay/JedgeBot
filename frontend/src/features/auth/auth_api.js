@@ -2,9 +2,7 @@
 // Provides reusable async functions to interact with the backend authentication API.
 
 import fetchWithCredentials from "@/utils/fetchWithCredentials"; // Shared utility for fetch requests with cookies included
-
-// Use environment variable or fallback to localhost
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+import { config } from "@/config";
 
 /**
  * Registers a new user with the backend
@@ -12,7 +10,7 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
  * @returns {Promise<Response>}
  */
 export async function register(userData) {
-  return fetchWithCredentials(`${API_URL}/auth/register`, {
+  return fetchWithCredentials(`${config.API_URL}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json", },
     body: JSON.stringify(userData),
@@ -27,7 +25,7 @@ export async function register(userData) {
  * @throws {Error} Throws error if response is not OK
  */
 export async function login(email, password) {
-  const response = await fetch(`${API_URL}/auth/login`, {
+  const response = await fetch(`${config.API_URL}/auth/login`, {
     method: "POST",
     credentials: "include", // include cookies for session
     headers: {
@@ -55,7 +53,7 @@ export async function login(email, password) {
  */
 export async function logoutApi() {
   console.log("Calling /auth/logout...");
-  const res = await fetch(`${API_URL}/auth/logout`, {
+  const res = await fetch(`${config.API_URL}/auth/logout`, {
     method: "POST",
     credentials: "include",
   });
@@ -73,7 +71,7 @@ export async function logoutApi() {
  */
 export async function checkAuthentication() {
   try {
-    const res = await fetchWithCredentials(`${API_URL}/auth/check`);
+    const res = await fetchWithCredentials(`${config.API_URL}/auth/check`);
 
     if (!res.ok) {
       const body = await res.text();
@@ -96,7 +94,7 @@ export async function checkAuthentication() {
  * @returns {Promise<Response>} New token or error
  */
 export async function refreshToken() {
-  return fetchWithCredentials(`${API_URL}/auth/refresh`, {
+  return fetchWithCredentials(`${config.API_URL}/auth/refresh`, {
     method: "POST",
   });
 }

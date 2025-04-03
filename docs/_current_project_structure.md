@@ -380,6 +380,7 @@ JedgeBot/
 │   │   │   │   │   │   ├── Card.test.jsx
 │   │   │   │   │   │   ├── PieChart.test.jsx
 │   │   │   │   │   │   ├── Table.test.jsx
+│   │   │   ├── config.ts
 │   │   │   ├── context
 │   │   │   │   ├── AuthProvider.jsx
 │   │   │   │   ├── auth-context.js
@@ -484,6 +485,7 @@ JedgeBot/
 │   │   │   │   ├── fetchWithCredentials.js
 │   │   │   │   ├── fetchWithRefresh.js
 │   │   │   │   ├── wakeUpServer.js
+│   │   │   ├── vite-env.d.ts
 │   │   ├── vite.config.js
 │   │   ├── vitest.config.js
 │   ├── jedgebot

@@ -4,6 +4,7 @@ import contactImage from "@/images/hero/contact.jpg";
 import React, { useState } from "react";
 import { Form, Button, Card, Container, Spinner } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { config } from "@/config"
 
 export default function Contact() {
   const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ export default function Contact() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/contact`, {
+      const res = await fetch(`${config.API_URL}/api/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, message }),

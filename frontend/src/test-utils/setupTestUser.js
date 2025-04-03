@@ -1,7 +1,7 @@
 // /frontend/src/utils/setupTestUser.js
 // /frontend/test-utils/setupTestUser.js
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+import { config } from "@/config";
 let cookies = '';
 
 export const setupTestUser = async (
@@ -16,7 +16,7 @@ export const setupTestUser = async (
 ) => {
   const { email, password } = testUser;
 
-  const registerRes = await fetch('${BASE_URL}/auth/register', {
+  const registerRes = await fetch('${config.API_URL}/auth/register', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(testUser),
@@ -29,7 +29,7 @@ export const setupTestUser = async (
     throw new Error('Registration failed');
   }
 
-  const loginRes = await fetch('${BASE_URL}/auth/login', {
+  const loginRes = await fetch('${config.API_URL}/auth/login', {
     method: 'POST',
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
@@ -49,7 +49,7 @@ export const setupTestUser = async (
     password,
     getCookies: () => cookies,
     cleanup: async () => {
-      await fetch('${BASE_URL}/auth/delete', {
+      await fetch('${config.API_URL}/auth/delete', {
         method: 'POST',
         credentials: 'include',
         headers: {

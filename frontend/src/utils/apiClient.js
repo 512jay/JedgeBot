@@ -2,19 +2,18 @@
 // Central API client that always uses fetchWithRefresh for protected routes
 
 import { fetchWithRefresh } from "../utils/fetchWithRefresh";
-
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+import { config } from "@/config";
 
 const apiClient = {
   get: async (url, options = {}) => {
-    return fetchWithRefresh(`${API_BASE}${url}`, {
+    return fetchWithRefresh(`${config.API_URL}${url}`, {
       method: "GET",
       ...options,
     });
   },
 
   post: async (url, body, options = {}) => {
-    return fetchWithRefresh(`${API_BASE}${url}`, {
+    return fetchWithRefresh(`${config.API_URL}${url}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +25,7 @@ const apiClient = {
   },
 
   put: async (url, body, options = {}) => {
-    return fetchWithRefresh(`${API_BASE}${url}`, {
+    return fetchWithRefresh(`${config.API_URL}${url}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +37,7 @@ const apiClient = {
   },
 
   delete: async (url, options = {}) => {
-    return fetchWithRefresh(`${API_BASE}${url}`, {
+    return fetchWithRefresh(`${config.API_URL}${url}`, {
       method: "DELETE",
       ...options,
     });

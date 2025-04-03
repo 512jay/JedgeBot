@@ -7,6 +7,7 @@ import { fetchWithRefresh } from "@/utils/fetchWithRefresh";
 import { logoutApi } from "@auth/auth_api";
 import { AuthContext } from "./auth-context";
 import { wakeUpServer } from "@/utils/wakeUpServer";
+import { config } from "@/config";
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -14,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+  const BASE_URL = config.API_URL || "http://localhost:8000";
 
   /**
    * Loads the user from the backend using session cookies.

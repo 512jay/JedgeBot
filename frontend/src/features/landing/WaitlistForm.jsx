@@ -1,5 +1,5 @@
 // /frontend/src/features/landing/WaitlistForm.jsx
-const API_URL = import.meta.env.VITE_API_URL;
+import { config } from "@/config";
 import { toast } from 'react-toastify';
 import React, { useState } from 'react';
 import { MDBInput, MDBBtn } from 'mdb-react-ui-kit';
@@ -57,7 +57,7 @@ const handleSubmit = async (e) => {
   setSubmitting(true); // ⬅️ added
 
   try {
-    const response = await fetch(`${API_URL}/api/waitlist`, {
+    const response = await fetch(`${config.API_URL}/api/waitlist`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, email, role, feedback }),

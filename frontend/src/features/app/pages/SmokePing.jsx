@@ -1,9 +1,10 @@
 // /frontend/src/features/app/pages/SmokePing.jsx
 import React, { useEffect } from "react";
+import { config } from "@/config";
 
 const SmokePing = () => {
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/auth/check`, {
+    fetch(`${config.API_URL}/auth/check`, {
       credentials: "include", // Only needed if you’re using cookies
     })
       .then((res) => {

@@ -4,7 +4,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useSearchParams, Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { API_URL } from "@/config";
+import { config } from "@/config";
 
 export default function VerifyEmail() {
   const [searchParams] = useSearchParams();
@@ -25,7 +25,7 @@ export default function VerifyEmail() {
 
     const verify = async () => {
       try {
-        const res = await fetch(`${API_URL}/auth/verify-email?token=${token}`, {
+        const res = await fetch(`${config.API_URL}/auth/verify-email?token=${token}`, {
           method: "GET",
           credentials: "include",
         });

@@ -1,5 +1,6 @@
 // /frontend/src/utils/wakeUpServer.js
 import { toast } from "react-toastify";
+import { config } from "@/config";
 
 /**
  * Pings the backend to wake it up. Shows a toast if it takes longer than 1 second.
@@ -19,7 +20,7 @@ export async function wakeUpServer(timeout = 10000) {
   }, delayBeforeToast);
 
   try {
-    await fetch(`${import.meta.env.VITE_API_URL}/docs`, {
+    await fetch(`${config.API_URL}/docs`, {
       method: "GET",
       mode: "no-cors",
       signal: controller.signal,
