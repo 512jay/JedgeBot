@@ -73,7 +73,7 @@ def check_authentication(request: Request, db: Session = Depends(get_db)):
             "role": user.role.value,
         }
     except JWTError:
-        print("🚨 JWT decode failed:", e)
+        print("🚨 JWT decode failed:")
         raise HTTPException(
             status_code=401,
             detail="Invalid or expired access token",
