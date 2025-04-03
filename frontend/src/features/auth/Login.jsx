@@ -14,6 +14,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import loginImage from "@/images/hero/login.jpg";
 import { useAuthService } from "@auth/authService";
+import { useEffect } from "react";
+
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -26,7 +28,7 @@ export default function Login() {
     e.preventDefault();
     setErrorMsg("");
   
-    try {
+    try {     
       await login(email, password);
       toast.success("Login successful!");
       navigate("/dashboard");
@@ -50,6 +52,7 @@ export default function Login() {
       toast.error("Login failed. Check credentials or verify your email.");
     }
   };
+  
 
   return (
     <MDBContainer className="my-5">
@@ -107,13 +110,15 @@ export default function Login() {
                 </MDBValidationItem>
 
                 <div className="d-flex justify-content-between mb-4">
+                {email && /\S+@\S+\.\S+/.test(email) && (
                   <Link
-                    to="/reset-password"
+                    to={`/forgot-password?email=${encodeURIComponent(email)}`}
                     className="small text-primary"
-                    aria-label="Reset your password"
+                    aria-label="Forgot your password"
                   >
-                    Reset password?
+                    Forgot password?
                   </Link>
+                )}
                   <Link
                     to="/register"
                     className="small text-primary"

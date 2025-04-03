@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchWithRefresh } from "@/utils/fetchWithRefresh";
 import { logoutApi } from "@auth/auth_api";
 import { AuthContext } from "./auth-context";
+import { wakeUpServer } from "@/utils/wakeUpServer";
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -45,7 +46,12 @@ export const AuthProvider = ({ children }) => {
   }, [BASE_URL]);
 
   useEffect(() => {
-    loadUserSession();
+    const init = async () => {
+      await wakeUpServer(); // 🟣 Global warm-up for cold backend
+      await loadUserSession(); // 🔐 Proceed with session check
+    };
+  
+    init();
   }, [loadUserSession]);
 
   const logout = async () => {

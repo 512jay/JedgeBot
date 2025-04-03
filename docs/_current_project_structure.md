@@ -391,10 +391,11 @@ JedgeBot/
 │   │   │   │   │   │   ├── NotFound.jsx
 │   │   │   │   │   │   ├── SmokePing.jsx
 │   │   │   │   ├── auth
+│   │   │   │   │   ├── ForgotPassword.jsx
 │   │   │   │   │   ├── Login.jsx
 │   │   │   │   │   ├── Register.jsx
 │   │   │   │   │   ├── ResendVerification.jsx
-│   │   │   │   │   ├── ResetPassword.jsx
+│   │   │   │   │   ├── SetNewPassword.jsx
 │   │   │   │   │   ├── VerifyEmail.jsx
 │   │   │   │   │   ├── __tests__
 │   │   │   │   │   │   ├── Register.text.jsx
@@ -480,7 +481,9 @@ JedgeBot/
 │   │   │   │   ├── __tests__
 │   │   │   │   ├── apiClient.js
 │   │   │   │   ├── authHelpers.js
+│   │   │   │   ├── fetchWithCredentials.js
 │   │   │   │   ├── fetchWithRefresh.js
+│   │   │   │   ├── wakeUpServer.js
 │   │   ├── vite.config.js
 │   │   ├── vitest.config.js
 │   ├── jedgebot

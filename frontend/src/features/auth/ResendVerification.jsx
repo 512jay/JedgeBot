@@ -3,7 +3,7 @@ import { useState } from "react";
 import { MDBCardBody, MDBCol, MDBInput, MDBRow, MDBBtn } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
 import forgotImage from "@/images/hero/forgot.jpg";
-import { fetchWithCredentials } from "@/api/api_client";
+import fetchWithCredentials from "@/utils/fetchWithCredentials";
 
 export default function ResendVerification() {
   const [email, setEmail] = useState("");
@@ -18,8 +18,12 @@ export default function ResendVerification() {
     try {
       const res = await fetchWithCredentials("/auth/resend-verification", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ email }),
       });
+      
 
       if (!res.ok) {
         throw new Error((await res.json()).detail || "Request failed");
