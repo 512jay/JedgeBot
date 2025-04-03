@@ -110,13 +110,15 @@ export default function Login() {
                 </MDBValidationItem>
 
                 <div className="d-flex justify-content-between mb-4">
+                {email && /\S+@\S+\.\S+/.test(email) && (
                   <Link
-                    to="/reset-password"
+                    to={`/forgot-password?email=${encodeURIComponent(email)}`}
                     className="small text-primary"
-                    aria-label="Reset your password"
+                    aria-label="Forgot your password"
                   >
-                    Reset password?
+                    Forgot password?
                   </Link>
+                )}
                   <Link
                     to="/register"
                     className="small text-primary"

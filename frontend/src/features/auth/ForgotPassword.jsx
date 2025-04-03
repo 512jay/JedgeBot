@@ -9,7 +9,7 @@ import {
 } from "mdb-react-ui-kit";
 import { toast } from "react-toastify";
 import { useSearchParams } from "react-router-dom";
-import { fetchWithCredentials } from "@/utils/fetchWithCredentials";
+import fetchWithCredentials from "@/utils/fetchWithCredentials";
 
 export default function ForgotPassword() {
   const [searchParams] = useSearchParams();

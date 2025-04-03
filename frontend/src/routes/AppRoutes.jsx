@@ -15,9 +15,10 @@ import NotFound from "@/features/app/pages/NotFound";
 // Auth pages
 import Login from "@/features/auth/Login";
 import Register from "@/features/auth/Register";
-import ResetPassword from "@/features/auth/ResetPassword";
+import SetNewPassword from "@/features/auth/SetNewPassword";
 import VerifyEmail from "@/features/auth/VerifyEmail";
 import ResendVerification from "@/features/auth/ResendVerification";
+import ForgotPassword from "@/features/auth/ForgotPassword";
 
 // Dashboard
 import Dashboard from "@/features/dashboard/Dashboard";
@@ -46,9 +47,10 @@ export default function AppRoutes() {
         {/* Auth-related */}
         <Route path={ROUTES.LOGIN} element={<Login />} />
         <Route path={ROUTES.REGISTER} element={<Register />} />
-        <Route path={ROUTES.RESET_PASSWORD} element={<ResetPassword />} />
+        <Route path={ROUTES.SET_NEW_PASSWORD} element={<SetNewPassword />} />
         <Route path={ROUTES.VERIFY_EMAIL} element={<VerifyEmail />} />
         <Route path={ROUTES.RESEND_VERIFICATION} element={<ResendVerification />} />
+        <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPassword />} />
       </Route>
 
       {/* 🔒 Dashboard - protected + layout */}

@@ -1,48 +1,65 @@
 // /frontend/src/features/auth/ResetPassword.jsx
-import { useState } from "react";
-import { MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBBtn } from "mdb-react-ui-kit";
+import { useState, useEffect } from "react";
+import {
+  MDBContainer,
+  MDBCard,
+  MDBCardBody,
+  MDBInput,
+  MDBBtn,
+} from "mdb-react-ui-kit";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { resetPassword } from "@auth/auth_api"; // Adjust the import if necessary
+import { useNavigate, useSearchParams } from "react-router-dom";
+import fetchWithCredentials from "@/utils/fetchWithCredentials";
 
 export default function ResetPassword() {
-  const [email, setEmail] = useState(""); // Or if you need a token field, add that too
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
       toast.error("Passwords do not match");
+      setError("Passwords do not match");
       return;
     }
 
+    if (!token) {
+      toast.error("Missing reset token.");
+      setError("Missing reset token.");
+      return;
+    }
+
+    setLoading(true);
     try {
-      setLoading(true);
+      const res = await fetchWithCredentials(
+        `/auth/reset-password?token=${encodeURIComponent(token)}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ password }),
+        }
+      );
 
-      const response = await resetPassword({
-        email, // if needed
-        password,
-      });
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data?.detail || "Reset password failed");
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data?.detail || "Failed to reset password.");
       }
 
-      toast.success("Password reset successful! Redirecting to login...");
-      // Optionally, clear form fields here
-      setTimeout(() => navigate("/login"), 3000);
+      toast.success("Password reset! Redirecting to login...");
+      setTimeout(() => navigate("/login"), 2500);
     } catch (err) {
-      console.error("Reset password error:", err);
+      console.error("Reset error:", err);
       setError(err.message);
-      toast.error(err.message || "Reset password failed");
+      toast.error(err.message || "Something went wrong.");
     } finally {
       setLoading(false);
     }
@@ -53,16 +70,10 @@ export default function ResetPassword() {
       <MDBCard className="mx-auto" style={{ maxWidth: "500px" }}>
         <MDBCardBody className="p-5">
           <h4 className="mb-4 text-center">Reset Your Password</h4>
-          {error && <div className="alert alert-danger text-center mb-3">{error}</div>}
+          {error && (
+            <div className="alert alert-danger text-center mb-3">{error}</div>
+          )}
           <form onSubmit={handleSubmit} noValidate>
-            <MDBInput
-              label="Email address"
-              type="email"
-              required
-              className="mb-3"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
             <MDBInput
               label="New Password"
               type="password"

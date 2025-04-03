@@ -1,7 +1,7 @@
 // /frontend/src/features/auth/auth_api.js
 // Provides reusable async functions to interact with the backend authentication API.
 
-import { fetchWithCredentials } from "@/api/api_client"; // Shared utility for fetch requests with cookies included
+import fetchWithCredentials from "@/utils/fetchWithCredentials"; // Shared utility for fetch requests with cookies included
 
 // Use environment variable or fallback to localhost
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
