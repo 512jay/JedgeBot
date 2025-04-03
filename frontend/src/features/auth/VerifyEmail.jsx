@@ -1,3 +1,5 @@
+// /frontend/src/pages/VerifyEmail.jsx
+
 import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -16,13 +18,11 @@ export default function VerifyEmail() {
       return;
     }
 
-    fetch(`/auth/verify-email?token=${token}`, {
-      method: "POST",
-    })
+    fetch(`/auth/verify-email?token=${encodeURIComponent(token)}`)  // ✅ use GET
       .then(async (res) => {
         if (res.ok) {
           setStatus("success");
-          toast.success("Email verified! Redirecting to login...");
+          toast.success("✅ Email verified! Redirecting to login...");
           setTimeout(() => navigate("/login"), 3000);
         } else {
           const data = await res.json();
@@ -30,7 +30,7 @@ export default function VerifyEmail() {
         }
       })
       .catch((err) => {
-        console.error(err);
+        console.error("Email verification error:", err);
         setStatus("error");
         toast.error(err.message || "Verification failed.");
       });
@@ -38,17 +38,17 @@ export default function VerifyEmail() {
 
   return (
     <div className="text-center p-5">
-      {status === "verifying" && <p>Verifying your email...</p>}
+      {status === "verifying" && <p>🔄 Verifying your email...</p>}
       {status === "missing" && (
         <p>
-          Invalid verification link.{" "}
+          ❌ Invalid verification link.{" "}
           <a href="/resend-verification">Resend verification</a>
         </p>
       )}
-      {status === "success" && <p>Redirecting to login...</p>}
+      {status === "success" && <p>✅ Email verified. Redirecting to login...</p>}
       {status === "error" && (
         <p>
-          Email verification failed.{" "}
+          ❌ Email verification failed.{" "}
           <a href="/resend-verification">Try again</a>
         </p>
       )}
