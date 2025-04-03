@@ -1,7 +1,6 @@
 // /frontend/src/features/landing/WaitlistForm.jsx
 const API_URL = import.meta.env.VITE_API_URL;
-import ToastMessage from "@/components/common/ToastMessage";
-
+import { toast } from 'react-toastify';
 import React, { useState } from 'react';
 import { MDBInput, MDBBtn } from 'mdb-react-ui-kit';
 
@@ -10,7 +9,6 @@ export default function WaitlistForm() {
   const [name, setName] = useState('');
   const [role, setRole] = useState('');
   const [feedback, setFeedback] = useState('');
-  const [toast, setToast] = useState({ show: false, message: "", type: "info" });
 
 
   // Honeypot fields
@@ -72,7 +70,7 @@ const handleSubmit = async (e) => {
       const errorData = await response.json();
       console.error('❌ Submission failed:', errorData);
       setErrors({ form: 'Submission failed. Please try again later.' });
-      setToast({ show: true, message: "Submission failed. Please try again later.", type: "danger" });
+      toast.error("Submission failed. Please try again later.");
       return;
     }
 
@@ -84,11 +82,11 @@ const handleSubmit = async (e) => {
     setEmail('');
     setRole('');
     setFeedback('');
-    setToast({ show: true, message: "You're on the waitlist! 🎉", type: "success" });
+    toast.success("You're on the waitlist! 🎉");
   } catch (error) {
     console.error('❌ Network error during submission:', error);
     setErrors({ form: 'Network error. Please try again.' });
-    setToast({ show: true, message: "Network error. Please try again.", type: "danger" });
+    toast.error("Network error. Please try again.");
   }
 };
 
@@ -193,12 +191,6 @@ const handleSubmit = async (e) => {
         </MDBBtn>
 
         {errors.form && <div className="text-danger small mb-2">{errors.form}</div>}       
-        <ToastMessage
-          show={toast.show}
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast({ ...toast, show: false })}
-        />
     </form>
   );
 }
