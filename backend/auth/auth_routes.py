@@ -50,8 +50,12 @@ def check_authentication(request: Request, db: Session = Depends(get_db)):
     Verify if a user is currently authenticated by decoding the access token.
     Returns user email and role if valid.
     """
+    print("📥 /auth/check was called")
+
     token = request.cookies.get("access_token")
+    print("🍪 Access token from cookies:", token)
     if not token:
+        print("❌ No access token")
         raise HTTPException(
             status_code=401,
             detail="Missing access token",
@@ -61,6 +65,7 @@ def check_authentication(request: Request, db: Session = Depends(get_db)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[JWT_ALGORITHM])
         email = payload["sub"]
+        print("🔓 Decoded email:", email)
         user = get_user_by_email(db, email)
         return {
             "authenticated": True,
@@ -68,6 +73,7 @@ def check_authentication(request: Request, db: Session = Depends(get_db)):
             "role": user.role.value,
         }
     except JWTError:
+        print("🚨 JWT decode failed:", e)
         raise HTTPException(
             status_code=401,
             detail="Invalid or expired access token",
