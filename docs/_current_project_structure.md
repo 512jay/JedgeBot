@@ -88,7 +88,6 @@ JedgeBot/
 │   │   │   ├── cleanup.py
 │   │   │   ├── roadmaps
 │   │   │   │   ├── auth_roadmap.md
-│   │   │   │   ├── completed
 │   │   │   ├── routes.py
 │   │   ├── execution
 │   │   ├── main.py
