@@ -72,8 +72,24 @@ export async function logoutApi() {
  * @returns {Promise<Response>} User object or error
  */
 export async function checkAuthentication() {
-  return fetchWithCredentials(`${API_URL}/auth/check`);
+  try {
+    const res = await fetchWithCredentials(`${API_URL}/auth/check`);
+
+    if (!res.ok) {
+      const body = await res.text();
+      console.warn("⚠️ checkAuthentication failed:", res.status, body);
+      throw new Error("Authentication check failed");
+    }
+
+    const user = await res.json();
+    console.log("✅ checkAuthentication success:", user);
+    return user;
+  } catch (error) {
+    console.error("🔥 checkAuthentication error:", error);
+    throw error;
+  }
 }
+
 
 /**
  * Attempts to refresh the user's access token
