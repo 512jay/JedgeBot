@@ -12,7 +12,7 @@ from typing import Optional
 # Enums
 # -------------------------------------------------------------------
 class UserRole(str, Enum):
-    free = "free"
+    trader = "trader"
     client = "client"
     manager = "manager"
     enterprise = "enterprise"

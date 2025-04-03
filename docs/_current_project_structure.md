@@ -326,7 +326,6 @@ JedgeBot/
 │   │   │   │   │   ├── test-utils
 │   │   │   │   │   │   ├── index.html
 │   │   │   │   │   │   ├── renderWithProviders.jsx.html
-│   │   │   │   │   │   ├── setup.js.html
 │   │   │   │   │   │   ├── setupTestUser.js.html
 │   │   │   │   │   ├── utils
 │   │   │   │   │   │   ├── apiClient.js.html
