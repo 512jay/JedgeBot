@@ -1,4 +1,4 @@
-// /frontend/src/components/ui/ToastMessage.jsx
+// /frontend/src/components/common/ToastMessage.jsx
 // Reusable toast message using native Bootstrap 5 classes
 
 import React, { useEffect, useState } from "react";

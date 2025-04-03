@@ -37,15 +37,25 @@ def set_auth_cookies(response: Response, access_token: str, refresh_token: str) 
 
 
 def clear_auth_cookies(response: Response) -> None:
-    cookie_settings = {
+    base_settings = {
         "path": "/",
-        "httponly": True,
         "samesite": "strict",
     }
 
+    # Secure cookies for auth tokens
+    secure_settings = base_settings.copy()
+    secure_settings["httponly"] = True
     if settings.is_production:
-        cookie_settings["secure"] = True
-        cookie_settings["samesite"] = "none"
+        secure_settings["secure"] = True
+        secure_settings["samesite"] = "none"
 
-    response.delete_cookie("access_token", **cookie_settings)
-    response.delete_cookie("refresh_token", **cookie_settings)
+    response.delete_cookie("access_token", **secure_settings)
+    response.delete_cookie("refresh_token", **secure_settings)
+
+    # Also delete has_session (not httponly)
+    session_cookie_settings = base_settings.copy()
+    session_cookie_settings["httponly"] = False
+    session_cookie_settings["secure"] = settings.is_production
+    session_cookie_settings["samesite"] = "none" if settings.is_production else "lax"
+
+    response.delete_cookie("has_session", **session_cookie_settings)

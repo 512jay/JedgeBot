@@ -1,5 +1,6 @@
-const API_URL = import.meta.env.VITE_API_URL;
 // /frontend/src/features/landing/WaitlistForm.jsx
+const API_URL = import.meta.env.VITE_API_URL;
+import { toast } from 'react-toastify';
 import React, { useState } from 'react';
 import { MDBInput, MDBBtn } from 'mdb-react-ui-kit';
 
@@ -8,6 +9,7 @@ export default function WaitlistForm() {
   const [name, setName] = useState('');
   const [role, setRole] = useState('');
   const [feedback, setFeedback] = useState('');
+
 
   // Honeypot fields
   const [homepage, setHomepage] = useState('');
@@ -68,6 +70,7 @@ const handleSubmit = async (e) => {
       const errorData = await response.json();
       console.error('❌ Submission failed:', errorData);
       setErrors({ form: 'Submission failed. Please try again later.' });
+      toast.error("Submission failed. Please try again later.");
       return;
     }
 
@@ -79,9 +82,11 @@ const handleSubmit = async (e) => {
     setEmail('');
     setRole('');
     setFeedback('');
+    toast.success("You're on the waitlist! 🎉");
   } catch (error) {
     console.error('❌ Network error during submission:', error);
     setErrors({ form: 'Network error. Please try again.' });
+    toast.error("Network error. Please try again.");
   }
 };
 
@@ -185,7 +190,7 @@ const handleSubmit = async (e) => {
           Request Early Access
         </MDBBtn>
 
-        {errors.form && <div className="text-danger small mb-2">{errors.form}</div>}      
+        {errors.form && <div className="text-danger small mb-2">{errors.form}</div>}       
     </form>
   );
 }

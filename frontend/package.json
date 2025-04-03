@@ -11,7 +11,8 @@
     "test": "vitest run",
     "tests": "vitest run",
     "test:coverage:watch": "vitest run --watch --coverage",
-    "coverage:open": "npx vitest --coverage && npx open-cli coverage/index.html"
+    "coverage:open": "npx vitest --coverage && npx open-cli coverage/index.html",
+    "test:watch": "vitest watch"
   },
   "dependencies": {
     "bootstrap": "^5.3.3",

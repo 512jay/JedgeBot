@@ -6,7 +6,6 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from datetime import datetime
 import uuid
-import enum
 from backend.data.database.base import Base
 from backend.common.enums import UserRole, UserStatus
 

@@ -9,13 +9,10 @@ import {
   MDBCardBody,
   MDBInput,
   MDBBtn,
-  MDBRow,
   MDBCol,
-  MDBDropdown,
-  MDBDropdownToggle,
-  MDBDropdownMenu,
-  MDBDropdownItem,
 } from 'mdb-react-ui-kit';
+import { toast } from 'react-toastify';
+
 
 export default function Register() {
   const [role, setRole] = useState('Choose a role');
@@ -29,11 +26,15 @@ export default function Register() {
   const handleSubmit = async () => {
     setError('');
     if (password !== confirmPassword) {
-      return setError('Passwords do not match');
+      setError('Passwords do not match');
+      toast.error("Passwords do not match");
+      return
     }
 
     if (role === 'Choose a role') {
-      return setError('Please select a role');
+      setError('Please select a role');
+      toast.info("Please select a role.");
+      return
     }
 
     try {
@@ -52,7 +53,6 @@ export default function Register() {
       }
 
       setError(''); // clear any previous error
-      alert('Registration successful! Please check your email to verify your account.');
       setEmail('');
       setPassword('');
       setConfirmPassword('');
@@ -62,14 +62,22 @@ export default function Register() {
     } catch (err) {
       console.error('Registration error:', err);
       setError(err.message);
+      toast.error('Registration error:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  return (
-    <MDBContainer fluid className="d-flex justify-content-center align-items-center" style={{ minHeight: 'calc(100vh - 120px)' }}>
-      <MDBCard className="hover-grow d-flex flex-row overflow-hidden shadow" style={{ maxWidth: '850px', width: '100%' }}>
+return (
+    <MDBContainer
+      fluid
+      className="d-flex justify-content-center align-items-center"
+      style={{ minHeight: 'calc(100vh - 120px)' }}
+    >
+      <MDBCard
+        className="hover-grow d-flex flex-row overflow-hidden shadow"
+        style={{ maxWidth: '850px', width: '100%' }}
+      >
         <MDBCol md="6" className="d-none d-md-block">
           <img
             src={registrationImage}
@@ -81,41 +89,84 @@ export default function Register() {
         <MDBCardBody className="p-5 d-flex flex-column justify-content-center" style={{ flex: 1 }}>
           <h4 className="mb-4 text-center">Create your account</h4>
           <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-            {error && <div className="text-danger text-center mb-3">{error}</div>}
-            <MDBInput id="registerUsername" label="Username" type="text" size="sm" className="mb-3" required value={username} onChange={(e) => setUsername(e.target.value)} />
-            <MDBInput id="registerEmail" label="Email address" type="email" size="sm" className="mb-3" required value={email} onChange={(e) => setEmail(e.target.value)} />
-            <MDBInput id="registerPassword" label="Password" type="password" size="sm" className="mb-3" required value={password} onChange={(e) => setPassword(e.target.value)} />
-            <MDBInput id="registerConfirm" label="Confirm Password" type="password" size="sm" className="mb-3" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-
-<div className="mb-3">
-  <label className="form-label d-block">Select a Role</label>
-  {['Trader', 'Client', 'Manager', 'Enterprise'].map((option) => (
-    <div className="form-check form-check-inline" key={option}>
-      <input
-        className="form-check-input"
-        type="radio"
-        name="roleOptions"
-        id={`role-${option}`}
-        value={option}
-        checked={role === option}
-        onChange={() => setRole(option)}
-      />
-      <label className="form-check-label" htmlFor={`role-${option}`}>
-        {option}
-      </label>
-    </div>
-  ))}
-</div>
-
-            <MDBBtn className="btn-primary w-100 mb-2" type="submit" disabled={loading}>
+            {error && (
+              <div className="text-danger text-center mb-3">{error}</div>
+            )}
+            <MDBInput
+              id="registerUsername"
+              label="Username"
+              type="text"
+              size="sm"
+              className="mb-3"
+              required
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <MDBInput
+              id="registerEmail"
+              label="Email address"
+              type="email"
+              size="sm"
+              className="mb-3"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <MDBInput
+              id="registerPassword"
+              label="Password"
+              type="password"
+              size="sm"
+              className="mb-3"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <MDBInput
+              id="registerConfirm"
+              label="Confirm Password"
+              type="password"
+              size="sm"
+              className="mb-3"
+              required
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            <div className="mb-3">
+              <label className="form-label d-block">Select a Role</label>
+              {['Trader', 'Client', 'Manager', 'Enterprise'].map((option) => (
+                <div className="form-check form-check-inline" key={option}>
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="roleOptions"
+                    id={`role-${option}`}
+                    value={option}
+                    checked={role === option}
+                    onChange={() => setRole(option)}
+                  />
+                  <label className="form-check-label" htmlFor={`role-${option}`}>
+                    {option}
+                  </label>
+                </div>
+              ))}
+            </div>
+            <MDBBtn
+              className="btn-primary w-100 mb-2"
+              type="submit"
+              disabled={loading}
+            >
               {loading ? 'Registering...' : 'Register'}
             </MDBBtn>
           </form>
           <div className="text-center">
-            <small>Already have an account? <a href="/login">Login</a></small>
+            <small>
+              Already have an account? <a href="/login">Login</a>
+            </small>
           </div>
         </MDBCardBody>
       </MDBCard>
     </MDBContainer>
   );
+
 }

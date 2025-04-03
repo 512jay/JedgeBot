@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException, status, Depends
 from sqlalchemy.orm import Session
 from backend.waitlist import models, schemas
 from backend.data.database.db import get_db
-from backend.notifications.email_service import send_email
+from backend.notifications.smtp_service import send_email
 
 router = APIRouter(prefix="/api/waitlist", tags=["Waitlist"])
 
@@ -28,7 +28,7 @@ def submit_waitlist_entry(
 
     # ✉️ Notify admin via email
     send_email(
-        to="waitlist@fordisludus.com",
+        to="admin@fordisludus.com",
         subject="New Waitlist Signup",
         body=f"""\
 A new user has joined the waitlist:

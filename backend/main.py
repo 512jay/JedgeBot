@@ -13,6 +13,7 @@ from backend.user.user_routes import router as user_router
 from backend.auth.password.routes import router as password_reset_router
 from backend.core.settings import settings
 from backend.waitlist.routes import router as waitlist_router
+from backend.contact.routes import router as contact_router
 
 
 # Optional safety net
@@ -64,3 +65,4 @@ app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 app.include_router(password_reset_router, prefix="/auth", tags=["Password Reset"])
 app.include_router(user_router, prefix="/users", tags=["User Profiles"])
 app.include_router(waitlist_router)
+app.include_router(contact_router, prefix="/api")

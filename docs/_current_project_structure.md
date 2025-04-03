@@ -64,8 +64,15 @@ JedgeBot/
 │   │   ├── common
 │   │   │   ├── __init__.py
 │   │   │   ├── enums.py
+│   │   ├── contact
+│   │   │   ├── __init__.py
+│   │   │   ├── routes.py
+│   │   │   ├── tests
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── test_contact_route.py
 │   │   ├── core
 │   │   │   ├── __init__.py
+│   │   │   ├── config.py
 │   │   │   ├── rate_limit.py
 │   │   │   ├── settings.py
 │   │   ├── data
@@ -82,13 +89,14 @@ JedgeBot/
 │   │   │   ├── roadmaps
 │   │   │   │   ├── auth_roadmap.md
 │   │   │   │   ├── completed
-│   │   │   │   │   ├── email_verification_roadmap.md
 │   │   │   ├── routes.py
 │   │   ├── execution
 │   │   ├── main.py
 │   │   ├── notifications
-│   │   │   ├── email_service.py
+│   │   │   ├── smtp_service.py
 │   │   ├── render.yaml
+│   │   ├── scripts
+│   │   │   ├── smtp_works.py
 │   │   ├── user
 │   │   │   ├── __init__.py
 │   │   │   ├── user_models.py
@@ -233,10 +241,10 @@ JedgeBot/
 │   │   ├── coverage
 │   │   │   ├── base.css
 │   │   │   ├── block-navigation.js
-│   │   │   ├── clover.xml
 │   │   │   ├── coverage-final.json
 │   │   │   ├── favicon.png
 │   │   │   ├── frontend
+│   │   │   │   ├── alias.config.js.html
 │   │   │   │   ├── index.html
 │   │   │   │   ├── scripts
 │   │   │   │   │   ├── index.html
@@ -273,6 +281,7 @@ JedgeBot/
 │   │   │   │   │   │   │   ├── index.html
 │   │   │   │   │   │   │   ├── pages
 │   │   │   │   │   │   │   │   ├── NotFound.jsx.html
+│   │   │   │   │   │   │   │   ├── SmokePing.jsx.html
 │   │   │   │   │   │   │   │   ├── index.html
 │   │   │   │   │   │   ├── auth
 │   │   │   │   │   │   │   ├── ForgotPassword.jsx.html
@@ -318,13 +327,13 @@ JedgeBot/
 │   │   │   │   │   ├── test-utils
 │   │   │   │   │   │   ├── index.html
 │   │   │   │   │   │   ├── renderWithProviders.jsx.html
+│   │   │   │   │   │   ├── setup.js.html
 │   │   │   │   │   │   ├── setupTestUser.js.html
 │   │   │   │   │   ├── utils
 │   │   │   │   │   │   ├── apiClient.js.html
 │   │   │   │   │   │   ├── authHelpers.js.html
 │   │   │   │   │   │   ├── fetchWithRefresh.js.html
 │   │   │   │   │   │   ├── index.html
-│   │   │   │   ├── tailwind.config.js.html
 │   │   │   ├── index.html
 │   │   │   ├── prettify.css
 │   │   │   ├── prettify.js
@@ -354,7 +363,6 @@ JedgeBot/
 │   │   │   │   ├── react.svg
 │   │   │   ├── components
 │   │   │   │   ├── common
-│   │   │   │   │   ├── ToastMessage.jsx
 │   │   │   │   ├── layouts
 │   │   │   │   │   ├── DashboardLayout.jsx
 │   │   │   │   │   ├── Footer.jsx
@@ -409,6 +417,7 @@ JedgeBot/
 │   │   │   │   │   ├── Pricing.jsx
 │   │   │   │   │   ├── WaitlistForm.jsx
 │   │   │   │   │   ├── __tests__
+│   │   │   │   │   │   ├── Contact.test.jsx
 │   │   │   │   │   │   ├── WaitlistForm.test.jsx
 │   │   │   │   ├── profile
 │   │   │   │   │   ├── Profile.jsx
@@ -477,6 +486,7 @@ JedgeBot/
 │   │   ├── common
 │   │   ├── execution
 │   │   ├── utils
+│   ├── jedgebot.code-workspace
 │   ├── launch_app.py
 │   ├── logs
 │   ├── notes
@@ -512,6 +522,7 @@ JedgeBot/
 │   │   ├── run_rate_limit_manual.py
 │   │   ├── start_market_data_stream.py
 │   │   ├── validate_output.py
+│   ├── start-dev.sh
 │   ├── tests
 │   │   ├── __init__.py
 │   │   ├── integration

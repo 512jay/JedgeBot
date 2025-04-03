@@ -1,3 +1,5 @@
+# /backend/waitlist/tests/test_waitlist_route.py
+# Unit tests for waitlist API route, mocking real email sending.
 from unittest.mock import patch
 from fastapi.testclient import TestClient
 from backend.waitlist.models import WaitlistEntry
@@ -19,12 +21,14 @@ def test_submit_waitlist_entry(client: TestClient, get_db_session):
         get_db_session.delete(existing)
         get_db_session.commit()
 
-    # Patch SMTP to avoid real email sending
-    with patch("backend.notifications.email_service.smtplib.SMTP"):
+    # ✅ Patch where it's used, not where it's defined
+    with patch("backend.waitlist.routes.send_email") as mock_send:
+        mock_send.return_value = None
         response = client.post("/api/waitlist", json=payload)
 
     assert response.status_code == 201
     assert response.json()["email"] == payload["email"]
+    mock_send.assert_called_once()
 
 
 def test_waitlist_duplicate_entry(client: TestClient, get_db_session):
@@ -35,11 +39,10 @@ def test_waitlist_duplicate_entry(client: TestClient, get_db_session):
         "feedback": None,
     }
 
-    # Insert first time
-    with patch("backend.notifications.email_service.smtplib.SMTP"):
+    with patch("backend.notifications.smtp_service.send_email") as mock_send:
+        mock_send.return_value = None
         client.post("/api/waitlist", json=payload)
 
-    # Attempt duplicate
     response = client.post("/api/waitlist", json=payload)
 
     assert response.status_code == 409
