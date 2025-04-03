@@ -1,63 +1,84 @@
-// /frontend/src/pages/VerifyEmail.jsx
+// /frontend/src/features/auth/VerifyEmail.jsx
+// Handles email verification from token link in email
 
-import { useEffect, useState } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
+import { useSearchParams, Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { API_URL } from "@/config";
 
 export default function VerifyEmail() {
   const [searchParams] = useSearchParams();
-  const [status, setStatus] = useState("verifying");
   const navigate = useNavigate();
+  const token = searchParams.get("token");
+
+  const [status, setStatus] = useState("verifying"); // verifying | missing | success | error
+  const hasRun = useRef(false); // Prevent double call in dev
 
   useEffect(() => {
+    if (!token) {
+      setStatus("missing");
+      return;
+    }
+
+    if (hasRun.current) return;
+    hasRun.current = true;
+
     const verify = async () => {
-      const token = searchParams.get("token");
-  
-      if (!token) {
-        setStatus("missing");
-        toast.error("Verification token is missing.");
-        return;
-      }
-  
-      try { 
-        const res = await fetch(`/auth/verify-email?token=${token}`, {
+      try {
+        const res = await fetch(`${API_URL}/auth/verify-email?token=${token}`, {
           method: "GET",
+          credentials: "include",
         });
-  
-        if (res.ok) {
-          setStatus("success");
-          toast.success("✅ Email verified! Redirecting to login...");
-          setTimeout(() => navigate("/login"), 3000);
-        } else {
+
+        if (!res.ok) {
           const data = await res.json();
-          throw new Error(data.detail || "Verification failed.");
+          throw new Error(data?.detail || "Verification failed");
         }
+
+        toast.success("Email verified. You can now log in.");
+        setStatus("success");
+
+        setTimeout(() => navigate("/login"), 3000);
       } catch (err) {
-        console.error(err);
+        console.error("Email verification error:", err);
+        toast.error("Verification failed. Please try again.");
         setStatus("error");
-        toast.error(err.message || "Verification failed.");
       }
     };
-  
-    verify(); // Call the async function
-  }, [searchParams, navigate]);
-  
+
+    verify();
+  }, [token, navigate]);
 
   return (
-    <div className="text-center p-5">
-      {status === "verifying" && <p>🔄 Verifying your email...</p>}
-      {status === "missing" && (
-        <p>
-          ❌ Invalid verification link.{" "}
-          <a href="/resend-verification">Resend verification</a>
-        </p>
+    <div className="container py-5">
+      {status === "verifying" && (
+        <div className="text-center">
+          <h3>Verifying your email...</h3>
+        </div>
       )}
-      {status === "success" && <p>✅ Email verified. Redirecting to login...</p>}
+
+      {status === "missing" && (
+        <div className="text-center text-danger">
+          <h4>Missing or invalid token.</h4>
+        </div>
+      )}
+
+      {status === "success" && (
+        <div className="text-center text-success">
+          <h4>Email verified successfully!</h4>
+          <p>Redirecting to login...</p>
+        </div>
+      )}
+
       {status === "error" && (
-        <p>
-          ❌ Email verification failed.{" "}
-          <a href="/resend-verification">Try again</a>
-        </p>
+        <div className="text-center text-danger">
+          <h4>Verification failed.</h4>
+          <p>
+            <Link to="/resend-verification" className="text-decoration-underline">
+              Try again
+            </Link>
+          </p>
+        </div>
       )}
     </div>
   );
