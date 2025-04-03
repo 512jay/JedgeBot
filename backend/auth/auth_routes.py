@@ -252,13 +252,15 @@ logger = logging.getLogger(__name__)
 
 @router.post("/resend-verification")
 @limiter.limit("2/minute")
-def resend_verification(request: EmailRequest, db: Session = Depends(get_db)):
+def resend_verification(
+    request: Request, body: EmailRequest, db: Session = Depends(get_db)
+):
     try:
-        user = get_user_by_email(db, request.email)
+        user = get_user_by_email(db, body.email)
 
         if not user:
             logger.info(
-                f"Resend verification requested for non-existent email: {request.email}"
+                f"Resend verification requested for non-existent email: {body.email}"
             )
             return {
                 "message": "If your account exists, a verification email has been sent."
@@ -268,21 +270,15 @@ def resend_verification(request: EmailRequest, db: Session = Depends(get_db)):
             logger.info(f"User already verified: {user.email}")
             return {"message": "Email is already verified. Please log in."}
 
-        # Reuse token + email logic
         token = create_email_verification_token(user.email)
         verify_url = f"{FRONTEND_URL}/verify-email?token={token}"
 
         smtp_service.send_email(
             to=user.email,
             subject="Verify your email for Fordis Ludus",
-            body=f"Click to verify your email:\n\n{verify_url}",
+            body=f"Click the link to verify: {verify_url}",
         )
-
-        logger.info(f"Verification email resent to: {user.email}")
-        return {
-            "message": "Verification email has been resent. Please check your inbox."
-        }
-
+        return {"message": "Verification email sent."}
     except Exception as e:
-        logger.exception(f"Error resending verification for {request.email}: {str(e)}")
-        raise HTTPException(status_code=500, detail="Internal server error")
+        logger.exception("Error in resend_verification")
+        raise HTTPException(status_code=500, detail="Something went wrong.")
